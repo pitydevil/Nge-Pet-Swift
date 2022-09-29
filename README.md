@@ -13,13 +13,14 @@ This repository ispacked with:
 -   Snapkit
 -   SDWebImage
 -   Cocoapods 1.13
+-   Snapkit
+-   IQKeyboardManager
 
 ## Getting Started
 
 ### 1. Initialized Cocoapod package manager
 
 ```pod init
-
 ```
 
 ### 2. Install project dependency
