@@ -1,0 +1,762 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		228971C6B79C4700E7DA9C4E /* Pods_FluffyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC985139B43D09D659850CB /* Pods_FluffyTests.framework */; };
+		4BC609D728E572DE007A6DB0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC609D628E572DE007A6DB0 /* AppDelegate.swift */; };
+		4BC609D928E572DE007A6DB0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC609D828E572DE007A6DB0 /* SceneDelegate.swift */; };
+		4BC609DB28E572DE007A6DB0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC609DA28E572DE007A6DB0 /* ViewController.swift */; };
+		4BC609DE28E572DE007A6DB0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC609DC28E572DE007A6DB0 /* Main.storyboard */; };
+		4BC609E028E572DF007A6DB0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BC609DF28E572DF007A6DB0 /* Assets.xcassets */; };
+		4BC609E328E572DF007A6DB0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC609E128E572DF007A6DB0 /* LaunchScreen.storyboard */; };
+		4BC609EE28E572DF007A6DB0 /* FluffyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC609ED28E572DF007A6DB0 /* FluffyTests.swift */; };
+		4BC609F828E572DF007A6DB0 /* FluffyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC609F728E572DF007A6DB0 /* FluffyUITests.swift */; };
+		4BC609FA28E572DF007A6DB0 /* FluffyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC609F928E572DF007A6DB0 /* FluffyUITestsLaunchTests.swift */; };
+		74AA6A16C5F142F15BD92B05 /* Pods_Fluffy_FluffyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A279AC421335ED40E76880D /* Pods_Fluffy_FluffyUITests.framework */; };
+		C77F1BAE87CA30606CB1C948 /* Pods_Fluffy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68BE59E93E1E1A8ED677FE8A /* Pods_Fluffy.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		4BC609EA28E572DF007A6DB0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4BC609CB28E572DE007A6DB0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4BC609D228E572DE007A6DB0;
+			remoteInfo = Fluffy;
+		};
+		4BC609F428E572DF007A6DB0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4BC609CB28E572DE007A6DB0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4BC609D228E572DE007A6DB0;
+			remoteInfo = Fluffy;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0CB3843C1C3EF3989435CB05 /* Pods-FluffyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluffyTests.debug.xcconfig"; path = "Target Support Files/Pods-FluffyTests/Pods-FluffyTests.debug.xcconfig"; sourceTree = "<group>"; };
+		131CE0F91D3B34797E8AB832 /* Pods-FluffyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluffyTests.release.xcconfig"; path = "Target Support Files/Pods-FluffyTests/Pods-FluffyTests.release.xcconfig"; sourceTree = "<group>"; };
+		2648BC5D0623475B71D59148 /* Pods-Fluffy-FluffyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy-FluffyUITests.release.xcconfig"; path = "Target Support Files/Pods-Fluffy-FluffyUITests/Pods-Fluffy-FluffyUITests.release.xcconfig"; sourceTree = "<group>"; };
+		2A279AC421335ED40E76880D /* Pods_Fluffy_FluffyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fluffy_FluffyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		391FB2353E3E4D1516AADE30 /* Pods-Fluffy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy.debug.xcconfig"; path = "Target Support Files/Pods-Fluffy/Pods-Fluffy.debug.xcconfig"; sourceTree = "<group>"; };
+		3FC985139B43D09D659850CB /* Pods_FluffyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluffyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BC609D328E572DE007A6DB0 /* Fluffy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fluffy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BC609D628E572DE007A6DB0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		4BC609D828E572DE007A6DB0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		4BC609DA28E572DE007A6DB0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		4BC609DD28E572DE007A6DB0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4BC609DF28E572DF007A6DB0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4BC609E228E572DF007A6DB0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4BC609E428E572DF007A6DB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4BC609E928E572DF007A6DB0 /* FluffyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluffyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BC609ED28E572DF007A6DB0 /* FluffyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluffyTests.swift; sourceTree = "<group>"; };
+		4BC609F328E572DF007A6DB0 /* FluffyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluffyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BC609F728E572DF007A6DB0 /* FluffyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluffyUITests.swift; sourceTree = "<group>"; };
+		4BC609F928E572DF007A6DB0 /* FluffyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluffyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		68BE59E93E1E1A8ED677FE8A /* Pods_Fluffy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fluffy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6BE16CB5272393936D4173E4 /* Pods-Fluffy-FluffyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy-FluffyUITests.debug.xcconfig"; path = "Target Support Files/Pods-Fluffy-FluffyUITests/Pods-Fluffy-FluffyUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		E6BD3B26BC8B49D6320F490D /* Pods-Fluffy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy.release.xcconfig"; path = "Target Support Files/Pods-Fluffy/Pods-Fluffy.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4BC609D028E572DE007A6DB0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C77F1BAE87CA30606CB1C948 /* Pods_Fluffy.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BC609E628E572DF007A6DB0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				228971C6B79C4700E7DA9C4E /* Pods_FluffyTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BC609F028E572DF007A6DB0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				74AA6A16C5F142F15BD92B05 /* Pods_Fluffy_FluffyUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		32A35FA660F74A23C722733B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				391FB2353E3E4D1516AADE30 /* Pods-Fluffy.debug.xcconfig */,
+				E6BD3B26BC8B49D6320F490D /* Pods-Fluffy.release.xcconfig */,
+				6BE16CB5272393936D4173E4 /* Pods-Fluffy-FluffyUITests.debug.xcconfig */,
+				2648BC5D0623475B71D59148 /* Pods-Fluffy-FluffyUITests.release.xcconfig */,
+				0CB3843C1C3EF3989435CB05 /* Pods-FluffyTests.debug.xcconfig */,
+				131CE0F91D3B34797E8AB832 /* Pods-FluffyTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		4BC609CA28E572DE007A6DB0 = {
+			isa = PBXGroup;
+			children = (
+				4BC609D528E572DE007A6DB0 /* Fluffy */,
+				4BC609EC28E572DF007A6DB0 /* FluffyTests */,
+				4BC609F628E572DF007A6DB0 /* FluffyUITests */,
+				4BC609D428E572DE007A6DB0 /* Products */,
+				32A35FA660F74A23C722733B /* Pods */,
+				702D24B61AB42153E49B2163 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		4BC609D428E572DE007A6DB0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4BC609D328E572DE007A6DB0 /* Fluffy.app */,
+				4BC609E928E572DF007A6DB0 /* FluffyTests.xctest */,
+				4BC609F328E572DF007A6DB0 /* FluffyUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4BC609D528E572DE007A6DB0 /* Fluffy */ = {
+			isa = PBXGroup;
+			children = (
+				4BC609D628E572DE007A6DB0 /* AppDelegate.swift */,
+				4BC609D828E572DE007A6DB0 /* SceneDelegate.swift */,
+				4BC609DA28E572DE007A6DB0 /* ViewController.swift */,
+				4BC609DC28E572DE007A6DB0 /* Main.storyboard */,
+				4BC609DF28E572DF007A6DB0 /* Assets.xcassets */,
+				4BC609E128E572DF007A6DB0 /* LaunchScreen.storyboard */,
+				4BC609E428E572DF007A6DB0 /* Info.plist */,
+			);
+			path = Fluffy;
+			sourceTree = "<group>";
+		};
+		4BC609EC28E572DF007A6DB0 /* FluffyTests */ = {
+			isa = PBXGroup;
+			children = (
+				4BC609ED28E572DF007A6DB0 /* FluffyTests.swift */,
+			);
+			path = FluffyTests;
+			sourceTree = "<group>";
+		};
+		4BC609F628E572DF007A6DB0 /* FluffyUITests */ = {
+			isa = PBXGroup;
+			children = (
+				4BC609F728E572DF007A6DB0 /* FluffyUITests.swift */,
+				4BC609F928E572DF007A6DB0 /* FluffyUITestsLaunchTests.swift */,
+			);
+			path = FluffyUITests;
+			sourceTree = "<group>";
+		};
+		702D24B61AB42153E49B2163 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				68BE59E93E1E1A8ED677FE8A /* Pods_Fluffy.framework */,
+				2A279AC421335ED40E76880D /* Pods_Fluffy_FluffyUITests.framework */,
+				3FC985139B43D09D659850CB /* Pods_FluffyTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4BC609D228E572DE007A6DB0 /* Fluffy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4BC609FD28E572DF007A6DB0 /* Build configuration list for PBXNativeTarget "Fluffy" */;
+			buildPhases = (
+				453BE7B421B7C871DAF8D76D /* [CP] Check Pods Manifest.lock */,
+				4BC609CF28E572DE007A6DB0 /* Sources */,
+				4BC609D028E572DE007A6DB0 /* Frameworks */,
+				4BC609D128E572DE007A6DB0 /* Resources */,
+				5A6A86A420FC16D4275BEDD1 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Fluffy;
+			productName = Fluffy;
+			productReference = 4BC609D328E572DE007A6DB0 /* Fluffy.app */;
+			productType = "com.apple.product-type.application";
+		};
+		4BC609E828E572DF007A6DB0 /* FluffyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4BC60A0028E572DF007A6DB0 /* Build configuration list for PBXNativeTarget "FluffyTests" */;
+			buildPhases = (
+				41288D49264B0A94B9F9C2FD /* [CP] Check Pods Manifest.lock */,
+				4BC609E528E572DF007A6DB0 /* Sources */,
+				4BC609E628E572DF007A6DB0 /* Frameworks */,
+				4BC609E728E572DF007A6DB0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4BC609EB28E572DF007A6DB0 /* PBXTargetDependency */,
+			);
+			name = FluffyTests;
+			productName = FluffyTests;
+			productReference = 4BC609E928E572DF007A6DB0 /* FluffyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		4BC609F228E572DF007A6DB0 /* FluffyUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4BC60A0328E572DF007A6DB0 /* Build configuration list for PBXNativeTarget "FluffyUITests" */;
+			buildPhases = (
+				5965007D86B0DB3FE3494978 /* [CP] Check Pods Manifest.lock */,
+				4BC609EF28E572DF007A6DB0 /* Sources */,
+				4BC609F028E572DF007A6DB0 /* Frameworks */,
+				4BC609F128E572DF007A6DB0 /* Resources */,
+				28F9C81C378E99BF3945504B /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4BC609F528E572DF007A6DB0 /* PBXTargetDependency */,
+			);
+			name = FluffyUITests;
+			productName = FluffyUITests;
+			productReference = 4BC609F328E572DF007A6DB0 /* FluffyUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4BC609CB28E572DE007A6DB0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1340;
+				LastUpgradeCheck = 1340;
+				TargetAttributes = {
+					4BC609D228E572DE007A6DB0 = {
+						CreatedOnToolsVersion = 13.4.1;
+					};
+					4BC609E828E572DF007A6DB0 = {
+						CreatedOnToolsVersion = 13.4.1;
+						TestTargetID = 4BC609D228E572DE007A6DB0;
+					};
+					4BC609F228E572DF007A6DB0 = {
+						CreatedOnToolsVersion = 13.4.1;
+						TestTargetID = 4BC609D228E572DE007A6DB0;
+					};
+				};
+			};
+			buildConfigurationList = 4BC609CE28E572DE007A6DB0 /* Build configuration list for PBXProject "Fluffy" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 4BC609CA28E572DE007A6DB0;
+			productRefGroup = 4BC609D428E572DE007A6DB0 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4BC609D228E572DE007A6DB0 /* Fluffy */,
+				4BC609E828E572DF007A6DB0 /* FluffyTests */,
+				4BC609F228E572DF007A6DB0 /* FluffyUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4BC609D128E572DE007A6DB0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BC609E328E572DF007A6DB0 /* LaunchScreen.storyboard in Resources */,
+				4BC609E028E572DF007A6DB0 /* Assets.xcassets in Resources */,
+				4BC609DE28E572DE007A6DB0 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BC609E728E572DF007A6DB0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BC609F128E572DF007A6DB0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		28F9C81C378E99BF3945504B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Fluffy-FluffyUITests/Pods-Fluffy-FluffyUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Fluffy-FluffyUITests/Pods-Fluffy-FluffyUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Fluffy-FluffyUITests/Pods-Fluffy-FluffyUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		41288D49264B0A94B9F9C2FD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FluffyTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		453BE7B421B7C871DAF8D76D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Fluffy-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5965007D86B0DB3FE3494978 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Fluffy-FluffyUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5A6A86A420FC16D4275BEDD1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Fluffy/Pods-Fluffy-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Fluffy/Pods-Fluffy-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Fluffy/Pods-Fluffy-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4BC609CF28E572DE007A6DB0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BC609DB28E572DE007A6DB0 /* ViewController.swift in Sources */,
+				4BC609D728E572DE007A6DB0 /* AppDelegate.swift in Sources */,
+				4BC609D928E572DE007A6DB0 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BC609E528E572DF007A6DB0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BC609EE28E572DF007A6DB0 /* FluffyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BC609EF28E572DF007A6DB0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BC609FA28E572DF007A6DB0 /* FluffyUITestsLaunchTests.swift in Sources */,
+				4BC609F828E572DF007A6DB0 /* FluffyUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4BC609EB28E572DF007A6DB0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4BC609D228E572DE007A6DB0 /* Fluffy */;
+			targetProxy = 4BC609EA28E572DF007A6DB0 /* PBXContainerItemProxy */;
+		};
+		4BC609F528E572DF007A6DB0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4BC609D228E572DE007A6DB0 /* Fluffy */;
+			targetProxy = 4BC609F428E572DF007A6DB0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		4BC609DC28E572DE007A6DB0 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4BC609DD28E572DE007A6DB0 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		4BC609E128E572DF007A6DB0 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4BC609E228E572DF007A6DB0 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4BC609FB28E572DF007A6DB0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		4BC609FC28E572DF007A6DB0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4BC609FE28E572DF007A6DB0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 391FB2353E3E4D1516AADE30 /* Pods-Fluffy.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 38437W4ZU8;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Fluffy/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fluffy.Fluffy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4BC609FF28E572DF007A6DB0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E6BD3B26BC8B49D6320F490D /* Pods-Fluffy.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 38437W4ZU8;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Fluffy/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fluffy.Fluffy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		4BC60A0128E572DF007A6DB0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0CB3843C1C3EF3989435CB05 /* Pods-FluffyTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 38437W4ZU8;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fluffy.FluffyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fluffy.app/Fluffy";
+			};
+			name = Debug;
+		};
+		4BC60A0228E572DF007A6DB0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 131CE0F91D3B34797E8AB832 /* Pods-FluffyTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 38437W4ZU8;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fluffy.FluffyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Fluffy.app/Fluffy";
+			};
+			name = Release;
+		};
+		4BC60A0428E572DF007A6DB0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6BE16CB5272393936D4173E4 /* Pods-Fluffy-FluffyUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 38437W4ZU8;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fluffy.FluffyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Fluffy;
+			};
+			name = Debug;
+		};
+		4BC60A0528E572DF007A6DB0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2648BC5D0623475B71D59148 /* Pods-Fluffy-FluffyUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 38437W4ZU8;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = fluffy.FluffyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Fluffy;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4BC609CE28E572DE007A6DB0 /* Build configuration list for PBXProject "Fluffy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BC609FB28E572DF007A6DB0 /* Debug */,
+				4BC609FC28E572DF007A6DB0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4BC609FD28E572DF007A6DB0 /* Build configuration list for PBXNativeTarget "Fluffy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BC609FE28E572DF007A6DB0 /* Debug */,
+				4BC609FF28E572DF007A6DB0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4BC60A0028E572DF007A6DB0 /* Build configuration list for PBXNativeTarget "FluffyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BC60A0128E572DF007A6DB0 /* Debug */,
+				4BC60A0228E572DF007A6DB0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4BC60A0328E572DF007A6DB0 /* Build configuration list for PBXNativeTarget "FluffyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BC60A0428E572DF007A6DB0 /* Debug */,
+				4BC60A0528E572DF007A6DB0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4BC609CB28E572DE007A6DB0 /* Project object */;
+}
