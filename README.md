@@ -20,13 +20,15 @@ This repository ispacked with:
 
 ### 1. Initialized Cocoapod package manager
 
-```pod init
+```
+pod init
 ```
 
 ### 2. Install project dependency
 
 
-```pod install
+```
+pod install
 ```
 
 
