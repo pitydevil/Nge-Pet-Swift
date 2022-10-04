@@ -36,7 +36,6 @@
 		1D85771A28EBFF9C00CF2D5E /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D8576FB28EBFF9B00CF2D5E /* Poppins-SemiBold.ttf */; };
 		1D85771B28EBFF9C00CF2D5E /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D8576FC28EBFF9B00CF2D5E /* Poppins-Italic.ttf */; };
 		1D85771C28EBFF9C00CF2D5E /* Poppins-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D8576FD28EBFF9B00CF2D5E /* Poppins-MediumItalic.ttf */; };
-		1D85771E28EC017A00CF2D5E /* CheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85771D28EC017A00CF2D5E /* CheckViewController.swift */; };
 		1D85772228EC086600CF2D5E /* ReuseableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85772128EC086600CF2D5E /* ReuseableLabel.swift */; };
 		228971C6B79C4700E7DA9C4E /* Pods_FluffyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC985139B43D09D659850CB /* Pods_FluffyTests.framework */; };
 		4B78DB1C28EAD8A200744386 /* Style Guide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB1B28EAD8A200744386 /* Style Guide.swift */; };
@@ -110,7 +109,6 @@
 		1D8576FB28EBFF9B00CF2D5E /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-SemiBold.ttf"; sourceTree = "<group>"; };
 		1D8576FC28EBFF9B00CF2D5E /* Poppins-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Italic.ttf"; sourceTree = "<group>"; };
 		1D8576FD28EBFF9B00CF2D5E /* Poppins-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-MediumItalic.ttf"; sourceTree = "<group>"; };
-		1D85771D28EC017A00CF2D5E /* CheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckViewController.swift; sourceTree = "<group>"; };
 		1D85772128EC086600CF2D5E /* ReuseableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseableLabel.swift; sourceTree = "<group>"; };
 		2648BC5D0623475B71D59148 /* Pods-Fluffy-FluffyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy-FluffyUITests.release.xcconfig"; path = "Target Support Files/Pods-Fluffy-FluffyUITests/Pods-Fluffy-FluffyUITests.release.xcconfig"; sourceTree = "<group>"; };
 		2A279AC421335ED40E76880D /* Pods_Fluffy_FluffyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fluffy_FluffyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -273,7 +271,6 @@
 			isa = PBXGroup;
 			children = (
 				4B78DB2528EAD8C800744386 /* View.swift */,
-				1D85771D28EC017A00CF2D5E /* CheckViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -704,7 +701,6 @@
 				4BC60A1628E57459007A6DB0 /* Helper Class.swift in Sources */,
 				4B78DB3828EAD92800744386 /* Class Model.swift in Sources */,
 				4E5A6D7028EC03D9009BBDE9 /* SwitchSelect.swift in Sources */,
-				1D85771E28EC017A00CF2D5E /* CheckViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

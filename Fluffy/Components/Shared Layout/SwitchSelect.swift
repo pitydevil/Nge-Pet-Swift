@@ -27,7 +27,7 @@ class SwitchSelect: UIView {
         self.addSubview(labelSelect)
         labelSelect.text = switchControl.isOn ? "Selected" : "Not Selected"
         labelSelect.textColor = UIColor(named: "white")
-        labelSelect.font = UIFont(name: "Poppins-Bold", size: 16)
+        labelSelect.font = UIFont(name: "Poppins-Bold", size: 16) //heading2
         NSLayoutConstraint.activate([
             labelSelect.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             labelSelect.topAnchor.constraint(equalTo: switchControl.bottomAnchor, constant: 8)
