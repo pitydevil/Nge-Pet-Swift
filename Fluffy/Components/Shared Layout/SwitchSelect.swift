@@ -23,13 +23,15 @@ class SwitchSelect: UIView {
             switchControl.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             switchControl.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
+        
         self.addSubview(labelSelect)
+        labelSelect.text = switchControl.isOn ? "Selected" : "Not Selected"
+        labelSelect.textColor = UIColor(named: "white")
+        labelSelect.font = UIFont(name: "Poppins-Bold", size: 16) //heading2
         NSLayoutConstraint.activate([
             labelSelect.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             labelSelect.topAnchor.constraint(equalTo: switchControl.bottomAnchor, constant: 8)
         ])
-        
-        
         
     }
     
@@ -46,7 +48,6 @@ class SwitchSelect: UIView {
     
     @objc func updateSwitch(){
         labelSelect.text = switchControl.isOn ? "Selected" : "Not Selected"
-        labelSelect.textColor = .black
         switchControl.thumbTintColor = switchControl.isOn ? UIColor(red: 0.89, green: 0.27, blue: 0.37, alpha: 1.00) : UIColor(red: 0.98, green: 0.96, blue: 0.96, alpha: 1.00)
     }
 }
