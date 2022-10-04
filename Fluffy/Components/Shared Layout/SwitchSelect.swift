@@ -23,6 +23,7 @@ class SwitchSelect: UIView {
             switchControl.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             switchControl.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])
+        
         self.addSubview(labelSelect)
         labelSelect.text = switchControl.isOn ? "Selected" : "Not Selected"
         labelSelect.textColor = UIColor(named: "white")
@@ -31,8 +32,6 @@ class SwitchSelect: UIView {
             labelSelect.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             labelSelect.topAnchor.constraint(equalTo: switchControl.bottomAnchor, constant: 8)
         ])
-        
-        
         
     }
     
