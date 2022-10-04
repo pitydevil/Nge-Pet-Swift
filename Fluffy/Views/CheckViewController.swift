@@ -9,15 +9,16 @@ import UIKit
 
 class CheckViewController: UIViewController {
 
+    private lazy var titlelabel: ReuseableLabel = {
+        let label = ReuseableLabel(labelText: "Masa Sih", labelType: .titleH2)
+        label.textColor = .white
+        return label
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let label = UILabel(frame: CGRect(x: 0, y: 0, width: 300, height: 100))
-        label.text = "My Font"
-        view.addSubview(label)
-        label.center = view.center
-        label.textColor = .white
-        label.font = UIFont(name: "Inter-Medium", size: 32)
+        view.addSubview(titlelabel)
     }
     
 
