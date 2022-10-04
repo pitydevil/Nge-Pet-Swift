@@ -56,6 +56,7 @@
 		4BC609FA28E572DF007A6DB0 /* FluffyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC609F928E572DF007A6DB0 /* FluffyUITestsLaunchTests.swift */; };
 		4BC60A1428E5744E007A6DB0 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC60A1328E5744E007A6DB0 /* Extension.swift */; };
 		4BC60A1628E57459007A6DB0 /* Helper Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC60A1528E57459007A6DB0 /* Helper Class.swift */; };
+		4E5A6D7028EC03D9009BBDE9 /* SwitchSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5A6D6F28EC03D9009BBDE9 /* SwitchSelect.swift */; };
 		74AA6A16C5F142F15BD92B05 /* Pods_Fluffy_FluffyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A279AC421335ED40E76880D /* Pods_Fluffy_FluffyUITests.framework */; };
 		C77F1BAE87CA30606CB1C948 /* Pods_Fluffy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68BE59E93E1E1A8ED677FE8A /* Pods_Fluffy.framework */; };
 /* End PBXBuildFile section */
@@ -136,6 +137,7 @@
 		4BC609F928E572DF007A6DB0 /* FluffyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluffyUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		4BC60A1328E5744E007A6DB0 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		4BC60A1528E57459007A6DB0 /* Helper Class.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Helper Class.swift"; sourceTree = "<group>"; };
+		4E5A6D6F28EC03D9009BBDE9 /* SwitchSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchSelect.swift; sourceTree = "<group>"; };
 		68BE59E93E1E1A8ED677FE8A /* Pods_Fluffy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fluffy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BE16CB5272393936D4173E4 /* Pods-Fluffy-FluffyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy-FluffyUITests.debug.xcconfig"; path = "Target Support Files/Pods-Fluffy-FluffyUITests/Pods-Fluffy-FluffyUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E6BD3B26BC8B49D6320F490D /* Pods-Fluffy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy.release.xcconfig"; path = "Target Support Files/Pods-Fluffy/Pods-Fluffy.release.xcconfig"; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 		4B78DB2828EAD8D500744386 /* Shared Layout */ = {
 			isa = PBXGroup;
 			children = (
+				4E5A6D6F28EC03D9009BBDE9 /* SwitchSelect.swift */,
 				1D85772128EC086600CF2D5E /* ReuseableLabel.swift */,
 			);
 			path = "Shared Layout";
@@ -700,6 +703,7 @@
 				4B78DB3528EAD91C00744386 /* API Model.swift in Sources */,
 				4BC60A1628E57459007A6DB0 /* Helper Class.swift in Sources */,
 				4B78DB3828EAD92800744386 /* Class Model.swift in Sources */,
+				4E5A6D7028EC03D9009BBDE9 /* SwitchSelect.swift in Sources */,
 				1D85771E28EC017A00CF2D5E /* CheckViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
