@@ -10,14 +10,14 @@ import UIKit
 class CheckViewController: UIViewController {
 
     private lazy var titlelabel: ReuseableLabel = {
-        let label = ReuseableLabel(labelText: "Masa Sih", labelType: .titleH2)
-        label.textColor = .white
+        let label = ReuseableLabel(labelText: "Jessica", labelType: .titleH1, labelColor: .black)
         return label
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = .systemRed
         view.addSubview(titlelabel)
     }
     

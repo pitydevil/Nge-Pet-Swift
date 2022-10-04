@@ -17,13 +17,39 @@ class ReuseableLabel: UILabel {
         case bodyP2
     }
     
+    enum colorStyle {
+        case primaryMain
+        case primary2
+        case primary3
+        case primary4
+        case primary5
+        
+        case secondaryMain
+        case secondary2
+        case secondary3
+        case secondary4
+        case secondary5
+        
+        case black
+        case grey1
+        case grey2
+        case grey3
+        case white
+        
+        case success
+        case warning
+        case newError
+    }
+    
     public private(set) var labelType: labelTypeEnum
     public private(set) var labelText: String
+    public private(set) var labelColor: colorStyle
     
-    init(labelText: String, labelType: labelTypeEnum) {
+    init(labelText: String, labelType: labelTypeEnum, labelColor: colorStyle) {
         /// Safety check 1 “A designated initializer must ensure that all of the “properties introduced by its class are initialized before it delegates up to a superclass initializer.”
         self.labelText = labelText
         self.labelType = labelType
+        self.labelColor = labelColor
         
         super.init(frame: .zero)
         self.configureLabel()
@@ -39,6 +65,48 @@ class ReuseableLabel: UILabel {
         
         self.text = labelText
         self.configureLabelStyle()
+        self.configureLabelColor()
+    }
+    
+    private func configureLabelColor() {
+        switch labelColor {
+        case .primaryMain:
+            self.textColor = UIColor(named: "primaryMain")
+        case .primary2:
+            self.textColor = UIColor(named: "primary2")
+        case .primary3:
+            self.textColor = UIColor(named: "primary3")
+        case .primary4:
+            self.textColor = UIColor(named: "primary4")
+        case .primary5:
+            self.textColor = UIColor(named: "primary5")
+        case .secondaryMain:
+            self.textColor = UIColor(named: "secondaryMain")
+        case .secondary2:
+            self.textColor = UIColor(named: "secondary2")
+        case .secondary3:
+            self.textColor = UIColor(named: "secondary3")
+        case .secondary4:
+            self.textColor = UIColor(named: "secondary4")
+        case .secondary5:
+            self.textColor = UIColor(named: "secondary5")
+        case .black:
+            self.textColor = UIColor(named: "black")
+        case .grey1:
+            self.textColor = UIColor(named: "grey1")
+        case .grey2:
+            self.textColor = UIColor(named: "grey2")
+        case .grey3:
+            self.textColor = UIColor(named: "grey3")
+        case .white:
+            self.textColor = UIColor(named: "white")
+        case .success:
+            self.textColor = UIColor(named: "success")
+        case .warning:
+            self.textColor = UIColor(named: "warning")
+        case .newError:
+            self.textColor = UIColor(named: "newError") 
+        }
     }
     
     private func configureLabelStyle() {

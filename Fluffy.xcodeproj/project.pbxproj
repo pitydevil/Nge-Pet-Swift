@@ -38,13 +38,11 @@
 		1D85771C28EBFF9C00CF2D5E /* Poppins-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D8576FD28EBFF9B00CF2D5E /* Poppins-MediumItalic.ttf */; };
 		1D85771E28EC017A00CF2D5E /* CheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85771D28EC017A00CF2D5E /* CheckViewController.swift */; };
 		1D85772228EC086600CF2D5E /* ReuseableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85772128EC086600CF2D5E /* ReuseableLabel.swift */; };
-		1D85772428EC125B00CF2D5E /* ColorStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85772328EC125B00CF2D5E /* ColorStyle.swift */; };
 		228971C6B79C4700E7DA9C4E /* Pods_FluffyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC985139B43D09D659850CB /* Pods_FluffyTests.framework */; };
 		4B78DB1C28EAD8A200744386 /* Style Guide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB1B28EAD8A200744386 /* Style Guide.swift */; };
 		4B78DB1F28EAD8AE00744386 /* Base Providers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB1E28EAD8AE00744386 /* Base Providers.swift */; };
 		4B78DB2328EAD8BD00744386 /* View Model .swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB2228EAD8BD00744386 /* View Model .swift */; };
 		4B78DB2628EAD8C800744386 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB2528EAD8C800744386 /* View.swift */; };
-		4B78DB2A28EAD8DF00744386 /* shared layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB2928EAD8DF00744386 /* shared layout.swift */; };
 		4B78DB2E28EAD8F200744386 /* specific layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB2D28EAD8F200744386 /* specific layout.swift */; };
 		4B78DB3128EAD90700744386 /* Api Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB3028EAD90700744386 /* Api Services.swift */; };
 		4B78DB3528EAD91C00744386 /* API Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB3428EAD91C00744386 /* API Model.swift */; };
@@ -113,7 +111,6 @@
 		1D8576FD28EBFF9B00CF2D5E /* Poppins-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-MediumItalic.ttf"; sourceTree = "<group>"; };
 		1D85771D28EC017A00CF2D5E /* CheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckViewController.swift; sourceTree = "<group>"; };
 		1D85772128EC086600CF2D5E /* ReuseableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseableLabel.swift; sourceTree = "<group>"; };
-		1D85772328EC125B00CF2D5E /* ColorStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorStyle.swift; sourceTree = "<group>"; };
 		2648BC5D0623475B71D59148 /* Pods-Fluffy-FluffyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy-FluffyUITests.release.xcconfig"; path = "Target Support Files/Pods-Fluffy-FluffyUITests/Pods-Fluffy-FluffyUITests.release.xcconfig"; sourceTree = "<group>"; };
 		2A279AC421335ED40E76880D /* Pods_Fluffy_FluffyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fluffy_FluffyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		391FB2353E3E4D1516AADE30 /* Pods-Fluffy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy.debug.xcconfig"; path = "Target Support Files/Pods-Fluffy/Pods-Fluffy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -122,7 +119,6 @@
 		4B78DB1E28EAD8AE00744386 /* Base Providers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Base Providers.swift"; sourceTree = "<group>"; };
 		4B78DB2228EAD8BD00744386 /* View Model .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View Model .swift"; sourceTree = "<group>"; };
 		4B78DB2528EAD8C800744386 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
-		4B78DB2928EAD8DF00744386 /* shared layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "shared layout.swift"; sourceTree = "<group>"; };
 		4B78DB2D28EAD8F200744386 /* specific layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "specific layout.swift"; sourceTree = "<group>"; };
 		4B78DB3028EAD90700744386 /* Api Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Api Services.swift"; sourceTree = "<group>"; };
 		4B78DB3428EAD91C00744386 /* API Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API Model.swift"; sourceTree = "<group>"; };
@@ -292,9 +288,7 @@
 		4B78DB2828EAD8D500744386 /* Shared Layout */ = {
 			isa = PBXGroup;
 			children = (
-				4B78DB2928EAD8DF00744386 /* shared layout.swift */,
 				1D85772128EC086600CF2D5E /* ReuseableLabel.swift */,
-				1D85772328EC125B00CF2D5E /* ColorStyle.swift */,
 			);
 			path = "Shared Layout";
 			sourceTree = "<group>";
@@ -704,10 +698,8 @@
 				4B78DB1C28EAD8A200744386 /* Style Guide.swift in Sources */,
 				4B78DB3128EAD90700744386 /* Api Services.swift in Sources */,
 				4B78DB3528EAD91C00744386 /* API Model.swift in Sources */,
-				1D85772428EC125B00CF2D5E /* ColorStyle.swift in Sources */,
 				4BC60A1628E57459007A6DB0 /* Helper Class.swift in Sources */,
 				4B78DB3828EAD92800744386 /* Class Model.swift in Sources */,
-				4B78DB2A28EAD8DF00744386 /* shared layout.swift in Sources */,
 				1D85771E28EC017A00CF2D5E /* CheckViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
