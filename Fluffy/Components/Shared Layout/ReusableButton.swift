@@ -24,10 +24,10 @@ class ReusableButton: UIButton {
     public private(set) var action: Selector
     public private(set) var target: Any
     
-    init(titleBtn:String, styleBtn: style, icon: UIImage, _ action: Selector, _ target: Any) {
+    init(titleBtn:String, styleBtn: style, icon: UIImage? = nil, _ action: Selector, _ target: Any) {
         self.titleBtn = titleBtn
         self.styleBtn = styleBtn
-        self.icon = icon
+        self.icon = icon ?? UIImage()
         self.action = action
         self.target = target
         
@@ -99,8 +99,13 @@ class ReusableButton: UIButton {
         self.configuration?.attributedTitle = AttributedString(titleBtn, attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 16)!]))
         self.translatesAutoresizingMaskIntoConstraints = false
         self.configuration?.image = icon
-        self.configuration?.imagePadding = 8
-        self.configuration?.titleAlignment = .center
+        if self.configuration?.image == UIImage() {
+            self.configuration?.imagePadding = 0
+        } else {
+            self.configuration?.imagePadding = 8
+        }
+        self.configuration?.imagePlacement = .leading
+        self.configuration?.titleAlignment = .leading
         self.configuration?.background.cornerRadius = 8
     }
     
