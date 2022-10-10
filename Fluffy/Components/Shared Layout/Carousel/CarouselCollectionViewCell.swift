@@ -8,29 +8,33 @@
 import UIKit
 
 class CarouselCollectionViewCell: UICollectionViewCell {
-    //MARK - Sub Views
+    
+    // MARK: - SubViews
     private lazy var imageView = UIImageView()
+
     
-    //MARK - Properties
-    static let cellId = "CarouselCell"
+    // MARK: - Properties
+    static let cellId = "CarouselCollectionViewCell"
     
-    //MARK - Initializers
+    // MARK: - Initializer
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        setupUI()
     }
 }
 
-//MARK - Setups
-private extension CarouselCollectionViewCell{
-    func configUI(){
-        backgroundColor = .blue
+// MARK: - Setups
+
+private extension CarouselCollectionViewCell {
+    func setupUI() {
+        backgroundColor = .clear
         
         addSubview(imageView)
-
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: 302).isActive = true
@@ -42,10 +46,12 @@ private extension CarouselCollectionViewCell{
     }
 }
 
-//MARK - Public
+// MARK: - Public
+
 extension CarouselCollectionViewCell {
     public func configure(image: UIImage?) {
         imageView.image = image
     }
 }
+
 

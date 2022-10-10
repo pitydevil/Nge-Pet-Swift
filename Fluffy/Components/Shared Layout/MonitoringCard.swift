@@ -40,7 +40,7 @@ class MonitoringCard: UIView {
     
     //MARK - Subviews
     
-    private var carouselView: CarouselView = {
+    var carouselView: CarouselView = {
         let view = CarouselView(pages: 3)
         return view
     }()
@@ -96,19 +96,20 @@ class MonitoringCard: UIView {
         return stack
         
     }()
+    
     lazy var timeStack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
         stack.distribution = .fillProportionally
+        stack.spacing = 8
         return stack
     }()
+    
     //VStack Kanan
-    lazy var rightCardStack: UIStackView = {
-        let stack = UIStackView()
+    lazy var rightCardStack: UIView = {
+        let stack = UIView()
         stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .vertical
-        stack.distribution = .fillProportionally
         return stack
     }()
     //HStack Atas
@@ -127,6 +128,7 @@ class MonitoringCard: UIView {
         stack.distribution = .fillProportionally
         return stack
     }()
+    
     lazy var allStack: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -145,13 +147,7 @@ class MonitoringCard: UIView {
         allStack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20).isActive = true
     }
     
-    fileprivate func notificationConstraint() {
-        notifImage.widthAnchor.constraint(equalToConstant: 8).isActive = true
-        notifImage.heightAnchor.constraint(equalToConstant: 8).isActive = true
-        notifImage.rightAnchor.constraint(equalTo: rightCardStack.leftAnchor, constant: 0).isActive = true
-        notifImage.leftAnchor.constraint(equalTo: rightCardStack.rightAnchor, constant: -8).isActive = true
-        notifImage.contentMode = .right
-    }
+
     
     fileprivate func carouselConstraint() {
         carouselView.widthAnchor.constraint(equalToConstant: 302).isActive = true
@@ -177,36 +173,63 @@ class MonitoringCard: UIView {
     }
     
     fileprivate func titleTimeConstraint() {
-        timeLabel.leftAnchor.constraint(equalTo: cardTitle.rightAnchor, constant: 8).isActive = true
-        timeLabel.widthAnchor.constraint(equalToConstant: timeLabel.intrinsicContentSize.width).isActive = true
         timeStack.topAnchor.constraint(equalTo: locStack.bottomAnchor, constant: 8).isActive = true
         timeStack.bottomAnchor.constraint(equalTo: descriptionLabel.topAnchor, constant: -8).isActive = true
+        
         cardTitle.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        cardTitle.widthAnchor.constraint(greaterThanOrEqualToConstant:50).isActive = true
+        cardTitle.widthAnchor.constraint(equalToConstant: 168).isActive = true
+        cardTitle.leftAnchor.constraint(equalTo: timeStack.leftAnchor).isActive = true
         
-        cardTitle.widthAnchor.constraint(lessThanOrEqualToConstant: 200).isActive = true
-        
+        timeLabel.rightAnchor.constraint(equalTo: timeStack.rightAnchor).isActive = true
+        timeLabel.widthAnchor.constraint(lessThanOrEqualToConstant: 93).isActive = true
+        timeLabel.adjustsFontSizeToFitWidth = true
     }
     
     fileprivate func topStackConstraint() {
         topStack.bottomAnchor.constraint(equalTo: carouselView.topAnchor, constant: -8).isActive = true
     }
     
+    fileprivate func notificationConstraint() {
+        notification.topAnchor.constraint(equalTo: rightCardStack.topAnchor).isActive = true
+        notification.widthAnchor.constraint(equalToConstant: 8).isActive = true
+        notification.heightAnchor.constraint(equalToConstant: 8).isActive = true
+        notification.rightAnchor.constraint(equalTo: rightCardStack.rightAnchor, constant: 0).isActive = true
+        notification.contentMode = .right
+        notification.bottomAnchor.constraint(equalTo: petIcon.topAnchor, constant: -8).isActive = true
+    }
+    
     fileprivate func rightStackConstraint() {
         rightCardStack.widthAnchor.constraint(equalToConstant: 64).isActive = true
-        dogName.widthAnchor.constraint(equalToConstant: dogName.intrinsicContentSize.width).isActive = true
-        dogName.textAlignment = .right
-        dogName.widthAnchor.constraint(lessThanOrEqualToConstant: 64).isActive = true
+        rightCardStack.rightAnchor.constraint(equalTo: topStack.rightAnchor).isActive = true
+        rightCardStack.topAnchor.constraint(equalTo: topStack.topAnchor).isActive = true
+//        rightCardStack.backgroundColor = .systemGray2
+        
+        if newPost{
+            notificationConstraint()
+        }
+        else{
+            petIcon.topAnchor.constraint(equalTo: rightCardStack.topAnchor).isActive = true
+        }
+        
         petIcon.heightAnchor.constraint(equalToConstant: 32).isActive = true
         petIcon.widthAnchor.constraint(equalToConstant: 32).isActive = true
-        petIcon.contentMode = .right
+        petIcon.contentMode = .topRight
         petIcon.bottomAnchor.constraint(equalTo: dogName.topAnchor, constant: -8).isActive = true
-        rightCardStack.spacing = 8
+        petIcon.rightAnchor.constraint(equalTo: rightCardStack.rightAnchor).isActive = true
+        
+        
+        dogName.rightAnchor.constraint(equalTo: rightCardStack.rightAnchor).isActive = true
+        dogName.textAlignment = .right
+        dogName.widthAnchor.constraint(lessThanOrEqualToConstant: 59).isActive = true
+        dogName.heightAnchor.constraint(equalToConstant: 18).isActive = true
+        dogName.contentMode = .topRight
         
     }
     
     fileprivate func setupDescriptionLabel() {
         descriptionLabel.text = cardDescription
-        descriptionLabel.textAlignment = .left
+        descriptionLabel.textAlignment = .justified
         descriptionLabel.numberOfLines = 5
     }
     
@@ -229,6 +252,8 @@ class MonitoringCard: UIView {
         rightStackConstraint()
         
         leftCardStack.spacing = 8
+        leftCardStack.widthAnchor.constraint(equalToConstant: 218).isActive = true
+        leftCardStack.rightAnchor.constraint(equalTo: rightCardStack.leftAnchor, constant: -20).isActive = true
     }
     
     private func setupLayout(){
@@ -242,12 +267,12 @@ class MonitoringCard: UIView {
         leftCardStack.addArrangedSubview(descriptionLabel)
 
         if newPost{
-            rightCardStack.addArrangedSubview(notifImage)
-            notificationConstraint()
+            rightCardStack.addSubview(notification)
+            
         }
         
-        rightCardStack.addArrangedSubview(petIcon)
-        rightCardStack.addArrangedSubview(dogName)
+        rightCardStack.addSubview(petIcon)
+        rightCardStack.addSubview(dogName)
 
         topStack.addArrangedSubview(leftCardStack)
         topStack.addArrangedSubview(rightCardStack)
@@ -255,7 +280,7 @@ class MonitoringCard: UIView {
         carouselView = CarouselView(pages: carouselData.count)
         carouselView.configureView(with: carouselData)
 //        carouselView.backgroundColor = .clear
-        carouselView.backgroundColor = .brown
+//        carouselView.backgroundColor = .brown
         allStack.addArrangedSubview(topStack)
         
         allStack.addArrangedSubview(carouselView)
