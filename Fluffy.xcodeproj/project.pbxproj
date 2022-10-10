@@ -37,6 +37,9 @@
 		1D85771B28EBFF9C00CF2D5E /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D8576FC28EBFF9B00CF2D5E /* Poppins-Italic.ttf */; };
 		1D85771C28EBFF9C00CF2D5E /* Poppins-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D8576FD28EBFF9B00CF2D5E /* Poppins-MediumItalic.ttf */; };
 		1D85772228EC086600CF2D5E /* ReuseableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85772128EC086600CF2D5E /* ReuseableLabel.swift */; };
+		1DA5543328ED604C0040E4F7 /* CheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA5543228ED604C0040E4F7 /* CheckViewController.swift */; };
+		1DA5543728EEA1570040E4F7 /* ReusableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA5543628EEA1570040E4F7 /* ReusableButton.swift */; };
+		1DA5543928EEB28C0040E4F7 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DA5543828EEB28C0040E4F7 /* Launch Screen.storyboard */; };
 		228971C6B79C4700E7DA9C4E /* Pods_FluffyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC985139B43D09D659850CB /* Pods_FluffyTests.framework */; };
 		4B78DB1C28EAD8A200744386 /* Style Guide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB1B28EAD8A200744386 /* Style Guide.swift */; };
 		4B78DB1F28EAD8AE00744386 /* Base Providers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB1E28EAD8AE00744386 /* Base Providers.swift */; };
@@ -49,7 +52,6 @@
 		4BC609D728E572DE007A6DB0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC609D628E572DE007A6DB0 /* AppDelegate.swift */; };
 		4BC609D928E572DE007A6DB0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC609D828E572DE007A6DB0 /* SceneDelegate.swift */; };
 		4BC609E028E572DF007A6DB0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BC609DF28E572DF007A6DB0 /* Assets.xcassets */; };
-		4BC609E328E572DF007A6DB0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4BC609E128E572DF007A6DB0 /* LaunchScreen.storyboard */; };
 		4BC609EE28E572DF007A6DB0 /* FluffyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC609ED28E572DF007A6DB0 /* FluffyTests.swift */; };
 		4BC609F828E572DF007A6DB0 /* FluffyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC609F728E572DF007A6DB0 /* FluffyUITests.swift */; };
 		4BC609FA28E572DF007A6DB0 /* FluffyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC609F928E572DF007A6DB0 /* FluffyUITestsLaunchTests.swift */; };
@@ -114,6 +116,9 @@
 		1D8576FC28EBFF9B00CF2D5E /* Poppins-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Italic.ttf"; sourceTree = "<group>"; };
 		1D8576FD28EBFF9B00CF2D5E /* Poppins-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-MediumItalic.ttf"; sourceTree = "<group>"; };
 		1D85772128EC086600CF2D5E /* ReuseableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseableLabel.swift; sourceTree = "<group>"; };
+		1DA5543228ED604C0040E4F7 /* CheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckViewController.swift; sourceTree = "<group>"; };
+		1DA5543628EEA1570040E4F7 /* ReusableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableButton.swift; sourceTree = "<group>"; };
+		1DA5543828EEB28C0040E4F7 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		2648BC5D0623475B71D59148 /* Pods-Fluffy-FluffyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy-FluffyUITests.release.xcconfig"; path = "Target Support Files/Pods-Fluffy-FluffyUITests/Pods-Fluffy-FluffyUITests.release.xcconfig"; sourceTree = "<group>"; };
 		2A279AC421335ED40E76880D /* Pods_Fluffy_FluffyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fluffy_FluffyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		391FB2353E3E4D1516AADE30 /* Pods-Fluffy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy.debug.xcconfig"; path = "Target Support Files/Pods-Fluffy/Pods-Fluffy.debug.xcconfig"; sourceTree = "<group>"; };
@@ -130,7 +135,6 @@
 		4BC609D628E572DE007A6DB0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4BC609D828E572DE007A6DB0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		4BC609DF28E572DF007A6DB0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		4BC609E228E572DF007A6DB0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4BC609E428E572DF007A6DB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4BC609E928E572DF007A6DB0 /* FluffyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FluffyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BC609ED28E572DF007A6DB0 /* FluffyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FluffyTests.swift; sourceTree = "<group>"; };
@@ -279,7 +283,7 @@
 			isa = PBXGroup;
 			children = (
 				4B78DB2528EAD8C800744386 /* View.swift */,
-				4E684C6528ED4DB0009B4173 /* ViewController.swift */,
+
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -298,8 +302,12 @@
 			children = (
 				4E5A6D6F28EC03D9009BBDE9 /* SwitchSelect.swift */,
 				1D85772128EC086600CF2D5E /* ReuseableLabel.swift */,
+
 				4E684C6028ED3DC6009B4173 /* Carousel */,
 				4E684C6728ED63EC009B4173 /* MonitoringCard.swift */,
+
+				1DA5543628EEA1570040E4F7 /* ReusableButton.swift */,
+
 			);
 			path = "Shared Layout";
 			sourceTree = "<group>";
@@ -380,7 +388,6 @@
 				4BC60A0728E573B8007A6DB0 /* Base */,
 				4BC60A0A28E573EF007A6DB0 /* Utils */,
 				4BC609DF28E572DF007A6DB0 /* Assets.xcassets */,
-				4BC609E128E572DF007A6DB0 /* LaunchScreen.storyboard */,
 				4BC609E428E572DF007A6DB0 /* Info.plist */,
 			);
 			path = Fluffy;
@@ -417,6 +424,7 @@
 			children = (
 				4BC60A1328E5744E007A6DB0 /* Extension.swift */,
 				4BC60A1528E57459007A6DB0 /* Helper Class.swift */,
+				1DA5543828EEB28C0040E4F7 /* Launch Screen.storyboard */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -569,10 +577,10 @@
 				1D85771528EBFF9C00CF2D5E /* Poppins-Regular.ttf in Resources */,
 				1D85771828EBFF9C00CF2D5E /* Poppins-Black.ttf in Resources */,
 				1D85770628EBFF9C00CF2D5E /* Inter-Black.ttf in Resources */,
-				4BC609E328E572DF007A6DB0 /* LaunchScreen.storyboard in Resources */,
 				1D8576FE28EBFF9C00CF2D5E /* Inter-VariableFont_slnt,wght.ttf in Resources */,
 				1D85771028EBFF9C00CF2D5E /* Poppins-SemiBoldItalic.ttf in Resources */,
 				1D85770328EBFF9C00CF2D5E /* Inter-Regular.ttf in Resources */,
+				1DA5543928EEB28C0040E4F7 /* Launch Screen.storyboard in Resources */,
 				1D85771A28EBFF9C00CF2D5E /* Poppins-SemiBold.ttf in Resources */,
 				1D85771B28EBFF9C00CF2D5E /* Poppins-Italic.ttf in Resources */,
 				1D85771728EBFF9C00CF2D5E /* Poppins-Bold.ttf in Resources */,
@@ -708,6 +716,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B78DB2628EAD8C800744386 /* View.swift in Sources */,
+				1DA5543328ED604C0040E4F7 /* CheckViewController.swift in Sources */,
 				4B78DB1F28EAD8AE00744386 /* Base Providers.swift in Sources */,
 				1D85772228EC086600CF2D5E /* ReuseableLabel.swift in Sources */,
 				4BC60A1428E5744E007A6DB0 /* Extension.swift in Sources */,
@@ -716,8 +725,12 @@
 				4E684C6428ED4624009B4173 /* CarouselView.swift in Sources */,
 				4BC609D728E572DE007A6DB0 /* AppDelegate.swift in Sources */,
 				4BC609D928E572DE007A6DB0 /* SceneDelegate.swift in Sources */,
+
 				4E684C6828ED63EC009B4173 /* MonitoringCard.swift in Sources */,
-				4E684C6628ED4DB0009B4173 /* ViewController.swift in Sources */,
+				
+
+				1DA5543728EEA1570040E4F7 /* ReusableButton.swift in Sources */,
+
 				4B78DB1C28EAD8A200744386 /* Style Guide.swift in Sources */,
 				4B78DB3128EAD90700744386 /* Api Services.swift in Sources */,
 				4E684C6228ED41B0009B4173 /* CarouselCollectionViewCell.swift in Sources */,
@@ -759,17 +772,6 @@
 			targetProxy = 4BC609F428E572DF007A6DB0 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		4BC609E128E572DF007A6DB0 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4BC609E228E572DF007A6DB0 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		4BC609FB28E572DF007A6DB0 /* Debug */ = {
