@@ -16,6 +16,7 @@ class ReusableButton: UIButton {
         case disabled
         case longInverted
         case longOutline
+        case frameless
     }
     
     public private(set) var titleBtn: String
@@ -44,16 +45,18 @@ class ReusableButton: UIButton {
             self.configuration?.baseForegroundColor = UIColor(named: "white")
             NSLayoutConstraint.activate([
                 self.heightAnchor.constraint(equalToConstant: 48),
-                self.widthAnchor.constraint(equalToConstant: 112),
+                self.widthAnchor.constraint(greaterThanOrEqualToConstant: 112),
             ])
+            self.configuration?.imagePlacement = .leading
         case .inverted:
             self.configuration = .filled()
             self.configuration?.baseBackgroundColor = UIColor(named: "white")
             self.configuration?.baseForegroundColor = UIColor(named: "primaryMain")
             NSLayoutConstraint.activate([
                 self.heightAnchor.constraint(equalToConstant: 48),
-                self.widthAnchor.constraint(equalToConstant: 112),
+                self.widthAnchor.constraint(greaterThanOrEqualToConstant: 112),
             ])
+            self.configuration?.imagePlacement = .leading
         case .outline:
             self.configuration = .bordered()
             self.configuration?.baseBackgroundColor = UIColor(named: "white")
@@ -62,24 +65,27 @@ class ReusableButton: UIButton {
             self.configuration?.baseForegroundColor = UIColor(named: "primaryMain")
             NSLayoutConstraint.activate([
                 self.heightAnchor.constraint(equalToConstant: 48),
-                self.widthAnchor.constraint(equalToConstant: 112),
+                self.widthAnchor.constraint(greaterThanOrEqualToConstant: 112),
             ])
+            self.configuration?.imagePlacement = .leading
         case .disabled:
             self.configuration = .filled()
             self.configuration?.baseBackgroundColor = UIColor(named: "grey2")
             self.configuration?.baseForegroundColor = UIColor(named: "white")
             NSLayoutConstraint.activate([
                 self.heightAnchor.constraint(equalToConstant: 48),
-                self.widthAnchor.constraint(equalToConstant: 112),
+                self.widthAnchor.constraint(greaterThanOrEqualToConstant: 112),
             ])
+            self.configuration?.imagePlacement = .leading
         case .longInverted:
             self.configuration = .filled()
             self.configuration?.baseBackgroundColor = UIColor(named: "white")
             self.configuration?.baseForegroundColor = UIColor(named: "primaryMain")
             NSLayoutConstraint.activate([
                 self.heightAnchor.constraint(equalToConstant: 48),
-                self.widthAnchor.constraint(equalToConstant: 358),
+                self.widthAnchor.constraint(greaterThanOrEqualToConstant: 358),
             ])
+            self.configuration?.imagePlacement = .leading
         case .longOutline:
             self.configuration = .bordered()
             self.configuration?.baseBackgroundColor = UIColor(named: "white")
@@ -88,7 +94,17 @@ class ReusableButton: UIButton {
             self.configuration?.baseForegroundColor = UIColor(named: "primaryMain")
             NSLayoutConstraint.activate([
                 self.heightAnchor.constraint(equalToConstant: 48),
-                self.widthAnchor.constraint(equalToConstant: 358),
+                self.widthAnchor.constraint(greaterThanOrEqualToConstant: 358),
+            ])
+            self.configuration?.imagePlacement = .leading
+        case .frameless:
+            self.configuration = .plain()
+            self.configuration?.baseForegroundColor = UIColor(named: "black")
+            self.configuration?.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+            self.configuration?.imagePlacement = .trailing
+            NSLayoutConstraint.activate([
+                self.heightAnchor.constraint(equalToConstant: 48),
+                self.widthAnchor.constraint(lessThanOrEqualToConstant: 193),
             ])
         }
         self.configuration?.attributedTitle = AttributedString(titleBtn, attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 16)!]))
@@ -99,7 +115,6 @@ class ReusableButton: UIButton {
         } else {
             self.configuration?.imagePadding = 8
         }
-        self.configuration?.imagePlacement = .leading
         self.configuration?.titleAlignment = .leading
         self.configuration?.background.cornerRadius = 8
     }
