@@ -21,19 +21,14 @@ class ReusableButton: UIButton {
     public private(set) var titleBtn: String
     public private(set) var styleBtn: style
     public private(set) var icon: UIImage
-    public private(set) var action: Selector
-    public private(set) var target: Any
     
-    init(titleBtn:String, styleBtn: style, icon: UIImage? = nil, _ action: Selector, _ target: Any) {
+    init(titleBtn:String, styleBtn: style, icon: UIImage? = nil) {
         self.titleBtn = titleBtn
         self.styleBtn = styleBtn
         self.icon = icon ?? UIImage()
-        self.action = action
-        self.target = target
         
         super.init(frame: .zero)
         self.configureButton()
-        self.configureButtonTarget()
         
     }
 
@@ -109,7 +104,4 @@ class ReusableButton: UIButton {
         self.configuration?.background.cornerRadius = 8
     }
     
-    private func configureButtonTarget() {
-        addTarget(target, action: action, for: .touchUpInside)
-    }
 }
