@@ -17,7 +17,7 @@ class ReusableTabBar: UIView {
     
     let boxBtn = UIButton()
     let checkedImage = UIImage(systemName: "checkmark.square.fill")
-    let uncheckedImage = UIImage(systemName: "checkmark.square")
+    let uncheckedImage = UIImage(systemName: "square")
     
     enum textBox {
         case show
@@ -83,20 +83,20 @@ class ReusableTabBar: UIView {
         
         //MARK: - Setup Constraint
         NSLayoutConstraint.activate([
-            self.heightAnchor.constraint(equalToConstant: 100),
-            self.widthAnchor.constraint(equalToConstant: 390),
+            self.heightAnchor.constraint(equalToConstant: 92),
             
-            barBtn.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 254),
+            barBtn.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -24),
             barBtn.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
             
             hewanDipilih.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
             hewanDipilih.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
             
             boxBtn.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 22),
-            boxBtn.bottomAnchor.constraint(equalTo: hewanDipilih.bottomAnchor, constant: 25),
+            boxBtn.topAnchor.constraint(equalTo: hewanDipilih.bottomAnchor, constant: 4),
             
-            pilihSemuaText.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 50),
-            pilihSemuaText.bottomAnchor.constraint(equalTo: hewanDipilih.bottomAnchor, constant: 22),
+            pilihSemuaText.leadingAnchor.constraint(equalTo: boxBtn.trailingAnchor, constant: 8),
+            pilihSemuaText.topAnchor.constraint(equalTo: hewanDipilih.bottomAnchor, constant: 4),
+            pilihSemuaText.centerYAnchor.constraint(equalTo: boxBtn.centerYAnchor)
             
         ])
         
