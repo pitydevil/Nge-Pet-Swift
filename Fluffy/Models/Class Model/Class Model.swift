@@ -6,3 +6,9 @@
 //
 
 import Foundation
+import UIKit
+
+//MARK - Carousel Image Data
+struct CarouselData {
+    let image: UIImage?
+}
