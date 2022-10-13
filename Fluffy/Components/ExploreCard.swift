@@ -57,6 +57,19 @@ class ExploreCard: UIView {
     
     
     func setupLayout(){
+        petHotelNameLabel.text = petHotelName
+        distanceLabel.text = distance
+        exploreImage.image = UIImage(named: displayImage)
+        
+        let formatter = NumberFormatter()
+        formatter.locale = Locale(identifier: "id_ID")
+        formatter.groupingSeparator = "."
+        formatter.numberStyle = .decimal
+        if let formattedTipAmount = formatter.string(from: lowestPrice as NSNumber){
+            priceLabel.text = "Rp" + formattedTipAmount
+        }
+        
+        
         exploreImage.image = UIImage(named: "slide2")
         self.addSubview(exploreImage)
         exploreImage.contentMode = .scaleAspectFill
