@@ -22,12 +22,14 @@ struct PetHotelList{
 
 class ExploreCard: UIView {
 
+    //MARK: - Properties
     public private(set) var petHotelName:String
     public private(set) var distance:String
     public private(set) var supportedPet:[PetSupported]
     public private(set) var lowestPrice:Int
     public private(set) var displayImage:String
     
+    //MARK: - Initializers
     init(petHotelName: String, distance: String, supportedPet: [PetSupported], lowestPrice: Int, displayImage:String) {
         self.petHotelName = petHotelName
         self.distance = distance
@@ -43,6 +45,7 @@ class ExploreCard: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: -Subviews
     var exploreImage = UIImageView()
     var redRectangle:UIView = {
        let view = UIView()
@@ -54,9 +57,11 @@ class ExploreCard: UIView {
     private lazy var distanceLabel:ReuseableLabel = ReuseableLabel(labelText: "500m", labelType: .bodyP2, labelColor: .grey1)
     private lazy var BeforePriceLabel:ReuseableLabel = ReuseableLabel(labelText: "Perlahan mulai dari", labelType: .bodyP2, labelColor: .grey1)
     private lazy var priceLabel:ReuseableLabel = ReuseableLabel(labelText: "Rp 30.000", labelType: .titleH2, labelColor: .primaryMain)
-    
-    
-    func setupLayout(){
+
+}
+
+extension ExploreCard{
+    fileprivate func setup() {
         petHotelNameLabel.text = petHotelName
         distanceLabel.text = distance
         exploreImage.image = UIImage(named: displayImage)
@@ -68,10 +73,9 @@ class ExploreCard: UIView {
         if let formattedTipAmount = formatter.string(from: lowestPrice as NSNumber){
             priceLabel.text = "Rp" + formattedTipAmount
         }
-        
-        
-        exploreImage.image = UIImage(named: "slide2")
-        self.addSubview(exploreImage)
+    }
+    
+    fileprivate func imageConstraints() {
         exploreImage.contentMode = .scaleAspectFill
         exploreImage.clipsToBounds = true
         exploreImage.layer.cornerRadius = 12
@@ -80,19 +84,21 @@ class ExploreCard: UIView {
         exploreImage.heightAnchor.constraint(equalToConstant: 128).isActive = true
         exploreImage.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 20).isActive = true
         exploreImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 20).isActive = true
-        
-        
-        self.addSubview(petHotelNameLabel)
+    }
+    
+    fileprivate func petHotelNameConstraints() {
         petHotelNameLabel.leftAnchor.constraint(equalTo: exploreImage.rightAnchor, constant: 20).isActive = true
         petHotelNameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 20).isActive = true
         petHotelNameLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20).isActive = true
-        
-        self.addSubview(distanceLabel)
+    }
+    
+    fileprivate func distanceConstraints() {
         distanceLabel.leftAnchor.constraint(equalTo: exploreImage.rightAnchor, constant: 20).isActive = true
         distanceLabel.topAnchor.constraint(equalTo: petHotelNameLabel.bottomAnchor, constant: 8).isActive = true
         distanceLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20).isActive = true
-        
-        self.addSubview(redRectangle)
+    }
+    
+    fileprivate func priceConstraints() {
         redRectangle.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         redRectangle.heightAnchor.constraint(equalToConstant: 48).isActive = true
         redRectangle.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
@@ -100,14 +106,30 @@ class ExploreCard: UIView {
         redRectangle.layer.cornerRadius = 12
         redRectangle.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         
-        self.addSubview(priceLabel)
+        
         priceLabel.centerYAnchor.constraint(equalTo: redRectangle.centerYAnchor).isActive = true
         priceLabel.rightAnchor.constraint(equalTo: self.rightAnchor,constant: -20).isActive = true
         priceLabel.textAlignment = .right
         
-        self.addSubview(BeforePriceLabel)
+        
         BeforePriceLabel.rightAnchor.constraint(equalTo: priceLabel.leftAnchor, constant: -8).isActive = true
         BeforePriceLabel.centerYAnchor.constraint(equalTo: redRectangle.centerYAnchor).isActive = true
+    }
+    
+    func setupLayout(){
+        setup()
+        
+        self.addSubview(exploreImage)
+        self.addSubview(petHotelNameLabel)
+        self.addSubview(distanceLabel)
+        self.addSubview(redRectangle)
+        self.addSubview(priceLabel)
+        self.addSubview(BeforePriceLabel)
+        
+        imageConstraints()
+        petHotelNameConstraints()
+        distanceConstraints()
+        priceConstraints()
         
     }
 }
