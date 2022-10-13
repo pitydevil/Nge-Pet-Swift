@@ -58,6 +58,14 @@ class ExploreCard: UIView {
     private lazy var BeforePriceLabel:ReuseableLabel = ReuseableLabel(labelText: "Perlahan mulai dari", labelType: .bodyP2, labelColor: .grey1)
     private lazy var priceLabel:ReuseableLabel = ReuseableLabel(labelText: "Rp 30.000", labelType: .titleH2, labelColor: .primaryMain)
 
+    private lazy var supportedPetView:UICollectionView = {
+        let collection = UICollectionView()
+        collection.showsHorizontalScrollIndicator = false
+        collection.dataSource = self
+        collection.delegate = self
+        
+        return collection
+    }()
 }
 
 extension ExploreCard{
@@ -131,5 +139,15 @@ extension ExploreCard{
         distanceConstraints()
         priceConstraints()
         
+    }
+}
+
+extension ExploreCard: UICollectionViewDelegate, UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 5
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        return UICollectionViewCell()
     }
 }
