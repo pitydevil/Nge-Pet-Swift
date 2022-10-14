@@ -12,3 +12,16 @@ import UIKit
 struct CarouselData {
     let image: UIImage?
 }
+
+struct PetSupported{
+    let petType:String
+    let size:String
+}
+
+struct PetHotelList{
+    let petHotelName:String
+    let petHotelDistance:String
+    let supportedPet:[PetSupported]
+    let lowestPrice:Int
+    let displayImage:String
+}
