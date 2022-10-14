@@ -63,6 +63,8 @@
 		4EC56E4828F71FD1008ADD7F /* ExploreCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC56E4728F71FD1008ADD7F /* ExploreCard.swift */; };
 		4EC56E4A28F721F7008ADD7F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC56E4928F721F7008ADD7F /* ViewController.swift */; };
 		4EC56E4C28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC56E4B28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift */; };
+		4EC56E4E28F826BB008ADD7F /* MonitoringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC56E4D28F826BB008ADD7F /* MonitoringViewController.swift */; };
+		4EC56E5028F84387008ADD7F /* MonitoringTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC56E4F28F84387008ADD7F /* MonitoringTableViewCell.swift */; };
 		74AA6A16C5F142F15BD92B05 /* Pods_Fluffy_FluffyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A279AC421335ED40E76880D /* Pods_Fluffy_FluffyUITests.framework */; };
 		C77F1BAE87CA30606CB1C948 /* Pods_Fluffy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 68BE59E93E1E1A8ED677FE8A /* Pods_Fluffy.framework */; };
 /* End PBXBuildFile section */
@@ -151,6 +153,8 @@
 		4EC56E4728F71FD1008ADD7F /* ExploreCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCard.swift; sourceTree = "<group>"; };
 		4EC56E4928F721F7008ADD7F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4EC56E4B28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedPetCollectionViewCell.swift; sourceTree = "<group>"; };
+		4EC56E4D28F826BB008ADD7F /* MonitoringViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringViewController.swift; sourceTree = "<group>"; };
+		4EC56E4F28F84387008ADD7F /* MonitoringTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringTableViewCell.swift; sourceTree = "<group>"; };
 		68BE59E93E1E1A8ED677FE8A /* Pods_Fluffy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fluffy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BE16CB5272393936D4173E4 /* Pods-Fluffy-FluffyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy-FluffyUITests.debug.xcconfig"; path = "Target Support Files/Pods-Fluffy-FluffyUITests/Pods-Fluffy-FluffyUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		E6BD3B26BC8B49D6320F490D /* Pods-Fluffy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy.release.xcconfig"; path = "Target Support Files/Pods-Fluffy/Pods-Fluffy.release.xcconfig"; sourceTree = "<group>"; };
@@ -295,6 +299,8 @@
 			children = (
 				4B78DB2528EAD8C800744386 /* View.swift */,
 				4EC56E4928F721F7008ADD7F /* ViewController.swift */,
+				4EC56E4D28F826BB008ADD7F /* MonitoringViewController.swift */,
+				4EC56E4F28F84387008ADD7F /* MonitoringTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -304,8 +310,6 @@
 			children = (
 				4B78DB2B28EAD8E100744386 /* Specific Layout */,
 				4B78DB2828EAD8D500744386 /* Shared Layout */,
-				4EC56E4728F71FD1008ADD7F /* ExploreCard.swift */,
-				4EC56E4B28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -315,10 +319,12 @@
 			children = (
 				4E5A6D6F28EC03D9009BBDE9 /* SwitchSelect.swift */,
 				1D85772128EC086600CF2D5E /* ReuseableLabel.swift */,
-				4E684C6028ED3DC6009B4173 /* Carousel */,
 				4E684C6728ED63EC009B4173 /* MonitoringCard.swift */,
 				1DA5543628EEA1570040E4F7 /* ReusableButton.swift */,
+				4EC56E4728F71FD1008ADD7F /* ExploreCard.swift */,
+				4EC56E4B28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift */,
 				1DBF11CC28F00CAC00C53D1E /* ReusableTabBar.swift */,
+				4E684C6028ED3DC6009B4173 /* Carousel */,
 			);
 			path = "Shared Layout";
 			sourceTree = "<group>";
@@ -726,6 +732,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B78DB2628EAD8C800744386 /* View.swift in Sources */,
+				4EC56E5028F84387008ADD7F /* MonitoringTableViewCell.swift in Sources */,
 				4EC56E4828F71FD1008ADD7F /* ExploreCard.swift in Sources */,
 				4B78DB1F28EAD8AE00744386 /* Base Providers.swift in Sources */,
 				1D85772228EC086600CF2D5E /* ReuseableLabel.swift in Sources */,
@@ -747,6 +754,7 @@
 				4EC56E4A28F721F7008ADD7F /* ViewController.swift in Sources */,
 				1DBF11CD28F00CAC00C53D1E /* ReusableTabBar.swift in Sources */,
 				4E5A6D7028EC03D9009BBDE9 /* SwitchSelect.swift in Sources */,
+				4EC56E4E28F826BB008ADD7F /* MonitoringViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
