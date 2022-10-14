@@ -150,6 +150,7 @@ extension MonitoringTableViewCell{
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         locIcon.translatesAutoresizingMaskIntoConstraints = false
         petIcon.translatesAutoresizingMaskIntoConstraints = false
+        carouselView.translatesAutoresizingMaskIntoConstraints = false
     }
 
     func setupConstraint() {
@@ -188,6 +189,7 @@ extension MonitoringTableViewCell{
         cardTitle.numberOfLines = 1
         cardTitle.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
         cardTitle.topAnchor.constraint(equalTo: locIcon.bottomAnchor, constant: 4).isActive = true
+        cardTitle.heightAnchor.constraint(equalToConstant: 24).isActive = true
 //        cardTitle.widthAnchor.constraint(equalToConstant: 200).isActive = true
         
         
@@ -196,18 +198,23 @@ extension MonitoringTableViewCell{
         notification.widthAnchor.constraint(equalToConstant: 8).isActive = true
         notification.heightAnchor.constraint(equalToConstant: 8).isActive = true
         
+        
+        
         descriptionLabel.numberOfLines = 5
         descriptionLabel.textAlignment = .justified
+ 
+        let height = descriptionLabel.heightForLabel(text: descriptionLabel.text ?? "", font: UIFont(name: "Inter-Medium", size: 12)!, width: 220)
         descriptionLabel.topAnchor.constraint(equalTo: cardTitle.bottomAnchor, constant: 8).isActive = true
         descriptionLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
         descriptionLabel.rightAnchor.constraint(equalTo: dogName.leftAnchor, constant: -24).isActive = true
+        descriptionLabel.heightAnchor.constraint(lessThanOrEqualToConstant: 90).isActive = true
         
         carouselView.backgroundColor = .yellow
-//        carouselView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-//        carouselView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
+        carouselView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        carouselView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
         carouselView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 8).isActive = true
-//        carouselView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
-//        carouselView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20).isActive = true
+        carouselView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
+        carouselView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20).isActive = true
         carouselView.widthAnchor.constraint(equalToConstant: 310).isActive = true
         carouselView.heightAnchor.constraint(equalToConstant: 350).isActive = true
     }
@@ -224,4 +231,19 @@ extension MonitoringTableViewCell{
         dogName.text = dogNameString
         timeLabel.text = timestamp
     }
+}
+
+extension UILabel {
+
+    func heightForLabel(text:String, font:UIFont, width:CGFloat) -> CGFloat {
+        let label:UILabel = UILabel(frame: CGRect(x: 0, y: 0, width: width, height: CGFloat.greatestFiniteMagnitude))
+        label.numberOfLines = 5
+        label.lineBreakMode = NSLineBreakMode.byWordWrapping
+        label.font = font
+        label.text = text
+
+        label.sizeToFit()
+        return label.frame.height
+    }
+
 }
