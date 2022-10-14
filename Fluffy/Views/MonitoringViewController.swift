@@ -35,6 +35,17 @@ class MonitoringViewController: UIViewController {
         view.addSubview(selectPetButton)
         view.addSubview(tableView)
         setupLayout()
+        tableView.reloadData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        tableView.reloadData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        tableView.reloadData()
     }
     
     func configTableView(){
@@ -45,7 +56,6 @@ class MonitoringViewController: UIViewController {
         tableView.register(MonitoringTableViewCell.self, forCellReuseIdentifier: MonitoringTableViewCell.cellId)
         tableView.separatorColor = .clear
         tableView.allowsSelection = false
-        //        tableView.rowHeight = 500
         tableView.translatesAutoresizingMaskIntoConstraints = false
     }
 }
@@ -60,6 +70,7 @@ extension MonitoringViewController{
         selectPetButton.centerYAnchor.constraint(equalTo: dateButton.centerYAnchor).isActive = true
         
         configTableView()
+        
         tableView.topAnchor.constraint(equalTo: selectPetButton.bottomAnchor, constant: 40).isActive = true
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         tableView.rightAnchor.constraint(equalTo: dateButton.rightAnchor).isActive = true
@@ -75,16 +86,13 @@ extension MonitoringViewController : UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MonitoringTableViewCell.cellId) as! MonitoringTableViewCell
         cell.backgroundColor = .clear
-        cell.configure(location: "Klaten Klaten Klaten Klaten Klaten Klaten", cardTitleString: "Kasih Makan Kasih Makan ", timestamp: "7m", description: "Beri makan Beri makan Beri makan Beri makan Beri makan Beri makan Beri makan Beri makan Beri makan Beri makan Beri makan", petImage: "pugIcon", dogNameString: "Blekki Irrrrrrr")
-        cell.carouselView.configureView(with: [CarouselData(image: UIImage(named: "slide1")), CarouselData(image: UIImage(named: "slide2")), CarouselData(image: UIImage(named: "slide3"))])
+        cell.configure(location: "Klaten Klaten Klaten Klaten Klaten Klaten", cardTitleString: "Kasih Makan Kasih Makan ", timestamp: "7m", description: "Beri makan Beri makan Beri makan Beri makan Beri makan Beri makan Beri makan Beri makan Beri makan Beri makan Beri makan", petImage: "pugIcon", dogNameString: "Blekki Irrrrrrr", carouselData: [CarouselData(image: UIImage(named: "slide1")), CarouselData(image: UIImage(named: "slide2"))])
+        cell.carouselView.configureView(with: [CarouselData(image: UIImage(named: "slide1")), CarouselData(image: UIImage(named: "slide2"))])
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
-//        return 600
     }
-    
-
 }
 

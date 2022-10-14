@@ -9,7 +9,7 @@ import UIKit
 
 class MonitoringTableViewCell: UITableViewCell {
 
-    //MARK: - Subcviews
+//MARK: - Subviews
     var carouselView: CarouselView = {
         let view = CarouselView(pages: 3)
         return view
@@ -64,43 +64,7 @@ class MonitoringTableViewCell: UITableViewCell {
         return stack
         
     }()
-    
-    lazy var timeStack: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .horizontal
-        stack.distribution = .fillProportionally
-        stack.spacing = 4
-        return stack
-    }()
-    
-    //VStack Kanan
-    lazy var rightCardStack: UIView = {
-        let stack = UIView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    //HStack Atas
-    lazy var topStack: UIView = {
-        let stack = UIView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    
-    lazy var locStack: UIView = {
-        let stack = UIView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
-    }()
-    
-    lazy var allStack: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .vertical
-        stack.distribution = .fillProportionally
-        return stack
-    }()
-    
+
     
     //MARK: - Properties
     static let cellId = "MonitoringTableViewCell"
@@ -118,18 +82,19 @@ class MonitoringTableViewCell: UITableViewCell {
         contentView.addSubview(notification)
         contentView.addSubview(petIcon)
         contentView.addSubview(dogName)
-        carouselView = CarouselView(pages: 3)
-        carouselView.configureView(with: [CarouselData(image: UIImage(named: "slide1"))])
+//        carouselView = CarouselView(pages: 2)
+//        carouselView.configureView(with: [CarouselData(image: UIImage(named: "slide1"))])
         contentView.addSubview(carouselView)
         contentView.backgroundColor = UIColor(named: "white")
         contentView.layer.cornerRadius = 12
         setupConstraint()
     }
 
+    //MARK: - layoutSubviews
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0))
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 48, right: 0))
     }
     
     required init?(coder: NSCoder) {
@@ -214,7 +179,7 @@ extension MonitoringTableViewCell{
         carouselView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
         carouselView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 8).isActive = true
         carouselView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
-        carouselView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20).isActive = true
+        carouselView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -30).isActive = true
         carouselView.widthAnchor.constraint(equalToConstant: 310).isActive = true
         carouselView.heightAnchor.constraint(equalToConstant: 350).isActive = true
     }
@@ -223,13 +188,15 @@ extension MonitoringTableViewCell{
 
 //MARK: - Public
 extension MonitoringTableViewCell{
-    public func configure(location:String, cardTitleString:String, timestamp:String, description:String, petImage:String, dogNameString:String){
+    public func configure(location:String, cardTitleString:String, timestamp:String, description:String, petImage:String, dogNameString:String, carouselData:[CarouselData]){
         locationLabel.text = location
         cardTitle.text = cardTitleString
         descriptionLabel.text = description
         petIcon.image = UIImage(named: petImage)
         dogName.text = dogNameString
         timeLabel.text = timestamp
+        carouselView = CarouselView(pages: carouselData.count)
+        carouselView.configureView(with: carouselData)
     }
 }
 
