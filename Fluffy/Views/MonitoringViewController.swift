@@ -62,7 +62,7 @@ class MonitoringViewController: UIViewController {
 
 extension MonitoringViewController{
     func setupLayout(){
-        dateButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        dateButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 12).isActive = true
         dateButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         dateButton.leftAnchor.constraint(greaterThanOrEqualTo: selectPetButton.rightAnchor, constant: 20).isActive = true
         
@@ -86,8 +86,7 @@ extension MonitoringViewController : UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: MonitoringTableViewCell.cellId) as! MonitoringTableViewCell
         cell.backgroundColor = .clear
-        cell.configure(location: "Klaten Klaten Klaten Klaten Klaten Klaten", cardTitleString: "Kasih Makan Kasih Makan ", timestamp: "7m", description: "Beri makan Beri makan Beri makan Beri makan Beri makan Beri makan Beri makan Beri makan Beri makan Beri makan Beri makan", petImage: "pugIcon", dogNameString: "Blekki Irrrrrrr", carouselData: [CarouselData(image: UIImage(named: "slide1")), CarouselData(image: UIImage(named: "slide2"))])
-        cell.carouselView.configureView(with: [CarouselData(image: UIImage(named: "slide1")), CarouselData(image: UIImage(named: "slide2"))])
+        cell.configure(location: "Attlasian Pet Hotel", cardTitleString: "Kasih Makan ", timestamp: "7m", description: "Royal canin y, kucing sultan ni Royal canin y, kucing sultan ni Royal canin y, kucing sultan ni Royal canin y, kucing sultan ni Royal canin y, kucing sultan ni", petImage: "pugIcon", dogNameString: "Blekki Irrrrrrr", carouselData: [CarouselData(image: UIImage(named: "slide1")), CarouselData(image: UIImage(named: "slide2")), CarouselData(image: UIImage(named: "slide3")), CarouselData(image: UIImage(named: "slide1")), CarouselData(image: UIImage(named: "slide2"))])
         return cell
     }
     
