@@ -4,6 +4,8 @@
 //
 //  Created by Zacky Ilahi Azmi on 07/10/22.
 //
+//  DONT FORGET TO ADD THIS CODE TO YOUR VIEW
+//  ReusableTabBar.leadingAnchor.constraint(equalTo: view.leadingAnchor)
 
 import UIKit
 
@@ -14,6 +16,8 @@ class ReusableTabBar: UIView {
     let pilihSemuaText = ReuseableLabel(labelText: "Pilih Semua", labelType: .bodyP2, labelColor: .primaryMain)
     
     let hewanDipilih = ReuseableLabel(labelText: "Semua hewan dipilih", labelType: .bodyP2, labelColor: .grey1)
+    
+    let lineView = UIView()
     
     let boxBtn = UIButton()
     let checkedImage = UIImage(systemName: "checkmark.square.fill")
@@ -65,6 +69,9 @@ class ReusableTabBar: UIView {
         
         barBtn.configuration?.attributedTitle = AttributedString(btnText, attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 16)!]))
         
+//        lineView.layer.borderWidth = 1.0
+        lineView.backgroundColor = UIColor(named: "grey2")
+        
         //MARK: - Set View Background
         self.backgroundColor = UIColor(named: "white")
         
@@ -73,6 +80,7 @@ class ReusableTabBar: UIView {
         self.addSubview(pilihSemuaText)
         self.addSubview(hewanDipilih)
         self.addSubview(boxBtn)
+        self.addSubview(lineView)
         
         //MARK: - Set Auto False
         self.translatesAutoresizingMaskIntoConstraints = false
@@ -80,6 +88,7 @@ class ReusableTabBar: UIView {
         pilihSemuaText.translatesAutoresizingMaskIntoConstraints = false
         hewanDipilih.translatesAutoresizingMaskIntoConstraints = false
         boxBtn.translatesAutoresizingMaskIntoConstraints = false
+        lineView.translatesAutoresizingMaskIntoConstraints = false
         
         //MARK: - Setup Constraint
         NSLayoutConstraint.activate([
@@ -96,8 +105,11 @@ class ReusableTabBar: UIView {
             
             pilihSemuaText.leadingAnchor.constraint(equalTo: boxBtn.trailingAnchor, constant: 8),
             pilihSemuaText.topAnchor.constraint(equalTo: hewanDipilih.bottomAnchor, constant: 4),
-            pilihSemuaText.centerYAnchor.constraint(equalTo: boxBtn.centerYAnchor)
+            pilihSemuaText.centerYAnchor.constraint(equalTo: boxBtn.centerYAnchor),
             
+            lineView.topAnchor.constraint(equalTo: self.topAnchor),
+            lineView.widthAnchor.constraint(equalToConstant: 500),
+            lineView.heightAnchor.constraint(equalToConstant: 1),
         ])
         
     }
