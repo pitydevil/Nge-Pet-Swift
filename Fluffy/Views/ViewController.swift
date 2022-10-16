@@ -10,7 +10,7 @@ import UIKit
 class ViewController: UIViewController {
     
     private var card:MonitoringCard = {
-        let card = MonitoringCard(frame: (CGRect(x: 0, y: 0, width: 342, height: 432)), location: "Atlassian Pet Hotel Atlassian Pet Hotel", cardTitleString: "Kasih Makan Ya Makasih HHEHE", cardDescription: "Tolong kasih makan ya Tolong kasih makan ya Tolong kasih makan ya Tolong kasih makan ya Tolong kasih makan ya Tolong kasih makan ya Tolong kasih makan ya ", timeStamp: "8pm", dogNameString: "Blekki Irrrwhjfwej", petIconString: "pugIcon", newPost: false, carouselData: [CarouselData(image: UIImage(named: "slide1")), CarouselData(image: UIImage(named: "slide2")), CarouselData(image: UIImage(named: "slide3"))])
+        let card = MonitoringCard(frame: (CGRect(x: 0, y: 0, width: 342, height: 432)), location: "Atlassian Pet Hotel Atlassian Pet Hotel", cardTitleString: "Kasih Makan Ya Makasih HHEHE", cardDescription: "Tolong kasih makan ya Tolong kasih makan ya Tolong kasih makan ya Tolong kasih makan ya Tolong kasih makan ya Tolong kasih makan ya Tolong kasih makan ya ", timeStamp: "8pm", dogNameString: "Blekki Irrrwhjfwej", petIconString: "pugIcon", newPost: true, carouselData: [CarouselData(image: UIImage(named: "slide1")), CarouselData(image: UIImage(named: "slide2")), CarouselData(image: UIImage(named: "slide3"))])
         return card
     }()
 
@@ -19,12 +19,14 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        view.backgroundColor = .systemGray2
         view.addSubview(card)
-        card.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        card.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        card.widthAnchor.constraint(equalToConstant:342).isActive = true
+        view.backgroundColor = .systemGray2
+        card.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+//        card.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        view.addSubview(card)
+        card.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        card.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+//        card.widthAnchor.constraint(greaterThanOrEqualToConstant:342).isActive = true
         card.heightAnchor.constraint(greaterThanOrEqualToConstant: 432).isActive = true
 //
         
