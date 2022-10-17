@@ -1,13 +1,13 @@
 //
-//  ModalMonitoringPetViewController.swift
+//  ModalSelectPetViewController.swift
 //  Fluffy
 //
-//  Created by Zacky Ilahi Azmi on 12/10/22.
+//  Created by Zacky Ilahi Azmi on 17/10/22.
 //
 
 import UIKit
 
-class ModalMonitoringPetViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ModalSelectPetViewController: UIViewController {
     
     private lazy var indicator: UIImageView = {
         let indicator = UIImageView()
@@ -72,9 +72,15 @@ class ModalMonitoringPetViewController: UIViewController, UITableViewDelegate, U
         ])
         
         customBar.barBtn.addTarget(self, action: #selector(petSelected), for: .touchUpInside)
-        
     }
     
+    @objc func petSelected() {
+        dismiss(animated: true)
+    }
+
+}
+
+extension ModalSelectPetViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -131,9 +137,4 @@ class ModalMonitoringPetViewController: UIViewController, UITableViewDelegate, U
         }
     }
     
-    @objc func petSelected() {
-        dismiss(animated: true)
-    }
-    
-
 }
