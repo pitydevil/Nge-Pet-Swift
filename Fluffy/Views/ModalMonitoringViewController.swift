@@ -7,7 +7,11 @@
 
 import UIKit
 
-class ModalMonitoringPetViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ModalMonitoringViewController: UIViewController {
+    
+    var isChecked = false
+    let checkedImage = UIImage(systemName: "checkmark.square.fill")
+    let uncheckedImage = UIImage(systemName: "square")
     
     private lazy var indicator: UIImageView = {
         let indicator = UIImageView()
@@ -24,18 +28,21 @@ class ModalMonitoringPetViewController: UIViewController, UITableViewDelegate, U
     }()
     
     private lazy var modalTableView: UITableView = {
-        let modalTableView = UITableView()
+        let modalTableView = UITableView(frame: CGRect(), style: .plain)
         modalTableView.delegate = self
         modalTableView.dataSource = self
         modalTableView.backgroundColor = UIColor(named: "white")
         modalTableView.register(ModalMonitoringTableViewCell.self, forCellReuseIdentifier: ModalMonitoringTableViewCell.cellId)
         modalTableView.translatesAutoresizingMaskIntoConstraints = false
+        modalTableView.allowsMultipleSelection = true
         modalTableView.separatorStyle = .none
         return modalTableView
     }()
     
     private lazy var customBar: ReusableTabBar = {
-        let customBar = ReusableTabBar(btnText: "Pilih", showText: .show, isChecked: false)
+        let customBar = ReusableTabBar(btnText: "Pilih", showText: .show)
+        customBar.barBtn.addTarget(self, action: #selector(petSelected), for: .touchUpInside)
+        customBar.boxBtn.addTarget(self, action: #selector(isClicked), for: .touchUpInside)
         return customBar
     }()
 
@@ -45,25 +52,21 @@ class ModalMonitoringPetViewController: UIViewController, UITableViewDelegate, U
         view.backgroundColor = UIColor(named: "white")
         
         view.addSubview(indicator)
+        view.addSubview(headline)
+        view.addSubview(modalTableView)
+        view.addSubview(customBar)
+        
         NSLayoutConstraint.activate([
             indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            indicator.topAnchor.constraint(equalTo: view.topAnchor, constant: 4)
         ])
-        
-        view.addSubview(headline)
+
         NSLayoutConstraint.activate([
             headline.topAnchor.constraint(equalTo: view.topAnchor, constant: 48),
             headline.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            headline.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -222),
         ])
         
-        view.addSubview(modalTableView)
-        NSLayoutConstraint.activate([
-            modalTableView.topAnchor.constraint(equalTo: headline.bottomAnchor, constant: 0),
-            modalTableView.widthAnchor.constraint(equalToConstant: 342),
-            modalTableView.heightAnchor.constraint(equalToConstant: view.bounds.height),
-            modalTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-        ])
-        
-        view.addSubview(customBar)
         NSLayoutConstraint.activate([
             customBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             
@@ -71,10 +74,41 @@ class ModalMonitoringPetViewController: UIViewController, UITableViewDelegate, U
             customBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
         
-        customBar.barBtn.addTarget(self, action: #selector(petSelected), for: .touchUpInside)
+        NSLayoutConstraint.activate([
+            modalTableView.topAnchor.constraint(equalTo: headline.bottomAnchor, constant: 0),
+            modalTableView.widthAnchor.constraint(equalToConstant: 342),
+            modalTableView.bottomAnchor.constraint(equalTo: customBar.topAnchor, constant: -20),
+            modalTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+        ])
         
     }
     
+    @objc func petSelected() {
+        dismiss(animated: true)
+    }
+    
+    @objc func isClicked() {
+        isChecked = !isChecked
+        
+        for index in 0...3 {
+            let indexPath = IndexPath(row: index, section: 0)
+            if isChecked {
+                customBar.boxBtn.setImage(checkedImage, for: .normal)
+                if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
+                    cell.checkedImage.image = UIImage(systemName: "checkmark")
+                }
+            } else {
+                customBar.boxBtn.setImage(uncheckedImage, for: .normal)
+                if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
+                    cell.checkedImage.image = UIImage()
+                }
+            }
+        }
+    }
+    
+}
+
+extension ModalMonitoringViewController: UITableViewDataSource, UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -88,6 +122,7 @@ class ModalMonitoringPetViewController: UIViewController, UITableViewDelegate, U
             label = ReuseableLabel(labelText: "Belum Dititipkan", labelType: .titleH2, labelColor: .black)
         }
         headerView.addSubview(label)
+        headerView.backgroundColor = UIColor(named: "white")
         return headerView
     }
     
@@ -112,28 +147,26 @@ class ModalMonitoringPetViewController: UIViewController, UITableViewDelegate, U
         }
         
         return cell
+
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = modalTableView.cellForRow(at: indexPath) as! ModalMonitoringTableViewCell
         if indexPath.section == 0 {
-            cell.isUserInteractionEnabled = true
-            if cell.isChecked == false {
-                cell.isChecked = true
-                cell.checkedImage.image = UIImage(systemName: "checkmark")
-            } else {
-                cell.isChecked = false
-                cell.checkedImage.image = UIImage()
-            }
+            cell.checkedImage.image = UIImage(systemName: "checkmark")
         } else {
             cell.isUserInteractionEnabled = false
-            
+        }
+        
+    }
+    
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        let cell = modalTableView.cellForRow(at: indexPath) as! ModalMonitoringTableViewCell
+        if indexPath.section == 0 {
+            cell.checkedImage.image = UIImage()
+        } else {
+            cell.isUserInteractionEnabled = false
         }
     }
     
-    @objc func petSelected() {
-        dismiss(animated: true)
-    }
-    
-
 }

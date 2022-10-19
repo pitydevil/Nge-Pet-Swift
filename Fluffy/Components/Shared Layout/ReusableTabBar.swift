@@ -22,6 +22,7 @@ class ReusableTabBar: UIView {
     let boxBtn = UIButton()
     let checkedImage = UIImage(systemName: "checkmark.square.fill")
     let uncheckedImage = UIImage(systemName: "square")
+    var isChecked = false
     
     enum textBox {
         case show
@@ -30,12 +31,10 @@ class ReusableTabBar: UIView {
     
     public private(set) var btnText: String
     public private(set) var showText: textBox
-    public private(set) var isChecked: Bool
     
-    init(btnText: String, showText: textBox, isChecked: Bool) {
+    init(btnText: String, showText: textBox) {
         self.btnText = btnText
         self.showText = showText
-        self.isChecked = isChecked
         
         super.init(frame: .zero)
         
@@ -48,18 +47,22 @@ class ReusableTabBar: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+//    @objc func isClicked() {
+//        isChecked = !isChecked
+//        if isChecked {
+//            boxBtn.setImage(checkedImage, for: .normal)
+//        } else {
+//            boxBtn.setImage(uncheckedImage, for: .normal)
+//        }
+//    }
     
     private func configureLayout() {
         switch showText {
         case .show:
             
             boxBtn.tintColor = UIColor(named: "primaryMain")
-            
-            if isChecked == false {
-                boxBtn.setImage(uncheckedImage, for: .normal)
-            } else {
-                boxBtn.setImage(checkedImage, for: .normal)
-            }
+//            boxBtn.addTarget(self, action: #selector(isClicked), for: .touchUpInside)
+            boxBtn.setImage(uncheckedImage, for: .normal)
             
         case .notShow:
             pilihSemuaText.text = ""
@@ -69,7 +72,6 @@ class ReusableTabBar: UIView {
         
         barBtn.configuration?.attributedTitle = AttributedString(btnText, attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 16)!]))
         
-//        lineView.layer.borderWidth = 1.0
         lineView.backgroundColor = UIColor(named: "grey2")
         
         //MARK: - Set View Background

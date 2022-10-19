@@ -18,7 +18,7 @@ class ModalMonitoringTableViewCell: UITableViewCell {
     
     let checkedImage = UIImageView()
     
-    var isChecked: Bool = false
+    var isCheck: Bool = false
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -45,6 +45,7 @@ class ModalMonitoringTableViewCell: UITableViewCell {
         checkedImage.image = UIImage()
         checkedImage.tintColor = UIColor(named: "primaryMain")
         
+        //MARK: - Setup Constraint
         NSLayoutConstraint.activate([
             petIcon.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 12),
             petIcon.topAnchor.constraint(equalTo: self.topAnchor, constant: 12),
