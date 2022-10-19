@@ -42,11 +42,15 @@ class TapBar: UITabBarController {
     }
     
     func setupVCs() {
-        viewControllers = [
-            createNavController(for: ExploreViewController(), title: NSLocalizedString("Jelajahi", comment: ""), image: UIImage(systemName: "magnifyingglass")!),
-            createNavController(for: MonitoringViewController(), title: NSLocalizedString("Monitoring", comment: ""), image: UIImage(systemName: "display")!),
-            createNavController(for: PetViewController(), title: NSLocalizedString("Peliharaan", comment: ""), image: UIImage(systemName: "pawprint.fill")!),
-            createNavController(for: BookingViewController(), title: NSLocalizedString("Pesanan", comment: ""), image: UIImage(systemName: "doc.text.fill")!)
-        ]
+        if #available(iOS 16.0, *) {
+            viewControllers = [
+                createNavController(for: ExploreViewController(), title: NSLocalizedString("Jelajahi", comment: ""), image: UIImage(systemName: "magnifyingglass")!),
+                createNavController(for: MonitoringViewController(), title: NSLocalizedString("Monitoring", comment: ""), image: UIImage(systemName: "display")!),
+                createNavController(for: PetViewController(), title: NSLocalizedString("Peliharaan", comment: ""), image: UIImage(systemName: "pawprint.fill")!),
+                createNavController(for: BookingViewController(), title: NSLocalizedString("Pesanan", comment: ""), image: UIImage(systemName: "doc.text.fill")!)
+            ]
+        } else {
+            // Fallback on earlier versions
+        }
     }
 }

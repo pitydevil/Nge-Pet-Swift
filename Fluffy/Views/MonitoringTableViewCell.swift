@@ -44,7 +44,7 @@ class MonitoringTableViewCell: UITableViewCell {
     
     private lazy var dogName:ReuseableLabel = ReuseableLabel(labelText: "Doggo", labelType: .bodyP2, labelColor: .grey1)
     
-    private var notification:UIView = {
+    private lazy var notification:UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: 8))
         view.layer.cornerRadius = view.layer.bounds.width/2
         view.backgroundColor = UIColor(named: "newError")
@@ -80,6 +80,7 @@ class MonitoringTableViewCell: UITableViewCell {
             pageControl.currentPage = currentPage
         }
     }
+    private lazy var newPost:Bool = true
     
     //MARK: - Initializer
     
@@ -88,7 +89,7 @@ class MonitoringTableViewCell: UITableViewCell {
         contentView.layer.cornerRadius = 12
         contentView.layer.masksToBounds = false
         contentView.layer.shadowRadius = 4.0
-        contentView.layer.shadowOpacity = 0.20
+        contentView.layer.shadowOpacity = 0.1
         contentView.layer.shadowColor = UIColor.gray.cgColor
         contentView.layer.shadowOffset = CGSize(width: 4, height: 4)
     }
@@ -101,7 +102,9 @@ class MonitoringTableViewCell: UITableViewCell {
         contentView.addSubview(cardTitle)
         contentView.addSubview(timeLabel)
         contentView.addSubview(descriptionLabel)
-        contentView.addSubview(notification)
+        if newPost{
+            contentView.addSubview(notification)
+        }
         contentView.addSubview(petIcon)
         contentView.addSubview(dogName)
         contentView.addSubview(carouselCollectionView)
@@ -127,94 +130,7 @@ class MonitoringTableViewCell: UITableViewCell {
 //MARK: - Setups
 
 extension MonitoringTableViewCell{
-    
-    func autoResizeConstraint() {
-        dogName.translatesAutoresizingMaskIntoConstraints = false
-        cardTitle.translatesAutoresizingMaskIntoConstraints = false
-        timeLabel.translatesAutoresizingMaskIntoConstraints = false
-        locationLabel.translatesAutoresizingMaskIntoConstraints = false
-        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
-        locIcon.translatesAutoresizingMaskIntoConstraints = false
-        petIcon.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    func heightForView(text:String, font:UIFont, width:CGFloat) -> CGFloat{
-        let label:UILabel = UILabel(frame: CGRectMake(0, 0, width, CGFloat.greatestFiniteMagnitude))
-        label.numberOfLines = 5
-        label.lineBreakMode = NSLineBreakMode.byWordWrapping
-        label.font = font
-        label.text = text
 
-        label.sizeToFit()
-        return label.frame.height
-    }
-    
-    func descriptionConstraint() {
-        descriptionLabel.numberOfLines = 0
-        descriptionLabel.textAlignment = .justified
-        descriptionLabel.showsExpansionTextWhenTruncated = true
-        
-        descriptionLabel.topAnchor.constraint(equalTo: cardTitle.bottomAnchor, constant: 8).isActive = true
-        descriptionLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
-        descriptionLabel.rightAnchor.constraint(equalTo: dogName.leftAnchor, constant: -24).isActive = true
-        descriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 64).isActive = true
-    }
-    
-    func notificationConstraint() {
-        notification.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
-        notification.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
-        notification.widthAnchor.constraint(equalToConstant: 8).isActive = true
-        notification.heightAnchor.constraint(equalToConstant: 8).isActive = true
-    }
-    
-    func cardTitleConstraint() {
-        cardTitle.numberOfLines = 1
-        cardTitle.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
-        cardTitle.rightAnchor.constraint(equalTo: timeLabel.leftAnchor, constant: -8).isActive = true
-        cardTitle.topAnchor.constraint(equalTo: locIcon.bottomAnchor, constant: 4).isActive = true
-        cardTitle.heightAnchor.constraint(equalToConstant: 24).isActive = true
-    }
-    
-    func timeConstraint() {
-        timeLabel.leftAnchor.constraint(equalTo: cardTitle.rightAnchor,constant:8).isActive = true
-        timeLabel.heightAnchor.constraint(equalTo: cardTitle.heightAnchor).isActive = true
-        timeLabel.centerYAnchor.constraint(equalTo: cardTitle.centerYAnchor).isActive = true
-        timeLabel.rightAnchor.constraint(equalTo: dogName.leftAnchor, constant: -24).isActive = true
-        timeLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: timeLabel.intrinsicContentSize.width).isActive = true
-    }
-    
-    func dogNameConstraint() {
-        dogName.numberOfLines = 1
-        dogName.textAlignment = .right
-        
-        dogName.topAnchor.constraint(equalTo: petIcon.bottomAnchor, constant: 8).isActive = true
-        dogName.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
-        dogName.widthAnchor.constraint(equalToConstant: 60).isActive = true
-    }
-    
-    func petIconConstraint() {
-        petIcon.layer.cornerRadius = petIcon.frame.height/2
-        petIcon.layer.masksToBounds = true
-        petIcon.widthAnchor.constraint(equalToConstant: 32).isActive = true
-        petIcon.heightAnchor.constraint(equalToConstant: 32).isActive = true
-        petIcon.topAnchor.constraint(equalTo: notification.bottomAnchor, constant: 8).isActive = true
-        petIcon.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
-    }
-    
-    func locationLabelConstraint() {
-        locationLabel.numberOfLines = 1
-        locationLabel.leftAnchor.constraint(equalTo: locIcon.rightAnchor, constant: 4).isActive = true
-        locationLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
-        locationLabel.centerYAnchor.constraint(equalTo: locIcon.centerYAnchor).isActive = true
-    }
-    
-    func locIconConstraint() {
-        locIcon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
-        locIcon.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
-        locIcon.widthAnchor.constraint(equalToConstant: 20).isActive = true
-        locIcon.heightAnchor.constraint(equalToConstant: 20).isActive = true
-    }
-    
     func setupCollectionView() {
         carouselCollectionView.translatesAutoresizingMaskIntoConstraints = false
         carouselCollectionView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor,constant: 20).isActive = true
@@ -235,16 +151,83 @@ extension MonitoringTableViewCell{
     }
     
     func setupConstraint() {
-        autoResizeConstraint()
-        locIconConstraint()
-        locationLabelConstraint()
-        petIconConstraint()
-        dogNameConstraint()
-        timeConstraint()
-        cardTitleConstraint()
-        notificationConstraint()
-        descriptionConstraint()
+        //MARK: Autoresize constraints
+        dogName.translatesAutoresizingMaskIntoConstraints = false
+        cardTitle.translatesAutoresizingMaskIntoConstraints = false
+        timeLabel.translatesAutoresizingMaskIntoConstraints = false
+        locationLabel.translatesAutoresizingMaskIntoConstraints = false
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        locIcon.translatesAutoresizingMaskIntoConstraints = false
+        petIcon.translatesAutoresizingMaskIntoConstraints = false
+        
+        //MARK: Location Icon Constraints
+        locIcon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
+        locIcon.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
+        locIcon.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        locIcon.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        //MARK: Location Label Constraints
+        locationLabel.numberOfLines = 1
+        locationLabel.leftAnchor.constraint(equalTo: locIcon.rightAnchor, constant: 4).isActive = true
+        locationLabel.widthAnchor.constraint(equalToConstant: 200).isActive = true
+        locationLabel.centerYAnchor.constraint(equalTo: locIcon.centerYAnchor).isActive = true
+        
+        //MARK: Dog Name Constraints
+        dogName.numberOfLines = 1
+        dogName.textAlignment = .right
+        
+        dogName.topAnchor.constraint(equalTo: petIcon.bottomAnchor, constant: 8).isActive = true
+        dogName.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
+        dogName.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        
+        //MARK: Time Constraints
+        timeLabel.leftAnchor.constraint(equalTo: cardTitle.rightAnchor,constant:8).isActive = true
+        timeLabel.heightAnchor.constraint(equalTo: cardTitle.heightAnchor).isActive = true
+        timeLabel.centerYAnchor.constraint(equalTo: cardTitle.centerYAnchor).isActive = true
+        timeLabel.rightAnchor.constraint(equalTo: dogName.leftAnchor, constant: -24).isActive = true
+        timeLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: timeLabel.intrinsicContentSize.width).isActive = true
+        
+        //MARK: Card Title Constraints
+        cardTitle.numberOfLines = 1
+        cardTitle.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
+        cardTitle.rightAnchor.constraint(equalTo: timeLabel.leftAnchor, constant: -8).isActive = true
+        cardTitle.topAnchor.constraint(equalTo: locIcon.bottomAnchor, constant: 4).isActive = true
+        cardTitle.heightAnchor.constraint(equalToConstant: 24).isActive = true
+        
+        //MARK: Notification Constraints
+        if newPost{
+            notification.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
+            notification.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
+            notification.widthAnchor.constraint(equalToConstant: 8).isActive = true
+            notification.heightAnchor.constraint(equalToConstant: 8).isActive = true
+            petIcon.topAnchor.constraint(equalTo: notification.bottomAnchor, constant: 8).isActive = true
+        }
+        else{
+            
+            petIcon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
+        }
+        
+        //MARK: Pet Icon Constraints
+        petIcon.layer.cornerRadius = petIcon.frame.height/2
+        petIcon.layer.masksToBounds = true
+        petIcon.widthAnchor.constraint(equalToConstant: 32).isActive = true
+        petIcon.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        petIcon.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
+        
+        //MARK: Description Constraints
+        descriptionLabel.numberOfLines = 0
+        descriptionLabel.textAlignment = .justified
+        descriptionLabel.showsExpansionTextWhenTruncated = true
+        
+        descriptionLabel.topAnchor.constraint(equalTo: cardTitle.bottomAnchor, constant: 8).isActive = true
+        descriptionLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
+        descriptionLabel.rightAnchor.constraint(equalTo: dogName.leftAnchor, constant: -24).isActive = true
+        descriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 64).isActive = true
+        
+        //MARK: Carousel Setup
         setupCollectionView()
+        
+        //MARK: Page Control Setup
         setupPageControl()
     }
     
@@ -252,7 +235,7 @@ extension MonitoringTableViewCell{
 
 //MARK: - Public
 extension MonitoringTableViewCell{
-    public func configure(location:String, cardTitleString:String, timestamp:String, description:String, petImage:String, dogNameString:String, carouselData:[CarouselData]){
+     func configure(location:String, cardTitleString:String, timestamp:String, description:String, petImage:String, dogNameString:String, carouselData:[CarouselData], isNew:Bool){
         locationLabel.text = location
         cardTitle.text = cardTitleString
         descriptionLabel.text = description
@@ -261,6 +244,7 @@ extension MonitoringTableViewCell{
         timeLabel.text = timestamp
         self.configureView(with: carouselData)
         pageControl.numberOfPages = carouselData.count
+        newPost = isNew
     }
 }
 
