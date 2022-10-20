@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D85597928F6733D00591A80 /* CheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85597828F6733D00591A80 /* CheckViewController.swift */; };
+		1D19FE1828FD535100476DC0 /* ModalSelectPetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D19FE1728FD535100476DC0 /* ModalSelectPetViewController.swift */; };
 		1D85597B28F6735A00591A80 /* ModalMonitoringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85597A28F6735A00591A80 /* ModalMonitoringViewController.swift */; };
 		1D85597F28F821EA00591A80 /* ModalMonitoringTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85597E28F821EA00591A80 /* ModalMonitoringTableViewCell.swift */; };
 		1D8576FE28EBFF9C00CF2D5E /* Inter-VariableFont_slnt,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D8576DD28EBFF9B00CF2D5E /* Inter-VariableFont_slnt,wght.ttf */; };
@@ -93,7 +93,7 @@
 /* Begin PBXFileReference section */
 		0CB3843C1C3EF3989435CB05 /* Pods-FluffyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluffyTests.debug.xcconfig"; path = "Target Support Files/Pods-FluffyTests/Pods-FluffyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		131CE0F91D3B34797E8AB832 /* Pods-FluffyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluffyTests.release.xcconfig"; path = "Target Support Files/Pods-FluffyTests/Pods-FluffyTests.release.xcconfig"; sourceTree = "<group>"; };
-		1D85597828F6733D00591A80 /* CheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckViewController.swift; sourceTree = "<group>"; };
+		1D19FE1728FD535100476DC0 /* ModalSelectPetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalSelectPetViewController.swift; sourceTree = "<group>"; };
 		1D85597A28F6735A00591A80 /* ModalMonitoringViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalMonitoringViewController.swift; sourceTree = "<group>"; };
 		1D85597E28F821EA00591A80 /* ModalMonitoringTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalMonitoringTableViewCell.swift; sourceTree = "<group>"; };
 		1D8576DD28EBFF9B00CF2D5E /* Inter-VariableFont_slnt,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-VariableFont_slnt,wght.ttf"; sourceTree = "<group>"; };
@@ -306,8 +306,8 @@
 			isa = PBXGroup;
 			children = (
 				4B78DB2528EAD8C800744386 /* View.swift */,
-				1D85597828F6733D00591A80 /* CheckViewController.swift */,
 				1D85597A28F6735A00591A80 /* ModalMonitoringViewController.swift */,
+				1D19FE1728FD535100476DC0 /* ModalSelectPetViewController.swift */,
 				1D85597E28F821EA00591A80 /* ModalMonitoringTableViewCell.swift */,
 				4EC56E4D28F826BB008ADD7F /* MonitoringViewController.swift */,
 				4EC56E4F28F84387008ADD7F /* MonitoringTableViewCell.swift */,
@@ -754,6 +754,7 @@
 				4B78DB2E28EAD8F200744386 /* specific layout.swift in Sources */,
 				1D85597F28F821EA00591A80 /* ModalMonitoringTableViewCell.swift in Sources */,
 				4EC56E4C28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift in Sources */,
+				1D19FE1828FD535100476DC0 /* ModalSelectPetViewController.swift in Sources */,
 				4E5068AA28FD54D00005ADBF /* ExploreViewController.swift in Sources */,
 				4BC609D728E572DE007A6DB0 /* AppDelegate.swift in Sources */,
 				4BC609D928E572DE007A6DB0 /* SceneDelegate.swift in Sources */,
@@ -761,7 +762,6 @@
 				1DA5543728EEA1570040E4F7 /* ReusableButton.swift in Sources */,
 				4B78DB1C28EAD8A200744386 /* Style Guide.swift in Sources */,
 				4B78DB3128EAD90700744386 /* Api Services.swift in Sources */,
-				1D85597928F6733D00591A80 /* CheckViewController.swift in Sources */,
 				4E684C6228ED41B0009B4173 /* CarouselCollectionViewCell.swift in Sources */,
 				4B78DB3528EAD91C00744386 /* API Model.swift in Sources */,
 				4BC60A1628E57459007A6DB0 /* Helper Class.swift in Sources */,
