@@ -13,7 +13,9 @@ class ModalSelectPetViewController: UIViewController {
     var isCheck = false
     let checkedImage = UIImage(systemName: "checkmark.square.fill")
     let uncheckedImage = UIImage(systemName: "square")
-    var selectedCellPath: IndexPath?
+    
+    //MARK: - Show Empty State vs Exist State
+    var isPetExist = true
     
     private lazy var indicator: UIImageView = {
         let indicator = UIImageView()
@@ -22,6 +24,34 @@ class ModalSelectPetViewController: UIViewController {
         indicator.tintColor = UIColor(named: "grey2")
         indicator.translatesAutoresizingMaskIntoConstraints = false
         return indicator
+    }()
+    
+    private lazy var emptyHeadline: ReuseableLabel = {
+        let emptyHeadline = ReuseableLabel(labelText: "Yah, Daftar Hewannmu Kosong!", labelType: .titleH1, labelColor: .black)
+        emptyHeadline.textAlignment = .center
+        return emptyHeadline
+    }()
+    
+    private lazy var emptyImage: UIImageView = {
+        let emptyImage = UIImageView()
+        emptyImage.image = UIImage(named: "emptyPet")
+        emptyImage.contentMode = .scaleAspectFit
+        emptyImage.translatesAutoresizingMaskIntoConstraints = false
+        return emptyImage
+    }()
+    
+    private lazy var emptyCaption: ReuseableLabel = {
+        let emptyCaption = ReuseableLabel(labelText: "Yuk, Tambah Hewan dan Permudah Pencarian Hotelmu!", labelType: .bodyP1, labelColor: .grey1)
+        emptyCaption.textAlignment = .center
+        emptyCaption.spacing = 5
+        return emptyCaption
+    }()
+    
+    private lazy var addPetBtn: ReusableButton = {
+        let config = UIImage.SymbolConfiguration(weight: .bold)
+        let addPetBtn = ReusableButton(titleBtn: "Tambah Hewan", styleBtn: .normal, icon: UIImage(systemName: "plus", withConfiguration: config))
+        addPetBtn.addTarget(self, action: #selector(addPet), for: .touchUpInside)
+        return addPetBtn
     }()
     
     private lazy var headline: ReuseableLabel = {
@@ -56,39 +86,81 @@ class ModalSelectPetViewController: UIViewController {
 
         view.backgroundColor = UIColor(named: "white")
         
+        if isPetExist == true {
+            petExist()
+        } else {
+            emptyPet()
+        }
+        
+    }
+    
+    //MARK: - Setup Layout
+    private func emptyPet(){
+        //MARK: - Add Subview Empty Pet
+        view.addSubview(indicator)
+        view.addSubview(emptyHeadline)
+        view.addSubview(emptyImage)
+        view.addSubview(emptyCaption)
+        view.addSubview(addPetBtn)
+        
+        //MARK: - Setup Layout Empty Pet
+        NSLayoutConstraint.activate([
+            indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            indicator.topAnchor.constraint(equalTo: view.topAnchor, constant: 4),
+            
+            emptyHeadline.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyHeadline.topAnchor.constraint(equalTo: view.topAnchor, constant: 123),
+            emptyHeadline.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            emptyHeadline.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            
+            emptyImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyImage.topAnchor.constraint(equalTo: emptyHeadline.bottomAnchor, constant: 8),
+            emptyImage.heightAnchor.constraint(equalToConstant: 270),
+            emptyImage.widthAnchor.constraint(equalToConstant: 270),
+            
+            emptyCaption.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyCaption.topAnchor.constraint(equalTo: emptyImage.bottomAnchor, constant: 8),
+            emptyCaption.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            emptyCaption.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            
+            addPetBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            addPetBtn.topAnchor.constraint(equalTo: emptyCaption.bottomAnchor, constant: 20),
+        ])
+    }
+    
+    private func petExist() {
+        //MARK: - Add Subview Pet
         view.addSubview(indicator)
         view.addSubview(headline)
         view.addSubview(modalTableView)
         view.addSubview(customBar)
         
+        //MARK: - Setup Layout Pet
         NSLayoutConstraint.activate([
             indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            indicator.topAnchor.constraint(equalTo: view.topAnchor, constant: 4)
-        ])
-
-        NSLayoutConstraint.activate([
+            indicator.topAnchor.constraint(equalTo: view.topAnchor, constant: 4),
+            
             headline.topAnchor.constraint(equalTo: view.topAnchor, constant: 48),
             headline.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             headline.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -222),
-        ])
-        
-        NSLayoutConstraint.activate([
-            customBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             
+            customBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             customBar.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             customBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-        ])
-        
-        NSLayoutConstraint.activate([
+            
             modalTableView.topAnchor.constraint(equalTo: headline.bottomAnchor, constant: 0),
             modalTableView.widthAnchor.constraint(equalToConstant: 342),
             modalTableView.bottomAnchor.constraint(equalTo: customBar.topAnchor, constant: -20),
             modalTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
         ])
-        
     }
     
+    //MARK: - Button Target
     @objc func petSelected() {
+        dismiss(animated: true)
+    }
+    
+    @objc func addPet() {
         dismiss(animated: true)
     }
     
@@ -154,7 +226,7 @@ extension ModalSelectPetViewController: UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return 1
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -181,4 +253,19 @@ extension ModalSelectPetViewController: UITableViewDataSource, UITableViewDelega
 
     }
     
+}
+
+//MARK: - Adding Line Spacing for UILabel
+extension UILabel {
+    var spacing:CGFloat {
+        get {return 0}
+        set {
+            let textAlignment = self.textAlignment
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.lineSpacing = newValue
+            let attributedString = NSAttributedString(string: self.text ?? "", attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
+            self.attributedText = attributedString
+            self.textAlignment = textAlignment
+        }
+    }
 }
