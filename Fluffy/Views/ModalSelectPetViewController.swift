@@ -13,6 +13,7 @@ class ModalSelectPetViewController: UIViewController {
     var isCheck = false
     let checkedImage = UIImage(systemName: "checkmark.square.fill")
     let uncheckedImage = UIImage(systemName: "square")
+    var selectedCellPath: IndexPath?
     
     private lazy var indicator: UIImageView = {
         let indicator = UIImageView()
@@ -39,6 +40,7 @@ class ModalSelectPetViewController: UIViewController {
         modalTableView.separatorStyle = .none
         modalTableView.showsVerticalScrollIndicator = false
         modalTableView.sectionHeaderTopPadding = 20
+        modalTableView.isScrollEnabled = true
         return modalTableView
     }()
     
@@ -98,12 +100,12 @@ class ModalSelectPetViewController: UIViewController {
                 if isChecked {
                     customBar.boxBtn.setImage(checkedImage, for: .normal)
                     if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
-                        cell.checkedImage.image = UIImage(systemName: "checkmark")
+                        cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
                     }
                 } else {
                     customBar.boxBtn.setImage(uncheckedImage, for: .normal)
                     if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
-                        cell.checkedImage.image = UIImage()
+                        cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
                     }
                 }
             }
@@ -152,7 +154,7 @@ extension ModalSelectPetViewController: UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 5
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -160,25 +162,22 @@ extension ModalSelectPetViewController: UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ModalMonitoringTableViewCell.cellId, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: ModalMonitoringTableViewCell.cellId, for: indexPath) as! ModalMonitoringTableViewCell
         cell.contentView.backgroundColor = UIColor(named: "grey3")
-        
-        
+        cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = modalTableView.cellForRow(at: indexPath) as! ModalMonitoringTableViewCell
-        cell.checkedImage.image = UIImage(systemName: "checkmark")
-        print("\(indexPath.row)")
-        print("\(modalTableView.indexPathsForSelectedRows)")
-        print("\(modalTableView.indexPathForSelectedRow)")
+        cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
+        
         
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let cell = modalTableView.cellForRow(at: indexPath) as! ModalMonitoringTableViewCell
-        cell.checkedImage.image = UIImage()
+        cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
 
     }
     

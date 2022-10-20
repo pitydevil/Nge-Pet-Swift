@@ -95,12 +95,12 @@ class ModalMonitoringViewController: UIViewController {
             if isChecked {
                 customBar.boxBtn.setImage(checkedImage, for: .normal)
                 if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
-                    cell.checkedImage.image = UIImage(systemName: "checkmark")
+                    cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
                 }
             } else {
                 customBar.boxBtn.setImage(uncheckedImage, for: .normal)
                 if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
-                    cell.checkedImage.image = UIImage()
+                    cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
                 }
             }
         }
@@ -114,16 +114,25 @@ extension ModalMonitoringViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        var label = ReuseableLabel(labelText: "Sedang Dititipkan", labelType: .titleH2, labelColor: .black)
-        if section == 0 {
-            label = ReuseableLabel(labelText: "Sedang Dititipkan", labelType: .titleH2, labelColor: .black)
-        } else {
-            label = ReuseableLabel(labelText: "Belum Dititipkan", labelType: .titleH2, labelColor: .black)
+        let title = UILabel()
+        title.font = UIFont(name: "Poppins-Bold", size: 16)
+        title.text = self.tableView(tableView, titleForHeaderInSection: section)
+        title.textColor = UIColor(named: "black")
+        title.backgroundColor = UIColor(named: "white")
+        return title
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let sectionName: String
+        switch section {
+        case 0:
+            sectionName = NSLocalizedString("Sedang Dititipkan", comment: "Sedang Dititipkan")
+        case 1:
+            sectionName = NSLocalizedString("Belum Dititipkan", comment: "Belum Dititipkan")
+        default:
+            sectionName = NSLocalizedString("Sedang Dititipkan", comment: "Sedang Dititipkan")
         }
-        headerView.addSubview(label)
-        headerView.backgroundColor = UIColor(named: "white")
-        return headerView
+        return sectionName
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -139,7 +148,8 @@ extension ModalMonitoringViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ModalMonitoringTableViewCell.cellId, for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: ModalMonitoringTableViewCell.cellId, for: indexPath) as! ModalMonitoringTableViewCell
+        cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
         if indexPath.section == 0 {
             cell.contentView.backgroundColor = UIColor(named: "grey3")
         } else {
@@ -153,7 +163,7 @@ extension ModalMonitoringViewController: UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = modalTableView.cellForRow(at: indexPath) as! ModalMonitoringTableViewCell
         if indexPath.section == 0 {
-            cell.checkedImage.image = UIImage(systemName: "checkmark")
+            cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
         } else {
             cell.isUserInteractionEnabled = false
         }
@@ -163,7 +173,7 @@ extension ModalMonitoringViewController: UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let cell = modalTableView.cellForRow(at: indexPath) as! ModalMonitoringTableViewCell
         if indexPath.section == 0 {
-            cell.checkedImage.image = UIImage()
+            cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
         } else {
             cell.isUserInteractionEnabled = false
         }

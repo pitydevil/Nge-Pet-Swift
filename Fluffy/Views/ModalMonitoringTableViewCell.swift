@@ -12,11 +12,21 @@ class ModalMonitoringTableViewCell: UITableViewCell {
     // MARK: - Properties
     static let cellId = "ModalMonitoringTableViewCell"
     
-    var petName = ReuseableLabel(labelText: "Bom Bom", labelType: .bodyP2, labelColor: .grey1)
+    private lazy var petName = ReuseableLabel(labelText: "Bom Bom", labelType: .bodyP2, labelColor: .grey1)
     
-    let petIcon = UIImageView()
+    private lazy var petIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "pawprint.fill")
+        imageView.tintColor = UIColor(named: "primaryMain")
+        return imageView
+    }()
     
-    let checkedImage = UIImageView()
+    private lazy var checkedImage: UIImageView = {
+        let checkmark = UIImageView()
+        checkmark.image = UIImage(systemName: "checkmark")
+        checkmark.tintColor = UIColor(named: "primaryMain")
+        return checkmark
+    }()
     
     var isCheck: Bool = false
     
@@ -36,14 +46,8 @@ class ModalMonitoringTableViewCell: UITableViewCell {
         
         //MARK: - Add Subview
         contentView.addSubview(petName)
-        
         contentView.addSubview(petIcon)
-        petIcon.image = UIImage(systemName: "pawprint.fill")
-        petIcon.tintColor = UIColor(named: "primaryMain")
-        
         contentView.addSubview(checkedImage)
-        checkedImage.image = UIImage()
-        checkedImage.tintColor = UIColor(named: "primaryMain")
         
         //MARK: - Setup Constraint
         NSLayoutConstraint.activate([
@@ -75,4 +79,17 @@ class ModalMonitoringTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+}
+
+//MARK: - Public
+extension ModalMonitoringTableViewCell {
+    public func configure(namePet: String?, petImage: String?, imageCheckmark: Bool){
+        petName.text = namePet
+        petIcon.image = UIImage(systemName: petImage ?? "")
+        if imageCheckmark == false {
+            checkedImage.image = UIImage(systemName: "")
+        } else {
+            checkedImage.image = UIImage(systemName: "checkmark")
+        }
+    }
 }
