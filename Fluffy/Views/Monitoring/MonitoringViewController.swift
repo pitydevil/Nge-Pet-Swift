@@ -12,7 +12,7 @@ class MonitoringViewController: UIViewController {
     
     //MARK: Subviews
     private lazy var dateButton:ReusableButton = {
-        let btn = ReusableButton(titleBtn: "Hari Ini         ", styleBtn:.normal, icon: UIImage(systemName: "calendar"))
+        let btn = ReusableButton(titleBtn: "Hari Ini", styleBtn:.normal, icon: UIImage(systemName: "calendar"))
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.addTarget(self, action: #selector(selectDate), for: .touchUpInside)
         return btn
