@@ -46,7 +46,6 @@
 		4B78DB1C28EAD8A200744386 /* Style Guide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB1B28EAD8A200744386 /* Style Guide.swift */; };
 		4B78DB1F28EAD8AE00744386 /* Base Providers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB1E28EAD8AE00744386 /* Base Providers.swift */; };
 		4B78DB2328EAD8BD00744386 /* View Model .swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB2228EAD8BD00744386 /* View Model .swift */; };
-		4B78DB2628EAD8C800744386 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB2528EAD8C800744386 /* View.swift */; };
 		4B78DB2E28EAD8F200744386 /* specific layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB2D28EAD8F200744386 /* specific layout.swift */; };
 		4B78DB3128EAD90700744386 /* Api Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB3028EAD90700744386 /* Api Services.swift */; };
 		4B78DB3528EAD91C00744386 /* API Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB3428EAD91C00744386 /* API Model.swift */; };
@@ -63,8 +62,10 @@
 		4E5068AA28FD54D00005ADBF /* ExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5068A928FD54D00005ADBF /* ExploreViewController.swift */; };
 		4E5068AC28FD54E30005ADBF /* PetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5068AB28FD54E30005ADBF /* PetViewController.swift */; };
 		4E5068AE28FD54ED0005ADBF /* BookingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5068AD28FD54ED0005ADBF /* BookingViewController.swift */; };
+		4E5068B429001C4C0005ADBF /* ExploreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5068B329001C4C0005ADBF /* ExploreTableViewCell.swift */; };
 		4E5A6D7028EC03D9009BBDE9 /* SwitchSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5A6D6F28EC03D9009BBDE9 /* SwitchSelect.swift */; };
 		4E684C6228ED41B0009B4173 /* CarouselCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E684C6128ED41B0009B4173 /* CarouselCollectionViewCell.swift */; };
+		4EAF1ED229027FC2007248AA /* NavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1ED129027FC2007248AA /* NavController.swift */; };
 		4EC56E4828F71FD1008ADD7F /* ExploreCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC56E4728F71FD1008ADD7F /* ExploreCard.swift */; };
 		4EC56E4C28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC56E4B28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift */; };
 		4EC56E4E28F826BB008ADD7F /* MonitoringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC56E4D28F826BB008ADD7F /* MonitoringViewController.swift */; };
@@ -136,7 +137,6 @@
 		4B78DB1B28EAD8A200744386 /* Style Guide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Style Guide.swift"; sourceTree = "<group>"; };
 		4B78DB1E28EAD8AE00744386 /* Base Providers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Base Providers.swift"; sourceTree = "<group>"; };
 		4B78DB2228EAD8BD00744386 /* View Model .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View Model .swift"; sourceTree = "<group>"; };
-		4B78DB2528EAD8C800744386 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		4B78DB2D28EAD8F200744386 /* specific layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "specific layout.swift"; sourceTree = "<group>"; };
 		4B78DB3028EAD90700744386 /* Api Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Api Services.swift"; sourceTree = "<group>"; };
 		4B78DB3428EAD91C00744386 /* API Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API Model.swift"; sourceTree = "<group>"; };
@@ -157,8 +157,10 @@
 		4E5068A928FD54D00005ADBF /* ExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreViewController.swift; sourceTree = "<group>"; };
 		4E5068AB28FD54E30005ADBF /* PetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetViewController.swift; sourceTree = "<group>"; };
 		4E5068AD28FD54ED0005ADBF /* BookingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingViewController.swift; sourceTree = "<group>"; };
+		4E5068B329001C4C0005ADBF /* ExploreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTableViewCell.swift; sourceTree = "<group>"; };
 		4E5A6D6F28EC03D9009BBDE9 /* SwitchSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchSelect.swift; sourceTree = "<group>"; };
 		4E684C6128ED41B0009B4173 /* CarouselCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselCollectionViewCell.swift; sourceTree = "<group>"; };
+		4EAF1ED129027FC2007248AA /* NavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavController.swift; sourceTree = "<group>"; };
 		4EC56E4728F71FD1008ADD7F /* ExploreCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCard.swift; sourceTree = "<group>"; };
 		4EC56E4B28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedPetCollectionViewCell.swift; sourceTree = "<group>"; };
 		4EC56E4D28F826BB008ADD7F /* MonitoringViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringViewController.swift; sourceTree = "<group>"; };
@@ -305,16 +307,14 @@
 		4B78DB2428EAD8C000744386 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				4B78DB2528EAD8C800744386 /* View.swift */,
+
+				4E5068B229001C1C0005ADBF /* Booking */,
+				4E5068AF29001BE90005ADBF /* Explore */,
+				4E5068B129001C070005ADBF /* Pet */,
+				4E5068B029001BF90005ADBF /* Monitoring */,
 				1D85597A28F6735A00591A80 /* ModalMonitoringViewController.swift */,
 				1D19FE1728FD535100476DC0 /* ModalSelectPetViewController.swift */,
 				1D85597E28F821EA00591A80 /* ModalMonitoringTableViewCell.swift */,
-				4EC56E4D28F826BB008ADD7F /* MonitoringViewController.swift */,
-				4EC56E4F28F84387008ADD7F /* MonitoringTableViewCell.swift */,
-				4E5068A928FD54D00005ADBF /* ExploreViewController.swift */,
-				4E5068A728FD51D80005ADBF /* TapBar.swift */,
-				4E5068AB28FD54E30005ADBF /* PetViewController.swift */,
-				4E5068AD28FD54ED0005ADBF /* BookingViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -337,6 +337,8 @@
 				4EC56E4728F71FD1008ADD7F /* ExploreCard.swift */,
 				4EC56E4B28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift */,
 				1DBF11CC28F00CAC00C53D1E /* ReusableTabBar.swift */,
+				4EAF1ED129027FC2007248AA /* NavController.swift */,
+				4E5068A728FD51D80005ADBF /* TapBar.swift */,
 				4E684C6028ED3DC6009B4173 /* Carousel */,
 			);
 			path = "Shared Layout";
@@ -457,6 +459,40 @@
 				4BC60A1528E57459007A6DB0 /* Helper Class.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		4E5068AF29001BE90005ADBF /* Explore */ = {
+			isa = PBXGroup;
+			children = (
+				4E5068A928FD54D00005ADBF /* ExploreViewController.swift */,
+				4E5068B329001C4C0005ADBF /* ExploreTableViewCell.swift */,
+			);
+			path = Explore;
+			sourceTree = "<group>";
+		};
+		4E5068B029001BF90005ADBF /* Monitoring */ = {
+			isa = PBXGroup;
+			children = (
+				4EC56E4F28F84387008ADD7F /* MonitoringTableViewCell.swift */,
+				4EC56E4D28F826BB008ADD7F /* MonitoringViewController.swift */,
+			);
+			path = Monitoring;
+			sourceTree = "<group>";
+		};
+		4E5068B129001C070005ADBF /* Pet */ = {
+			isa = PBXGroup;
+			children = (
+				4E5068AB28FD54E30005ADBF /* PetViewController.swift */,
+			);
+			path = Pet;
+			sourceTree = "<group>";
+		};
+		4E5068B229001C1C0005ADBF /* Booking */ = {
+			isa = PBXGroup;
+			children = (
+				4E5068AD28FD54ED0005ADBF /* BookingViewController.swift */,
+			);
+			path = Booking;
 			sourceTree = "<group>";
 		};
 		4E684C6028ED3DC6009B4173 /* Carousel */ = {
@@ -743,7 +779,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4B78DB2628EAD8C800744386 /* View.swift in Sources */,
 				4E5068AC28FD54E30005ADBF /* PetViewController.swift in Sources */,
 				4EC56E5028F84387008ADD7F /* MonitoringTableViewCell.swift in Sources */,
 				4EC56E4828F71FD1008ADD7F /* ExploreCard.swift in Sources */,
@@ -756,12 +791,14 @@
 				4EC56E4C28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift in Sources */,
 				1D19FE1828FD535100476DC0 /* ModalSelectPetViewController.swift in Sources */,
 				4E5068AA28FD54D00005ADBF /* ExploreViewController.swift in Sources */,
+				4E5068B429001C4C0005ADBF /* ExploreTableViewCell.swift in Sources */,
 				4BC609D728E572DE007A6DB0 /* AppDelegate.swift in Sources */,
 				4BC609D928E572DE007A6DB0 /* SceneDelegate.swift in Sources */,
 				1D85597B28F6735A00591A80 /* ModalMonitoringViewController.swift in Sources */,
 				1DA5543728EEA1570040E4F7 /* ReusableButton.swift in Sources */,
 				4B78DB1C28EAD8A200744386 /* Style Guide.swift in Sources */,
 				4B78DB3128EAD90700744386 /* Api Services.swift in Sources */,
+				4EAF1ED229027FC2007248AA /* NavController.swift in Sources */,
 				4E684C6228ED41B0009B4173 /* CarouselCollectionViewCell.swift in Sources */,
 				4B78DB3528EAD91C00744386 /* API Model.swift in Sources */,
 				4BC60A1628E57459007A6DB0 /* Helper Class.swift in Sources */,
