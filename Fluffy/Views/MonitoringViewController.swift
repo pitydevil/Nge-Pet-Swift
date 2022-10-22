@@ -84,7 +84,7 @@ class MonitoringViewController: UIViewController {
     }
     
     @objc func selectPetModal(){
-        let vc = ModalMonitoringPetViewController()
+        let vc = ModalMonitoringViewController()
         vc.modalPresentationStyle = .pageSheet
         self.present(vc, animated: true)
     }

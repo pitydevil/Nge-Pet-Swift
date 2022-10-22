@@ -7,23 +7,27 @@
 
 import UIKit
 
+@available(iOS 16.0, *)
 class ExploreViewController: UITabBarController {
+    
+    private lazy var toModal: ReusableButton = {
+        let toModal = ReusableButton(titleBtn: "toModal", styleBtn: .disabled)
+        toModal.addTarget(self, action: #selector(modalShow), for: .touchUpInside)
+        return toModal
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        view.addSubview(toModal)
+        toModal.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        toModal.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @objc func modalShow() {
+        let vc = ModalCheckInOutViewController()
+        vc.modalPresentationStyle = .pageSheet
+        self.present(vc, animated: true)
     }
-    */
 
 }
