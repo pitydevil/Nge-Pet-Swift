@@ -44,6 +44,14 @@
 		4B3D82C029051A3900F6A82F /* ModalMonitoringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82BF29051A3900F6A82F /* ModalMonitoringViewController.swift */; };
 		4B3D82C229051A4500F6A82F /* ModalMonitoringTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82C129051A4500F6A82F /* ModalMonitoringTableViewCell.swift */; };
 		4B3D82C429051A5000F6A82F /* ModalCheckInOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82C329051A5000F6A82F /* ModalCheckInOutViewController.swift */; };
+		4B3D82CB29051D8E00F6A82F /* NetworkLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82C729051D8D00F6A82F /* NetworkLogger.swift */; };
+		4B3D82CC29051D8E00F6A82F /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82C829051D8D00F6A82F /* Endpoint.swift */; };
+		4B3D82CD29051D8E00F6A82F /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82C929051D8D00F6A82F /* NetworkError.swift */; };
+		4B3D82CE29051D8E00F6A82F /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82CA29051D8D00F6A82F /* NetworkService.swift */; };
+		4B3D82D229051DAD00F6A82F /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82D029051DAC00F6A82F /* Response.swift */; };
+		4B3D82D329051DAD00F6A82F /* Application Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82D129051DAD00F6A82F /* Application Endpoint.swift */; };
+		4B3D82D529051DCB00F6A82F /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82D429051DCB00F6A82F /* Enum.swift */; };
+		4B3D82D729051DE500F6A82F /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82D629051DE500F6A82F /* Protocol.swift */; };
 		4B78DB1C28EAD8A200744386 /* Style Guide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB1B28EAD8A200744386 /* Style Guide.swift */; };
 		4B78DB1F28EAD8AE00744386 /* Base Providers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB1E28EAD8AE00744386 /* Base Providers.swift */; };
 		4B78DB2328EAD8BD00744386 /* View Model .swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB2228EAD8BD00744386 /* View Model .swift */; };
@@ -136,6 +144,14 @@
 		4B3D82BF29051A3900F6A82F /* ModalMonitoringViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalMonitoringViewController.swift; path = Fluffy/Views/Modal/ModalMonitoringViewController.swift; sourceTree = SOURCE_ROOT; };
 		4B3D82C129051A4500F6A82F /* ModalMonitoringTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalMonitoringTableViewCell.swift; path = "Fluffy/Views/Modal/Custom Cell/ModalMonitoringTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
 		4B3D82C329051A5000F6A82F /* ModalCheckInOutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalCheckInOutViewController.swift; path = Fluffy/Views/Modal/ModalCheckInOutViewController.swift; sourceTree = SOURCE_ROOT; };
+		4B3D82C729051D8D00F6A82F /* NetworkLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkLogger.swift; sourceTree = "<group>"; };
+		4B3D82C829051D8D00F6A82F /* Endpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		4B3D82C929051D8D00F6A82F /* NetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		4B3D82CA29051D8D00F6A82F /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		4B3D82D029051DAC00F6A82F /* Response.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
+		4B3D82D129051DAD00F6A82F /* Application Endpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Application Endpoint.swift"; sourceTree = "<group>"; };
+		4B3D82D429051DCB00F6A82F /* Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
+		4B3D82D629051DE500F6A82F /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
 		4B78DB1B28EAD8A200744386 /* Style Guide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Style Guide.swift"; sourceTree = "<group>"; };
 		4B78DB1E28EAD8AE00744386 /* Base Providers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Base Providers.swift"; sourceTree = "<group>"; };
 		4B78DB2228EAD8BD00744386 /* View Model .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View Model .swift"; sourceTree = "<group>"; };
@@ -281,6 +297,26 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		4B3D82C629051D6700F6A82F /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				4B3D82C829051D8D00F6A82F /* Endpoint.swift */,
+				4B3D82C929051D8D00F6A82F /* NetworkError.swift */,
+				4B3D82C729051D8D00F6A82F /* NetworkLogger.swift */,
+				4B3D82CA29051D8D00F6A82F /* NetworkService.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		4B3D82CF29051D9100F6A82F /* Networking Domain */ = {
+			isa = PBXGroup;
+			children = (
+				4B3D82D129051DAD00F6A82F /* Application Endpoint.swift */,
+				4B3D82D029051DAC00F6A82F /* Response.swift */,
+			);
+			path = "Networking Domain";
+			sourceTree = "<group>";
+		};
 		4B78DB1A28EAD89200744386 /* Miscellaneous */ = {
 			isa = PBXGroup;
 			children = (
@@ -409,6 +445,8 @@
 		4BC609D528E572DE007A6DB0 /* Fluffy */ = {
 			isa = PBXGroup;
 			children = (
+				4B3D82CF29051D9100F6A82F /* Networking Domain */,
+				4B3D82C629051D6700F6A82F /* Networking */,
 				4B78DB3228EAD90E00744386 /* Models */,
 				4B78DB2F28EAD8FB00744386 /* Services */,
 				4B78DB2728EAD8CC00744386 /* Components */,
@@ -455,6 +493,8 @@
 			children = (
 				4BC60A1328E5744E007A6DB0 /* Extension.swift */,
 				4BC60A1528E57459007A6DB0 /* Helper Class.swift */,
+				4B3D82D429051DCB00F6A82F /* Enum.swift */,
+				4B3D82D629051DE500F6A82F /* Protocol.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -790,9 +830,13 @@
 				4B3D82C229051A4500F6A82F /* ModalMonitoringTableViewCell.swift in Sources */,
 				4B78DB2328EAD8BD00744386 /* View Model .swift in Sources */,
 				4B3D82C429051A5000F6A82F /* ModalCheckInOutViewController.swift in Sources */,
+				4B3D82D729051DE500F6A82F /* Protocol.swift in Sources */,
+				4B3D82CD29051D8E00F6A82F /* NetworkError.swift in Sources */,
 				4B78DB2E28EAD8F200744386 /* specific layout.swift in Sources */,
+				4B3D82CC29051D8E00F6A82F /* Endpoint.swift in Sources */,
 				4EC56E4C28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift in Sources */,
 				4E5068AA28FD54D00005ADBF /* ExploreViewController.swift in Sources */,
+				4B3D82D329051DAD00F6A82F /* Application Endpoint.swift in Sources */,
 				4E5068B429001C4C0005ADBF /* ExploreTableViewCell.swift in Sources */,
 				4BC609D728E572DE007A6DB0 /* AppDelegate.swift in Sources */,
 				4BC609D928E572DE007A6DB0 /* SceneDelegate.swift in Sources */,
@@ -801,16 +845,20 @@
 				4B78DB1C28EAD8A200744386 /* Style Guide.swift in Sources */,
 				4B78DB3128EAD90700744386 /* Api Services.swift in Sources */,
 				4B3D82BE29051A2F00F6A82F /* ModalSelectPetViewController.swift in Sources */,
+				4B3D82CE29051D8E00F6A82F /* NetworkService.swift in Sources */,
 				4EAF1ED229027FC2007248AA /* NavController.swift in Sources */,
 				4E684C6228ED41B0009B4173 /* CarouselCollectionViewCell.swift in Sources */,
 				4B78DB3528EAD91C00744386 /* API Model.swift in Sources */,
+				4B3D82CB29051D8E00F6A82F /* NetworkLogger.swift in Sources */,
 				4BC60A1628E57459007A6DB0 /* Helper Class.swift in Sources */,
 				4B78DB3828EAD92800744386 /* Class Model.swift in Sources */,
 				1DBF11CD28F00CAC00C53D1E /* ReusableTabBar.swift in Sources */,
+				4B3D82D529051DCB00F6A82F /* Enum.swift in Sources */,
 				4E5068A828FD51D80005ADBF /* TapBar.swift in Sources */,
 				4E5A6D7028EC03D9009BBDE9 /* SwitchSelect.swift in Sources */,
 				4E5068AE28FD54ED0005ADBF /* BookingViewController.swift in Sources */,
 				4EC56E4E28F826BB008ADD7F /* MonitoringViewController.swift in Sources */,
+				4B3D82D229051DAD00F6A82F /* Response.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
