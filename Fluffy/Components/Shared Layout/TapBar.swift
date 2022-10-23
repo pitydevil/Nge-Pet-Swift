@@ -12,7 +12,7 @@ class TapBar: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
+//        view.backgroundColor = .systemBackground
         UITabBar.appearance().barTintColor = .systemBackground
         tabBar.tintColor = .label
         tabBar.tintColor = UIColor(named: "primaryMain")
@@ -27,6 +27,12 @@ class TapBar: UITabBarController {
         self.tabBar.layer.borderWidth = 0
         self.tabBar.clipsToBounds = false
         self.tabBar.backgroundColor = UIColor.white
+        let tabBarAppearance: UITabBarAppearance = UITabBarAppearance()
+            tabBarAppearance.configureWithDefaultBackground()
+        if #available(iOS
+                      15.0, *) {
+                UITabBar.appearance().standardAppearance = tabBarAppearance
+        }
         UITabBar.appearance().shadowImage = UIImage()
         UITabBar.appearance().backgroundImage = UIImage()
         setupVCs()
@@ -35,7 +41,7 @@ class TapBar: UITabBarController {
     fileprivate func createNavController(for rootViewController: UIViewController,
                                          title: String,
                                          image: UIImage) -> UIViewController {
-        let navController = UINavigationController(rootViewController: rootViewController)
+        let navController = NavController(rootViewController: rootViewController)
         navController.tabBarItem.title = title
         navController.tabBarItem.image = image
         return navController
