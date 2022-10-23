@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D19FE1828FD535100476DC0 /* ModalSelectPetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D19FE1728FD535100476DC0 /* ModalSelectPetViewController.swift */; };
-		1D85597B28F6735A00591A80 /* ModalMonitoringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85597A28F6735A00591A80 /* ModalMonitoringViewController.swift */; };
-		1D85597F28F821EA00591A80 /* ModalMonitoringTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85597E28F821EA00591A80 /* ModalMonitoringTableViewCell.swift */; };
 		1D8576FE28EBFF9C00CF2D5E /* Inter-VariableFont_slnt,wght.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D8576DD28EBFF9B00CF2D5E /* Inter-VariableFont_slnt,wght.ttf */; };
 		1D8576FF28EBFF9C00CF2D5E /* Inter-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D8576DF28EBFF9B00CF2D5E /* Inter-Medium.ttf */; };
 		1D85770028EBFF9C00CF2D5E /* Inter-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D8576E028EBFF9B00CF2D5E /* Inter-Light.ttf */; };
@@ -43,6 +40,10 @@
 		1DA5543728EEA1570040E4F7 /* ReusableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA5543628EEA1570040E4F7 /* ReusableButton.swift */; };
 		1DBF11CD28F00CAC00C53D1E /* ReusableTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBF11CC28F00CAC00C53D1E /* ReusableTabBar.swift */; };
 		228971C6B79C4700E7DA9C4E /* Pods_FluffyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC985139B43D09D659850CB /* Pods_FluffyTests.framework */; };
+		4B3D82BE29051A2F00F6A82F /* ModalSelectPetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82BD29051A2F00F6A82F /* ModalSelectPetViewController.swift */; };
+		4B3D82C029051A3900F6A82F /* ModalMonitoringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82BF29051A3900F6A82F /* ModalMonitoringViewController.swift */; };
+		4B3D82C229051A4500F6A82F /* ModalMonitoringTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82C129051A4500F6A82F /* ModalMonitoringTableViewCell.swift */; };
+		4B3D82C429051A5000F6A82F /* ModalCheckInOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82C329051A5000F6A82F /* ModalCheckInOutViewController.swift */; };
 		4B78DB1C28EAD8A200744386 /* Style Guide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB1B28EAD8A200744386 /* Style Guide.swift */; };
 		4B78DB1F28EAD8AE00744386 /* Base Providers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB1E28EAD8AE00744386 /* Base Providers.swift */; };
 		4B78DB2328EAD8BD00744386 /* View Model .swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB2228EAD8BD00744386 /* View Model .swift */; };
@@ -94,9 +95,6 @@
 /* Begin PBXFileReference section */
 		0CB3843C1C3EF3989435CB05 /* Pods-FluffyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluffyTests.debug.xcconfig"; path = "Target Support Files/Pods-FluffyTests/Pods-FluffyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		131CE0F91D3B34797E8AB832 /* Pods-FluffyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluffyTests.release.xcconfig"; path = "Target Support Files/Pods-FluffyTests/Pods-FluffyTests.release.xcconfig"; sourceTree = "<group>"; };
-		1D19FE1728FD535100476DC0 /* ModalSelectPetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalSelectPetViewController.swift; sourceTree = "<group>"; };
-		1D85597A28F6735A00591A80 /* ModalMonitoringViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalMonitoringViewController.swift; sourceTree = "<group>"; };
-		1D85597E28F821EA00591A80 /* ModalMonitoringTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalMonitoringTableViewCell.swift; sourceTree = "<group>"; };
 		1D8576DD28EBFF9B00CF2D5E /* Inter-VariableFont_slnt,wght.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-VariableFont_slnt,wght.ttf"; sourceTree = "<group>"; };
 		1D8576DF28EBFF9B00CF2D5E /* Inter-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Medium.ttf"; sourceTree = "<group>"; };
 		1D8576E028EBFF9B00CF2D5E /* Inter-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Inter-Light.ttf"; sourceTree = "<group>"; };
@@ -134,6 +132,10 @@
 		2A279AC421335ED40E76880D /* Pods_Fluffy_FluffyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fluffy_FluffyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		391FB2353E3E4D1516AADE30 /* Pods-Fluffy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy.debug.xcconfig"; path = "Target Support Files/Pods-Fluffy/Pods-Fluffy.debug.xcconfig"; sourceTree = "<group>"; };
 		3FC985139B43D09D659850CB /* Pods_FluffyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluffyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B3D82BD29051A2F00F6A82F /* ModalSelectPetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalSelectPetViewController.swift; path = Fluffy/Views/Modal/ModalSelectPetViewController.swift; sourceTree = SOURCE_ROOT; };
+		4B3D82BF29051A3900F6A82F /* ModalMonitoringViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalMonitoringViewController.swift; path = Fluffy/Views/Modal/ModalMonitoringViewController.swift; sourceTree = SOURCE_ROOT; };
+		4B3D82C129051A4500F6A82F /* ModalMonitoringTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalMonitoringTableViewCell.swift; path = "Fluffy/Views/Modal/Custom Cell/ModalMonitoringTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
+		4B3D82C329051A5000F6A82F /* ModalCheckInOutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalCheckInOutViewController.swift; path = Fluffy/Views/Modal/ModalCheckInOutViewController.swift; sourceTree = SOURCE_ROOT; };
 		4B78DB1B28EAD8A200744386 /* Style Guide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Style Guide.swift"; sourceTree = "<group>"; };
 		4B78DB1E28EAD8AE00744386 /* Base Providers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Base Providers.swift"; sourceTree = "<group>"; };
 		4B78DB2228EAD8BD00744386 /* View Model .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View Model .swift"; sourceTree = "<group>"; };
@@ -307,14 +309,10 @@
 		4B78DB2428EAD8C000744386 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-
 				4E5068B229001C1C0005ADBF /* Booking */,
 				4E5068AF29001BE90005ADBF /* Explore */,
 				4E5068B129001C070005ADBF /* Pet */,
 				4E5068B029001BF90005ADBF /* Monitoring */,
-				1D85597A28F6735A00591A80 /* ModalMonitoringViewController.swift */,
-				1D19FE1728FD535100476DC0 /* ModalSelectPetViewController.swift */,
-				1D85597E28F821EA00591A80 /* ModalMonitoringTableViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -473,6 +471,10 @@
 		4E5068B029001BF90005ADBF /* Monitoring */ = {
 			isa = PBXGroup;
 			children = (
+				4B3D82C329051A5000F6A82F /* ModalCheckInOutViewController.swift */,
+				4B3D82C129051A4500F6A82F /* ModalMonitoringTableViewCell.swift */,
+				4B3D82BF29051A3900F6A82F /* ModalMonitoringViewController.swift */,
+				4B3D82BD29051A2F00F6A82F /* ModalSelectPetViewController.swift */,
 				4EC56E4F28F84387008ADD7F /* MonitoringTableViewCell.swift */,
 				4EC56E4D28F826BB008ADD7F /* MonitoringViewController.swift */,
 			);
@@ -785,19 +787,20 @@
 				4B78DB1F28EAD8AE00744386 /* Base Providers.swift in Sources */,
 				1D85772228EC086600CF2D5E /* ReuseableLabel.swift in Sources */,
 				4BC60A1428E5744E007A6DB0 /* Extension.swift in Sources */,
+				4B3D82C229051A4500F6A82F /* ModalMonitoringTableViewCell.swift in Sources */,
 				4B78DB2328EAD8BD00744386 /* View Model .swift in Sources */,
+				4B3D82C429051A5000F6A82F /* ModalCheckInOutViewController.swift in Sources */,
 				4B78DB2E28EAD8F200744386 /* specific layout.swift in Sources */,
-				1D85597F28F821EA00591A80 /* ModalMonitoringTableViewCell.swift in Sources */,
 				4EC56E4C28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift in Sources */,
-				1D19FE1828FD535100476DC0 /* ModalSelectPetViewController.swift in Sources */,
 				4E5068AA28FD54D00005ADBF /* ExploreViewController.swift in Sources */,
 				4E5068B429001C4C0005ADBF /* ExploreTableViewCell.swift in Sources */,
 				4BC609D728E572DE007A6DB0 /* AppDelegate.swift in Sources */,
 				4BC609D928E572DE007A6DB0 /* SceneDelegate.swift in Sources */,
-				1D85597B28F6735A00591A80 /* ModalMonitoringViewController.swift in Sources */,
+				4B3D82C029051A3900F6A82F /* ModalMonitoringViewController.swift in Sources */,
 				1DA5543728EEA1570040E4F7 /* ReusableButton.swift in Sources */,
 				4B78DB1C28EAD8A200744386 /* Style Guide.swift in Sources */,
 				4B78DB3128EAD90700744386 /* Api Services.swift in Sources */,
+				4B3D82BE29051A2F00F6A82F /* ModalSelectPetViewController.swift in Sources */,
 				4EAF1ED229027FC2007248AA /* NavController.swift in Sources */,
 				4E684C6228ED41B0009B4173 /* CarouselCollectionViewCell.swift in Sources */,
 				4B78DB3528EAD91C00744386 /* API Model.swift in Sources */,

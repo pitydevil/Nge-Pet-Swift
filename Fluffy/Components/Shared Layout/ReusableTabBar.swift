@@ -11,7 +11,7 @@ import UIKit
 
 class ReusableTabBar: UIView {
 
-    let barBtn = ReusableButton(titleBtn: "", styleBtn: .normal)
+    var barBtn = ReusableButton(titleBtn: "", styleBtn: .normal)
     
     let pilihSemuaText = ReuseableLabel(labelText: "Pilih Semua", labelType: .bodyP2, labelColor: .primaryMain)
     
