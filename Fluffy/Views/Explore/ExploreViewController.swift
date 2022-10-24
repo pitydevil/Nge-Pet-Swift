@@ -6,6 +6,7 @@
 //
 import UIKit
 
+@available(iOS 16.0, *)
 class ExploreViewController: UIViewController {
     
     //MARK: Subviews
@@ -44,6 +45,7 @@ class ExploreViewController: UIViewController {
             .foregroundColor: UIColor(named: "primary4") as Any,
             .font: UIFont(name: "Inter-Medium", size: 12)!
         ])
+        textField.addTarget(self, action: #selector(toSearchModal), for: .editingDidBegin)
         return textField
     }()
     
@@ -57,6 +59,7 @@ class ExploreViewController: UIViewController {
             .foregroundColor: UIColor(named: "primary4") as Any,
             .font: UIFont(name: "Inter-Medium", size: 12)!
         ])
+        textField.addTarget(self, action: #selector(toDateModal), for: .editingDidBegin)
         return textField
     }()
     
@@ -70,6 +73,7 @@ class ExploreViewController: UIViewController {
             .foregroundColor: UIColor(named: "primary4") as Any,
             .font: UIFont(name: "Inter-Medium", size: 12)!
         ])
+        textField.addTarget(self, action: #selector(toSelectPetModal), for: .editingDidBegin)
         return textField
     }()
     
@@ -121,10 +125,30 @@ class ExploreViewController: UIViewController {
         super.viewDidAppear(animated)
     }
     
+    @objc func toSearchModal() {
+        let vc = ModalSearchLocationViewController()
+        vc.modalPresentationStyle = .pageSheet
+        self.present(vc, animated: true)
+    }
+    
+    @available(iOS 16.0, *)
+    @objc func toDateModal() {
+        let vc = ModalCheckInOutViewController()
+        vc.modalPresentationStyle = .pageSheet
+        self.present(vc, animated: true)
+    }
+    
+    @objc func toSelectPetModal() {
+        let vc = ModalSelectPetViewController()
+        vc.modalPresentationStyle = .pageSheet
+        self.present(vc, animated: true)
+    }
+    
 }
 
 
 //MARK: Setup Layout
+@available(iOS 16.0, *)
 extension ExploreViewController{
     func setupUI(){
         
@@ -188,6 +212,7 @@ extension ExploreViewController{
 
 //MARK: UITableViewDataSource, UITableViewDelegate
 
+@available(iOS 16.0, *)
 extension ExploreViewController : UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             return 20
