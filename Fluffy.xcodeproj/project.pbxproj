@@ -39,6 +39,7 @@
 		1D85772228EC086600CF2D5E /* ReuseableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85772128EC086600CF2D5E /* ReuseableLabel.swift */; };
 		1DA5543728EEA1570040E4F7 /* ReusableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA5543628EEA1570040E4F7 /* ReusableButton.swift */; };
 		1DBF11CD28F00CAC00C53D1E /* ReusableTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBF11CC28F00CAC00C53D1E /* ReusableTabBar.swift */; };
+		1DE5D73F2906463A00CD4820 /* ModalSearchLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE5D73E2906463A00CD4820 /* ModalSearchLocationViewController.swift */; };
 		228971C6B79C4700E7DA9C4E /* Pods_FluffyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC985139B43D09D659850CB /* Pods_FluffyTests.framework */; };
 		4B3D82BE29051A2F00F6A82F /* ModalSelectPetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82BD29051A2F00F6A82F /* ModalSelectPetViewController.swift */; };
 		4B3D82C029051A3900F6A82F /* ModalMonitoringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82BF29051A3900F6A82F /* ModalMonitoringViewController.swift */; };
@@ -136,14 +137,15 @@
 		1DA5543228ED604C0040E4F7 /* CheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckViewController.swift; sourceTree = "<group>"; };
 		1DA5543628EEA1570040E4F7 /* ReusableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableButton.swift; sourceTree = "<group>"; };
 		1DBF11CC28F00CAC00C53D1E /* ReusableTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableTabBar.swift; sourceTree = "<group>"; };
+		1DE5D73E2906463A00CD4820 /* ModalSearchLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalSearchLocationViewController.swift; sourceTree = "<group>"; };
 		2648BC5D0623475B71D59148 /* Pods-Fluffy-FluffyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy-FluffyUITests.release.xcconfig"; path = "Target Support Files/Pods-Fluffy-FluffyUITests/Pods-Fluffy-FluffyUITests.release.xcconfig"; sourceTree = "<group>"; };
 		2A279AC421335ED40E76880D /* Pods_Fluffy_FluffyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fluffy_FluffyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		391FB2353E3E4D1516AADE30 /* Pods-Fluffy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy.debug.xcconfig"; path = "Target Support Files/Pods-Fluffy/Pods-Fluffy.debug.xcconfig"; sourceTree = "<group>"; };
 		3FC985139B43D09D659850CB /* Pods_FluffyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluffyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4B3D82BD29051A2F00F6A82F /* ModalSelectPetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalSelectPetViewController.swift; path = Fluffy/Views/Modal/ModalSelectPetViewController.swift; sourceTree = SOURCE_ROOT; };
+		4B3D82BD29051A2F00F6A82F /* ModalSelectPetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalSelectPetViewController.swift; path = Fluffy/Views/Explore/ModalSelectPetViewController.swift; sourceTree = SOURCE_ROOT; };
 		4B3D82BF29051A3900F6A82F /* ModalMonitoringViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalMonitoringViewController.swift; path = Fluffy/Views/Modal/ModalMonitoringViewController.swift; sourceTree = SOURCE_ROOT; };
 		4B3D82C129051A4500F6A82F /* ModalMonitoringTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalMonitoringTableViewCell.swift; path = "Fluffy/Views/Modal/Custom Cell/ModalMonitoringTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
-		4B3D82C329051A5000F6A82F /* ModalCheckInOutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalCheckInOutViewController.swift; path = Fluffy/Views/Modal/ModalCheckInOutViewController.swift; sourceTree = SOURCE_ROOT; };
+		4B3D82C329051A5000F6A82F /* ModalCheckInOutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalCheckInOutViewController.swift; path = Fluffy/Views/Explore/ModalCheckInOutViewController.swift; sourceTree = SOURCE_ROOT; };
 		4B3D82C729051D8D00F6A82F /* NetworkLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkLogger.swift; sourceTree = "<group>"; };
 		4B3D82C829051D8D00F6A82F /* Endpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		4B3D82C929051D8D00F6A82F /* NetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
@@ -504,6 +506,9 @@
 			children = (
 				4E5068A928FD54D00005ADBF /* ExploreViewController.swift */,
 				4E5068B329001C4C0005ADBF /* ExploreTableViewCell.swift */,
+				4B3D82C329051A5000F6A82F /* ModalCheckInOutViewController.swift */,
+				1DE5D73E2906463A00CD4820 /* ModalSearchLocationViewController.swift */,
+				4B3D82BD29051A2F00F6A82F /* ModalSelectPetViewController.swift */,
 			);
 			path = Explore;
 			sourceTree = "<group>";
@@ -511,10 +516,8 @@
 		4E5068B029001BF90005ADBF /* Monitoring */ = {
 			isa = PBXGroup;
 			children = (
-				4B3D82C329051A5000F6A82F /* ModalCheckInOutViewController.swift */,
 				4B3D82C129051A4500F6A82F /* ModalMonitoringTableViewCell.swift */,
 				4B3D82BF29051A3900F6A82F /* ModalMonitoringViewController.swift */,
-				4B3D82BD29051A2F00F6A82F /* ModalSelectPetViewController.swift */,
 				4EC56E4F28F84387008ADD7F /* MonitoringTableViewCell.swift */,
 				4EC56E4D28F826BB008ADD7F /* MonitoringViewController.swift */,
 			);
@@ -833,6 +836,7 @@
 				4B3D82D729051DE500F6A82F /* Protocol.swift in Sources */,
 				4B3D82CD29051D8E00F6A82F /* NetworkError.swift in Sources */,
 				4B78DB2E28EAD8F200744386 /* specific layout.swift in Sources */,
+				1DE5D73F2906463A00CD4820 /* ModalSearchLocationViewController.swift in Sources */,
 				4B3D82CC29051D8E00F6A82F /* Endpoint.swift in Sources */,
 				4EC56E4C28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift in Sources */,
 				4E5068AA28FD54D00005ADBF /* ExploreViewController.swift in Sources */,
