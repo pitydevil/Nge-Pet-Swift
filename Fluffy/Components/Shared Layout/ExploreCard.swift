@@ -46,7 +46,7 @@ class ExploreCard: UIView {
     }()
     private lazy var petHotelNameLabel:ReuseableLabel = ReuseableLabel(labelText: "Pet Hotel", labelType: .titleH2, labelColor: .black)
     private lazy var distanceLabel:ReuseableLabel = ReuseableLabel(labelText: "500m", labelType: .bodyP2, labelColor: .grey1)
-    private lazy var BeforePriceLabel:ReuseableLabel = ReuseableLabel(labelText: "Perlahan mulai dari", labelType: .bodyP2, labelColor: .grey1)
+    private lazy var BeforePriceLabel:ReuseableLabel = ReuseableLabel(labelText: "Perhari mulai dari", labelType: .bodyP2, labelColor: .grey1)
     private lazy var priceLabel:ReuseableLabel = ReuseableLabel(labelText: "Rp 30.000", labelType: .titleH2, labelColor: .primaryMain)
 
     private lazy var supportedPetView:UICollectionView = {

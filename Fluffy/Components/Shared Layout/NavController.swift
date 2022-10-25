@@ -23,6 +23,7 @@ class NavController: UINavigationController {
             navigationBar.standardAppearance = navBarAppearance
             navigationBar.scrollEdgeAppearance = navBarAppearance
             navigationBar.backgroundColor = UIColor(named: "primaryMain")
+            
         }
         
         self.navigationController?.navigationBar.barStyle = .black

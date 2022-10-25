@@ -92,7 +92,7 @@ class ExploreViewController: UIViewController {
         tableView.backgroundColor = .clear
         tableView.register(ExploreTableViewCell.self, forCellReuseIdentifier: ExploreTableViewCell.cellId)
         tableView.separatorColor = .clear
-        tableView.allowsSelection = false
+        tableView.allowsSelection = true
         tableView.isScrollEnabled = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = UIColor(named: "grey3")
@@ -102,6 +102,7 @@ class ExploreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         view.backgroundColor = UIColor(named: "grey3")
         view.addSubview(scrollView)
 
@@ -118,10 +119,12 @@ class ExploreViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
         super.viewDidAppear(animated)
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
         super.viewDidAppear(animated)
     }
     
@@ -221,12 +224,21 @@ extension ExploreViewController : UITableViewDataSource, UITableViewDelegate{
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: ExploreTableViewCell.cellId) as! ExploreTableViewCell
             cell.backgroundColor = .clear
-            
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = .clear
+            cell.selectedBackgroundView = backgroundView
             return cell
         }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 248
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newViewController = PetHotelViewController()
+        newViewController.modalPresentationStyle = .fullScreen
+        newViewController.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(newViewController, animated: true)
     }
 }
 
