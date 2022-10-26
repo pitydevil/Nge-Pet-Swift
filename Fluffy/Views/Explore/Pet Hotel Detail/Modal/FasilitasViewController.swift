@@ -12,8 +12,8 @@ class FasilitasViewController: UIViewController {
     //MARK: Subviews
     private lazy var customBar: ReusableTabBar = {
         let customBar = ReusableTabBar(btnText: "Tutup", showText: .notShow)
-//        customBar.barBtn.addTarget(self, action: #selector(checkinSelected), for: .touchUpInside)
-        customBar.barBtn.isEnabled = false
+        customBar.barBtn.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
+        customBar.barBtn.isEnabled = true
         customBar.barBtn.configuration?.baseBackgroundColor = UIColor(named: "grey2")
         customBar.barBtn.configuration?.baseForegroundColor = UIColor(named: "white")
         return customBar
@@ -41,6 +41,11 @@ class FasilitasViewController: UIViewController {
         return tableView
     }()
     
+    @objc func dismissModal() {
+        dismiss(animated: true)
+    }
+    
+    //MARK: viewdidload
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "white")
@@ -69,6 +74,7 @@ class FasilitasViewController: UIViewController {
     
 }
 
+//MARK: UITableViewDelegate, UITableViewDataSource
 extension FasilitasViewController:UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
@@ -76,7 +82,7 @@ extension FasilitasViewController:UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FasilitasTableViewCell.cellId) as! FasilitasTableViewCell
-        cell.configureView(image: UIImage(named: "mapIcon")!, description: "jfwejfke", add: true)
+        cell.configureView(image: UIImage(named: "mapIcon")!, description: "Pembersihan Tempat Makan", add: true)
         cell.backgroundColor = .clear
         return cell
     }

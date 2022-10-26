@@ -41,7 +41,8 @@ class PetTypeCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         setupUI()
-//        backgroundColor = .gray
+        backgroundColor = UIColor(named: "grey3")
+        self.layer.cornerRadius = 12
     }
     
     required init?(coder: NSCoder) {

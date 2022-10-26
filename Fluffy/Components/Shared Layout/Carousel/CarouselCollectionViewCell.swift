@@ -42,7 +42,7 @@ private extension CarouselCollectionViewCell {
         imageView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 12
+//        imageView.layer.cornerRadius = 12
     }
 }
 

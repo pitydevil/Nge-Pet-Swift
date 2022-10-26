@@ -13,9 +13,10 @@ class RulesViewController: UIViewController {
     private lazy var customBar: ReusableTabBar = {
         let customBar = ReusableTabBar(btnText: "Tutup", showText: .notShow)
 //        customBar.barBtn.addTarget(self, action: #selector(checkinSelected), for: .touchUpInside)
-        customBar.barBtn.isEnabled = false
+        customBar.barBtn.isEnabled = true
         customBar.barBtn.configuration?.baseBackgroundColor = UIColor(named: "grey2")
         customBar.barBtn.configuration?.baseForegroundColor = UIColor(named: "white")
+        customBar.barBtn.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
         return customBar
     }()
     
@@ -41,6 +42,11 @@ class RulesViewController: UIViewController {
         return tableView
     }()
     
+    @objc func dismissModal() {
+        dismiss(animated: true)
+    }
+    
+    //MARK: viewdidload
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "white")
@@ -68,19 +74,9 @@ class RulesViewController: UIViewController {
         
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }
 
+//MARK: UITableViewDelegate, UITableViewDataSource
 extension RulesViewController:UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 15

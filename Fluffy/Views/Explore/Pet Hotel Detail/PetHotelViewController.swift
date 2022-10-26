@@ -19,18 +19,28 @@ class PetHotelViewController: UIViewController {
     }()
     
     private lazy var carouselCollectionView: UICollectionView = {
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        layout.itemSize = CGSize(width: view.frame.size.width, height: view.frame.size.width)
+        
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.showsHorizontalScrollIndicator = false
         collection.isPagingEnabled = true
         collection.dataSource = self
         collection.delegate = self
         collection.register(CarouselCollectionViewCell.self, forCellWithReuseIdentifier: CarouselCollectionViewCell.cellId)
         collection.backgroundColor = .clear
+        collection.isScrollEnabled = true
+        collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
     
     private lazy var petTypeCollectionView: UICollectionView = {
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 20)
+        layout.itemSize = CGSize(width: 100, height: 100)
+        layout.scrollDirection = .horizontal
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.showsHorizontalScrollIndicator = false
         collection.dataSource = self
         collection.delegate = self
@@ -43,8 +53,7 @@ class PetHotelViewController: UIViewController {
     private lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl()
         pageControl.pageIndicatorTintColor = UIColor(named: "grey2")
-        pageControl.currentPageIndicatorTintColor = UIColor(named: "secondaryMain")
-        pageControl.preferredIndicatorImage = UIImage.init(systemName: "pawprint.fill")
+        pageControl.currentPageIndicatorTintColor = UIColor(named: "white")
         pageControl.allowsContinuousInteraction = false
         return pageControl
     }()
@@ -72,7 +81,7 @@ class PetHotelViewController: UIViewController {
     private lazy var exploreRect:UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .brown
+        view.backgroundColor = .gray
         return view
     }()
     
@@ -274,6 +283,7 @@ class PetHotelViewController: UIViewController {
         btn.configuration?.baseForegroundColor = UIColor(named: "grey1")
         btn.configuration?.baseBackgroundColor = UIColor(named: "grey3")
         btn.configuration?.attributedTitle = AttributedString("Hewan", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 12)!]))
+        btn.addTarget(self, action: #selector(scrollToHewan), for: .touchUpInside)
         
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.widthAnchor.constraint(equalToConstant: 109).isActive = true
@@ -281,6 +291,7 @@ class PetHotelViewController: UIViewController {
         return btn
     }()
     
+
     private lazy var btn2:ReusableButton = {
         let btn = ReusableButton(titleBtn: "Fasilitas", styleBtn: .disabled)
         btn.configuration?.cornerStyle = .capsule
@@ -339,12 +350,23 @@ class PetHotelViewController: UIViewController {
         btn.configuration?.baseForegroundColor = UIColor(named: "grey1")
         btn.configuration?.baseBackgroundColor = UIColor(named: "grey3")
         btn.configuration?.attributedTitle = AttributedString("Pembatalan", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 12)!]))
+        btn.addTarget(self, action: #selector(scrollToCancel), for: .touchUpInside)
         
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.widthAnchor.constraint(equalToConstant: 109).isActive = true
         btn.heightAnchor.constraint(equalToConstant: 40).isActive = true
         return btn
     }()
+    
+    //MARK: Shortcut Button behavior
+    @objc func scrollToHewan(){
+        scrollView.scrollRectToVisible(petType.frame, animated: true)
+    }
+    
+    @objc func scrollToCancel(){
+        print("to cancel")
+        scrollView.scrollRectToVisible(cancelationView.frame, animated: true)
+    }
     
     //MARK: Open Modal
     @objc func openFacilityModal() {
@@ -365,6 +387,7 @@ class PetHotelViewController: UIViewController {
         self.present(vc, animated: true)
     }
     
+    
     //MARK: properties
     private var carouselData = [CarouselData]()
     private var currentPage = 0 {
@@ -381,50 +404,21 @@ class PetHotelViewController: UIViewController {
         self.navigationItem.titleView = setTitle(title: "Pet Hotel Name", subtitle: "location")
         self.navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
         
+     
         view.addSubview(scrollView)
         view.addSubview(btmBar)
         contentView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(contentView)
-        
-        //MARK: Scroll View Constraints
-        scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: btmBar.topAnchor).isActive = true
-        
-        contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
-        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        
-        btmBar.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        btmBar.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        btmBar.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        
-        setupViews()
-        
         btmBar.addSubview(startFrom)
         btmBar.addSubview(price)
         btmBar.addSubview(perDay)
         
-        startFrom.topAnchor.constraint(equalTo: btmBar.topAnchor, constant: 20).isActive = true
-        startFrom.leftAnchor.constraint(equalTo: btmBar.leftAnchor, constant: 24).isActive = true
-        
-        price.topAnchor.constraint(equalTo: startFrom.bottomAnchor, constant: 0).isActive = true
-        price.leftAnchor.constraint(equalTo: startFrom.leftAnchor).isActive = true
-        
-        perDay.leftAnchor.constraint(equalTo: price.rightAnchor).isActive = true
-        perDay.topAnchor.constraint(equalTo: price.topAnchor).isActive = true
-        perDay.bottomAnchor.constraint(equalTo: price.bottomAnchor).isActive = true
-        
-    }
-    
-    
-    func setupViews(){
-    
         contentView.addSubview(exploreRect)
         contentView.addSubview(roundedCorner)
-//        contentView.addSubview(petHotelName)
+        
+        exploreRect.addSubview(carouselCollectionView)
+        exploreRect.addSubview(pageControl)
+
         
         petHotelInformation.addSubview(petHotelName)
         petHotelInformation.addSubview(locIcon)
@@ -437,27 +431,6 @@ class PetHotelViewController: UIViewController {
         placeholderShortcut.addSubview(btn4)
         placeholderShortcut.addSubview(btn5)
         placeholderShortcut.addSubview(btn6)
-        
-        btn1.topAnchor.constraint(equalTo: placeholderShortcut.topAnchor).isActive = true
-        btn1.leftAnchor.constraint(equalTo: placeholderShortcut.leftAnchor).isActive = true
-        
-        btn2.topAnchor.constraint(equalTo: btn1.topAnchor).isActive = true
-        btn2.leftAnchor.constraint(equalTo: btn1.rightAnchor, constant: 8).isActive = true
-        
-        btn3.topAnchor.constraint(equalTo: btn2.topAnchor).isActive = true
-        btn3.leftAnchor.constraint(equalTo: btn2.rightAnchor, constant: 8).isActive = true
-        btn3.rightAnchor.constraint(equalTo: placeholderShortcut.rightAnchor, constant: 0).isActive = true
-        
-        btn4.topAnchor.constraint(equalTo: btn1.bottomAnchor, constant: 8).isActive = true
-        btn4.leftAnchor.constraint(equalTo: placeholderShortcut.leftAnchor).isActive = true
-        
-        btn5.topAnchor.constraint(equalTo: btn4.topAnchor).isActive = true
-        btn5.leftAnchor.constraint(equalTo: btn4.rightAnchor, constant: 8).isActive = true
-        
-        btn6.topAnchor.constraint(equalTo: btn5.topAnchor).isActive = true
-        btn6.leftAnchor.constraint(equalTo: btn5.rightAnchor, constant: 8).isActive = true
-        btn6.rightAnchor.constraint(equalTo: placeholderShortcut.rightAnchor).isActive = true
-        
         petHotelInformation.addSubview(placeholderShortcut)
         
         petType.addSubview(petTypeLabel)
@@ -486,157 +459,273 @@ class PetHotelViewController: UIViewController {
         stackView.addArrangedSubview(asuransiView)
         stackView.addArrangedSubview(cancelationView)
         contentView.addSubview(stackView)
-//        contentView.addSubview(reus)
+        
         stackView.addVerticalSeparators(color: UIColor(named: "grey2") ?? .systemGray2)
         
+        setupViews()
         
+        carouselData = [CarouselData(image: UIImage(named: "slide1")), CarouselData(image: UIImage(named: "slide2")), CarouselData(image: UIImage(named: "slide3"))]
+        carouselConfigureView()
+        pageControl.numberOfPages = carouselData.count
+        
+    }
+
+    public func carouselConfigureView() {
+        let carouselLayout = UICollectionViewFlowLayout()
+        carouselLayout.scrollDirection = .horizontal
+        carouselLayout.itemSize = .init(width: view.frame.size.width, height: view.frame.size.width)
+        carouselLayout.sectionInset = .init(top: 0, left: 0, bottom: 0, right: 0)
+        carouselLayout.minimumLineSpacing = 0
+        carouselCollectionView.collectionViewLayout = carouselLayout
+        
+        carouselCollectionView.reloadData()
+    }
+}
+
+extension UIApplication {
+    var statusView: UIView? {
+        return value(forKey: "statusBar") as? UIView
+    }
+}
+//MARK: Setups
+extension PetHotelViewController{
+    func setupViews(){
+        //MARK: Scroll View Constraints
+        scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: btmBar.topAnchor).isActive = true
+        
+        //MARK: COntent view constraint
+        contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        
+        //MARK: Carousel Collection View Constraint
+        carouselCollectionView.leftAnchor.constraint(equalTo: exploreRect.leftAnchor).isActive = true
+        carouselCollectionView.rightAnchor.constraint(equalTo: exploreRect.rightAnchor).isActive = true
+        carouselCollectionView.bottomAnchor.constraint(equalTo: exploreRect.bottomAnchor).isActive = true
+        carouselCollectionView.topAnchor.constraint(equalTo: exploreRect.topAnchor).isActive = true
+        carouselCollectionView.widthAnchor.constraint(equalTo: contentView.widthAnchor).isActive = true
+        
+        //MARK: Page COntrol Constraint
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        pageControl.bottomAnchor.constraint(equalTo: carouselCollectionView.bottomAnchor, constant: -48).isActive = true
+        pageControl.centerXAnchor.constraint(equalTo: exploreRect.centerXAnchor).isActive = true
+        pageControl.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        pageControl.heightAnchor.constraint(equalToConstant: 28).isActive = true
+        
+        //MARK: tabbar constraint
+        btmBar.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        btmBar.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        btmBar.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+
+        //MARK: start label constraint
+        startFrom.topAnchor.constraint(equalTo: btmBar.topAnchor, constant: 20).isActive = true
+        startFrom.leftAnchor.constraint(equalTo: btmBar.leftAnchor, constant: 24).isActive = true
+        
+        //MARK: price constraint
+        price.topAnchor.constraint(equalTo: startFrom.bottomAnchor, constant: 0).isActive = true
+        price.leftAnchor.constraint(equalTo: startFrom.leftAnchor).isActive = true
+        
+        //MARK: per day constraint
+        perDay.leftAnchor.constraint(equalTo: price.rightAnchor).isActive = true
+        perDay.topAnchor.constraint(equalTo: price.topAnchor).isActive = true
+        perDay.bottomAnchor.constraint(equalTo: price.bottomAnchor).isActive = true
+        
+        //MARK: shortcut botton constraint
+        btn1.topAnchor.constraint(equalTo: placeholderShortcut.topAnchor).isActive = true
+        btn1.leftAnchor.constraint(equalTo: placeholderShortcut.leftAnchor).isActive = true
+        
+        btn2.topAnchor.constraint(equalTo: btn1.topAnchor).isActive = true
+        btn2.leftAnchor.constraint(equalTo: btn1.rightAnchor, constant: 8).isActive = true
+        
+        btn3.topAnchor.constraint(equalTo: btn2.topAnchor).isActive = true
+        btn3.leftAnchor.constraint(equalTo: btn2.rightAnchor, constant: 8).isActive = true
+        btn3.rightAnchor.constraint(equalTo: placeholderShortcut.rightAnchor, constant: 0).isActive = true
+        
+        btn4.topAnchor.constraint(equalTo: btn1.bottomAnchor, constant: 8).isActive = true
+        btn4.leftAnchor.constraint(equalTo: placeholderShortcut.leftAnchor).isActive = true
+        
+        btn5.topAnchor.constraint(equalTo: btn4.topAnchor).isActive = true
+        btn5.leftAnchor.constraint(equalTo: btn4.rightAnchor, constant: 8).isActive = true
+        
+        btn6.topAnchor.constraint(equalTo: btn5.topAnchor).isActive = true
+        btn6.leftAnchor.constraint(equalTo: btn5.rightAnchor, constant: 8).isActive = true
+        btn6.rightAnchor.constraint(equalTo: placeholderShortcut.rightAnchor).isActive = true
+        
+        //MARK: placeholder carousel view constraints
         exploreRect.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         exploreRect.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
         exploreRect.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
         exploreRect.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
         exploreRect.heightAnchor.constraint(equalTo: exploreRect.widthAnchor).isActive = true
         
+        //MARK: rounded corner constraints
         roundedCorner.bottomAnchor.constraint(equalTo: exploreRect.bottomAnchor).isActive = true
         roundedCorner.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
         roundedCorner.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
         roundedCorner.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
-        stackView.backgroundColor = .clear
+        //MARK: stackview constraintw
         stackView.topAnchor.constraint(equalTo: roundedCorner.topAnchor, constant: 20).isActive = true
         stackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 24).isActive = true
         stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -24).isActive = true
         stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20).isActive = true
         
+        //MARK: pet hotel information constraint
         petHotelInformation.topAnchor.constraint(equalTo: stackView.topAnchor).isActive = true
         petHotelInformation.leftAnchor.constraint(equalTo: stackView.leftAnchor).isActive = true
         petHotelInformation.rightAnchor.constraint(equalTo: stackView.rightAnchor).isActive = true
         petHotelInformation.heightAnchor.constraint(greaterThanOrEqualToConstant: 300).isActive = true
         
+        //MARK: pet hotel name constraint
         petHotelName.topAnchor.constraint(equalTo: petHotelInformation.topAnchor).isActive = true
         petHotelName.leftAnchor.constraint(equalTo: petHotelInformation.leftAnchor).isActive = true
         petHotelName.rightAnchor.constraint(equalTo: petHotelInformation.rightAnchor).isActive = true
         petHotelName.heightAnchor.constraint(equalToConstant: 36).isActive = true
 
+        //MARK: loc icon constraint
         locIcon.leftAnchor.constraint(equalTo: petHotelInformation.leftAnchor).isActive = true
         locIcon.widthAnchor.constraint(equalToConstant: 24).isActive = true
         locIcon.heightAnchor.constraint(equalToConstant: 24).isActive = true
         locIcon.topAnchor.constraint(equalTo: petHotelName.bottomAnchor, constant: 20).isActive = true
         
+        //MARK: loc label constraint
         locationLabel.topAnchor.constraint(equalTo: locIcon.topAnchor).isActive = true
         locationLabel.leftAnchor.constraint(equalTo: locIcon.rightAnchor, constant: 12).isActive = true
         locationLabel.rightAnchor.constraint(equalTo: petHotelInformation.rightAnchor).isActive = true
         locationLabel.heightAnchor.constraint(equalToConstant: 24).isActive = true
         
+        //MARK: desc label constrainr
         descriptionLabel.topAnchor.constraint(equalTo: locIcon.bottomAnchor, constant: 20).isActive = true
         descriptionLabel.leftAnchor.constraint(equalTo: petHotelInformation.leftAnchor).isActive = true
         descriptionLabel.rightAnchor.constraint(equalTo: petHotelInformation.rightAnchor).isActive = true
         
+        //MARK: shortcut view constraint
         placeholderShortcut.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 20).isActive = true
         placeholderShortcut.leftAnchor.constraint(equalTo: petHotelInformation.leftAnchor).isActive = true
         placeholderShortcut.rightAnchor.constraint(equalTo: petHotelInformation.rightAnchor).isActive = true
         placeholderShortcut.heightAnchor.constraint(equalToConstant: 88).isActive = true
-        
 
+        //MARK: pet type view constrainr
         petType.leftAnchor.constraint(equalTo: stackView.leftAnchor).isActive = true
         petType.rightAnchor.constraint(equalTo: stackView.rightAnchor).isActive = true
-        petType.heightAnchor.constraint(equalToConstant: 232).isActive = true
-//        petType.backgroundColor = .yellow
+        petType.heightAnchor.constraint(greaterThanOrEqualToConstant: 148).isActive = true
+
+        //MARK: pet type label constraint
         petTypeLabel.topAnchor.constraint(equalTo: petType.topAnchor).isActive = true
         petTypeLabel.leftAnchor.constraint(equalTo: petType.leftAnchor).isActive = true
         petTypeLabel.rightAnchor.constraint(equalTo: petType.rightAnchor).isActive = true
         
+        //MARK: pet tyoe collection view constraint
         petTypeCollectionView.topAnchor.constraint(equalTo: petTypeLabel.bottomAnchor, constant: 20).isActive = true
         petTypeCollectionView.leftAnchor.constraint(equalTo: petType.leftAnchor).isActive = true
         petTypeCollectionView.rightAnchor.constraint(equalTo: petType.rightAnchor).isActive = true
         petTypeCollectionView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-
+        petTypeCollectionView.bottomAnchor.constraint(equalTo: petType.bottomAnchor, constant: -20).isActive = true
+        
+        //MARK: facilty view constraint
         faciltyView.leftAnchor.constraint(equalTo: stackView.leftAnchor).isActive = true
         faciltyView.rightAnchor.constraint(equalTo: stackView.rightAnchor).isActive = true
         faciltyView.heightAnchor.constraint(greaterThanOrEqualToConstant: 307).isActive = true
-//        faciltyView.backgroundColor = .yellow
-        
+
+        //MARK: facility label constraint
         fasilitasLabel.topAnchor.constraint(equalTo: faciltyView.topAnchor).isActive = true
         fasilitasLabel.leftAnchor.constraint(equalTo: faciltyView.leftAnchor).isActive = true
         fasilitasLabel.rightAnchor.constraint(equalTo: faciltyView.rightAnchor).isActive = true
         
+        //MARK: facility button constraint
         seeAllFacilityButton.bottomAnchor.constraint(equalTo: faciltyView.bottomAnchor).isActive = true
         seeAllFacilityButton.leftAnchor.constraint(equalTo: faciltyView.leftAnchor).isActive = true
         seeAllFacilityButton.rightAnchor.constraint(equalTo: faciltyView.rightAnchor).isActive = true
         seeAllFacilityButton.topAnchor.constraint(equalTo: facilityTableView.bottomAnchor, constant: 20).isActive = true
         
+        //MARK: facility table view const
         facilityTableView.leftAnchor.constraint(equalTo: faciltyView.leftAnchor).isActive = true
         facilityTableView.rightAnchor.constraint(equalTo: faciltyView.rightAnchor).isActive = true
         facilityTableView.topAnchor.constraint(equalTo: fasilitasLabel.bottomAnchor, constant: 20).isActive = true
         facilityTableView.bottomAnchor.constraint(equalTo: seeAllFacilityButton.topAnchor, constant: -20).isActive = true
         facilityTableView.heightAnchor.constraint(greaterThanOrEqualToConstant: 205).isActive = true
         
+        //MARK: location view const
         locationView.leftAnchor.constraint(equalTo: stackView.leftAnchor).isActive = true
         locationView.rightAnchor.constraint(equalTo: stackView.rightAnchor).isActive = true
         locationView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200).isActive = true
-//        locationView.backgroundColor = .yellow
         
+        //MARK: loc label const
         lokasi.topAnchor.constraint(equalTo: locationView.topAnchor).isActive = true
         lokasi.leftAnchor.constraint(equalTo: locationView.leftAnchor).isActive = true
         lokasi.rightAnchor.constraint(equalTo: locationView.rightAnchor).isActive = true
         
+        //MARK: detail loc icon const
         detailLocIcon.topAnchor.constraint(equalTo: lokasi.bottomAnchor, constant: 20).isActive = true
         detailLocIcon.leftAnchor.constraint(equalTo: locationView.leftAnchor).isActive = true
         detailLocIcon.widthAnchor.constraint(equalToConstant: 24).isActive = true
         detailLocIcon.heightAnchor.constraint(equalToConstant: 24).isActive = true
         
+        //MARK: loc desc const
         detailedLocation.leftAnchor.constraint(equalTo: detailLocIcon.rightAnchor, constant: 12).isActive = true
         detailedLocation.topAnchor.constraint(equalTo: detailLocIcon.topAnchor).isActive = true
         detailedLocation.rightAnchor.constraint(equalTo: locationView.rightAnchor).isActive = true
         
+        //MARK: loc btn const
         seeLocationButton.bottomAnchor.constraint(equalTo: locationView.bottomAnchor).isActive = true
         seeLocationButton.leftAnchor.constraint(equalTo: locationView.leftAnchor).isActive = true
         seeLocationButton.rightAnchor.constraint(equalTo: locationView.rightAnchor).isActive = true
         
+        //MARK: rules view const
         rulesView.leftAnchor.constraint(equalTo: stackView.leftAnchor).isActive = true
         rulesView.rightAnchor.constraint(equalTo: stackView.rightAnchor).isActive = true
         rulesView.heightAnchor.constraint(greaterThanOrEqualToConstant: 276).isActive = true
-//        rulesView.backgroundColor = .yellow
 
+        //MARK: rules btn const
         seeRulesButton.bottomAnchor.constraint(equalTo: rulesView.bottomAnchor).isActive = true
         seeRulesButton.leftAnchor.constraint(equalTo: rulesView.leftAnchor).isActive = true
         seeRulesButton.rightAnchor.constraint(equalTo: rulesView.rightAnchor).isActive = true
         seeRulesButton.topAnchor.constraint(equalTo: rulesTableView.bottomAnchor, constant: 4).isActive = true
         
+        //MARK: rules label const
         peraturan.topAnchor.constraint(equalTo: rulesView.topAnchor).isActive = true
         peraturan.leftAnchor.constraint(equalTo: rulesView.leftAnchor).isActive = true
         peraturan.rightAnchor.constraint(equalTo: rulesView.rightAnchor).isActive = true
         
+        //MARK: rules table view const
         rulesTableView.leftAnchor.constraint(equalTo: rulesView.leftAnchor).isActive = true
         rulesTableView.rightAnchor.constraint(equalTo: rulesView.rightAnchor).isActive = true
         rulesTableView.topAnchor.constraint(equalTo: peraturan.bottomAnchor, constant: 20).isActive = true
         rulesTableView.bottomAnchor.constraint(equalTo: seeRulesButton.topAnchor, constant: -4).isActive = true
         rulesTableView.heightAnchor.constraint(greaterThanOrEqualToConstant: 152).isActive = true
         
-        
+        //MARK: asurrance view const
         asuransiView.leftAnchor.constraint(equalTo: stackView.leftAnchor).isActive = true
         asuransiView.rightAnchor.constraint(equalTo: stackView.rightAnchor).isActive = true
         asuransiView.heightAnchor.constraint(greaterThanOrEqualToConstant: 276).isActive = true
-//        asuransiView.backgroundColor = .yellow
         
+        //MARK: assurance label constraint
         asuransi.topAnchor.constraint(equalTo: asuransiView.topAnchor).isActive = true
         asuransi.leftAnchor.constraint(equalTo: asuransiView.leftAnchor).isActive = true
         asuransi.rightAnchor.constraint(equalTo: asuransiView.rightAnchor).isActive = true
         
+        //MARK: assurance button constraint
         seeAssuranceButton.bottomAnchor.constraint(equalTo: asuransiView.bottomAnchor).isActive = true
         seeAssuranceButton.leftAnchor.constraint(equalTo: asuransiView.leftAnchor).isActive = true
         seeAssuranceButton.rightAnchor.constraint(equalTo: asuransiView.rightAnchor).isActive = true
         seeAssuranceButton.topAnchor.constraint(equalTo: assuranceTableView.bottomAnchor, constant: 4).isActive = true
         
+        //MARK: asurance table view constriant
         assuranceTableView.leftAnchor.constraint(equalTo: asuransiView.leftAnchor).isActive = true
         assuranceTableView.rightAnchor.constraint(equalTo: asuransiView.rightAnchor).isActive = true
         assuranceTableView.topAnchor.constraint(equalTo: asuransi.bottomAnchor, constant: 20).isActive = true
         assuranceTableView.bottomAnchor.constraint(equalTo: seeAssuranceButton.topAnchor, constant: -4).isActive = true
         
+        //MARK: cancellation view constraint
         cancelationView.leftAnchor.constraint(equalTo: stackView.leftAnchor).isActive = true
         cancelationView.rightAnchor.constraint(equalTo: stackView.rightAnchor).isActive = true
         cancelationView.heightAnchor.constraint(greaterThanOrEqualToConstant: 200).isActive = true
-//        cancelationView.backgroundColor = .yellow
         
+        //MARK: cancellation desc const
         cancellationDescription.leftAnchor.constraint(equalTo: cancelationView.leftAnchor).isActive = true
         cancellationDescription.rightAnchor.constraint(equalTo: cancelationView.rightAnchor).isActive = true
         cancellationDescription.topAnchor.constraint(equalTo: cancellation.bottomAnchor, constant: 20).isActive = true
@@ -649,34 +738,40 @@ class PetHotelViewController: UIViewController {
 
 extension PetHotelViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
-    }
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        if collectionView == petTypeCollectionView{
+            return 1    
+        }
+        if collectionView == carouselCollectionView{
+            return carouselData.count
+        }
         return 1
     }
     
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return carouselData.count
-//    }
-    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CarouselCollectionViewCell.cellId, for: indexPath) as? CarouselCollectionViewCell else { return UICollectionViewCell() }
-//
-//        let image = carouselData[indexPath.row].image
-//
-//        cell.configure(image: image)
-//
-//        return cell
+        if collectionView == petTypeCollectionView{
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PetTypeCollectionViewCell.cellId, for: indexPath) as? PetTypeCollectionViewCell else { return UICollectionViewCell() }
+            
+            cell.configure(type: "Anjing", sizeString: "S,M")
+            return cell
+        }
+        if collectionView == carouselCollectionView{
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CarouselCollectionViewCell.cellId, for: indexPath) as? CarouselCollectionViewCell else { return UICollectionViewCell() }
+            
+            cell.configure(image: carouselData[indexPath.row].image)
+            return cell
+        }
+        return UICollectionViewCell()
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == petTypeCollectionView{
+            print(indexPath)
+            let secondViewController = PetSizeViewController()
+            secondViewController.modalPresentationStyle = .pageSheet
+            self.present(secondViewController, animated: true)
+        }
         
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PetTypeCollectionViewCell.cellId, for: indexPath) as? PetTypeCollectionViewCell else { return UICollectionViewCell() }
-        cell.configure(type: "Anjing", sizeString: "S,M")
-        return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
-    }
 }
 
 // MARK: - UICollectionView Delegate
@@ -770,6 +865,7 @@ extension UIStackView {
     }
 }
 
+//MARK: Navigation Title
 extension PetHotelViewController{
     func setTitle(title:String, subtitle:String) -> UIView {
         let titleLabel = UILabel(frame: CGRectMake(0, -2, 0, 0))
@@ -802,5 +898,17 @@ extension PetHotelViewController{
         }
 
         return titleView
+    }
+    
+    func makeTransparentNavigationBar() {
+        let navBarAppearance = UINavigationBarAppearance()
+        
+        navBarAppearance.configureWithTransparentBackground()
+//        navBarAppearance.titleTextAttributes = [.foregroundColor: .black]
+//        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: .black]
+        navBarAppearance.backgroundColor = .white
+        
+        navigationController?.navigationBar.standardAppearance = navBarAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
     }
 }

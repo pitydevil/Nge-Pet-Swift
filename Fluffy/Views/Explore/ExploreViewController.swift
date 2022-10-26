@@ -116,6 +116,8 @@ class ExploreViewController: UIViewController {
         scrollView.addSubview(tableView)
         view.insetsLayoutMarginsFromSafeArea = false
         setupUI()
+        
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -124,8 +126,13 @@ class ExploreViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = true
-        super.viewDidAppear(animated)
+        // Navigation Customization
+//        self.navigationController?.navigationBar.isTranslucent = true
+//        self.navigationController?.navigationBar.shadowImage = nil
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        
+        // Remove 'Back' text and Title from Navigation Bar
+//        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     @objc func toSearchModal() {
@@ -242,6 +249,7 @@ extension ExploreViewController : UITableViewDataSource, UITableViewDelegate{
     }
 }
 
+//MARK: add left image
 extension UITextField {
     func setLeftView(image: UIImage) {
         let iconView = UIImageView(frame: CGRect(x: 21, y: 10, width: 16, height: 16)) // set your Own size
