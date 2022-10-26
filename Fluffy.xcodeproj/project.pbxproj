@@ -76,6 +76,15 @@
 		4E5A6D7028EC03D9009BBDE9 /* SwitchSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5A6D6F28EC03D9009BBDE9 /* SwitchSelect.swift */; };
 		4E684C6228ED41B0009B4173 /* CarouselCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E684C6128ED41B0009B4173 /* CarouselCollectionViewCell.swift */; };
 		4EAF1ED229027FC2007248AA /* NavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1ED129027FC2007248AA /* NavController.swift */; };
+		4EAF1ED529068CDD007248AA /* PetHotelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1ED429068CDD007248AA /* PetHotelViewController.swift */; };
+		4EAF1ED72907C807007248AA /* PetHotelDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1ED62907C807007248AA /* PetHotelDetailTableViewCell.swift */; };
+		4EAF1ED92907E1F6007248AA /* FasilitasTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1ED82907E1F6007248AA /* FasilitasTableViewCell.swift */; };
+		4EAF1EDD2907F55C007248AA /* PetTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1EDC2907F55C007248AA /* PetTypeCollectionViewCell.swift */; };
+		4EAF1EDF2907FDB1007248AA /* FasilitasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1EDE2907FDB1007248AA /* FasilitasViewController.swift */; };
+		4EAF1EE22907FDCA007248AA /* RulesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1EE12907FDCA007248AA /* RulesViewController.swift */; };
+		4EAF1EE42907FDD4007248AA /* AsuransiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1EE32907FDD4007248AA /* AsuransiViewController.swift */; };
+		4EAF1EE629080C24007248AA /* PetSizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1EE529080C24007248AA /* PetSizeViewController.swift */; };
+		4EAF1EEB29084550007248AA /* PetSizeExplainationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1EEA29084550007248AA /* PetSizeExplainationTableViewCell.swift */; };
 		4EC56E4828F71FD1008ADD7F /* ExploreCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC56E4728F71FD1008ADD7F /* ExploreCard.swift */; };
 		4EC56E4C28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC56E4B28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift */; };
 		4EC56E4E28F826BB008ADD7F /* MonitoringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC56E4D28F826BB008ADD7F /* MonitoringViewController.swift */; };
@@ -181,6 +190,15 @@
 		4E5A6D6F28EC03D9009BBDE9 /* SwitchSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchSelect.swift; sourceTree = "<group>"; };
 		4E684C6128ED41B0009B4173 /* CarouselCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselCollectionViewCell.swift; sourceTree = "<group>"; };
 		4EAF1ED129027FC2007248AA /* NavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavController.swift; sourceTree = "<group>"; };
+		4EAF1ED429068CDD007248AA /* PetHotelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotelViewController.swift; sourceTree = "<group>"; };
+		4EAF1ED62907C807007248AA /* PetHotelDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotelDetailTableViewCell.swift; sourceTree = "<group>"; };
+		4EAF1ED82907E1F6007248AA /* FasilitasTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FasilitasTableViewCell.swift; sourceTree = "<group>"; };
+		4EAF1EDC2907F55C007248AA /* PetTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetTypeCollectionViewCell.swift; sourceTree = "<group>"; };
+		4EAF1EDE2907FDB1007248AA /* FasilitasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FasilitasViewController.swift; sourceTree = "<group>"; };
+		4EAF1EE12907FDCA007248AA /* RulesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulesViewController.swift; sourceTree = "<group>"; };
+		4EAF1EE32907FDD4007248AA /* AsuransiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsuransiViewController.swift; sourceTree = "<group>"; };
+		4EAF1EE529080C24007248AA /* PetSizeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetSizeViewController.swift; sourceTree = "<group>"; };
+		4EAF1EEA29084550007248AA /* PetSizeExplainationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetSizeExplainationTableViewCell.swift; sourceTree = "<group>"; };
 		4EC56E4728F71FD1008ADD7F /* ExploreCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCard.swift; sourceTree = "<group>"; };
 		4EC56E4B28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedPetCollectionViewCell.swift; sourceTree = "<group>"; };
 		4EC56E4D28F826BB008ADD7F /* MonitoringViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringViewController.swift; sourceTree = "<group>"; };
@@ -509,6 +527,7 @@
 				4B3D82C329051A5000F6A82F /* ModalCheckInOutViewController.swift */,
 				1DE5D73E2906463A00CD4820 /* ModalSearchLocationViewController.swift */,
 				4B3D82BD29051A2F00F6A82F /* ModalSelectPetViewController.swift */,
+				4EAF1ED329068CB9007248AA /* Pet Hotel Detail */,
 			);
 			path = Explore;
 			sourceTree = "<group>";
@@ -546,6 +565,38 @@
 				4E684C6128ED41B0009B4173 /* CarouselCollectionViewCell.swift */,
 			);
 			path = Carousel;
+			sourceTree = "<group>";
+		};
+		4EAF1ED329068CB9007248AA /* Pet Hotel Detail */ = {
+			isa = PBXGroup;
+			children = (
+				4EAF1ED429068CDD007248AA /* PetHotelViewController.swift */,
+				4EAF1EE729080C55007248AA /* Cells */,
+				4EAF1EE02907FDB7007248AA /* Modal */,
+			);
+			path = "Pet Hotel Detail";
+			sourceTree = "<group>";
+		};
+		4EAF1EE02907FDB7007248AA /* Modal */ = {
+			isa = PBXGroup;
+			children = (
+				4EAF1EDE2907FDB1007248AA /* FasilitasViewController.swift */,
+				4EAF1EE12907FDCA007248AA /* RulesViewController.swift */,
+				4EAF1EE32907FDD4007248AA /* AsuransiViewController.swift */,
+				4EAF1EE529080C24007248AA /* PetSizeViewController.swift */,
+			);
+			path = Modal;
+			sourceTree = "<group>";
+		};
+		4EAF1EE729080C55007248AA /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				4EAF1ED62907C807007248AA /* PetHotelDetailTableViewCell.swift */,
+				4EAF1ED82907E1F6007248AA /* FasilitasTableViewCell.swift */,
+				4EAF1EDC2907F55C007248AA /* PetTypeCollectionViewCell.swift */,
+				4EAF1EEA29084550007248AA /* PetSizeExplainationTableViewCell.swift */,
+			);
+			path = Cells;
 			sourceTree = "<group>";
 		};
 		702D24B61AB42153E49B2163 /* Frameworks */ = {
@@ -844,21 +895,30 @@
 				4E5068B429001C4C0005ADBF /* ExploreTableViewCell.swift in Sources */,
 				4BC609D728E572DE007A6DB0 /* AppDelegate.swift in Sources */,
 				4BC609D928E572DE007A6DB0 /* SceneDelegate.swift in Sources */,
+				4EAF1EEB29084550007248AA /* PetSizeExplainationTableViewCell.swift in Sources */,
 				4B3D82C029051A3900F6A82F /* ModalMonitoringViewController.swift in Sources */,
 				1DA5543728EEA1570040E4F7 /* ReusableButton.swift in Sources */,
 				4B78DB1C28EAD8A200744386 /* Style Guide.swift in Sources */,
 				4B78DB3128EAD90700744386 /* Api Services.swift in Sources */,
+				4EAF1EDD2907F55C007248AA /* PetTypeCollectionViewCell.swift in Sources */,
 				4B3D82BE29051A2F00F6A82F /* ModalSelectPetViewController.swift in Sources */,
 				4B3D82CE29051D8E00F6A82F /* NetworkService.swift in Sources */,
+				4EAF1EDF2907FDB1007248AA /* FasilitasViewController.swift in Sources */,
+				4EAF1EE629080C24007248AA /* PetSizeViewController.swift in Sources */,
+				4EAF1ED92907E1F6007248AA /* FasilitasTableViewCell.swift in Sources */,
 				4EAF1ED229027FC2007248AA /* NavController.swift in Sources */,
 				4E684C6228ED41B0009B4173 /* CarouselCollectionViewCell.swift in Sources */,
 				4B78DB3528EAD91C00744386 /* API Model.swift in Sources */,
 				4B3D82CB29051D8E00F6A82F /* NetworkLogger.swift in Sources */,
 				4BC60A1628E57459007A6DB0 /* Helper Class.swift in Sources */,
+				4EAF1EE42907FDD4007248AA /* AsuransiViewController.swift in Sources */,
 				4B78DB3828EAD92800744386 /* Class Model.swift in Sources */,
+				4EAF1ED72907C807007248AA /* PetHotelDetailTableViewCell.swift in Sources */,
 				1DBF11CD28F00CAC00C53D1E /* ReusableTabBar.swift in Sources */,
 				4B3D82D529051DCB00F6A82F /* Enum.swift in Sources */,
 				4E5068A828FD51D80005ADBF /* TapBar.swift in Sources */,
+				4EAF1ED529068CDD007248AA /* PetHotelViewController.swift in Sources */,
+				4EAF1EE22907FDCA007248AA /* RulesViewController.swift in Sources */,
 				4E5A6D7028EC03D9009BBDE9 /* SwitchSelect.swift in Sources */,
 				4E5068AE28FD54ED0005ADBF /* BookingViewController.swift in Sources */,
 				4EC56E4E28F826BB008ADD7F /* MonitoringViewController.swift in Sources */,

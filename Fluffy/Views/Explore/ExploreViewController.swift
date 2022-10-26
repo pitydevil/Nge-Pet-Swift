@@ -92,7 +92,7 @@ class ExploreViewController: UIViewController {
         tableView.backgroundColor = .clear
         tableView.register(ExploreTableViewCell.self, forCellReuseIdentifier: ExploreTableViewCell.cellId)
         tableView.separatorColor = .clear
-        tableView.allowsSelection = false
+        tableView.allowsSelection = true
         tableView.isScrollEnabled = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = UIColor(named: "grey3")
@@ -102,6 +102,7 @@ class ExploreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         view.backgroundColor = UIColor(named: "grey3")
         view.addSubview(scrollView)
 
@@ -115,14 +116,23 @@ class ExploreViewController: UIViewController {
         scrollView.addSubview(tableView)
         view.insetsLayoutMarginsFromSafeArea = false
         setupUI()
+        
+
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        self.navigationController?.isNavigationBarHidden = true
         super.viewDidAppear(animated)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        // Navigation Customization
+//        self.navigationController?.navigationBar.isTranslucent = true
+//        self.navigationController?.navigationBar.shadowImage = nil
+//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        
+        // Remove 'Back' text and Title from Navigation Bar
+//        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     @objc func toSearchModal() {
@@ -221,15 +231,25 @@ extension ExploreViewController : UITableViewDataSource, UITableViewDelegate{
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: ExploreTableViewCell.cellId) as! ExploreTableViewCell
             cell.backgroundColor = .clear
-            
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = .clear
+            cell.selectedBackgroundView = backgroundView
             return cell
         }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 248
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let newViewController = PetHotelViewController()
+        newViewController.modalPresentationStyle = .fullScreen
+        newViewController.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(newViewController, animated: true)
+    }
 }
 
+//MARK: add left image
 extension UITextField {
     func setLeftView(image: UIImage) {
         let iconView = UIImageView(frame: CGRect(x: 21, y: 10, width: 16, height: 16)) // set your Own size
