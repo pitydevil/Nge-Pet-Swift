@@ -1,13 +1,13 @@
 //
-//  AddPetViewController.swift
+//  EditPetViewController.swift
 //  Fluffy
 //
-//  Created by Zacky Ilahi Azmi on 25/10/22.
+//  Created by Zacky Ilahi Azmi on 27/10/22.
 //
 
 import UIKit
 
-class AddPetViewController: UIViewController {
+class EditPetViewController: UIViewController {
     
     let petIconData: [UIImage?] = [UIImage(named: "dog1"), UIImage(named: "dog2"), UIImage(named: "dog3"), UIImage(named: "dog4"), UIImage(named: "dog5"), UIImage(named: "dog6"), UIImage(named: "dog7"), UIImage(named: "dog8"), UIImage(named: "dog9")]
     
@@ -30,7 +30,7 @@ class AddPetViewController: UIViewController {
     }()
     
     private lazy var headline: ReuseableLabel = {
-        let headline = ReuseableLabel(labelText: "Tambah Hewan", labelType: .titleH1, labelColor: .black)
+        let headline = ReuseableLabel(labelText: "Edit Hewan", labelType: .titleH1, labelColor: .black)
         return headline
     }()
     
@@ -263,12 +263,6 @@ class AddPetViewController: UIViewController {
     
     private lazy var titleIconHewan = ReuseableLabel(labelText: "Pilih icon hewan", labelType: .titleH3, labelColor: .black)
     
-    private lazy var customBar: ReusableTabBar = {
-        let customBar = ReusableTabBar(btnText: "Simpan", showText: .notShow)
-        customBar.barBtn.addTarget(self, action: #selector(addPet), for: .touchUpInside)
-        return customBar
-    }()
-    
     private lazy var iconCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -284,6 +278,18 @@ class AddPetViewController: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.frame = view.bounds
         return collectionView
+    }()
+    
+    private lazy var barBtnHapusPet: ReusableButton = {
+        let barBtnHapusPet = ReusableButton(titleBtn: "Hapus Pet", styleBtn: .light)
+        barBtnHapusPet.addTarget(self, action: #selector(deletePet), for: .touchUpInside)
+        return barBtnHapusPet
+    }()
+    
+    private lazy var customBar: ReusableTabBar = {
+        let customBar = ReusableTabBar(btnText: "Simpan", showText: .notShow)
+        customBar.barBtn.addTarget(self, action: #selector(addPet), for: .touchUpInside)
+        return customBar
     }()
 
     override func viewDidLoad() {
@@ -329,6 +335,7 @@ class AddPetViewController: UIViewController {
         scrollContainer.addSubview(iconCollectionView)
         
         view.addSubview(customBar)
+        view.addSubview(barBtnHapusPet)
         
         let scrollContentGuide = scrollView.contentLayoutGuide
         let scrollFrameGuide = scrollView.frameLayoutGuide
@@ -427,11 +434,18 @@ class AddPetViewController: UIViewController {
             customBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             customBar.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             customBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            barBtnHapusPet.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            barBtnHapusPet.centerYAnchor.constraint(equalTo: customBar.barBtn.centerYAnchor),
         ])
         
     }
     
     @objc func addPet() {
+        dismiss(animated: true)
+    }
+    
+    @objc func deletePet() {
         dismiss(animated: true)
     }
     
@@ -462,7 +476,7 @@ class AddPetViewController: UIViewController {
     
 }
 
-extension AddPetViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+extension EditPetViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         1
     }
@@ -482,7 +496,7 @@ extension AddPetViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
 }
 
-extension AddPetViewController: UITextFieldDelegate {
+extension EditPetViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == umurHewan {
             let allowedCharacters = "0123456789"
@@ -501,7 +515,7 @@ extension AddPetViewController: UITextFieldDelegate {
     }
 }
 
-extension AddPetViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension EditPetViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         9
     }
@@ -525,15 +539,4 @@ extension AddPetViewController: UICollectionViewDelegate, UICollectionViewDataSo
         cell.contentView.backgroundColor = UIColor(named: "white")
     }
     
-}
-
-extension UITextField {
-    func setLeftField(image: UIImage) {
-        let iconView = UIImageView(frame: CGRect(x: 0, y: 0, width: 20, height: 20)) // set your Own size
-        iconView.image = image
-        let iconContainerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 15))
-        iconContainerView.addSubview(iconView)
-        leftView = iconContainerView
-        leftViewMode = .always
-    }
 }

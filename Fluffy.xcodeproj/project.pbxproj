@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D174214290A7E87003A1C8E /* EditPetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D174213290A7E87003A1C8E /* EditPetViewController.swift */; };
 		1D661464290780D8007B43DA /* PetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D661463290780D8007B43DA /* PetTableViewCell.swift */; };
 		1D6614662907C623007B43DA /* AddPetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6614652907C623007B43DA /* AddPetViewController.swift */; };
 		1D661468290A12CF007B43DA /* PetIconCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D661467290A12CF007B43DA /* PetIconCollectionViewCell.swift */; };
@@ -107,6 +108,7 @@
 /* Begin PBXFileReference section */
 		0CB3843C1C3EF3989435CB05 /* Pods-FluffyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluffyTests.debug.xcconfig"; path = "Target Support Files/Pods-FluffyTests/Pods-FluffyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		131CE0F91D3B34797E8AB832 /* Pods-FluffyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FluffyTests.release.xcconfig"; path = "Target Support Files/Pods-FluffyTests/Pods-FluffyTests.release.xcconfig"; sourceTree = "<group>"; };
+		1D174213290A7E87003A1C8E /* EditPetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPetViewController.swift; sourceTree = "<group>"; };
 		1D661463290780D8007B43DA /* PetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetTableViewCell.swift; sourceTree = "<group>"; };
 		1D6614652907C623007B43DA /* AddPetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPetViewController.swift; sourceTree = "<group>"; };
 		1D661467290A12CF007B43DA /* PetIconCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetIconCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -536,6 +538,7 @@
 				4E5068AB28FD54E30005ADBF /* PetViewController.swift */,
 				1D661463290780D8007B43DA /* PetTableViewCell.swift */,
 				1D6614652907C623007B43DA /* AddPetViewController.swift */,
+				1D174213290A7E87003A1C8E /* EditPetViewController.swift */,
 				1D661467290A12CF007B43DA /* PetIconCollectionViewCell.swift */,
 			);
 			path = Pet;
@@ -858,6 +861,7 @@
 				1DA5543728EEA1570040E4F7 /* ReusableButton.swift in Sources */,
 				1D661468290A12CF007B43DA /* PetIconCollectionViewCell.swift in Sources */,
 				4B78DB1C28EAD8A200744386 /* Style Guide.swift in Sources */,
+				1D174214290A7E87003A1C8E /* EditPetViewController.swift in Sources */,
 				4B78DB3128EAD90700744386 /* Api Services.swift in Sources */,
 				1D6614662907C623007B43DA /* AddPetViewController.swift in Sources */,
 				4B3D82BE29051A2F00F6A82F /* ModalSelectPetViewController.swift in Sources */,

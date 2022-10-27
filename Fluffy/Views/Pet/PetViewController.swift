@@ -96,5 +96,12 @@ extension PetViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = EditPetViewController()
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+        
+    }
+    
 
 }

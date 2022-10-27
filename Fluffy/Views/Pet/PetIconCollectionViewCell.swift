@@ -12,6 +12,8 @@ class PetIconCollectionViewCell: UICollectionViewCell {
     // MARK: - Properties
     static let cellId = "PetIconCollectionViewCell"
     
+    var isSelect = false
+    
     private let petImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -23,6 +25,7 @@ class PetIconCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         contentView.backgroundColor = UIColor(named: "white")
+        
         contentView.layer.cornerRadius = 8
         
         contentView.addSubview(petImageView)
