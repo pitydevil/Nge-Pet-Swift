@@ -40,7 +40,7 @@ class PetViewController: UIViewController {
         //MARK: - Setup Navigation Color
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(named: "grey3")
+        appearance.backgroundColor = UIColor(named: "white")
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
@@ -59,7 +59,8 @@ class PetViewController: UIViewController {
     
     @objc func toAddPet() {
         let vc = AddPetViewController()
-        navigationController?.pushViewController(vc, animated: true)
+        vc.modalPresentationStyle = .fullScreen
+        navigationController?.present(vc, animated: true)
     }
     
 }
