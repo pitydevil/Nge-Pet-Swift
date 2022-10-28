@@ -86,6 +86,8 @@
 		4EAF1EE629080C24007248AA /* PetSizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1EE529080C24007248AA /* PetSizeViewController.swift */; };
 		4EAF1EEB29084550007248AA /* PetSizeExplainationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1EEA29084550007248AA /* PetSizeExplainationTableViewCell.swift */; };
 		4EAF1EED290989A2007248AA /* BookingConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1EEC290989A2007248AA /* BookingConfirmationViewController.swift */; };
+		4EAF1EF0290AF9E1007248AA /* HargaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1EEF290AF9E1007248AA /* HargaTableViewCell.swift */; };
+		4EAF1EF2290B05F3007248AA /* paketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1EF1290B05F3007248AA /* paketTableViewCell.swift */; };
 		4EC56E4828F71FD1008ADD7F /* ExploreCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC56E4728F71FD1008ADD7F /* ExploreCard.swift */; };
 		4EC56E4C28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC56E4B28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift */; };
 		4EC56E4E28F826BB008ADD7F /* MonitoringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC56E4D28F826BB008ADD7F /* MonitoringViewController.swift */; };
@@ -201,6 +203,8 @@
 		4EAF1EE529080C24007248AA /* PetSizeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetSizeViewController.swift; sourceTree = "<group>"; };
 		4EAF1EEA29084550007248AA /* PetSizeExplainationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetSizeExplainationTableViewCell.swift; sourceTree = "<group>"; };
 		4EAF1EEC290989A2007248AA /* BookingConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingConfirmationViewController.swift; sourceTree = "<group>"; };
+		4EAF1EEF290AF9E1007248AA /* HargaTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HargaTableViewCell.swift; sourceTree = "<group>"; };
+		4EAF1EF1290B05F3007248AA /* paketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = paketTableViewCell.swift; sourceTree = "<group>"; };
 		4EC56E4728F71FD1008ADD7F /* ExploreCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCard.swift; sourceTree = "<group>"; };
 		4EC56E4B28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedPetCollectionViewCell.swift; sourceTree = "<group>"; };
 		4EC56E4D28F826BB008ADD7F /* MonitoringViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringViewController.swift; sourceTree = "<group>"; };
@@ -556,6 +560,7 @@
 		4E5068B229001C1C0005ADBF /* Booking */ = {
 			isa = PBXGroup;
 			children = (
+				4EAF1EEE290AF9B9007248AA /* Cells */,
 				4E5068AD28FD54ED0005ADBF /* BookingViewController.swift */,
 				4EAF1EEC290989A2007248AA /* BookingConfirmationViewController.swift */,
 			);
@@ -598,6 +603,15 @@
 				4EAF1ED82907E1F6007248AA /* FasilitasTableViewCell.swift */,
 				4EAF1EDC2907F55C007248AA /* PetTypeCollectionViewCell.swift */,
 				4EAF1EEA29084550007248AA /* PetSizeExplainationTableViewCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		4EAF1EEE290AF9B9007248AA /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				4EAF1EEF290AF9E1007248AA /* HargaTableViewCell.swift */,
+				4EAF1EF1290B05F3007248AA /* paketTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -907,6 +921,7 @@
 				4EAF1EED290989A2007248AA /* BookingConfirmationViewController.swift in Sources */,
 				4B3D82BE29051A2F00F6A82F /* ModalSelectPetViewController.swift in Sources */,
 				4B3D82CE29051D8E00F6A82F /* NetworkService.swift in Sources */,
+				4EAF1EF0290AF9E1007248AA /* HargaTableViewCell.swift in Sources */,
 				4EAF1EDF2907FDB1007248AA /* FasilitasViewController.swift in Sources */,
 				4EAF1EE629080C24007248AA /* PetSizeViewController.swift in Sources */,
 				4EAF1ED92907E1F6007248AA /* FasilitasTableViewCell.swift in Sources */,
@@ -927,6 +942,7 @@
 				4E5068AE28FD54ED0005ADBF /* BookingViewController.swift in Sources */,
 				4EC56E4E28F826BB008ADD7F /* MonitoringViewController.swift in Sources */,
 				4B3D82D229051DAD00F6A82F /* Response.swift in Sources */,
+				4EAF1EF2290B05F3007248AA /* paketTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
