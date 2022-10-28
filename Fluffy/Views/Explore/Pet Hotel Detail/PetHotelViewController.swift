@@ -261,15 +261,15 @@ class PetHotelViewController: UIViewController {
         return tableView
     }()
     
-    private lazy var btmBar: ReusableTabBar = {
-        let customBar = ReusableTabBar(btnText: "Pilih Paket", showText: .notShow)
-//        customBar.barBtn.addTarget(self, action: #selector(checkinSelected), for: .touchUpInside)
-        customBar.translatesAutoresizingMaskIntoConstraints = false
-        customBar.backgroundColor = UIColor(named: "primaryMain")
-        customBar.barBtn.configuration?.baseBackgroundColor = UIColor(named: "white")
-        customBar.barBtn.configuration?.baseForegroundColor = UIColor(named: "primaryMain")
-        return customBar
-    }()
+        private lazy var btmBar: ReusableTabBar = {
+            let customBar = ReusableTabBar(btnText: "Pilih Paket", showText: .notShow)
+            customBar.barBtn.addTarget(self, action: #selector(pilihPaket), for: .touchUpInside)
+            customBar.translatesAutoresizingMaskIntoConstraints = false
+            customBar.backgroundColor = UIColor(named: "primaryMain")
+            customBar.barBtn.configuration?.baseBackgroundColor = UIColor(named: "white")
+            customBar.barBtn.configuration?.baseForegroundColor = UIColor(named: "primaryMain")
+            return customBar
+        }()
     
     private lazy var startFrom:ReuseableLabel = ReuseableLabel(labelText: "Mulai dari", labelType: .bodyP2, labelColor: .white)
     
@@ -387,6 +387,10 @@ class PetHotelViewController: UIViewController {
         self.present(vc, animated: true)
     }
     
+    @objc func pilihPaket() {
+        let vc = BookingConfirmationViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     
     //MARK: properties
     private var carouselData = [CarouselData]()
@@ -403,6 +407,7 @@ class PetHotelViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = false
         self.navigationItem.titleView = setTitle(title: "Pet Hotel Name", subtitle: "location")
         self.navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
      
         view.addSubview(scrollView)
