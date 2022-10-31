@@ -7,6 +7,7 @@
 
 import UIKit
 
+@available(iOS 16.0, *)
 class PetHotelViewController: UIViewController {
 
     //MARK: Subviews
@@ -493,6 +494,7 @@ extension UIApplication {
     }
 }
 //MARK: Setups
+@available(iOS 16.0, *)
 extension PetHotelViewController{
     func setupViews(){
         //MARK: Scroll View Constraints
@@ -741,6 +743,7 @@ extension PetHotelViewController{
 
 // MARK: - UICollectionViewDataSource
 
+@available(iOS 16.0, *)
 extension PetHotelViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == petTypeCollectionView{
@@ -781,6 +784,7 @@ extension PetHotelViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionView Delegate
 
+@available(iOS 16.0, *)
 extension PetHotelViewController: UICollectionViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         currentPage = getCurrentPage()
@@ -795,6 +799,7 @@ extension PetHotelViewController: UICollectionViewDelegate {
     }
 }
 //MARK: page Control get current page
+@available(iOS 16.0, *)
 private extension PetHotelViewController {
     func getCurrentPage() -> Int {
         
@@ -808,6 +813,7 @@ private extension PetHotelViewController {
     }
 }
 //MARK: UITableViewDataSource, UITableViewDelegate
+@available(iOS 16.0, *)
 extension PetHotelViewController : UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == rulesTableView{
@@ -871,6 +877,7 @@ extension UIStackView {
 }
 
 //MARK: Navigation Title
+@available(iOS 16.0, *)
 extension PetHotelViewController{
     func setTitle(title:String, subtitle:String) -> UIView {
         let titleLabel = UILabel(frame: CGRectMake(0, -2, 0, 0))
