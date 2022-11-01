@@ -7,6 +7,7 @@
 
 import UIKit
 
+@available(iOS 16.0, *)
 class BookingConfirmationViewController: UIViewController {
 
     //MARK: Subviews
@@ -154,7 +155,7 @@ class BookingConfirmationViewController: UIViewController {
     private lazy var editPesanan: ReusableButton = {
         let barBtnLewati = ReusableButton(titleBtn: "Edit", styleBtn: .light)
         barBtnLewati.configuration?.baseForegroundColor = UIColor(named: "primaryMain")
-//        barBtnLewati.addTarget(self, action: #selector(skipModal), for: .touchUpInside)
+        barBtnLewati.addTarget(self, action: #selector(editTanggal), for: .touchUpInside)
         return barBtnLewati
     }()
     
@@ -196,6 +197,12 @@ class BookingConfirmationViewController: UIViewController {
         tableView.invalidateIntrinsicContentSize()
         return tableView
     }()
+    //MARK: Navigation
+    @available(iOS 16.0, *)
+    @objc func editTanggal() {
+        let vc = DateSelectionViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
     
     //MARK: properties
     private var numPackage = 1
@@ -257,6 +264,7 @@ class BookingConfirmationViewController: UIViewController {
     
 }
 
+@available(iOS 16.0, *)
 extension BookingConfirmationViewController{
     func setupUI(){
         numPackage = 2
@@ -266,6 +274,7 @@ extension BookingConfirmationViewController{
 }
 
 
+@available(iOS 16.0, *)
 extension BookingConfirmationViewController: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return numPackage
@@ -292,6 +301,7 @@ extension BookingConfirmationViewController: UITableViewDelegate, UITableViewDat
 
 }
 
+@available(iOS 16.0, *)
 extension BookingConfirmationViewController{
     func setupConstraint(){
         //MARK: Scroll View Constraints

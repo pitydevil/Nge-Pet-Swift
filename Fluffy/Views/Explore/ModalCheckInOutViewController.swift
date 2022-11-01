@@ -83,7 +83,7 @@ class ModalCheckInOutViewController: UIViewController, UICalendarViewDelegate {
             print(formatDate)
         }
     }
-
+ 
     override func viewDidLoad() {
         super.viewDidLoad()
         
