@@ -117,7 +117,6 @@ class PetTableViewCell: UITableViewCell {
 //MARK: - Public
 extension PetTableViewCell {
     public func configure(petImage: String?, racePet: String?, namePet: String?, sexPet: String?, typePet: String?, agePet: String?){
-//    public func configure(petImage: String?, racePet: String?){
         petIcon.image = UIImage(named: petImage ?? "")
         petRace.text = racePet
         petName.text = namePet
