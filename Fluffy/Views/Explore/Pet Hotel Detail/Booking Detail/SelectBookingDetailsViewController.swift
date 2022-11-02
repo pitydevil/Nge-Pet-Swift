@@ -277,7 +277,9 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
             vc.modalPresentationStyle = .pageSheet
             self.present(vc, animated: true)
         } else if indexPath.row == 1 {
-            print("go to custom sop")
+            let vc = CatatanViewController()
+            vc.modalPresentationStyle = .pageSheet
+            self.present(vc, animated: true)
         }
     }
 

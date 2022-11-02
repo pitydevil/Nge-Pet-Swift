@@ -43,6 +43,8 @@
 		1D85772228EC086600CF2D5E /* ReuseableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D85772128EC086600CF2D5E /* ReuseableLabel.swift */; };
 		1DA5543728EEA1570040E4F7 /* ReusableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA5543628EEA1570040E4F7 /* ReusableButton.swift */; };
 		1DBF11CD28F00CAC00C53D1E /* ReusableTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBF11CC28F00CAC00C53D1E /* ReusableTabBar.swift */; };
+		1DE1B008291263C1002095A0 /* CatatanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE1B007291263C1002095A0 /* CatatanViewController.swift */; };
+		1DE1B00A2912D260002095A0 /* CatatanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE1B0092912D260002095A0 /* CatatanTableViewCell.swift */; };
 		1DE5D73F2906463A00CD4820 /* ModalSearchLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE5D73E2906463A00CD4820 /* ModalSearchLocationViewController.swift */; };
 		1DE771C3290FCD8900A23A66 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1DE771C2290FCD8900A23A66 /* Launch Screen.storyboard */; };
 		1DE771C52910D0AB00A23A66 /* SelectBookingDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE771C42910D0AB00A23A66 /* SelectBookingDetailsViewController.swift */; };
@@ -164,6 +166,8 @@
 		1DA5543228ED604C0040E4F7 /* CheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckViewController.swift; sourceTree = "<group>"; };
 		1DA5543628EEA1570040E4F7 /* ReusableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableButton.swift; sourceTree = "<group>"; };
 		1DBF11CC28F00CAC00C53D1E /* ReusableTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableTabBar.swift; sourceTree = "<group>"; };
+		1DE1B007291263C1002095A0 /* CatatanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatatanViewController.swift; sourceTree = "<group>"; };
+		1DE1B0092912D260002095A0 /* CatatanTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatatanTableViewCell.swift; sourceTree = "<group>"; };
 		1DE5D73E2906463A00CD4820 /* ModalSearchLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalSearchLocationViewController.swift; sourceTree = "<group>"; };
 		1DE771C2290FCD8900A23A66 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		1DE771C42910D0AB00A23A66 /* SelectBookingDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectBookingDetailsViewController.swift; sourceTree = "<group>"; };
@@ -349,6 +353,8 @@
 			children = (
 				1DE771CC2911FCD800A23A66 /* HotelPackageViewController.swift */,
 				1DE771D12911FF8300A23A66 /* HotelPackageTableViewCell.swift */,
+				1DE1B007291263C1002095A0 /* CatatanViewController.swift */,
+				1DE1B0092912D260002095A0 /* CatatanTableViewCell.swift */,
 			);
 			path = Modal;
 			sourceTree = "<group>";
@@ -953,6 +959,7 @@
 				4E5068AC28FD54E30005ADBF /* PetViewController.swift in Sources */,
 				4EC56E5028F84387008ADD7F /* MonitoringTableViewCell.swift in Sources */,
 				4EC56E4828F71FD1008ADD7F /* ExploreCard.swift in Sources */,
+				1DE1B008291263C1002095A0 /* CatatanViewController.swift in Sources */,
 				4B78DB1F28EAD8AE00744386 /* Base Providers.swift in Sources */,
 				1D85772228EC086600CF2D5E /* ReuseableLabel.swift in Sources */,
 				4BC60A1428E5744E007A6DB0 /* Extension.swift in Sources */,
@@ -999,6 +1006,7 @@
 				4BC60A1628E57459007A6DB0 /* Helper Class.swift in Sources */,
 				1DE771C72910E65B00A23A66 /* ExpandableHeaderView.swift in Sources */,
 				4EAF1EE42907FDD4007248AA /* AsuransiViewController.swift in Sources */,
+				1DE1B00A2912D260002095A0 /* CatatanTableViewCell.swift in Sources */,
 				4B78DB3828EAD92800744386 /* Class Model.swift in Sources */,
 				4EAF1ED72907C807007248AA /* PetHotelDetailTableViewCell.swift in Sources */,
 				1DBF11CD28F00CAC00C53D1E /* ReusableTabBar.swift in Sources */,
