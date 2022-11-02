@@ -79,6 +79,8 @@
 		4E5068B429001C4C0005ADBF /* ExploreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5068B329001C4C0005ADBF /* ExploreTableViewCell.swift */; };
 		4E5A6D7028EC03D9009BBDE9 /* SwitchSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5A6D6F28EC03D9009BBDE9 /* SwitchSelect.swift */; };
 		4E684C6228ED41B0009B4173 /* CarouselCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E684C6128ED41B0009B4173 /* CarouselCollectionViewCell.swift */; };
+		4E892D2D29111E6F0068D7E5 /* BookingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E892D2C29111E6F0068D7E5 /* BookingTableViewCell.swift */; };
+		4E892D2F291189C40068D7E5 /* BookingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E892D2E291189C40068D7E5 /* BookingDetailViewController.swift */; };
 		4E892D312912D02E0068D7E5 /* SearchExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E892D302912D02E0068D7E5 /* SearchExploreViewController.swift */; };
 		4EAF1ED229027FC2007248AA /* NavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1ED129027FC2007248AA /* NavController.swift */; };
 		4EAF1ED529068CDD007248AA /* PetHotelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1ED429068CDD007248AA /* PetHotelViewController.swift */; };
@@ -202,6 +204,8 @@
 		4E5068B329001C4C0005ADBF /* ExploreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTableViewCell.swift; sourceTree = "<group>"; };
 		4E5A6D6F28EC03D9009BBDE9 /* SwitchSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchSelect.swift; sourceTree = "<group>"; };
 		4E684C6128ED41B0009B4173 /* CarouselCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselCollectionViewCell.swift; sourceTree = "<group>"; };
+		4E892D2C29111E6F0068D7E5 /* BookingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingTableViewCell.swift; sourceTree = "<group>"; };
+		4E892D2E291189C40068D7E5 /* BookingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingDetailViewController.swift; sourceTree = "<group>"; };
 		4E892D302912D02E0068D7E5 /* SearchExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchExploreViewController.swift; sourceTree = "<group>"; };
 		4EAF1ED129027FC2007248AA /* NavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavController.swift; sourceTree = "<group>"; };
 		4EAF1ED429068CDD007248AA /* PetHotelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotelViewController.swift; sourceTree = "<group>"; };
@@ -629,6 +633,7 @@
 			children = (
 				4EAF1EEF290AF9E1007248AA /* HargaTableViewCell.swift */,
 				4EAF1EF1290B05F3007248AA /* paketTableViewCell.swift */,
+				4E892D2C29111E6F0068D7E5 /* BookingTableViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -638,6 +643,7 @@
 			children = (
 				4EAF1EEC290989A2007248AA /* BookingConfirmationViewController.swift */,
 				4EAF1EF4290BA0D6007248AA /* DateSelectionViewController.swift */,
+				4E892D2E291189C40068D7E5 /* BookingDetailViewController.swift */,
 			);
 			path = Pages;
 			sourceTree = "<group>";
@@ -923,6 +929,7 @@
 				4EC56E4828F71FD1008ADD7F /* ExploreCard.swift in Sources */,
 				4B78DB1F28EAD8AE00744386 /* Base Providers.swift in Sources */,
 				1D85772228EC086600CF2D5E /* ReuseableLabel.swift in Sources */,
+				4E892D2F291189C40068D7E5 /* BookingDetailViewController.swift in Sources */,
 				4BC60A1428E5744E007A6DB0 /* Extension.swift in Sources */,
 				4B3D82C229051A4500F6A82F /* ModalMonitoringTableViewCell.swift in Sources */,
 				4B78DB2328EAD8BD00744386 /* View Model .swift in Sources */,
@@ -956,6 +963,7 @@
 				4EAF1EE629080C24007248AA /* PetSizeViewController.swift in Sources */,
 				4EAF1ED92907E1F6007248AA /* FasilitasTableViewCell.swift in Sources */,
 				4EAF1EF5290BA0D6007248AA /* DateSelectionViewController.swift in Sources */,
+				4E892D2D29111E6F0068D7E5 /* BookingTableViewCell.swift in Sources */,
 				4E892D312912D02E0068D7E5 /* SearchExploreViewController.swift in Sources */,
 				4EAF1ED229027FC2007248AA /* NavController.swift in Sources */,
 				4E684C6228ED41B0009B4173 /* CarouselCollectionViewCell.swift in Sources */,
