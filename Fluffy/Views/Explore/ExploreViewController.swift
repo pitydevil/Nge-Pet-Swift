@@ -80,7 +80,7 @@ class ExploreViewController: UIViewController {
     private lazy var searchButton:ReusableButton = {
         let btn = ReusableButton(titleBtn: "Cari Hotel", styleBtn:.longOutline)
         btn.translatesAutoresizingMaskIntoConstraints = false
-        //        btn.addTarget(self, action: #selector(selectDate), for: .touchUpInside)
+                btn.addTarget(self, action: #selector(search), for: .touchUpInside)
         return btn
     }()
     
@@ -104,6 +104,7 @@ class ExploreViewController: UIViewController {
         self.navigationController?.isNavigationBarHidden = true
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         view.backgroundColor = UIColor(named: "grey3")
+        self.navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
         view.addSubview(scrollView)
 
         scrollView.addSubview(exploreRect)
@@ -139,6 +140,11 @@ class ExploreViewController: UIViewController {
         let vc = ModalSearchLocationViewController()
         vc.modalPresentationStyle = .pageSheet
         self.present(vc, animated: true)
+    }
+    
+    @objc func search() {
+        let vc = SearchExploreViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @available(iOS 16.0, *)
