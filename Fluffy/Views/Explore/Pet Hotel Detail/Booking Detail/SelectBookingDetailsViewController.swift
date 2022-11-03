@@ -7,22 +7,15 @@
 
 import UIKit
 
-struct ExpandableNames {
-    
-    var isExpanded: Bool
-    let names: [String]
-}
-
 class SelectBookingDetailsViewController: UIViewController {
     
     var switchChange = false
     
-    var twoDimensionalArray = [
-        ExpandableNames(isExpanded: true, names: ["Amy", "Budi", "Jono", "Arum", "Sugiono"]),
-        ExpandableNames(isExpanded: true, names: ["Chris", "Jhon", "Dhoe", "Sam"]),
-        ExpandableNames(isExpanded: true, names: ["David", "Dan", "Maria"]),
-        ExpandableNames(isExpanded: true, names: ["Angela", "Balmond"]),
-    ]
+    var contentCell = 2
+    
+    var filteredData: [String]!
+    
+    let names = ["Bom Bom", "Chiro", "Budiman", "Zacky"]
 
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -53,7 +46,7 @@ class SelectBookingDetailsViewController: UIViewController {
         tableView.allowsMultipleSelection = true
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        tableView.sectionHeaderTopPadding = 0
+        tableView.sectionHeaderTopPadding = 20
         tableView.isScrollEnabled = true
         return tableView
     }()
@@ -73,6 +66,13 @@ class SelectBookingDetailsViewController: UIViewController {
     private lazy var perDay: ReuseableLabel = ReuseableLabel(labelText: "/hari", labelType: .bodyP2, labelColor: .white)
     
     private lazy var price: ReuseableLabel = ReuseableLabel(labelText: "Rp60.000", labelType: .titleH2, labelColor: .white)
+    
+    private lazy var separator: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "grey2")
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,6 +80,8 @@ class SelectBookingDetailsViewController: UIViewController {
         view.backgroundColor = UIColor(named: "grey3")
         navigationItem.titleView = setTitle(title: "Katze Nesia Cat Hotel", subtitle: "Bekasi, Jawa Barat")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+        filteredData = names
         
         view.addSubview(searchBar)
         view.addSubview(packageTableView)
@@ -182,21 +184,38 @@ extension SelectBookingDetailsViewController {
 
 //MARK: - SearchBar Delegate
 extension SelectBookingDetailsViewController: UISearchBarDelegate {
-    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        
+        filteredData = []
+        
+        if searchText == "" {
+            filteredData = names
+        } else {
+            for name in names {
+                if name.lowercased().contains(searchText.lowercased()) {
+                    filteredData.append(name)
+                    print(name)
+                }
+            }
+        }
+        self.packageTableView.reloadData()
+    }
 }
 
 extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        //Activate after data
+//        return filteredData.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ExpandableHeaderView.identifier) as! ExpandableHeaderView
         
         //MARK: - Add Pet Data Here
-        headerView.configure(iconPackage: "poodle", namePet: "Bom Bom", sizePet: "Anjing Sedang", racePet: " - Poodle")
-        headerView.switchBtn.addTarget(self, action: #selector(didChangeSwitch), for: .valueChanged)
+        headerView.configure(iconPackage: "poodle", namePet: filteredData[section], sizePet: "Anjing Sedang", racePet: " - Poodle", change: false)
         
+        headerView.switchBtn.addTarget(self, action: #selector(didChangeSwitch), for: .valueChanged)
         headerView.switchBtn.tag = section
         
         return headerView
@@ -204,31 +223,32 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
     
     @objc func didChangeSwitch(button: UISwitch) {
         switchChange = !switchChange
+        
         let section = button.tag
         var indexPaths = [IndexPath]()
+        
+        for row in 0...1 {
+            let indexPath = IndexPath(row: row, section: section)
+            indexPaths.append(indexPath)
+        }
+        
+        let cell = packageTableView.headerView(forSection: section)
         if switchChange == false {
-            print("switch off")
-//            packageTableView.deleteRows(at: [indexPath], with: .fade)
+            packageTableView.deleteRows(at: indexPaths, with: .bottom)
+            cell?.contentView.layer.shadowColor = UIColor(named: "grey1")?.cgColor
+            cell?.contentView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
+            separator.removeFromSuperview()
         } else {
-            print("switch on")
-            print(packageTableView.indexPathsForVisibleRows!)
-            print(indexPaths)
-            packageTableView.deleteRows(at: indexPaths, with: .fade)
-//            packageTableView.insertRows(at: IndexPath, with: .fade)
-            
-//            for row in twoDimensionalArray[section].names.indices {
-//                let indexPath = IndexPath(row: row, section: section)
-//                indexPaths.append(indexPath)
-//            }
-//            let isExpanded = twoDimensionalArray[section].isExpanded
-//            twoDimensionalArray[section].isExpanded = !isExpanded
-//
-//            if isExpanded {
-//                packageTableView.deleteRows(at: indexPaths, with: .fade)
-//            } else {
-//                packageTableView.insertRows(at: indexPaths, with: .fade)
-//            }
-            
+            packageTableView.insertRows(at: indexPaths, with: .fade)
+            cell?.contentView.layer.shadowColor = UIColor(named: "white")?.cgColor
+            cell?.contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+            cell?.contentView.addSubview(separator)
+            NSLayoutConstraint.activate([
+                separator.bottomAnchor.constraint(equalTo: (cell?.contentView.bottomAnchor)!),
+                separator.heightAnchor.constraint(equalToConstant: 1),
+                separator.widthAnchor.constraint(equalToConstant: 300),
+                separator.centerXAnchor.constraint(equalTo: (cell?.contentView.centerXAnchor)!),
+            ])
         }
     }
     
@@ -237,21 +257,14 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-//        if switchChange == false {
-//            return 0
-//        } else {
-//            return 2
-//        }
-//        if !twoDimensionalArray[section].isExpanded {
-//            return 0
-//        }
-//        return twoDimensionalArray[section].names.count
+        if switchChange == false {
+            return 0
+        }
         return 2
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 95
+        return 100
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -265,10 +278,6 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
         cell.contentView.backgroundColor = UIColor(named: "white")
         cell.configure(textDetails: "Pilih paket hotel")
         return cell
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-//        let name = twoDimensionalArray[indexPath.section].names[indexPath.row]
-//        cell.textLabel?.text = name
-//        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

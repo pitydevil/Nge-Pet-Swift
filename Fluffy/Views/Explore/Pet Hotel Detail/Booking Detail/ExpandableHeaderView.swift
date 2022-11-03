@@ -12,6 +12,8 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
     // MARK: - Identifier
     static let identifier = "ExpandableHeaderView"
     
+    private let changes = false
+    
     private lazy var icon: UIImageView = {
         let icon = UIImageView()
         icon.image = UIImage(named: "poodle")
@@ -44,7 +46,7 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
         contentView.layer.masksToBounds = false
         contentView.layer.shadowRadius = 4.0
         contentView.layer.shadowOpacity = 0.1
-        contentView.layer.shadowColor = UIColor.gray.cgColor
+        contentView.layer.shadowColor = UIColor(named: "grey1")?.cgColor
         contentView.layer.shadowOffset = CGSize(width: 4, height: 4)
         
         //MARK: - Add Subview
@@ -90,7 +92,7 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
 
 //MARK: - Public
 extension ExpandableHeaderView {
-    public func configure(iconPackage: String, namePet: String, sizePet: String, racePet: String){
+    public func configure(iconPackage: String, namePet: String, sizePet: String, racePet: String, change: Bool){
         icon.image = UIImage(named: iconPackage)
         petName.text = namePet
         petSize.text = sizePet

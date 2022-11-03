@@ -58,7 +58,7 @@ class SelectPackageTableViewCell: UITableViewCell {
             
             separator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             separator.heightAnchor.constraint(equalToConstant: 1),
-            separator.widthAnchor.constraint(equalToConstant: contentView.frame.width),
+            separator.widthAnchor.constraint(equalToConstant: 300),
             separator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
         ])
         

@@ -24,13 +24,6 @@ class CatatanKhususTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    private lazy var separator: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "grey2")
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -39,11 +32,11 @@ class CatatanKhususTableViewCell: UITableViewCell {
         self.selectionStyle = .none
         
         contentView.layer.cornerRadius = 8
+        contentView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         
         contentView.addSubview(titleLbl)
         contentView.addSubview(details)
         contentView.addSubview(chevronRight)
-        contentView.addSubview(separator)
         
         //MARK: - Setup Constraint
         NSLayoutConstraint.activate([
@@ -55,11 +48,6 @@ class CatatanKhususTableViewCell: UITableViewCell {
             
             chevronRight.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             chevronRight.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            
-            separator.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            separator.heightAnchor.constraint(equalToConstant: 1),
-            separator.widthAnchor.constraint(equalToConstant: contentView.frame.width),
-            separator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
         ])
         
     }
@@ -71,7 +59,7 @@ class CatatanKhususTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 12, right: 0))
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 24, right: 0))
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
