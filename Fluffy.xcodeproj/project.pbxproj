@@ -58,6 +58,7 @@
 		4B3D82D529051DCB00F6A82F /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82D429051DCB00F6A82F /* Enum.swift */; };
 		4B3D82D729051DE500F6A82F /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82D629051DE500F6A82F /* Protocol.swift */; };
 		4B6A646D2914DB3F00597555 /* Fluffi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4B6A646B2914DB3F00597555 /* Fluffi.xcdatamodeld */; };
+		4B6A64702914E34D00597555 /* Pets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6A646F2914E34D00597555 /* Pets.swift */; };
 		4B78DB1C28EAD8A200744386 /* Style Guide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB1B28EAD8A200744386 /* Style Guide.swift */; };
 		4B78DB1F28EAD8AE00744386 /* Base Providers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB1E28EAD8AE00744386 /* Base Providers.swift */; };
 		4B78DB2328EAD8BD00744386 /* View Model .swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB2228EAD8BD00744386 /* View Model .swift */; };
@@ -179,6 +180,7 @@
 		4B3D82D429051DCB00F6A82F /* Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
 		4B3D82D629051DE500F6A82F /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
 		4B6A646C2914DB3F00597555 /* Fluffi.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Fluffi.xcdatamodel; sourceTree = "<group>"; };
+		4B6A646F2914E34D00597555 /* Pets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pets.swift; sourceTree = "<group>"; };
 		4B78DB1B28EAD8A200744386 /* Style Guide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Style Guide.swift"; sourceTree = "<group>"; };
 		4B78DB1E28EAD8AE00744386 /* Base Providers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Base Providers.swift"; sourceTree = "<group>"; };
 		4B78DB2228EAD8BD00744386 /* View Model .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View Model .swift"; sourceTree = "<group>"; };
@@ -357,6 +359,14 @@
 				4B3D82D029051DAC00F6A82F /* Response.swift */,
 			);
 			path = "Networking Domain";
+			sourceTree = "<group>";
+		};
+		4B6A646E2914E34300597555 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				4B6A646F2914E34D00597555 /* Pets.swift */,
+			);
+			path = Domain;
 			sourceTree = "<group>";
 		};
 		4B78DB1A28EAD89200744386 /* Miscellaneous */ = {
@@ -569,6 +579,7 @@
 		4E5068B129001C070005ADBF /* Pet */ = {
 			isa = PBXGroup;
 			children = (
+				4B6A646E2914E34300597555 /* Domain */,
 				4E5068AB28FD54E30005ADBF /* PetViewController.swift */,
 				1D661463290780D8007B43DA /* PetTableViewCell.swift */,
 				1D6614652907C623007B43DA /* AddPetViewController.swift */,
@@ -969,6 +980,7 @@
 				4E684C6228ED41B0009B4173 /* CarouselCollectionViewCell.swift in Sources */,
 				4B78DB3528EAD91C00744386 /* API Model.swift in Sources */,
 				4B3D82CB29051D8E00F6A82F /* NetworkLogger.swift in Sources */,
+				4B6A64702914E34D00597555 /* Pets.swift in Sources */,
 				4BC60A1628E57459007A6DB0 /* Helper Class.swift in Sources */,
 				4EAF1EE42907FDD4007248AA /* AsuransiViewController.swift in Sources */,
 				4B78DB3828EAD92800744386 /* Class Model.swift in Sources */,
