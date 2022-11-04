@@ -285,6 +285,12 @@ class AddPetViewController: UIViewController {
         collectionView.frame = view.bounds
         return collectionView
     }()
+    
+    private lazy var barBtnHapusPet: ReusableButton = {
+        let barBtnHapusPet = ReusableButton(titleBtn: "Batal", styleBtn: .light)
+        barBtnHapusPet.addTarget(self, action: #selector(deletePet), for: .touchUpInside)
+        return barBtnHapusPet
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -329,6 +335,8 @@ class AddPetViewController: UIViewController {
         scrollContainer.addSubview(iconCollectionView)
         
         view.addSubview(customBar)
+        view.addSubview(barBtnHapusPet)
+      
         
         let scrollContentGuide = scrollView.contentLayoutGuide
         let scrollFrameGuide = scrollView.frameLayoutGuide
@@ -427,8 +435,14 @@ class AddPetViewController: UIViewController {
             customBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             customBar.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             customBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            barBtnHapusPet.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            barBtnHapusPet.centerYAnchor.constraint(equalTo: customBar.barBtn.centerYAnchor),
         ])
-        
+    }
+    
+    @objc func deletePet() {
+        dismiss(animated: true)
     }
     
     @objc func addPet() {
