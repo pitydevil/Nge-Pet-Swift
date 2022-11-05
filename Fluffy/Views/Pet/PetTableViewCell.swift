@@ -17,14 +17,10 @@ class PetTableViewCell: UITableViewCell {
     }()
     
     private lazy var petRace = ReuseableLabel(labelText: "Poodle", labelType: .bodyP2, labelColor: .grey1)
-    
     private lazy var petName = ReuseableLabel(labelText: "Bom Bom", labelType: .titleH2, labelColor: .black)
-    
     private lazy var petSex = UIImageView()
-    
     private lazy var tipeText = ReuseableLabel(labelText: "Tipe          :", labelType: .titleH3, labelColor: .grey1)
     private lazy var petType = ReuseableLabel(labelText: "Anjing Besar", labelType: .bodyP2, labelColor: .grey1)
-    
     private lazy var umurText = ReuseableLabel(labelText: "Umur       :", labelType: .titleH3, labelColor: .grey1)
     private lazy var petAge = ReuseableLabel(labelText: " 2 Tahun", labelType: .bodyP2, labelColor: .grey1)
     
@@ -102,16 +98,13 @@ class PetTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-//        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 12, right: 0))
+
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
 
-        // Configure the view for the selected state
     }
-
 }
 
 //MARK: - Public

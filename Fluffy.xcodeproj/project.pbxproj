@@ -66,6 +66,7 @@
 		4B3D82D329051DAD00F6A82F /* Application Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82D129051DAD00F6A82F /* Application Endpoint.swift */; };
 		4B3D82D529051DCB00F6A82F /* Enum.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82D429051DCB00F6A82F /* Enum.swift */; };
 		4B3D82D729051DE500F6A82F /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82D629051DE500F6A82F /* Protocol.swift */; };
+		4B6A646D2914DB3F00597555 /* Fluffi.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4B6A646B2914DB3F00597555 /* Fluffi.xcdatamodeld */; };
 		4B78DB1C28EAD8A200744386 /* Style Guide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB1B28EAD8A200744386 /* Style Guide.swift */; };
 		4B78DB1F28EAD8AE00744386 /* Base Providers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB1E28EAD8AE00744386 /* Base Providers.swift */; };
 		4B78DB2328EAD8BD00744386 /* View Model .swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB2228EAD8BD00744386 /* View Model .swift */; };
@@ -88,6 +89,10 @@
 		4E5068B429001C4C0005ADBF /* ExploreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5068B329001C4C0005ADBF /* ExploreTableViewCell.swift */; };
 		4E5A6D7028EC03D9009BBDE9 /* SwitchSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5A6D6F28EC03D9009BBDE9 /* SwitchSelect.swift */; };
 		4E684C6228ED41B0009B4173 /* CarouselCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E684C6128ED41B0009B4173 /* CarouselCollectionViewCell.swift */; };
+		4E892D312912D02E0068D7E5 /* SearchExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E892D302912D02E0068D7E5 /* SearchExploreViewController.swift */; };
+		4E892D2D29111E6F0068D7E5 /* BookingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E892D2C29111E6F0068D7E5 /* BookingTableViewCell.swift */; };
+		4E892D2F291189C40068D7E5 /* BookingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E892D2E291189C40068D7E5 /* BookingDetailViewController.swift */; };
+		4E892D312912D02E0068D7E5 /* SearchExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E892D302912D02E0068D7E5 /* SearchExploreViewController.swift */; };
 		4EAF1ED229027FC2007248AA /* NavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1ED129027FC2007248AA /* NavController.swift */; };
 		4EAF1ED529068CDD007248AA /* PetHotelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1ED429068CDD007248AA /* PetHotelViewController.swift */; };
 		4EAF1ED72907C807007248AA /* PetHotelDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1ED62907C807007248AA /* PetHotelDetailTableViewCell.swift */; };
@@ -101,6 +106,7 @@
 		4EAF1EED290989A2007248AA /* BookingConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1EEC290989A2007248AA /* BookingConfirmationViewController.swift */; };
 		4EAF1EF0290AF9E1007248AA /* HargaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1EEF290AF9E1007248AA /* HargaTableViewCell.swift */; };
 		4EAF1EF2290B05F3007248AA /* paketTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1EF1290B05F3007248AA /* paketTableViewCell.swift */; };
+		4EAF1EF5290BA0D6007248AA /* DateSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1EF4290BA0D6007248AA /* DateSelectionViewController.swift */; };
 		4EC56E4828F71FD1008ADD7F /* ExploreCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC56E4728F71FD1008ADD7F /* ExploreCard.swift */; };
 		4EC56E4C28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC56E4B28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift */; };
 		4EC56E4E28F826BB008ADD7F /* MonitoringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC56E4D28F826BB008ADD7F /* MonitoringViewController.swift */; };
@@ -192,6 +198,7 @@
 		4B3D82D129051DAD00F6A82F /* Application Endpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Application Endpoint.swift"; sourceTree = "<group>"; };
 		4B3D82D429051DCB00F6A82F /* Enum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enum.swift; sourceTree = "<group>"; };
 		4B3D82D629051DE500F6A82F /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
+		4B6A646C2914DB3F00597555 /* Fluffi.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Fluffi.xcdatamodel; sourceTree = "<group>"; };
 		4B78DB1B28EAD8A200744386 /* Style Guide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Style Guide.swift"; sourceTree = "<group>"; };
 		4B78DB1E28EAD8AE00744386 /* Base Providers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Base Providers.swift"; sourceTree = "<group>"; };
 		4B78DB2228EAD8BD00744386 /* View Model .swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View Model .swift"; sourceTree = "<group>"; };
@@ -218,6 +225,10 @@
 		4E5068B329001C4C0005ADBF /* ExploreTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreTableViewCell.swift; sourceTree = "<group>"; };
 		4E5A6D6F28EC03D9009BBDE9 /* SwitchSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchSelect.swift; sourceTree = "<group>"; };
 		4E684C6128ED41B0009B4173 /* CarouselCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselCollectionViewCell.swift; sourceTree = "<group>"; };
+		4E892D302912D02E0068D7E5 /* SearchExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchExploreViewController.swift; sourceTree = "<group>"; };
+		4E892D2C29111E6F0068D7E5 /* BookingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingTableViewCell.swift; sourceTree = "<group>"; };
+		4E892D2E291189C40068D7E5 /* BookingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingDetailViewController.swift; sourceTree = "<group>"; };
+		4E892D302912D02E0068D7E5 /* SearchExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchExploreViewController.swift; sourceTree = "<group>"; };
 		4EAF1ED129027FC2007248AA /* NavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavController.swift; sourceTree = "<group>"; };
 		4EAF1ED429068CDD007248AA /* PetHotelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotelViewController.swift; sourceTree = "<group>"; };
 		4EAF1ED62907C807007248AA /* PetHotelDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotelDetailTableViewCell.swift; sourceTree = "<group>"; };
@@ -231,6 +242,7 @@
 		4EAF1EEC290989A2007248AA /* BookingConfirmationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingConfirmationViewController.swift; sourceTree = "<group>"; };
 		4EAF1EEF290AF9E1007248AA /* HargaTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HargaTableViewCell.swift; sourceTree = "<group>"; };
 		4EAF1EF1290B05F3007248AA /* paketTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = paketTableViewCell.swift; sourceTree = "<group>"; };
+		4EAF1EF4290BA0D6007248AA /* DateSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectionViewController.swift; sourceTree = "<group>"; };
 		4EC56E4728F71FD1008ADD7F /* ExploreCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreCard.swift; sourceTree = "<group>"; };
 		4EC56E4B28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedPetCollectionViewCell.swift; sourceTree = "<group>"; };
 		4EC56E4D28F826BB008ADD7F /* MonitoringViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringViewController.swift; sourceTree = "<group>"; };
@@ -568,6 +580,7 @@
 			children = (
 				4BC609D628E572DE007A6DB0 /* AppDelegate.swift */,
 				4BC609D828E572DE007A6DB0 /* SceneDelegate.swift */,
+				4B6A646B2914DB3F00597555 /* Fluffi.xcdatamodeld */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -592,6 +605,7 @@
 				1DE5D73E2906463A00CD4820 /* ModalSearchLocationViewController.swift */,
 				4B3D82BD29051A2F00F6A82F /* ModalSelectPetViewController.swift */,
 				4EAF1ED329068CB9007248AA /* Pet Hotel Detail */,
+				4E892D302912D02E0068D7E5 /* SearchExploreViewController.swift */,
 			);
 			path = Explore;
 			sourceTree = "<group>";
@@ -622,9 +636,9 @@
 		4E5068B229001C1C0005ADBF /* Booking */ = {
 			isa = PBXGroup;
 			children = (
-				4EAF1EEE290AF9B9007248AA /* Cells */,
 				4E5068AD28FD54ED0005ADBF /* BookingViewController.swift */,
-				4EAF1EEC290989A2007248AA /* BookingConfirmationViewController.swift */,
+				4EAF1EF3290BA0C1007248AA /* Pages */,
+				4EAF1EEE290AF9B9007248AA /* Cells */,
 			);
 			path = Booking;
 			sourceTree = "<group>";
@@ -664,8 +678,8 @@
 			children = (
 				4EAF1ED62907C807007248AA /* PetHotelDetailTableViewCell.swift */,
 				4EAF1ED82907E1F6007248AA /* FasilitasTableViewCell.swift */,
-				4EAF1EDC2907F55C007248AA /* PetTypeCollectionViewCell.swift */,
 				4EAF1EEA29084550007248AA /* PetSizeExplainationTableViewCell.swift */,
+				4EAF1EDC2907F55C007248AA /* PetTypeCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -675,8 +689,19 @@
 			children = (
 				4EAF1EEF290AF9E1007248AA /* HargaTableViewCell.swift */,
 				4EAF1EF1290B05F3007248AA /* paketTableViewCell.swift */,
+				4E892D2C29111E6F0068D7E5 /* BookingTableViewCell.swift */,
 			);
 			path = Cells;
+			sourceTree = "<group>";
+		};
+		4EAF1EF3290BA0C1007248AA /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				4EAF1EEC290989A2007248AA /* BookingConfirmationViewController.swift */,
+				4EAF1EF4290BA0D6007248AA /* DateSelectionViewController.swift */,
+				4E892D2E291189C40068D7E5 /* BookingDetailViewController.swift */,
+			);
+			path = Pages;
 			sourceTree = "<group>";
 		};
 		702D24B61AB42153E49B2163 /* Frameworks */ = {
@@ -962,8 +987,10 @@
 				1DE1B008291263C1002095A0 /* CatatanViewController.swift in Sources */,
 				4B78DB1F28EAD8AE00744386 /* Base Providers.swift in Sources */,
 				1D85772228EC086600CF2D5E /* ReuseableLabel.swift in Sources */,
+				4E892D2F291189C40068D7E5 /* BookingDetailViewController.swift in Sources */,
 				4BC60A1428E5744E007A6DB0 /* Extension.swift in Sources */,
 				4B3D82C229051A4500F6A82F /* ModalMonitoringTableViewCell.swift in Sources */,
+				4B6A646D2914DB3F00597555 /* Fluffi.xcdatamodeld in Sources */,
 				4B78DB2328EAD8BD00744386 /* View Model .swift in Sources */,
 				4B3D82C429051A5000F6A82F /* ModalCheckInOutViewController.swift in Sources */,
 				1DE771CD2911FCD800A23A66 /* HotelPackageViewController.swift in Sources */,
@@ -998,6 +1025,10 @@
 				4EAF1EDF2907FDB1007248AA /* FasilitasViewController.swift in Sources */,
 				4EAF1EE629080C24007248AA /* PetSizeViewController.swift in Sources */,
 				4EAF1ED92907E1F6007248AA /* FasilitasTableViewCell.swift in Sources */,
+				4EAF1EF5290BA0D6007248AA /* DateSelectionViewController.swift in Sources */,
+				4E892D312912D02E0068D7E5 /* SearchExploreViewController.swift in Sources */,
+				4E892D2D29111E6F0068D7E5 /* BookingTableViewCell.swift in Sources */,
+				4E892D312912D02E0068D7E5 /* SearchExploreViewController.swift in Sources */,
 				4EAF1ED229027FC2007248AA /* NavController.swift in Sources */,
 				4E684C6228ED41B0009B4173 /* CarouselCollectionViewCell.swift in Sources */,
 				1DE771C929111A7700A23A66 /* SelectPackageTableViewCell.swift in Sources */,
@@ -1345,6 +1376,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4B6A646B2914DB3F00597555 /* Fluffi.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4B6A646C2914DB3F00597555 /* Fluffi.xcdatamodel */,
+			);
+			currentVersion = 4B6A646C2914DB3F00597555 /* Fluffi.xcdatamodel */;
+			path = Fluffi.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 4BC609CB28E572DE007A6DB0 /* Project object */;
 }

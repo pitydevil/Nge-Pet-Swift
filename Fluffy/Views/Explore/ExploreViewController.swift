@@ -37,7 +37,7 @@ class ExploreViewController: UIViewController {
     
     private lazy var searchLocation: UITextField = {
         let textField = UITextField()
-        textField.setLeftView(image: UIImage(systemName: "mappin.and.ellipse")!)
+        textField.setLeftView(image: UIImage(systemName: "mappin.and.ellipse")!, color: UIColor(named: "white")!)
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = UIColor(named: "primary2")
         textField.layer.cornerRadius = 12
@@ -51,7 +51,7 @@ class ExploreViewController: UIViewController {
     
     private lazy var searchDate: UITextField = {
         let textField = UITextField()
-        textField.setLeftView(image: UIImage(systemName: "calendar")!)
+        textField.setLeftView(image: UIImage(systemName: "calendar")!, color: UIColor(named: "white")!)
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = UIColor(named: "primary2")
         textField.layer.cornerRadius = 12
@@ -65,7 +65,7 @@ class ExploreViewController: UIViewController {
     
     private lazy var searchPet: UITextField = {
         let textField = UITextField()
-        textField.setLeftView(image: UIImage(systemName: "pawprint.fill")!)
+        textField.setLeftView(image: UIImage(systemName: "pawprint.fill")!, color: UIColor(named: "white")!)
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = UIColor(named: "primary2")
         textField.layer.cornerRadius = 12
@@ -80,7 +80,7 @@ class ExploreViewController: UIViewController {
     private lazy var searchButton:ReusableButton = {
         let btn = ReusableButton(titleBtn: "Cari Hotel", styleBtn:.longOutline)
         btn.translatesAutoresizingMaskIntoConstraints = false
-        //        btn.addTarget(self, action: #selector(selectDate), for: .touchUpInside)
+                btn.addTarget(self, action: #selector(search), for: .touchUpInside)
         return btn
     }()
     
@@ -102,8 +102,10 @@ class ExploreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
+//        self.navigationItem.backBarButtonItem?.tintColor = UIColor(named: "grey1")
         view.backgroundColor = UIColor(named: "grey3")
+        self.navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
         view.addSubview(scrollView)
 
         scrollView.addSubview(exploreRect)
@@ -139,6 +141,11 @@ class ExploreViewController: UIViewController {
         let vc = ModalSearchLocationViewController()
         vc.modalPresentationStyle = .pageSheet
         self.present(vc, animated: true)
+    }
+    
+    @objc func search() {
+        let vc = SearchExploreViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @available(iOS 16.0, *)
@@ -251,13 +258,13 @@ extension ExploreViewController : UITableViewDataSource, UITableViewDelegate{
 
 //MARK: add left image
 extension UITextField {
-    func setLeftView(image: UIImage) {
+    func setLeftView(image: UIImage, color:UIColor) {
         let iconView = UIImageView(frame: CGRect(x: 21, y: 10, width: 16, height: 16)) // set your Own size
         iconView.image = image
         let iconContainerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 32))
         iconContainerView.addSubview(iconView)
         leftView = iconContainerView
         leftViewMode = .always
-        self.tintColor = UIColor(named: "white")
+        self.tintColor = color
     }
 }
