@@ -11,7 +11,7 @@ class CatatanTableViewCell: UITableViewCell {
 
     static let identifier = "CatatanTableViewCell"
     
-    private lazy var catatanKhusus: UITextField = {
+    lazy var catatanKhusus: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.backgroundColor = UIColor(named: "grey3")
@@ -76,8 +76,8 @@ extension CatatanTableViewCell: UITextFieldDelegate {
     
     //Dismiss Keyboard When Click Return
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        contentView.endEditing(true)
-        return false
+        textField.resignFirstResponder()
+        return true
     }
 }
 

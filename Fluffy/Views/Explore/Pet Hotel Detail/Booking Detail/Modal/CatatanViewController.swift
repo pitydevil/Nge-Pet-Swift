@@ -112,6 +112,7 @@ extension CatatanViewController: UITableViewDelegate, UITableViewDataSource {
         btn.leadingAnchor.constraint(equalTo: footerView.leadingAnchor).isActive = true
         btn.trailingAnchor.constraint(equalTo: footerView.trailingAnchor).isActive = true
         btn.addTarget(self, action: #selector(tambahCatatan), for: .touchUpInside)
+        btn.isEnabled = true
         return footerView
     }
     

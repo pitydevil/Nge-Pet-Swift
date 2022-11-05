@@ -12,8 +12,6 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
     // MARK: - Identifier
     static let identifier = "ExpandableHeaderView"
     
-    private let changes = false
-    
     private lazy var icon: UIImageView = {
         let icon = UIImageView()
         icon.image = UIImage(named: "poodle")
@@ -92,7 +90,7 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
 
 //MARK: - Public
 extension ExpandableHeaderView {
-    public func configure(iconPackage: String, namePet: String, sizePet: String, racePet: String, change: Bool){
+    public func configure(iconPackage: String, namePet: String, sizePet: String, racePet: String){
         icon.image = UIImage(named: iconPackage)
         petName.text = namePet
         petSize.text = sizePet
