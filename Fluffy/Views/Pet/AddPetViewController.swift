@@ -478,7 +478,7 @@ class AddPetViewController: UIViewController {
                         self.present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "OK"), animated: true)
                     case let .sukses(errorTitle, errorMessage):
                     self.present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "OK"), animated: true) {
-                        self.dismiss(animated: true)
+                        self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
                     }
                     case let .petAgeTidakAda(errorTitle, errorMessage):
                         self.present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "OK"), animated: true)

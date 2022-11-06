@@ -100,7 +100,8 @@ class PetTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-
+        let margins = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
+        contentView.frame = contentView.frame.inset(by: margins)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
