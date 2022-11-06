@@ -76,6 +76,8 @@ class PetTableViewCell: UITableViewCell {
 
             petSex.leadingAnchor.constraint(equalTo: petName.trailingAnchor, constant: 4),
             petSex.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
+            petSex.heightAnchor.constraint(equalToConstant: 12),
+            petSex.widthAnchor.constraint(equalToConstant: 12),
 
             tipeText.leadingAnchor.constraint(equalTo: petIcon.trailingAnchor, constant: 12),
             tipeText.topAnchor.constraint(equalTo: petName.bottomAnchor, constant: 12),
@@ -98,7 +100,8 @@ class PetTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-
+        let margins = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
+        contentView.frame = contentView.frame.inset(by: margins)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -109,12 +112,12 @@ class PetTableViewCell: UITableViewCell {
 
 //MARK: - Public
 extension PetTableViewCell {
-    public func configure(petImage: String?, racePet: String?, namePet: String?, sexPet: String?, typePet: String?, agePet: String?){
-        petIcon.image = UIImage(named: petImage ?? "")
-        petRace.text = racePet
-        petName.text = namePet
-        petSex.image = UIImage(named: sexPet ?? "")
-        petType.text = typePet
-        petAge.text = agePet
+    public func configure(_ pets : Pets){
+        petIcon.image = UIImage(named: pets.petData!)
+        petRace.text  = pets.petBreed!
+        petName.text  = pets.petName!
+        petSex.image  = UIImage(named: pets.petGender!)
+        petType.text  = pets.petType
+        petAge.text   = String(Int(pets.petAge!))
     }
 }
