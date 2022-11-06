@@ -12,6 +12,7 @@ struct ExpandableNames {
     var namesIs: String
 }
 
+@available(iOS 16.0, *)
 class SelectBookingDetailsViewController: UIViewController {
     
     var filteredData: [ExpandableNames] = []
@@ -136,12 +137,11 @@ class SelectBookingDetailsViewController: UIViewController {
         let vc = BookingConfirmationViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
-    
 
 }
 
 //MARK: Navigation Title
+@available(iOS 16.0, *)
 extension SelectBookingDetailsViewController {
     func setTitle(title:String, subtitle:String) -> UIView {
         let titleLabel = UILabel(frame: CGRectMake(0, -2, 0, 0))
@@ -188,6 +188,7 @@ extension SelectBookingDetailsViewController {
 }
 
 //MARK: - SearchBar Delegate
+@available(iOS 16.0, *)
 extension SelectBookingDetailsViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
@@ -198,6 +199,7 @@ extension SelectBookingDetailsViewController: UISearchBarDelegate {
     }
 }
 
+@available(iOS 16.0, *)
 extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return filteredData.count
@@ -285,7 +287,5 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-
     }
-    
 }
