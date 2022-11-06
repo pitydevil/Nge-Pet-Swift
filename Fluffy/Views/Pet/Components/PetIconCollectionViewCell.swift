@@ -14,7 +14,7 @@ class PetIconCollectionViewCell: UICollectionViewCell {
     
     var isSelect = false
     
-    private let petImageView: UIImageView = {
+    let petImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "dog9")
@@ -40,7 +40,7 @@ class PetIconCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func configure(image: UIImage?) {
-        petImageView.image = image
+    public func configure(_ imageName : String) {
+        petImageView.image = UIImage(named: imageName)
     }
 }

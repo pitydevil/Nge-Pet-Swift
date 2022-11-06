@@ -6,12 +6,30 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class AddPetViewController: UIViewController {
     
-    let petIconData: [UIImage?] = [UIImage(named: "dog1"), UIImage(named: "dog2"), UIImage(named: "dog3"), UIImage(named: "dog4"), UIImage(named: "dog5"), UIImage(named: "dog6"), UIImage(named: "dog7"), UIImage(named: "dog8"), UIImage(named: "dog9")]
+    //MARK: - Variable Declaration
+    private let addPetViewModel  = AddPetViewModel()
+    private var petGenderObject  = BehaviorRelay<genderCase>(value: .male)
+    private var petTypeObject = BehaviorRelay<petTypeCase>(value: .kucing)
+    private var petIconObject = BehaviorRelay<petIconCase>(value: .dog1)
+    private var petSizeObject = BehaviorRelay<petSizeCase>(value: .kucingKecil)
     
-    let petSizeData: [String?] = ["Kucing Kecil (Panjang 5 - 10 cm)", "Kucing Sedang (Panjang 10 - 15 cm)", "Kucing Besar (Panjang 15 - 20 cm)", "Anjing Kecil (Panjang 5 - 10 cm)", "Anjing Sedang (Panjang 10 - 15 cm)", "Anjing Besar (Panjang 15 - 20 cm)"]
+    private var petTypeObserver : Observable<petTypeCase> {
+        return petTypeObject.asObservable()
+    }
+    private var petGenderObjectObserver: Observable<genderCase> {
+        return petGenderObject.asObservable()
+    }
+    private var petSizeObserver : Observable<petSizeCase> {
+        return petSizeObject.asObservable()
+    }
+    
+    private let petIconData : [String]  = ["dog1","dog2","dog3","dog4","dog5","dog6","dog7","dog8","dog9"]
+    private let petSizeData : [String?] = ["Kucing Kecil (Panjang 5 - 10 cm)", "Kucing Sedang (Panjang 10 - 15 cm)", "Kucing Besar (Panjang 15 - 20 cm)", "Anjing Kecil (Panjang 5 - 10 cm)", "Anjing Sedang (Panjang 10 - 15 cm)", "Anjing Besar (Panjang 15 - 20 cm)"]
     
     //MARK: Subviews
     private lazy var scrollView: UIScrollView = {
@@ -288,13 +306,11 @@ class AddPetViewController: UIViewController {
     
     private lazy var barBtnHapusPet: ReusableButton = {
         let barBtnHapusPet = ReusableButton(titleBtn: "Batal", styleBtn: .light)
-        barBtnHapusPet.addTarget(self, action: #selector(deletePet), for: .touchUpInside)
+        barBtnHapusPet.addTarget(self, action: #selector(batalPet), for: .touchUpInside)
         return barBtnHapusPet
     }()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    
+    private func setupUI() {
         view.backgroundColor = UIColor(named: "white")
         
         navigationItem.titleView = ReuseableLabel(labelText: "Tambah Hewan", labelType: .titleH2, labelColor: .black)
@@ -440,13 +456,72 @@ class AddPetViewController: UIViewController {
             barBtnHapusPet.centerYAnchor.constraint(equalTo: customBar.barBtn.centerYAnchor),
         ])
     }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+//
+//        addPetViewModel.addPetErrorObjectObserver.subscribe(onNext: { [self] (value) in
+//                //switch value {
+////            case .sukses:
+////                self.present(genericAlert(titleAlert: "", messageAlert: <#T##String#>, buttonText: <#T##String#>), animated: <#T##Bool#>)
+////            case .petIconTidakAda:
+////
+////            case .petBreedTidakAda:
+////
+////            case .petGenderTidakAda:
+////
+////            case .petNameTidakAda:
+////
+////            case .petSizeTidakAda:
+////
+////            case .petTypeTidakAda:
+////
+//
+//            }
+//        }).disposed(by: bags)
+//
+        
+        addPetViewModel.addPetErrorObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
+            let test = value
+            print(value)
+          //  self.present(genericAlert(titleAlert: value.errorTitle, messageAlert: value., buttonText: <#T##String#>), animated: <#T##Bool#>)
+        }).disposed(by: bags)
+        
+        petTypeObserver.skip(1).subscribe(onNext: { [self] (value) in
+            switch value {
+                case .kucing:
+                    hewanAnjing.layer.borderColor = UIColor(named: "secondary5")?.cgColor
+                    hewanKucing.layer.borderColor = UIColor(named: "primaryMain")?.cgColor
+                case .anjing:
+                    hewanAnjing.layer.borderColor = UIColor(named: "secondaryMain")?.cgColor
+                    hewanKucing.layer.borderColor = UIColor(named: "primary5")?.cgColor
+            }
+        }).disposed(by: bags)
+        
+        petSizeObserver.skip(1).subscribe(onNext: { [self] (value) in
+            ukuranHewan.text = value.rawValue
+        }).disposed(by: bags)
+        
+        petGenderObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
+            switch value {
+            case .female:
+                kelaminJantan.layer.borderColor = UIColor(named: "secondary5")?.cgColor
+                kelaminBetina.layer.borderColor = UIColor(named: "primaryMain")?.cgColor
+            case .male:
+                kelaminJantan.layer.borderColor = UIColor(named: "secondaryMain")?.cgColor
+                kelaminBetina.layer.borderColor = UIColor(named: "primary5")?.cgColor
+            }
+        }).disposed(by: bags)
+    }
     
-    @objc func deletePet() {
+    @objc func batalPet() {
         dismiss(animated: true)
     }
     
     @objc func addPet() {
-        dismiss(animated: true)
+        addPetViewModel.testFunction()
+        ///addPetViewModel.addPet(<#T##UUID#>, <#T##Int16?#>, <#T##String?#>, <#T##String?#>, <#T##String?#>, <#T##String?#>, <#T##String?#>, <#T##String?#>, <#T##Date#>, completion: <#T##(addPetErrorCase) -> Void#>)
     }
     
     @objc func dismissKeyboard() {
@@ -455,25 +530,21 @@ class AddPetViewController: UIViewController {
     }
     
     @objc func tapHewanAnjing(_ sender:UITapGestureRecognizer){
-        hewanAnjing.layer.borderColor = UIColor(named: "secondaryMain")?.cgColor
-        hewanKucing.layer.borderColor = UIColor(named: "primary5")?.cgColor
+        petTypeObject.accept(.anjing)
     }
 
     @objc func tapHewanKucing(_ sender:UITapGestureRecognizer){
-        hewanAnjing.layer.borderColor = UIColor(named: "secondary5")?.cgColor
-        hewanKucing.layer.borderColor = UIColor(named: "primaryMain")?.cgColor
+        petTypeObject.accept(.kucing)
     }
 
     @objc func tapKelaminJantan(_ sender:UITapGestureRecognizer){
-        kelaminJantan.layer.borderColor = UIColor(named: "secondaryMain")?.cgColor
-        kelaminBetina.layer.borderColor = UIColor(named: "primary5")?.cgColor
+        petGenderObject.accept(.male)
     }
 
     @objc func tapKelaminBetina(_ sender:UITapGestureRecognizer){
-        kelaminJantan.layer.borderColor = UIColor(named: "secondary5")?.cgColor
-        kelaminBetina.layer.borderColor = UIColor(named: "primaryMain")?.cgColor
+        petGenderObject.accept(.female)
     }
-    
+   
 }
 
 extension AddPetViewController: UIPickerViewDelegate, UIPickerViewDataSource {
@@ -490,10 +561,10 @@ extension AddPetViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        ukuranHewan.text = petSizeData[row]
+        let petSize = petSizeCase(rawValue: petSizeData[row]!)
+        petSizeObject.accept(petSize!)
         ukuranHewan.resignFirstResponder()
     }
-    
 }
 
 extension AddPetViewController: UITextFieldDelegate {
@@ -513,25 +584,27 @@ extension AddPetViewController: UITextFieldDelegate {
         view.endEditing(true)
         return false
     }
+    
 }
 
 extension AddPetViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        9
+        return petIconData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PetIconCollectionViewCell.cellId, for: indexPath) as! PetIconCollectionViewCell
-        
+ 
         //MARK: - Add Pet Icon Data Here
-        cell.configure(image: petIconData[indexPath.row])
-        
+        cell.configure(petIconData[indexPath.row])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = iconCollectionView.cellForItem(at: indexPath) as! PetIconCollectionViewCell
         cell.contentView.backgroundColor = UIColor(named: "primaryMain")
+        let petIconCase = petIconCase(rawValue: petIconData[indexPath.row])
+        petIconObject.accept(petIconCase!)
     }
 
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {

@@ -109,12 +109,13 @@ class PetTableViewCell: UITableViewCell {
 
 //MARK: - Public
 extension PetTableViewCell {
-    public func configure(petImage: String?, racePet: String?, namePet: String?, sexPet: String?, typePet: String?, agePet: String?){
-        petIcon.image = UIImage(named: petImage ?? "")
-        petRace.text = racePet
-        petName.text = namePet
-        petSex.image = UIImage(named: sexPet ?? "")
-        petType.text = typePet
-        petAge.text = agePet
+    public func configure(_ pets : Pets){
+        petIcon.image = UIImage(named: pets.petData!)
+        petRace.text  = pets.petBreed!
+        petName.text  = pets.petName!
+        petSex.image  = UIImage(named: pets.petGender!)
+        petType.text  = pets.petType
+        petAge.text   = String(Int(pets.petAge!))
+
     }
 }

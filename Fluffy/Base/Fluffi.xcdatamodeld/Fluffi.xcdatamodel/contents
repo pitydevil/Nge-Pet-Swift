@@ -4,7 +4,7 @@
         <attribute name="dateCreated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="petAge" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="petBreed" optional="YES" attributeType="String"/>
-        <attribute name="petDataIndex" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="petData" optional="YES" attributeType="String"/>
         <attribute name="petGender" optional="YES" attributeType="String"/>
         <attribute name="petID" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="petName" optional="YES" attributeType="String"/>

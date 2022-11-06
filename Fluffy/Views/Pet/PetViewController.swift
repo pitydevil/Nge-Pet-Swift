@@ -6,13 +6,19 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class PetViewController: UIViewController {
+    
+    //MARK: - VIEW CONTROLLER OBJECT
+    private let petViewModel = PetViewModel()
+    private let petList = BehaviorRelay<[Pets]>(value: [])
     
     private lazy var modalTableView: UITableView = {
         let modalTableView = UITableView(frame: CGRect(), style: .plain)
         modalTableView.delegate = self
-        modalTableView.dataSource = self
+    
         modalTableView.backgroundColor = UIColor(named: "grey3")
         modalTableView.register(PetTableViewCell.self, forCellReuseIdentifier: PetTableViewCell.cellId)
         modalTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -23,10 +29,8 @@ class PetViewController: UIViewController {
         modalTableView.isScrollEnabled = true
         return modalTableView
     }()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    
+    private func setupUI() {
         view.backgroundColor = UIColor(named: "grey3")
         
         //MARK: - Setup Navigation Controller
@@ -54,7 +58,38 @@ class PetViewController: UIViewController {
             modalTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             modalTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
         ])
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        petViewModel.getAllPet()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
         
+        petViewModel.petModelArrayObserver.subscribe(onNext: { (value) in
+            self.petList.accept(value)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        modalTableView.rx.itemSelected.subscribe(onNext: { (indexPath) in
+            self.modalTableView.deselectRow(at: indexPath, animated: true)
+            let editPetDetailController = EditPetViewController()
+            editPetDetailController.petObject.accept(self.petList.value[indexPath.row])
+            editPetDetailController.petObjectObserver.subscribe(onNext: { _ in
+                self.modalTableView.reloadData()
+            }).disposed(by: bags)
+            editPetDetailController.modalPresentationStyle = .fullScreen
+            self.present(editPetDetailController, animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Bind Journal List with Table View
+        petList.bind(to: modalTableView.rx.items(cellIdentifier: "PetTableViewCell", cellType: PetTableViewCell.self)) { row, model, cell in
+            cell.contentView.backgroundColor = UIColor(named: "white")
+            cell.configure(model)
+        }.disposed(by: bags)
     }
     
     @objc func toAddPet() {
@@ -65,12 +100,9 @@ class PetViewController: UIViewController {
     
 }
 
-extension PetViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 6
-    }
-    
+//MARK: - PET TABLE VIEW DELEGATE
+extension PetViewController: UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 20
     }
@@ -89,19 +121,4 @@ extension PetViewController: UITableViewDelegate, UITableViewDataSource {
         return 1
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: PetTableViewCell.cellId, for: indexPath) as! PetTableViewCell
-        cell.contentView.backgroundColor = UIColor(named: "white")
-        cell.configure(petImage: "poodle", racePet: "Poodle", namePet: "Bombom", sexPet: "female", typePet: "Anjing Besar", agePet: "2 Tahun")
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = EditPetViewController()
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
-        
-    }
-    
-
 }

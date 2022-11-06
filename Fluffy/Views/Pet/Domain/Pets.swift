@@ -9,7 +9,7 @@ import Foundation
 
 struct Pets : Encodable, Decodable{
     var petID : UUID?
-    var petDataIndex : Int16?
+    var petData : String?
     var petAge : Int16?
     var petBreed : String?
     var petName : String?

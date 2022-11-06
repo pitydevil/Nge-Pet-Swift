@@ -6,8 +6,15 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class EditPetViewController: UIViewController {
+    
+    var petObject = BehaviorRelay<Pets>(value: Pets())
+    var petObjectObserver: Observable<Pets> {
+        return petObject.asObservable()
+    }
     
     let petIconData: [UIImage?] = [UIImage(named: "dog1"), UIImage(named: "dog2"), UIImage(named: "dog3"), UIImage(named: "dog4"), UIImage(named: "dog5"), UIImage(named: "dog6"), UIImage(named: "dog7"), UIImage(named: "dog8"), UIImage(named: "dog9")]
     
@@ -295,6 +302,16 @@ class EditPetViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupUI()
+        
+        petObjectObserver.subscribe(onNext: { [self] (value) in
+            namaHewan.text = value.petName
+            ukuranHewan.text = value.petSize
+        }).disposed(by: bags)
+    
+    }
+    
+    private func setupUI() {
         view.backgroundColor = UIColor(named: "white")
         
         navigationItem.titleView = ReuseableLabel(labelText: "Tambah Hewan", labelType: .titleH2, labelColor: .black)
@@ -438,7 +455,6 @@ class EditPetViewController: UIViewController {
             barBtnHapusPet.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             barBtnHapusPet.centerYAnchor.constraint(equalTo: customBar.barBtn.centerYAnchor),
         ])
-        
     }
     
     @objc func addPet() {
@@ -524,7 +540,7 @@ extension EditPetViewController: UICollectionViewDelegate, UICollectionViewDataS
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PetIconCollectionViewCell.cellId, for: indexPath) as! PetIconCollectionViewCell
         
         //MARK: - Add Pet Icon Data Here
-        cell.configure(image: petIconData[indexPath.row])
+      //  cell.configure(image: petIconData[indexPath.row])
         
         return cell
     }
