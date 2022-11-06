@@ -389,7 +389,7 @@ class PetHotelViewController: UIViewController {
     }
     
     @objc func pilihPaket() {
-        let vc = BookingConfirmationViewController()
+        let vc = SelectBookingDetailsViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
