@@ -26,8 +26,7 @@ class PetViewModel {
         petArray = provider.callDatabase()
         petArray?.subscribe(onNext: { (value) in
             var petModel = [Pets]()
-            for index in 0..<value.count {
-                let pet = value[index]
+            for pet in value {
                 petModel.append(pet)
             }
             self.petModelArray.accept(petModel)

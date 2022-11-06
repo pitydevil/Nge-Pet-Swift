@@ -2,7 +2,7 @@
 //  Class Model.swift
 //  Fluffy
 //
-//  Created by Mikhael Adiputra on 03/10/22.
+//  Created by Mikhael Adiputra on 06/11/22.
 //
 
 import Foundation

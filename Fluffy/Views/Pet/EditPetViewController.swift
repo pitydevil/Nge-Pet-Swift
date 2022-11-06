@@ -11,15 +11,31 @@ import RxCocoa
 
 class EditPetViewController: UIViewController {
     
+    //MARK: - Variable Declaration
     var petObject = BehaviorRelay<Pets>(value: Pets())
     var petObjectObserver: Observable<Pets> {
         return petObject.asObservable()
     }
+    private let editPetViewModel = EditPetViewModel()
+    private var petGenderObject  = BehaviorRelay<genderCase>(value: .male)
+    private var petTypeObject    = BehaviorRelay<petTypeCase>(value: .kucing)
+    private var petIconObject    = BehaviorRelay<petIconCase>(value: .dog1)
+    private var petSizeObject    = BehaviorRelay<petSizeCase>(value: .kucingKecil)
+
+    private var petTypeObserver : Observable<petTypeCase> {
+        return petTypeObject.asObservable()
+    }
+    private var petGenderObjectObserver: Observable<genderCase> {
+        return petGenderObject.asObservable()
+    }
+    private var petSizeObserver : Observable<petSizeCase> {
+        return petSizeObject.asObservable()
+    }
     
-    let petIconData: [UIImage?] = [UIImage(named: "dog1"), UIImage(named: "dog2"), UIImage(named: "dog3"), UIImage(named: "dog4"), UIImage(named: "dog5"), UIImage(named: "dog6"), UIImage(named: "dog7"), UIImage(named: "dog8"), UIImage(named: "dog9")]
+    private let petIconDataObject  = BehaviorRelay<[String]>(value: ["dog1","dog2","dog3","dog4","dog5","dog6","dog7","dog8","dog9"])
+    private let petSizeArrayObject = BehaviorRelay<[String]>(value: ["Kucing Kecil (Panjang 5 - 10 cm)", "Kucing Sedang (Panjang 10 - 15 cm)", "Kucing Besar (Panjang 15 - 20 cm)", "Anjing Kecil (Panjang 5 - 10 cm)", "Anjing Sedang (Panjang 10 - 15 cm)", "Anjing Besar (Panjang 15 - 20 cm)"])
     
-    let petSizeData: [String?] = ["Kucing Kecil (Panjang 5 - 10 cm)", "Kucing Sedang (Panjang 10 - 15 cm)", "Kucing Besar (Panjang 15 - 20 cm)", "Anjing Kecil (Panjang 5 - 10 cm)", "Anjing Sedang (Panjang 10 - 15 cm)", "Anjing Besar (Panjang 15 - 20 cm)"]
-    
+
     //MARK: Subviews
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
@@ -37,7 +53,7 @@ class EditPetViewController: UIViewController {
     }()
     
     private lazy var headline: ReuseableLabel = {
-        let headline = ReuseableLabel(labelText: "Edit Hewan", labelType: .titleH1, labelColor: .black)
+        let headline = ReuseableLabel(labelText: "Tambah Hewan", labelType: .titleH1, labelColor: .black)
         return headline
     }()
     
@@ -145,14 +161,13 @@ class EditPetViewController: UIViewController {
             .foregroundColor: UIColor(named: "grey2") as Any,
             .font: UIFont(name: "Inter-Medium", size: 12)!
         ])
+        textField.delegate = self
         textField.inputView = pickerUkuran
         return textField
     }()
     
     private lazy var pickerUkuran: UIPickerView = {
        let picker = UIPickerView()
-        picker.delegate = self
-        picker.dataSource = self
         return picker
     }()
     
@@ -270,46 +285,32 @@ class EditPetViewController: UIViewController {
     
     private lazy var titleIconHewan = ReuseableLabel(labelText: "Pilih icon hewan", labelType: .titleH3, labelColor: .black)
     
+    private lazy var customBar: ReusableTabBar = {
+        let customBar = ReusableTabBar(btnText: "Simpan", showText: .notShow)
+        customBar.barBtn.addTarget(self, action: #selector(addPet), for: .touchUpInside)
+        return customBar
+    }()
+    
     private lazy var iconCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 20
         layout.minimumInteritemSpacing = 0
         layout.itemSize = CGSize(width: 72, height: 72)
-        
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.delegate = self
-        collectionView.dataSource = self
         collectionView.register(PetIconCollectionViewCell.self, forCellWithReuseIdentifier: PetIconCollectionViewCell.cellId)
         collectionView.backgroundColor = .clear
         collectionView.frame = view.bounds
+        collectionView.isPrefetchingEnabled = false
         return collectionView
     }()
     
     private lazy var barBtnHapusPet: ReusableButton = {
-        let barBtnHapusPet = ReusableButton(titleBtn: "Hapus Pet", styleBtn: .light)
+        let barBtnHapusPet = ReusableButton(titleBtn: "Batal", styleBtn: .light)
         barBtnHapusPet.addTarget(self, action: #selector(deletePet), for: .touchUpInside)
         return barBtnHapusPet
     }()
-    
-    private lazy var customBar: ReusableTabBar = {
-        let customBar = ReusableTabBar(btnText: "Simpan", showText: .notShow)
-        customBar.barBtn.addTarget(self, action: #selector(addPet), for: .touchUpInside)
-        return customBar
-    }()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        setupUI()
-        
-        petObjectObserver.subscribe(onNext: { [self] (value) in
-            namaHewan.text = value.petName
-            ukuranHewan.text = value.petSize
-        }).disposed(by: bags)
-    
-    }
     
     private func setupUI() {
         view.backgroundColor = UIColor(named: "white")
@@ -320,10 +321,6 @@ class EditPetViewController: UIViewController {
         
         view.addSubview(scrollView)
         scrollView.addSubview(scrollContainer)
-        
-        //Dismiss Keyboard While Tapping View Screen
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
-//        view.addGestureRecognizer(tap)
         
         scrollContainer.addSubview(headline)
         
@@ -353,6 +350,7 @@ class EditPetViewController: UIViewController {
         
         view.addSubview(customBar)
         view.addSubview(barBtnHapusPet)
+      
         
         let scrollContentGuide = scrollView.contentLayoutGuide
         let scrollFrameGuide = scrollView.frameLayoutGuide
@@ -455,104 +453,243 @@ class EditPetViewController: UIViewController {
             barBtnHapusPet.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             barBtnHapusPet.centerYAnchor.constraint(equalTo: customBar.barBtn.centerYAnchor),
         ])
+        
+        //MARK: - Hide Keyboard Function When UI Element is Tapped
+        hideKeyboardWhenTappedAround()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupUI()
+        
+        //MARK: - Observer for Error Case Add Pet to CoreData
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        editPetViewModel.addPetErrorObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
+            DispatchQueue.main.async {
+                switch(value) {
+                    case let .petTypeTidakAda(errorTitle, errorMessage):
+                        self.present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "OK"), animated: true)
+                    case let .petBreedTidakAda(errorTitle, errorMessage):
+                        self.present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "OK"), animated: true)
+                    case let .petGenderTidakAda(errorTitle, errorMessage):
+                        self.present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "OK"), animated: true)
+                    case let .petNameTidakAda(errorTitle, errorMessage):
+                        self.present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "OK"), animated: true)
+                    case let .petSizeTidakAda(errorTitle, errorMessage):
+                        self.present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "OK"), animated: true)
+                    case let .petIconTidakAda(errorTitle, errorMessage):
+                        self.present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "OK"), animated: true)
+                    case let .sukses(errorTitle, errorMessage):
+                    self.present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "OK"), animated: true) {
+                        self.dismiss(animated: true)
+                    }
+                    case let .petAgeTidakAda(errorTitle, errorMessage):
+                        self.present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "OK"), animated: true)
+                    case let .petAddGagal(errorTitle, errorMessage):
+                        self.present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "Ok"), animated: true)
+                }
+            }
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petObjectObserver.subscribe(onNext: { [self] (value) in
+            namaHewan.text   = value.petName
+            ukuranHewan.text = value.petSize
+            rasHewan.text    = value.petBreed!
+            umurHewan.text   = String(Int(value.petAge!))
+            editPetViewModel.petsObject.accept(value)
+            editPetViewModel.selectedIndexObject.accept(editPetViewModel.calculateIndex(petIconDataObject.value))
+            petTypeObject.accept(petTypeCase(rawValue: value.petType!)!)
+            petGenderObject.accept(genderCase(rawValue: value.petGender!)!)
+            petSizeObject.accept(petSizeCase(rawValue: value.petSize!)!)
+            editPetViewModel.petsObject.accept(petObject.value)
+        }).disposed(by: bags)
+        
+
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petTypeObserver.subscribe(onNext: { [self] (value) in
+            switch value {
+                case .kucing:
+                    hewanAnjing.layer.borderColor = UIColor(named: "secondary5")?.cgColor
+                    hewanKucing.layer.borderColor = UIColor(named: "primaryMain")?.cgColor
+                case .anjing:
+                    hewanAnjing.layer.borderColor = UIColor(named: "secondaryMain")?.cgColor
+                    hewanKucing.layer.borderColor = UIColor(named: "primary5")?.cgColor
+            }
+        }).disposed(by: bags)
+
+        //MARK: - Observer for Pet Size Value
+        petSizeObserver.subscribe(onNext: { [self] (value) in
+            ukuranHewan.text = value.rawValue
+        }).disposed(by: bags)
+
+        //MARK: - Observer for Pet Size Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petGenderObjectObserver.subscribe(onNext: { [self] (value) in
+            switch value {
+            case .female:
+                kelaminJantan.layer.borderColor = UIColor(named: "secondary5")?.cgColor
+                kelaminBetina.layer.borderColor = UIColor(named: "primaryMain")?.cgColor
+            case .male:
+                kelaminJantan.layer.borderColor = UIColor(named: "secondaryMain")?.cgColor
+                kelaminBetina.layer.borderColor = UIColor(named: "primary5")?.cgColor
+            }
+        }).disposed(by: bags)
+
+        //MARK: - Collection view delegate and datasource functions
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petIconDataObject.bind(to: iconCollectionView.rx.items(cellIdentifier: PetIconCollectionViewCell.cellId, cellType: PetIconCollectionViewCell.self)) { [self] row, model, cell in
+            cell.contentView.backgroundColor = editPetViewModel.checkSelectedIndex(row)
+            cell.configure(model)
+        }.disposed(by: bags)
+
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        iconCollectionView.rx.itemSelected.subscribe(onNext: { [self] (indexPath) in
+            let cell = iconCollectionView.cellForItem(at: indexPath) as! PetIconCollectionViewCell
+            cell.contentView.backgroundColor = UIColor(named: "primaryMain")
+            let petIconCase = petIconCase(rawValue: petIconDataObject.value[indexPath.row])
+            editPetViewModel.selectedIndexObject.accept(indexPath.row)
+            iconCollectionView.reloadItems(at: [IndexPath(item: editPetViewModel.calculateIndex(petIconDataObject.value), section: 0)])
+            petIconObject.accept(petIconCase!)
+        }).disposed(by: bags)
+
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        iconCollectionView.rx.itemDeselected.subscribe(onNext: { [self] (indexPath) in
+            let cell = iconCollectionView.cellForItem(at: indexPath) as! PetIconCollectionViewCell
+            cell.contentView.backgroundColor = UIColor(named: "white")
+        }).disposed(by: bags)
+
+        //MARK: - Picker View Delegate and Datasource Function
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petSizeArrayObject.bind(to: pickerUkuran.rx.itemTitles) { (row, element) in
+            return element
+        }.disposed(by: bags)
+
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        pickerUkuran.rx.itemSelected.subscribe { [self] (event) in
+            switch event {
+                case .next(let selected):
+                let petSize = petSizeCase(rawValue: petSizeArrayObject.value[selected.row])
+                    petSizeObject.accept(petSize!)
+                    ukuranHewan.resignFirstResponder()
+                default:
+                    break
+            }
+        }.disposed(by: bags)
     }
     
-    @objc func addPet() {
-        dismiss(animated: true)
-    }
-    
+    //MARK: - Add Pet Function
+    /// Returns boolean true or false
+    /// from the given components.
     @objc func deletePet() {
         dismiss(animated: true)
     }
     
-    @objc func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
-        view.endEditing(true)
+    //MARK: - Add Pet Function
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
+    @objc func addPet() {
+        editPetViewModel.petsObject.accept(Pets(petID: petObject.value.petID!, petData: petIconObject.value.rawValue, petAge: Int16(umurHewan.text ?? "0") , petBreed: rasHewan.text ?? "" , petName: namaHewan.text ?? "", petSize: petSizeObject.value.rawValue, petType: petTypeObject.value.rawValue, petGender: petGenderObject.value.rawValue, dateCreated: petObject.value.dateCreated!))
+        editPetViewModel.updateExistingPet()
     }
-    
+     
+    //MARK: - Add Pet Function
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
     @objc func tapHewanAnjing(_ sender:UITapGestureRecognizer){
-        hewanAnjing.layer.borderColor = UIColor(named: "secondaryMain")?.cgColor
-        hewanKucing.layer.borderColor = UIColor(named: "primary5")?.cgColor
+        petTypeObject.accept(.anjing)
     }
 
+    //MARK: - Add Pet Function
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
     @objc func tapHewanKucing(_ sender:UITapGestureRecognizer){
-        hewanAnjing.layer.borderColor = UIColor(named: "secondary5")?.cgColor
-        hewanKucing.layer.borderColor = UIColor(named: "primaryMain")?.cgColor
+        petTypeObject.accept(.kucing)
     }
 
+    //MARK: - Add Pet Function
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
     @objc func tapKelaminJantan(_ sender:UITapGestureRecognizer){
-        kelaminJantan.layer.borderColor = UIColor(named: "secondaryMain")?.cgColor
-        kelaminBetina.layer.borderColor = UIColor(named: "primary5")?.cgColor
+        petGenderObject.accept(.male)
     }
 
+    //MARK: - Add Pet Function
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
     @objc func tapKelaminBetina(_ sender:UITapGestureRecognizer){
-        kelaminJantan.layer.borderColor = UIColor(named: "secondary5")?.cgColor
-        kelaminBetina.layer.borderColor = UIColor(named: "primaryMain")?.cgColor
+        petGenderObject.accept(.female)
     }
-    
-}
-
-extension EditPetViewController: UIPickerViewDelegate, UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        petSizeData.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        petSizeData[row]
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        ukuranHewan.text = petSizeData[row]
-        ukuranHewan.resignFirstResponder()
-    }
-    
 }
 
 extension EditPetViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == umurHewan {
             let allowedCharacters = "0123456789"
-            let allowedCharacterSet = CharacterSet(charactersIn: allowedCharacters)
-            let typedCharacterSetIn = CharacterSet(charactersIn: string)
-            let numbers = allowedCharacterSet.isSuperset(of: typedCharacterSetIn)
-            return numbers
+            return checkAllowedText(allowedCharacters, string)
+        }else if textField == ukuranHewan {
+            return false
         }
         return true
     }
     
-    //Dismiss Keyboard When Click Return
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
         return false
     }
 }
 
-extension EditPetViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        9
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PetIconCollectionViewCell.cellId, for: indexPath) as! PetIconCollectionViewCell
-        
-        //MARK: - Add Pet Icon Data Here
-      //  cell.configure(image: petIconData[indexPath.row])
-        
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = iconCollectionView.cellForItem(at: indexPath) as! PetIconCollectionViewCell
-        cell.contentView.backgroundColor = UIColor(named: "primaryMain")
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        let cell = iconCollectionView.cellForItem(at: indexPath) as! PetIconCollectionViewCell
-        cell.contentView.backgroundColor = UIColor(named: "white")
-    }
-    
-}

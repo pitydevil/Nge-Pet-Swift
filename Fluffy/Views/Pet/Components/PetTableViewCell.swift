@@ -76,6 +76,8 @@ class PetTableViewCell: UITableViewCell {
 
             petSex.leadingAnchor.constraint(equalTo: petName.trailingAnchor, constant: 4),
             petSex.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40),
+            petSex.heightAnchor.constraint(equalToConstant: 12),
+            petSex.widthAnchor.constraint(equalToConstant: 12),
 
             tipeText.leadingAnchor.constraint(equalTo: petIcon.trailingAnchor, constant: 12),
             tipeText.topAnchor.constraint(equalTo: petName.bottomAnchor, constant: 12),
@@ -116,6 +118,5 @@ extension PetTableViewCell {
         petSex.image  = UIImage(named: pets.petGender!)
         petType.text  = pets.petType
         petAge.text   = String(Int(pets.petAge!))
-
     }
 }

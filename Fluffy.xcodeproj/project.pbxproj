@@ -45,6 +45,9 @@
 		1DBF11CD28F00CAC00C53D1E /* ReusableTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBF11CC28F00CAC00C53D1E /* ReusableTabBar.swift */; };
 		1DE5D73F2906463A00CD4820 /* ModalSearchLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE5D73E2906463A00CD4820 /* ModalSearchLocationViewController.swift */; };
 		228971C6B79C4700E7DA9C4E /* Pods_FluffyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC985139B43D09D659850CB /* Pods_FluffyTests.framework */; };
+		4B2A82ED2917E71B00830AE8 /* PetError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2A82EC2917E71B00830AE8 /* PetError.swift */; };
+		4B2A82EF2917E8C600830AE8 /* Class Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2A82EE2917E8C600830AE8 /* Class Model.swift */; };
+		4B2A82F12917ED9C00830AE8 /* EditPetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2A82F02917ED9C00830AE8 /* EditPetViewModel.swift */; };
 		4B3D82BE29051A2F00F6A82F /* ModalSelectPetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82BD29051A2F00F6A82F /* ModalSelectPetViewController.swift */; };
 		4B3D82C029051A3900F6A82F /* ModalMonitoringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82BF29051A3900F6A82F /* ModalMonitoringViewController.swift */; };
 		4B3D82C229051A4500F6A82F /* ModalMonitoringTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82C129051A4500F6A82F /* ModalMonitoringTableViewCell.swift */; };
@@ -67,7 +70,6 @@
 		4B78DB2E28EAD8F200744386 /* specific layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB2D28EAD8F200744386 /* specific layout.swift */; };
 		4B78DB3128EAD90700744386 /* Api Services.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB3028EAD90700744386 /* Api Services.swift */; };
 		4B78DB3528EAD91C00744386 /* API Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB3428EAD91C00744386 /* API Model.swift */; };
-		4B78DB3828EAD92800744386 /* Class Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB3728EAD92800744386 /* Class Model.swift */; };
 		4BC609D728E572DE007A6DB0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC609D628E572DE007A6DB0 /* AppDelegate.swift */; };
 		4BC609D928E572DE007A6DB0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC609D828E572DE007A6DB0 /* SceneDelegate.swift */; };
 		4BC609E028E572DF007A6DB0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BC609DF28E572DF007A6DB0 /* Assets.xcassets */; };
@@ -169,6 +171,9 @@
 		2A279AC421335ED40E76880D /* Pods_Fluffy_FluffyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fluffy_FluffyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		391FB2353E3E4D1516AADE30 /* Pods-Fluffy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy.debug.xcconfig"; path = "Target Support Files/Pods-Fluffy/Pods-Fluffy.debug.xcconfig"; sourceTree = "<group>"; };
 		3FC985139B43D09D659850CB /* Pods_FluffyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluffyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B2A82EC2917E71B00830AE8 /* PetError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PetError.swift; path = ../../../../../../Documents/PetError.swift; sourceTree = "<group>"; };
+		4B2A82EE2917E8C600830AE8 /* Class Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Class Model.swift"; sourceTree = "<group>"; };
+		4B2A82F02917ED9C00830AE8 /* EditPetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPetViewModel.swift; sourceTree = "<group>"; };
 		4B3D82BD29051A2F00F6A82F /* ModalSelectPetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalSelectPetViewController.swift; path = Fluffy/Views/Explore/ModalSelectPetViewController.swift; sourceTree = SOURCE_ROOT; };
 		4B3D82BF29051A3900F6A82F /* ModalMonitoringViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalMonitoringViewController.swift; path = Fluffy/Views/Modal/ModalMonitoringViewController.swift; sourceTree = SOURCE_ROOT; };
 		4B3D82C129051A4500F6A82F /* ModalMonitoringTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalMonitoringTableViewCell.swift; path = "Fluffy/Views/Modal/Custom Cell/ModalMonitoringTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
@@ -191,7 +196,6 @@
 		4B78DB2D28EAD8F200744386 /* specific layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "specific layout.swift"; sourceTree = "<group>"; };
 		4B78DB3028EAD90700744386 /* Api Services.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Api Services.swift"; sourceTree = "<group>"; };
 		4B78DB3428EAD91C00744386 /* API Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API Model.swift"; sourceTree = "<group>"; };
-		4B78DB3728EAD92800744386 /* Class Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Class Model.swift"; sourceTree = "<group>"; };
 		4BC609D328E572DE007A6DB0 /* Fluffy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fluffy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BC609D628E572DE007A6DB0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4BC609D828E572DE007A6DB0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -345,6 +349,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		4B2A82EB2917E70A00830AE8 /* Shared Model */ = {
+			isa = PBXGroup;
+			children = (
+				4B2A82EC2917E71B00830AE8 /* PetError.swift */,
+			);
+			path = "Shared Model";
+			sourceTree = "<group>";
+		};
 		4B3D82C629051D6700F6A82F /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -387,6 +399,7 @@
 			children = (
 				4B6A64752915043000597555 /* PetViewModel.swift */,
 				4B6A64772917C73100597555 /* AddPetViewModel.swift */,
+				4B2A82F02917ED9C00830AE8 /* EditPetViewModel.swift */,
 			);
 			path = Pet;
 			sourceTree = "<group>";
@@ -488,7 +501,8 @@
 		4B78DB3628EAD91F00744386 /* Class Model */ = {
 			isa = PBXGroup;
 			children = (
-				4B78DB3728EAD92800744386 /* Class Model.swift */,
+				4B2A82EB2917E70A00830AE8 /* Shared Model */,
+				4B2A82EE2917E8C600830AE8 /* Class Model.swift */,
 			);
 			path = "Class Model";
 			sourceTree = "<group>";
@@ -960,6 +974,7 @@
 				4E5068AC28FD54E30005ADBF /* PetViewController.swift in Sources */,
 				4EC56E5028F84387008ADD7F /* MonitoringTableViewCell.swift in Sources */,
 				4EC56E4828F71FD1008ADD7F /* ExploreCard.swift in Sources */,
+				4B2A82ED2917E71B00830AE8 /* PetError.swift in Sources */,
 				4B78DB1F28EAD8AE00744386 /* Base Providers.swift in Sources */,
 				1D85772228EC086600CF2D5E /* ReuseableLabel.swift in Sources */,
 				4E892D2F291189C40068D7E5 /* BookingDetailViewController.swift in Sources */,
@@ -977,6 +992,7 @@
 				4EC56E4C28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift in Sources */,
 				4E5068AA28FD54D00005ADBF /* ExploreViewController.swift in Sources */,
 				4B3D82D329051DAD00F6A82F /* Application Endpoint.swift in Sources */,
+				4B2A82EF2917E8C600830AE8 /* Class Model.swift in Sources */,
 				4E5068B429001C4C0005ADBF /* ExploreTableViewCell.swift in Sources */,
 				4BC609D728E572DE007A6DB0 /* AppDelegate.swift in Sources */,
 				4BC609D928E572DE007A6DB0 /* SceneDelegate.swift in Sources */,
@@ -999,6 +1015,7 @@
 				4EAF1ED92907E1F6007248AA /* FasilitasTableViewCell.swift in Sources */,
 				4EAF1EF5290BA0D6007248AA /* DateSelectionViewController.swift in Sources */,
 				4E892D2D29111E6F0068D7E5 /* BookingTableViewCell.swift in Sources */,
+				4B2A82F12917ED9C00830AE8 /* EditPetViewModel.swift in Sources */,
 				4B6A64782917C73100597555 /* AddPetViewModel.swift in Sources */,
 				4EAF1ED229027FC2007248AA /* NavController.swift in Sources */,
 				4E684C6228ED41B0009B4173 /* CarouselCollectionViewCell.swift in Sources */,
@@ -1007,7 +1024,6 @@
 				4B6A64702914E34D00597555 /* Pets.swift in Sources */,
 				4BC60A1628E57459007A6DB0 /* Helper Class.swift in Sources */,
 				4EAF1EE42907FDD4007248AA /* AsuransiViewController.swift in Sources */,
-				4B78DB3828EAD92800744386 /* Class Model.swift in Sources */,
 				4EAF1ED72907C807007248AA /* PetHotelDetailTableViewCell.swift in Sources */,
 				1DBF11CD28F00CAC00C53D1E /* ReusableTabBar.swift in Sources */,
 				4B3D82D529051DCB00F6A82F /* Enum.swift in Sources */,

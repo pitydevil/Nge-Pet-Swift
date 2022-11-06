@@ -67,6 +67,8 @@ enum addPetErrorCase  {
     case petNameTidakAda(errorTitle : String = "Nama Hewan Tidak Ada!", errorMessage : String   = "Kamu Belum Mengisi Nama Hewan Kamu!")
     case petSizeTidakAda(errorTitle : String = "Ukuran Hewan Tidak Ada!", errorMessage : String = "Kamu Belum Memilih Ukuran Hewan Kamu")
     case petTypeTidakAda(errorTitle : String = "Tipe Hewan Tidak Ada!", errorMessage : String   = "Kamu Belum Memilih Tipe Hewan Kamu")
+    case petAgeTidakAda(errorTitle : String = "Umur Hewan Tidak Ada!", errorMessage : String   = "Kamu Belum Mengisi Umur Hewan Kamu")
+    case petAddGagal(errorTitle : String = "Gagal Menambah Data!", errorMessage : String   = "Telah terjadi kesalahan dalam menginput hewan peliharaan kamu, silahkan coba lagi nanti")
     case sukses(errorTitle : String = "Sukses!", errorMessage : String =  "Data Hewan Perliharaan Kamu Berhasil Ditambahkan!")
 }
 enum summaryGenerate : Error {
