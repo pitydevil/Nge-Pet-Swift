@@ -8,6 +8,7 @@
 import UIKit
 
 class BookingTableViewCell: UITableViewCell {
+    
     //MARK: SubViews
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
@@ -134,7 +135,6 @@ class BookingTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(stackView)
 
-        
         upperView.addSubview(petHotelName)
         upperView.addSubview(idPaket)
         upperView.addSubview(detailPaketTableView)
@@ -168,8 +168,6 @@ class BookingTableViewCell: UITableViewCell {
         
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0))
     }
-    
-
 }
 
 //MARK: Setups
@@ -261,11 +259,42 @@ extension BookingTableViewCell{
 
 // MARK: - Public
 extension BookingTableViewCell {
+    func configureCell(_ order : Order) {
+        var packageArray = [String]()
+        petHotelName.text = order.petHotelName
+        idPaket.text = "id: \(order.orderCode)"
+        numPackage = order.orderDetail.count
+        
+        if numPackage > 3 {
+            numPackage = 3
+        }
+        for order in order.orderDetail {
+            packageArray.append(order.packageName)
+        }
+        
+        detailPaketArray     = packageArray
+        detailCheckIn.text   = order.orderDateCheckIn
+        detailCheckOut.text  = order.orderDateCheckOut
+        status.text          = order.orderStatus
+        
+        if order.orderStatus == "waiting-for-confirmation"{
+            leftButton.configuration?.attributedTitle = AttributedString("Cancel Order", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 12)!]))
+            leftButton.configuration?.baseBackgroundColor = UIColor(named: "grey2")
+            leftButton.configuration?.baseForegroundColor = UIColor(named: "white")
+        }
+        else{
+            leftButton.configuration?.attributedTitle = AttributedString("Lihat Monitoring", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 12)!]))
+            leftButton.configuration?.baseBackgroundColor = UIColor(named: "primaryMain")
+            leftButton.configuration?.baseForegroundColor = UIColor(named: "white")
+        }
+    }
+    
     func configureView(hotelName:String, bookingId:String, detailPaket:[String], checkIn:String, checkOut:String, bookingStatus:String) {
+        
         petHotelName.text = hotelName
         idPaket.text = "id: \(bookingId)"
         numPackage = detailPaket.count
-        if numPackage>3{
+        if numPackage > 3 {
             numPackage = 3
         }
         detailPaketArray = detailPaket
