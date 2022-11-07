@@ -9,7 +9,7 @@ import UIKit
 
 class ModalMonitoringViewController: UIViewController {
     
-    var isChecked = false
+    var isChecked = true
     let checkedImage = UIImage(systemName: "checkmark.square.fill")
     let uncheckedImage = UIImage(systemName: "square")
     
@@ -43,6 +43,7 @@ class ModalMonitoringViewController: UIViewController {
         let customBar = ReusableTabBar(btnText: "Pilih", showText: .show)
         customBar.barBtn.addTarget(self, action: #selector(petSelected), for: .touchUpInside)
         customBar.boxBtn.addTarget(self, action: #selector(isClicked), for: .touchUpInside)
+        customBar.boxBtn.setImage(checkedImage, for: .normal)
         return customBar
     }()
 
@@ -96,11 +97,13 @@ class ModalMonitoringViewController: UIViewController {
                 customBar.boxBtn.setImage(checkedImage, for: .normal)
                 if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
                     cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
+                    modalTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
                 }
             } else {
                 customBar.boxBtn.setImage(uncheckedImage, for: .normal)
                 if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
                     cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
+                    modalTableView.deselectRow(at: indexPath, animated: true)
                 }
             }
         }
@@ -149,31 +152,47 @@ extension ModalMonitoringViewController: UITableViewDataSource, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ModalMonitoringTableViewCell.cellId, for: indexPath) as! ModalMonitoringTableViewCell
-        cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
+        
         if indexPath.section == 0 {
             cell.contentView.backgroundColor = UIColor(named: "grey3")
+            cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
         } else {
             cell.contentView.backgroundColor = UIColor(named: "grey1")?.withAlphaComponent(0.5)
+            cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
         }
         
         return cell
 
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            modalTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+            print(indexPath)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = modalTableView.cellForRow(at: indexPath) as! ModalMonitoringTableViewCell
         if indexPath.section == 0 {
             cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
+//            let allCell = [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)]
+//            if modalTableView.indexPathsForSelectedRows {
+//                customBar.boxBtn.setImage(checkedImage, for: .normal)
+//            }
+            print(modalTableView.indexPathForSelectedRow)
+            print(modalTableView.indexPathsForSelectedRows)
         } else {
             cell.isUserInteractionEnabled = false
         }
-        
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let cell = modalTableView.cellForRow(at: indexPath) as! ModalMonitoringTableViewCell
         if indexPath.section == 0 {
             cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
+            customBar.boxBtn.setImage(uncheckedImage, for: .normal)
+            isChecked = false
         } else {
             cell.isUserInteractionEnabled = false
         }
