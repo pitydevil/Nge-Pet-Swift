@@ -549,7 +549,6 @@
 		4B78DB3628EAD91F00744386 /* Class Model */ = {
 			isa = PBXGroup;
 			children = (
-				4B2A82EB2917E70A00830AE8 /* Shared Model */,
 				4B2A82EE2917E8C600830AE8 /* Class Model.swift */,
 			);
 			path = "Class Model";
