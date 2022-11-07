@@ -12,14 +12,15 @@ import RxCocoa
 class AddPetViewController: UIViewController {
     
     //MARK: - Variable Declaration
-    private let addPetViewModel  = AddPetViewModel()
-    private var petGenderObject  = BehaviorRelay<genderCase>(value: .male)
-    private var petTypeObject    = BehaviorRelay<petTypeCase>(value: .kucing)
-    private var petIconObject    = BehaviorRelay<petIconCase>(value: .dog1)
+    private let addPetViewModel    = AddPetViewModel()
+    private var petGenderObject    = BehaviorRelay<genderCase>(value: .male)
+    private var petTypeObject      = BehaviorRelay<petTypeCase>(value: .kucing)
+    private var petIconObject      = BehaviorRelay<petIconCase>(value: .dog1)
     private var petSizeObject      = BehaviorRelay<petSizeCase>(value: .kucingKecil)
     private let petIconDataObject  = BehaviorRelay<[String]>(value: ["dog1","dog2","dog3","dog4","dog5","dog6","dog7","dog8","dog9"])
     private let petSizeArrayObject = BehaviorRelay<[String]>(value: ["Kucing Kecil (Panjang 5 - 10 cm)", "Kucing Sedang (Panjang 10 - 15 cm)", "Kucing Besar (Panjang 15 - 20 cm)", "Anjing Kecil (Panjang 5 - 10 cm)", "Anjing Sedang (Panjang 10 - 15 cm)", "Anjing Besar (Panjang 15 - 20 cm)"])
     
+    //MARK: - Observable Variable Declaration
     private var petTypeObserver : Observable<petTypeCase> {
         return petTypeObject.asObservable()
     }
@@ -506,6 +507,11 @@ class AddPetViewController: UIViewController {
         }).disposed(by: bags)
         
         //MARK: - Observer for Pet Size Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         petSizeObserver.skip(1).subscribe(onNext: { [self] (value) in
             ukuranHewan.text = value.rawValue
         }).disposed(by: bags)

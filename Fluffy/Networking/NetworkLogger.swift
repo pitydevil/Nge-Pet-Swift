@@ -11,6 +11,7 @@ import Foundation
 struct NetworkLogger {
     static func log(request: URLRequest){
         let urlString = request.url?.absoluteString ?? ""
+        print(urlString)
         let components = NSURLComponents(string: urlString)
 
         let method = request.httpMethod ?? ""

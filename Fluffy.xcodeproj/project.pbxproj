@@ -56,6 +56,9 @@
 		228971C6B79C4700E7DA9C4E /* Pods_FluffyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC985139B43D09D659850CB /* Pods_FluffyTests.framework */; };
 		4B2A82EF2917E8C600830AE8 /* Class Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2A82EE2917E8C600830AE8 /* Class Model.swift */; };
 		4B2A82F12917ED9C00830AE8 /* EditPetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2A82F02917ED9C00830AE8 /* EditPetViewModel.swift */; };
+		4B2A82F5291979DB00830AE8 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2A82F4291979DB00830AE8 /* Order.swift */; };
+		4B2A82F729197BA000830AE8 /* OrderDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2A82F629197BA000830AE8 /* OrderDetail.swift */; };
+		4B2A82F929197D9D00830AE8 /* BookingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2A82F829197D9D00830AE8 /* BookingViewModel.swift */; };
 		4B3D82BE29051A2F00F6A82F /* ModalSelectPetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82BD29051A2F00F6A82F /* ModalSelectPetViewController.swift */; };
 		4B3D82C029051A3900F6A82F /* ModalMonitoringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82BF29051A3900F6A82F /* ModalMonitoringViewController.swift */; };
 		4B3D82C229051A4500F6A82F /* ModalMonitoringTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82C129051A4500F6A82F /* ModalMonitoringTableViewCell.swift */; };
@@ -191,6 +194,10 @@
 		3FC985139B43D09D659850CB /* Pods_FluffyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluffyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B2A82EE2917E8C600830AE8 /* Class Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Class Model.swift"; sourceTree = "<group>"; };
 		4B2A82F02917ED9C00830AE8 /* EditPetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPetViewModel.swift; sourceTree = "<group>"; };
+		4B2A82F4291979DB00830AE8 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
+		4B2A82F629197BA000830AE8 /* OrderDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetail.swift; sourceTree = "<group>"; };
+		4B2A82F829197D9D00830AE8 /* BookingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingViewModel.swift; sourceTree = "<group>"; };
+		4B2A82FA2919895800830AE8 /* FluffyDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FluffyDebug.entitlements; sourceTree = "<group>"; };
 		4B3D82BD29051A2F00F6A82F /* ModalSelectPetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalSelectPetViewController.swift; path = Fluffy/Views/Explore/ModalSelectPetViewController.swift; sourceTree = SOURCE_ROOT; };
 		4B3D82BF29051A3900F6A82F /* ModalMonitoringViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalMonitoringViewController.swift; path = Fluffy/Views/Modal/ModalMonitoringViewController.swift; sourceTree = SOURCE_ROOT; };
 		4B3D82C129051A4500F6A82F /* ModalMonitoringTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalMonitoringTableViewCell.swift; path = "Fluffy/Views/Modal/Custom Cell/ModalMonitoringTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
@@ -398,6 +405,23 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		4B2A82F22919757300830AE8 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				4B2A82F4291979DB00830AE8 /* Order.swift */,
+				4B2A82F629197BA000830AE8 /* OrderDetail.swift */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		4B2A82F32919758600830AE8 /* Booking */ = {
+			isa = PBXGroup;
+			children = (
+				4B2A82F829197D9D00830AE8 /* BookingViewModel.swift */,
+			);
+			path = Booking;
+			sourceTree = "<group>";
+		};
 		4B3D82C629051D6700F6A82F /* Networking */ = {
 			isa = PBXGroup;
 			children = (
@@ -465,6 +489,7 @@
 		4B78DB2028EAD8B100744386 /* View Model */ = {
 			isa = PBXGroup;
 			children = (
+				4B2A82F32919758600830AE8 /* Booking */,
 				4B6A64742915041900597555 /* Pet */,
 			);
 			path = "View Model";
@@ -573,6 +598,7 @@
 		4BC609D528E572DE007A6DB0 /* Fluffy */ = {
 			isa = PBXGroup;
 			children = (
+				4B2A82FA2919895800830AE8 /* FluffyDebug.entitlements */,
 				4B3D82CF29051D9100F6A82F /* Networking Domain */,
 				4B3D82C629051D6700F6A82F /* Networking */,
 				4B78DB3228EAD90E00744386 /* Models */,
@@ -670,9 +696,10 @@
 		4E5068B229001C1C0005ADBF /* Booking */ = {
 			isa = PBXGroup;
 			children = (
+				4B2A82F22919757300830AE8 /* Domain */,
 				4E5068AD28FD54ED0005ADBF /* BookingViewController.swift */,
 				4EAF1EF3290BA0C1007248AA /* Pages */,
-				4EAF1EEE290AF9B9007248AA /* Cells */,
+				4EAF1EEE290AF9B9007248AA /*  Components */,
 			);
 			path = Booking;
 			sourceTree = "<group>";
@@ -718,14 +745,14 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		4EAF1EEE290AF9B9007248AA /* Cells */ = {
+		4EAF1EEE290AF9B9007248AA /*  Components */ = {
 			isa = PBXGroup;
 			children = (
 				4EAF1EEF290AF9E1007248AA /* HargaTableViewCell.swift */,
 				4EAF1EF1290B05F3007248AA /* paketTableViewCell.swift */,
 				4E892D2C29111E6F0068D7E5 /* BookingTableViewCell.swift */,
 			);
-			path = Cells;
+			path = " Components";
 			sourceTree = "<group>";
 		};
 		4EAF1EF3290BA0C1007248AA /* Pages */ = {
@@ -1060,6 +1087,7 @@
 				4EAF1EF0290AF9E1007248AA /* HargaTableViewCell.swift in Sources */,
 				4EAF1EDF2907FDB1007248AA /* FasilitasViewController.swift in Sources */,
 				4EAF1EE629080C24007248AA /* PetSizeViewController.swift in Sources */,
+				4B2A82F729197BA000830AE8 /* OrderDetail.swift in Sources */,
 				4EAF1ED92907E1F6007248AA /* FasilitasTableViewCell.swift in Sources */,
 				4EAF1EF5290BA0D6007248AA /* DateSelectionViewController.swift in Sources */,
 				4E892D312912D02E0068D7E5 /* SearchExploreViewController.swift in Sources */,
@@ -1080,9 +1108,11 @@
 				4EAF1ED72907C807007248AA /* PetHotelDetailTableViewCell.swift in Sources */,
 				1DBF11CD28F00CAC00C53D1E /* ReusableTabBar.swift in Sources */,
 				4B3D82D529051DCB00F6A82F /* Enum.swift in Sources */,
+				4B2A82F929197D9D00830AE8 /* BookingViewModel.swift in Sources */,
 				4E5068A828FD51D80005ADBF /* TapBar.swift in Sources */,
 				4EAF1ED529068CDD007248AA /* PetHotelViewController.swift in Sources */,
 				4EAF1EE22907FDCA007248AA /* RulesViewController.swift in Sources */,
+				4B2A82F5291979DB00830AE8 /* Order.swift in Sources */,
 				4E5A6D7028EC03D9009BBDE9 /* SwitchSelect.swift in Sources */,
 				4E5068AE28FD54ED0005ADBF /* BookingViewController.swift in Sources */,
 				4EC56E4E28F826BB008ADD7F /* MonitoringViewController.swift in Sources */,
@@ -1244,9 +1274,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Fluffy/FluffyDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = DVL363TLWB;
+				DEVELOPMENT_TEAM = 38437W4ZU8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Fluffy/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

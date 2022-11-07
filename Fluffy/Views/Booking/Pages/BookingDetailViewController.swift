@@ -6,9 +6,20 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class BookingDetailViewController: UIViewController {
-
+    
+    //MARK: -VARIABLE DECLARATION
+    private let bookingViewModel    = BookingViewModel()
+    var bookingIdObject     = BehaviorRelay<Int>(value: 0)
+    
+    //MARK: -OBSERVABLE VARIABLE DECLARATION
+    private var bookingIdObservable : Observable<Int> {
+        return bookingIdObject.asObservable()
+    }
+    
     //MARK: Subviews
     private let scrollView:UIScrollView = {
         let scroll = UIScrollView()
@@ -167,15 +178,17 @@ class BookingDetailViewController: UIViewController {
     //MARK: properties
     private var numPackage = 1
     
-    //MARK: viewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    private func setupUI() {
         view.backgroundColor = UIColor(named: "white")
         self.navigationItem.titleView = navTitle
         self.navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         //MARK: Call To Setup Label, image, table, etc
         setupUI()
+        
+        numPackage = 2
+        petHotelImage.image = UIImage(named: "slide1")
+        totalHargaDetail.text = "Rp 70.000"
         
         //MARK: add subviews
         view.addSubview(scrollView)
@@ -214,48 +227,6 @@ class BookingDetailViewController: UIViewController {
         
         stackView.addVerticalSeparators(color: UIColor(named: "grey2") ?? .systemGray2)
         
-        setupConstraint()
-    }
-    
-}
-
-extension BookingDetailViewController{
-    func setupUI(){
-        numPackage = 2
-        petHotelImage.image = UIImage(named: "slide1")
-        totalHargaDetail.text = "Rp 70.000"
-    }
-}
-
-extension BookingDetailViewController: UITableViewDelegate, UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numPackage
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == detailHargaTableView{
-            let cell = tableView.dequeueReusableCell(withIdentifier: HargaTableViewCell.cellId) as! HargaTableViewCell
-            cell.backgroundColor = .clear
-            cell.configureView(detailHargaString: "Rp 70.000 x 1 hari", description: "Rp 70.000")
-            return cell
-        }
-        if tableView == detailPaketTableView{
-            let cell = tableView.dequeueReusableCell(withIdentifier: paketTableViewCell.cellId) as! paketTableViewCell
-            cell.backgroundColor = .clear
-            cell.configureView(detailPaketString: "Chiron - Plus (2 catatan khusus)")
-            return cell
-        }
-        return UITableViewCell()
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 18
-    }
-
-}
-
-
-extension BookingDetailViewController{
-    func setupConstraint(){
         //MARK: Scroll View Constraints
         scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
@@ -413,5 +384,45 @@ extension BookingDetailViewController{
         detailPaketTableView.rightAnchor.constraint(equalTo: detailPesananView.rightAnchor).isActive = true
         detailPaketTableView.heightAnchor.constraint(equalToConstant: CGFloat(numPackage*18)).isActive = true
     }
+    
+    //MARK: viewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        bookingIdObservable.subscribe(onNext: { (value) in
+           // self.orderObjectList.accept(value)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+    }
 }
 
+extension BookingDetailViewController: UITableViewDelegate, UITableViewDataSource{
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return numPackage
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if tableView == detailHargaTableView{
+            let cell = tableView.dequeueReusableCell(withIdentifier: HargaTableViewCell.cellId) as! HargaTableViewCell
+            cell.backgroundColor = .clear
+            cell.configureView(detailHargaString: "Rp 70.000 x 1 hari", description: "Rp 70.000")
+            return cell
+        }
+        if tableView == detailPaketTableView{
+            let cell = tableView.dequeueReusableCell(withIdentifier: paketTableViewCell.cellId) as! paketTableViewCell
+            cell.backgroundColor = .clear
+            cell.configureView(detailPaketString: "Chiron - Plus (2 catatan khusus)")
+            return cell
+        }
+        return UITableViewCell()
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 18
+    }
+}

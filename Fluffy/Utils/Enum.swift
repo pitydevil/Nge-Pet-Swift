@@ -15,17 +15,17 @@ enum HTTPMethod: String {
 }
 
 enum ApplicationEndpoint {
-    case getEtalaseById(id : String)
-    case getAllEtalase
-    case postConsultation(etalaseID: String, companyName : String, url1 : String, url2: String, shortDescription: String, problemDescription : String, marketingBudget : Double, userID : String)
-    case getConsultation(userID : String)
-    case getConsultationAgency(etalaseID : String)
-    case rejectEtalaseConsultation(consultationID : String, feedback : String )
-    case acceptEtalaseConsultation(consultationID : String)
-    case rejectUserConsultation(consultationID : String)
-    case getOfferByEtalaseId(etalaseID : String)
-    case getTaskByOfferID(offerID : String)
-    case getOfferByUserId(userID: String)
+    case getOrderList(orderStatus : String)
+//    case getAllEtalase
+//    case postConsultation(etalaseID: String, companyName : String, url1 : String, url2: String, shortDescription: String, problemDescription : String, marketingBudget : Double, userID : String)
+//    case getConsultation(userID : String)
+//    case getConsultationAgency(etalaseID : String)
+//    case rejectEtalaseConsultation(consultationID : String, feedback : String )
+//    case acceptEtalaseConsultation(consultationID : String)
+//    case rejectUserConsultation(consultationID : String)
+//    case getOfferByEtalaseId(etalaseID : String)
+//    case getTaskByOfferID(offerID : String)
+//    case getOfferByUserId(userID: String)
 }
 
 //MARK: - PET ENUMERATION DECLARATION
@@ -45,7 +45,7 @@ enum petSizeCase : String {
 
 enum petTypeCase : String {
     case kucing = "cat-icon"
-    case anjing   = "dog-icon"
+    case anjing = "dog-icon"
 }
 
 enum petIconCase : String {
@@ -73,4 +73,10 @@ enum addPetErrorCase  {
 }
 enum summaryGenerate : Error {
     case dataTidakAda(errorMessage: String), success(errorMessage: String)
+}
+
+//MARK: - BOOKING ENUMERATION DECLARATION
+enum bookingPesananCase : String {
+    case aktif   = "aktif"
+    case riwayat = "tidak-aktif"
 }
