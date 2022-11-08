@@ -8,7 +8,6 @@
 import Foundation
 
 struct OrderDetail : Decodable{
-    
     let petName, petType, petSize, packageName, customSopCount : String
 }
 

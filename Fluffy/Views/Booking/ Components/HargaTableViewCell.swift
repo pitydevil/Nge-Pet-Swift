@@ -29,7 +29,6 @@ class HargaTableViewCell: UITableViewCell {
         
         contentView.addSubview(detailHarga)
         contentView.addSubview(subtotal)
-        
         setupConstraint()
     }
     
@@ -40,10 +39,8 @@ class HargaTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 4, right: 0))
+//        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom:-50, right: 0))
     }
-    
-
 }
 
 //MARK: Setups
@@ -56,15 +53,13 @@ extension HargaTableViewCell{
         
         subtotal.topAnchor.constraint(equalTo: detailHarga.topAnchor).isActive = true
         subtotal.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-        
     }
 }
 
 // MARK: - Public
 extension HargaTableViewCell {
-    func configureView(detailHargaString:String, description:String) {
-        detailHarga.text = detailHargaString
-        
-        subtotal.text = description
+    func configureCell(_ package : Package) {
+        self.detailHarga.text = "Rp. \(package.packagePrice) per hari"
+        self.subtotal.text    = "Rp. \(package.packagePrice)"
     }
 }

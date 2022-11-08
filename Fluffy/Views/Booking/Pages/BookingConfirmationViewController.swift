@@ -284,13 +284,13 @@ extension BookingConfirmationViewController: UITableViewDelegate, UITableViewDat
         if tableView == detailHargaTableView{
             let cell = tableView.dequeueReusableCell(withIdentifier: HargaTableViewCell.cellId) as! HargaTableViewCell
             cell.backgroundColor = .clear
-            cell.configureView(detailHargaString: "Rp 70.000 x 1 hari", description: "Rp 70.000")
+           // cell.configureView(detailHargaString: "Rp 70.000 x 1 hari", description: "Rp 70.000")
             return cell
         }
         if tableView == detailPaketTableView{
             let cell = tableView.dequeueReusableCell(withIdentifier: paketTableViewCell.cellId) as! paketTableViewCell
             cell.backgroundColor = .clear
-            cell.configureView(detailPaketString: "Chiron - Plus (2 catatan khusus)")
+        //    cell.configureView(detailPaketString: "Chiron - Plus (2 catatan khusus)")
             return cell
         }
         return UITableViewCell()
