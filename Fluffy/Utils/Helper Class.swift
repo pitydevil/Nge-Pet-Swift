@@ -29,6 +29,20 @@ public func genericAlert(titleAlert : String, messageAlert : String, buttonText 
     return alert
 }
 
+/// Returns date in string
+/// from the given components.
+/// - Parameters:
+///     - dateString:: string date object that will be converted to dd / mm format
+public func changeDateIntoMMDD(dateString : String) -> String {
+    let dateFormatter = DateFormatter()
+   // "2022-11-03T04:49:19.000000Z",
+    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+    let pastDateInvoice: Date? = dateFormatter.date(from: dateString)
+    let dateF = DateFormatter()
+    dateF.dateFormat = "MMM DD"
+    return dateF.string(from: pastDateInvoice!)
+}
+
 //MARK: -TEXTFIELD FUNCTION CLASS
 /// Returns boolean true or false
 /// from the given components.

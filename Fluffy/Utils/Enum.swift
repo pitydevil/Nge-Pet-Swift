@@ -16,6 +16,7 @@ enum HTTPMethod: String {
 
 enum ApplicationEndpoint {
     case getOrderList(orderStatus : String)
+    case getDetailOrderID(orderID : Int)
 //    case getAllEtalase
 //    case postConsultation(etalaseID: String, companyName : String, url1 : String, url2: String, shortDescription: String, problemDescription : String, marketingBudget : Double, userID : String)
 //    case getConsultation(userID : String)
@@ -78,5 +79,5 @@ enum summaryGenerate : Error {
 //MARK: - BOOKING ENUMERATION DECLARATION
 enum bookingPesananCase : String {
     case aktif   = "aktif"
-    case riwayat = "tidak-aktif"
+    case riwayat = "riwayat"
 }

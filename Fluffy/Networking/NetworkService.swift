@@ -28,9 +28,11 @@ class NetworkService: NetworkServicing {
             #endif
             
             do {
+                
                 let decodedData = try JSONDecoder().decode(model, from: data)
                 return .success(decodedData)
             }catch {
+                print(error)
                 return .failure(.decoding)
             }
 

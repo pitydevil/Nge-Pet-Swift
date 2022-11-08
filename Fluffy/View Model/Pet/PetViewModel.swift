@@ -10,8 +10,8 @@ import RxCocoa
 
 class PetViewModel {
     
+    //MARK: - Object Declaration
     private var provider = BaseProviders()
-    
     private var petArray: Observable<[Pets]>?
     private let petModelArray = BehaviorRelay<[Pets]>(value: [])
     var petModelArrayObserver: Observable<[Pets]> {
@@ -22,6 +22,11 @@ class PetViewModel {
         self.provider = { return BaseProviders()}()
     }
 
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
     func getAllPet() {
         petArray = provider.callDatabase()
         petArray?.subscribe(onNext: { (value) in

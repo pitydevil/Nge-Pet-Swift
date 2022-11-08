@@ -9,7 +9,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-
 class BookingViewController: UIViewController {
 
     //MARK: Properties
@@ -20,7 +19,6 @@ class BookingViewController: UIViewController {
     private var bookingPesananObject  = BehaviorRelay<bookingPesananCase>(value: .aktif)
     private var bookingOnceableObject = BehaviorRelay<Bool>(value: false)
     private var orderObjectList       = BehaviorRelay<[Order]>(value: [])
-    
     
     //MARK: -OBSERVABLE VARIABLE DECLARATION
     private var bookingPesananObserver : Observable<bookingPesananCase> {
@@ -161,6 +159,14 @@ class BookingViewController: UIViewController {
             bookingOnceableObject.accept(true)
             cell.configureCell(model)
             cell.backgroundColor = .clear
+            cell.orderDetailArray.accept(model.orderDetail)
+            
+            cell.leftButton.rx.tap.bind { [self] in
+                if let tabBarController = self.navigationController?.tabBarController  {
+                    tabBarController.selectedIndex = 1
+                }
+            }.disposed(by: bags)
+            
             cell.rightButton.rx.tap.bind { [self] in
                 if bookingOnceableObject.value {
                     bookingOnceableObject.accept(false)
@@ -170,6 +176,7 @@ class BookingViewController: UIViewController {
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             }.disposed(by: bags)
+            
         }.disposed(by: bags)
     }
 }
