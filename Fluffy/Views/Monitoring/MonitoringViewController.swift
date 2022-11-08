@@ -86,6 +86,11 @@ class MonitoringViewController: UIViewController {
     @objc func selectPetModal(){
         let vc = ModalMonitoringViewController()
         vc.modalPresentationStyle = .pageSheet
+        vc.completion = { [weak self] text in
+            DispatchQueue.main.async {
+                self?.selectPetButton.self.configuration?.attributedTitle = AttributedString(text ?? self!.selectPetButton.titleBtn, attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 16)!]))
+            }
+        }
         self.present(vc, animated: true)
     }
     

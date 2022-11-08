@@ -212,6 +212,7 @@ class BookingConfirmationViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "white")
         self.navigationItem.titleView = navTitle
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
         //MARK: Call To Setup Label, image, table, etc
         setupUI()
         
