@@ -176,7 +176,6 @@ class ModalSelectPetViewController: UIViewController {
                         cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
                         modalTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
                         customBar.hewanDipilih.text = "Semua hewan dipilih"
-                        allCell = 6
                     }
                 } else {
                     customBar.boxBtn.setImage(uncheckedImage, for: .normal)
@@ -184,7 +183,6 @@ class ModalSelectPetViewController: UIViewController {
                         cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
                         modalTableView.deselectRow(at: indexPath, animated: true)
                         customBar.hewanDipilih.text = "Tidak ada hewan dipilih"
-                        allCell = 0
                     }
                 }
             }
@@ -252,11 +250,10 @@ extension ModalSelectPetViewController: UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        allCell += 1
         let cell = modalTableView.cellForRow(at: indexPath) as! ModalMonitoringTableViewCell
         cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
-        customBar.hewanDipilih.text = "\(allCell) hewan dipilih"
-        if allCell == 6 {
+        customBar.hewanDipilih.text = "\(modalTableView.indexPathsForSelectedRows?.count ?? 0) hewan dipilih"
+        if modalTableView.indexPathsForSelectedRows?.count == 6 {
             customBar.boxBtn.setImage(checkedImage, for: .normal)
             isChecked = true
             customBar.hewanDipilih.text = "Semua hewan dipilih"
@@ -266,13 +263,12 @@ extension ModalSelectPetViewController: UITableViewDataSource, UITableViewDelega
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        allCell -= 1
         let cell = modalTableView.cellForRow(at: indexPath) as! ModalMonitoringTableViewCell
         cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
-        customBar.hewanDipilih.text = "\(allCell) hewan dipilih"
+        customBar.hewanDipilih.text = "\(modalTableView.indexPathsForSelectedRows?.count ?? 0) hewan dipilih"
         customBar.boxBtn.setImage(uncheckedImage, for: .normal)
         isChecked = false
-        if allCell == 0 {
+        if modalTableView.indexPathsForSelectedRows?.count == nil {
             customBar.hewanDipilih.text = "Tidak ada hewan dipilih"
         }
     }
