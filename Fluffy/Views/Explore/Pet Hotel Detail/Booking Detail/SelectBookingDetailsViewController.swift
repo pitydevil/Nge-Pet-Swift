@@ -58,7 +58,7 @@ class SelectBookingDetailsViewController: UIViewController {
     }()
     
     private lazy var btmBar: ReusableTabBar = {
-        let customBar = ReusableTabBar(btnText: "Pilih Paket", showText: .notShow)
+        let customBar = ReusableTabBar(btnText: "Lanjut", showText: .notShow)
         customBar.barBtn.addTarget(self, action: #selector(pilihPaket), for: .touchUpInside)
         customBar.translatesAutoresizingMaskIntoConstraints = false
         customBar.backgroundColor = UIColor(named: "primaryMain")
@@ -134,7 +134,7 @@ class SelectBookingDetailsViewController: UIViewController {
     }
     
     @objc func pilihPaket() {
-        let vc = BookingConfirmationViewController()
+        let vc = DateSelectionViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
 

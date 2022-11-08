@@ -9,6 +9,7 @@ import UIKit
 
 class ModalMonitoringViewController: UIViewController {
     
+    var allCell = 0
     var isChecked = true
     let checkedImage = UIImage(systemName: "checkmark.square.fill")
     let uncheckedImage = UIImage(systemName: "square")
@@ -98,12 +99,16 @@ class ModalMonitoringViewController: UIViewController {
                 if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
                     cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
                     modalTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+                    customBar.hewanDipilih.text = "Semua hewan dipilih"
+                    allCell = 3
                 }
             } else {
                 customBar.boxBtn.setImage(uncheckedImage, for: .normal)
                 if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
                     cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
+                    customBar.hewanDipilih.text = "Tidak ada hewan dipilih"
                     modalTableView.deselectRow(at: indexPath, animated: true)
+                    allCell = 0
                 }
             }
         }
@@ -173,26 +178,34 @@ extension ModalMonitoringViewController: UITableViewDataSource, UITableViewDeleg
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        allCell += 1
         let cell = modalTableView.cellForRow(at: indexPath) as! ModalMonitoringTableViewCell
         if indexPath.section == 0 {
             cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
-//            let allCell = [IndexPath(row: 0, section: 0), IndexPath(row: 1, section: 0), IndexPath(row: 2, section: 0)]
-//            if modalTableView.indexPathsForSelectedRows {
-//                customBar.boxBtn.setImage(checkedImage, for: .normal)
-//            }
-            print(modalTableView.indexPathForSelectedRow)
-            print(modalTableView.indexPathsForSelectedRows)
+            customBar.hewanDipilih.text = "\(allCell) hewan dipilih"
+            print(allCell)
+            if allCell == 3 {
+                customBar.boxBtn.setImage(checkedImage, for: .normal)
+                isChecked = true
+                customBar.hewanDipilih.text = "Semua hewan dipilih"
+            }
         } else {
             cell.isUserInteractionEnabled = false
         }
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        allCell -= 1
         let cell = modalTableView.cellForRow(at: indexPath) as! ModalMonitoringTableViewCell
         if indexPath.section == 0 {
             cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
+            customBar.hewanDipilih.text = "\(allCell) hewan dipilih"
             customBar.boxBtn.setImage(uncheckedImage, for: .normal)
             isChecked = false
+            if allCell == 0 {
+                customBar.hewanDipilih.text = "Tidak ada hewan dipilih"
+            }
+            
         } else {
             cell.isUserInteractionEnabled = false
         }

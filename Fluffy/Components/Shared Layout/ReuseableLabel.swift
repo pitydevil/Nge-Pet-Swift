@@ -63,7 +63,7 @@ class ReuseableLabel: UILabel {
     // This is the setup default standard properties
     private func configureLabel() {
         
-        self.text = labelText
+//        self.text = labelText
         self.configureLabelStyle()
         self.configureLabelColor()
     }
@@ -129,6 +129,11 @@ class ReuseableLabel: UILabel {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.numberOfLines = 0
         self.textAlignment = .left
+        let attributedString = NSMutableAttributedString(string: labelText)
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 4
+        attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
+        self.attributedText = attributedString
     }
     
 }

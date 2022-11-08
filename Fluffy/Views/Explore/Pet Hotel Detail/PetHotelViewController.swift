@@ -180,13 +180,13 @@ class PetHotelViewController: UIViewController {
     
     private lazy var cancellationDescription:ReuseableLabel = {
         let label = ReuseableLabel(labelText: "Tidak ada pengembalian uang untuk reservasi ini. Tinjau kebijakan pembatalan lengkap Pet Hotel yang berlaku bahkan jika Anda membatalkan karena penyakit atau masalah tertentu.", labelType: .bodyP1, labelColor: .grey1)
-        label.textAlignment = .justified
+        label.textAlignment = .left
         return label
     }()
     
     private lazy var detailedLocation:ReuseableLabel = {
         let label = ReuseableLabel(labelText: "Jalan Ampera 102.D ruko no 4, Kelurahan Duren Jaya, Kecamatan Bekasi Timur, Kecamatan Rawalumbu, Kota Bekasi, Jawa Barat 17111", labelType: .bodyP1, labelColor: .grey1)
-        label.textAlignment = .justified
+        label.textAlignment = .left
         return label
     }()
     
