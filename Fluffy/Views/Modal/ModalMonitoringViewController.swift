@@ -9,7 +9,7 @@ import UIKit
 
 class ModalMonitoringViewController: UIViewController {
     
-    var allCell = 0
+    var allCell = 3
     var isChecked = true
     let checkedImage = UIImage(systemName: "checkmark.square.fill")
     let uncheckedImage = UIImage(systemName: "square")
