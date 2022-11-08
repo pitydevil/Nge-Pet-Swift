@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class BookingTableViewCell: UITableViewCell {
+    
     //MARK: SubViews
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
@@ -17,6 +20,8 @@ class BookingTableViewCell: UITableViewCell {
         
         return stackView
     }()
+    
+    var orderDetailArray       = BehaviorRelay<[OrderDetail]>(value: [])
     
     private lazy var petHotelName:ReuseableLabel = ReuseableLabel(labelText: "Pet Hotel Name", labelType: .titleH2, labelColor: .black)
     
@@ -105,8 +110,6 @@ class BookingTableViewCell: UITableViewCell {
     
     private lazy var detailPaketTableView: UITableView = {
         let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.register(paketTableViewCell.self, forCellReuseIdentifier: paketTableViewCell.cellId)
@@ -130,11 +133,9 @@ class BookingTableViewCell: UITableViewCell {
     private var numPackage = 1
     private var detailPaketArray:[String] = [""]
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    private func setupUI() {
         contentView.addSubview(stackView)
 
-        
         upperView.addSubview(petHotelName)
         upperView.addSubview(idPaket)
         upperView.addSubview(detailPaketTableView)
@@ -159,6 +160,24 @@ class BookingTableViewCell: UITableViewCell {
         setupConstraint()
     }
     
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        setupUI()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        ///     
+        orderDetailArray.bind(to: detailPaketTableView.rx.items(cellIdentifier: paketTableViewCell.cellId, cellType: paketTableViewCell.self)) { row, model, cell in
+            cell.backgroundColor = .clear
+            cell.configureOrderDetail(model)
+        }.disposed(by: bags)
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -168,8 +187,6 @@ class BookingTableViewCell: UITableViewCell {
         
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0))
     }
-    
-
 }
 
 //MARK: Setups
@@ -261,18 +278,25 @@ extension BookingTableViewCell{
 
 // MARK: - Public
 extension BookingTableViewCell {
-    func configureView(hotelName:String, bookingId:String, detailPaket:[String], checkIn:String, checkOut:String, bookingStatus:String) {
-        petHotelName.text = hotelName
-        idPaket.text = "id: \(bookingId)"
-        numPackage = detailPaket.count
-        if numPackage>3{
+    func configureCell(_ order : Order) {
+        var packageArray = [String]()
+        petHotelName.text = order.petHotelName
+        idPaket.text = "id: \(order.orderCode)"
+        numPackage = order.orderDetail.count
+        
+        if numPackage > 3 {
             numPackage = 3
         }
-        detailPaketArray = detailPaket
-        detailCheckIn.text = checkIn
-        detailCheckOut.text = checkOut
-        status.text = bookingStatus
-        if bookingStatus == "Menunggu Konfirmasi"{
+        for order in order.orderDetail {
+            packageArray.append(order.packageName)
+        }
+        
+        detailPaketArray     = packageArray
+        detailCheckIn.text   = order.orderDateCheckIn
+        detailCheckOut.text  = order.orderDateCheckOut
+        status.text          = order.orderStatus
+        
+        if order.orderStatus == "waiting-for-confirmation"{
             leftButton.configuration?.attributedTitle = AttributedString("Cancel Order", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 12)!]))
             leftButton.configuration?.baseBackgroundColor = UIColor(named: "grey2")
             leftButton.configuration?.baseForegroundColor = UIColor(named: "white")
@@ -283,22 +307,4 @@ extension BookingTableViewCell {
             leftButton.configuration?.baseForegroundColor = UIColor(named: "white")
         }
     }
-}
-
-extension BookingTableViewCell: UITableViewDelegate, UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numPackage
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: paketTableViewCell.cellId) as! paketTableViewCell
-        cell.backgroundColor = .clear
-        cell.configureView(detailPaketString: "Chiron - Plus (2 catatan khusus)")
-        
-        return cell
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 18
-    }
-
 }

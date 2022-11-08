@@ -9,7 +9,6 @@ import UIKit
 
 class paketTableViewCell: UITableViewCell {
     //MARK: SubViews
-    
     private lazy var detailPaket:ReuseableLabel = {
         let label = ReuseableLabel(labelText: "", labelType: .bodyP2, labelColor: .grey1)
         return label
@@ -34,8 +33,6 @@ class paketTableViewCell: UITableViewCell {
         super.layoutSubviews()
         
     }
-    
-
 }
 
 //MARK: Setups
@@ -51,7 +48,11 @@ extension paketTableViewCell{
 
 // MARK: - Public
 extension paketTableViewCell {
-    func configureView(detailPaketString:String) {
-        detailPaket.text = detailPaketString
+    func configureView(_ customOrderDetail : CustomOrderDetail) {
+        detailPaket.text = "\(customOrderDetail.petName) - Plus (\(customOrderDetail.customSOP.count))"
+    }
+    
+    func configureOrderDetail(_ customOrderDetail : OrderDetail) {
+        detailPaket.text = "\(customOrderDetail.petName) - Plus (\(customOrderDetail.customSopCount))"
     }
 }

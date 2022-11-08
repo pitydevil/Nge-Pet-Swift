@@ -6,9 +6,30 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import SDWebImage
 
 class BookingDetailViewController: UIViewController {
-
+    
+    //MARK: -VARIABLE DECLARATION
+    private let bookingViewModel    = BookingDetailViewModel()
+    private var bookingModel        = BehaviorRelay<DetailedOrder>(value: DetailedOrder(orderID: 0, orderCode: "", orderDateCheckin: "", orderDateCheckout: "", orderTotalPrice: "", orderStatus: "", userID: "", petHotelID: "", createdAt: "", updatedAt: "", petHotel: PetHotel(petHotelID: 0, petHotelName: "", petHotelDescription: "", petHotelLongitude: "", petHotelLatitude: "", petHotelAddress: "", petHotelKelurahan: "", petHotelKecamatan: "", petHotelKota: "", petHotelProvinsi: "", petHotelPos: "", cancelSOP: [CancelSOP](), petHotelImage: [PetHotelImage]()), orderDetail: [CustomOrderDetail]()))
+    private var packageModelArray       = BehaviorRelay<[Package]>(value: [])
+    private var orderDetailModelArray   = BehaviorRelay<[CustomOrderDetail]>(value: [])
+    private var numPackage  = 0
+    private var numHarga  = 0
+    var bookingIdObject     = BehaviorRelay<Int>(value: 0)
+    
+    //MARK: -OBSERVABLE VARIABLE DECLARATION
+    private var bookingIdObservable : Observable<Int> {
+        return bookingIdObject.asObservable()
+    }
+    
+    private var bookingModelObserver : Observable<DetailedOrder> {
+        return bookingModel.asObservable()
+    }
+    
     //MARK: Subviews
     private let scrollView:UIScrollView = {
         let scroll = UIScrollView()
@@ -17,8 +38,6 @@ class BookingDetailViewController: UIViewController {
         scroll.showsVerticalScrollIndicator = false
         return scroll
     }()
-    
-    let contentView = UIView()
     
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
@@ -84,7 +103,10 @@ class BookingDetailViewController: UIViewController {
     
     private lazy var paymentInstruction:ReuseableLabel = ReuseableLabel(labelText: "Instruksi Pembayaran", labelType: .titleH2, labelColor: .black)
     
-    private lazy var cancellationPolicy:ReuseableLabel = ReuseableLabel(labelText: "Kebijakan Pembatalan", labelType: .titleH2, labelColor: .black)
+    private lazy var cancellationPolicy:ReuseableLabel = {
+        let label = ReuseableLabel(labelText: "Kebijakan Pembatalan", labelType: .titleH2, labelColor: .black)
+        return label
+    }()
     
     private lazy var tanggalPemesanan:ReuseableLabel = ReuseableLabel(labelText: "Tanggal Pesanan", labelType: .titleH2, labelColor: .black)
     
@@ -97,7 +119,11 @@ class BookingDetailViewController: UIViewController {
     
     private lazy var detailTanggal:ReuseableLabel = ReuseableLabel(labelText: "Sep 25 - 26", labelType: .bodyP2, labelColor: .grey1)
     
-    private lazy var detailCancellation:ReuseableLabel = ReuseableLabel(labelText: "Tidak ada pengembalian uang untuk pesanan ini.", labelType: .bodyP2, labelColor: .grey1)
+    private lazy var detailCancellation:ReuseableLabel = {
+        let label = ReuseableLabel(labelText: "Tidak ada pengembalian uang untuk pesanan ini.", labelType: .bodyP2, labelColor: .grey1)
+        label.numberOfLines = 5
+        return label
+    }()
     
     private lazy var detailPaymentInstruction:ReuseableLabel = ReuseableLabel(labelText: "Bawa hewan peliharaan kamu ke Pet Hotel dan berikan Order Id yang dapat kamu lihat pada halaman Booking kepada pihak Pet Hotel.", labelType: .bodyP2, labelColor: .grey1)
     
@@ -112,6 +138,7 @@ class BookingDetailViewController: UIViewController {
         return label
     }()
     
+    private let contentView = UIView()
     
     private lazy var petHotelImage: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
@@ -131,17 +158,14 @@ class BookingDetailViewController: UIViewController {
         return imageView
     }()
     
-    
     private lazy var detailHargaTableView: UITableView = {
         let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.register(HargaTableViewCell.self, forCellReuseIdentifier: HargaTableViewCell.cellId)
         tableView.separatorColor = .clear
         tableView.allowsSelection = false
-        tableView.isScrollEnabled = true
+        tableView.isScrollEnabled = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = UIColor(named: "white")
         tableView.invalidateIntrinsicContentSize()
@@ -150,32 +174,28 @@ class BookingDetailViewController: UIViewController {
     
     private lazy var detailPaketTableView: UITableView = {
         let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.register(paketTableViewCell.self, forCellReuseIdentifier: paketTableViewCell.cellId)
         tableView.separatorColor = .clear
         tableView.allowsSelection = false
-        tableView.isScrollEnabled = true
+        tableView.isScrollEnabled = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = UIColor(named: "white")
         tableView.invalidateIntrinsicContentSize()
         return tableView
     }()
     
-    //MARK: properties
-    private var numPackage = 1
+    private var paketTableHeightConstant : NSLayoutConstraint?
+    private var hargaTableHeightConstant : NSLayoutConstraint?
     
-    //MARK: viewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    private func setupUI() {
         view.backgroundColor = UIColor(named: "white")
         self.navigationItem.titleView = navTitle
         self.navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         //MARK: Call To Setup Label, image, table, etc
-        setupUI()
+        petHotelImage.image = UIImage(named: "slide1")
         
         //MARK: add subviews
         view.addSubview(scrollView)
@@ -214,48 +234,6 @@ class BookingDetailViewController: UIViewController {
         
         stackView.addVerticalSeparators(color: UIColor(named: "grey2") ?? .systemGray2)
         
-        setupConstraint()
-    }
-    
-}
-
-extension BookingDetailViewController{
-    func setupUI(){
-        numPackage = 2
-        petHotelImage.image = UIImage(named: "slide1")
-        totalHargaDetail.text = "Rp 70.000"
-    }
-}
-
-extension BookingDetailViewController: UITableViewDelegate, UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numPackage
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == detailHargaTableView{
-            let cell = tableView.dequeueReusableCell(withIdentifier: HargaTableViewCell.cellId) as! HargaTableViewCell
-            cell.backgroundColor = .clear
-            cell.configureView(detailHargaString: "Rp 70.000 x 1 hari", description: "Rp 70.000")
-            return cell
-        }
-        if tableView == detailPaketTableView{
-            let cell = tableView.dequeueReusableCell(withIdentifier: paketTableViewCell.cellId) as! paketTableViewCell
-            cell.backgroundColor = .clear
-            cell.configureView(detailPaketString: "Chiron - Plus (2 catatan khusus)")
-            return cell
-        }
-        return UITableViewCell()
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 18
-    }
-
-}
-
-
-extension BookingDetailViewController{
-    func setupConstraint(){
         //MARK: Scroll View Constraints
         scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
@@ -275,18 +253,18 @@ extension BookingDetailViewController{
         stackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -24).isActive = true
         stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20).isActive = true
         
-        //MARK: Pet HOtel Information VIew Constraint
+        //MARK: Pet Hotel Information VIew Constraint
         petHoteView.topAnchor.constraint(equalTo: stackView.topAnchor).isActive = true
         petHoteView.leftAnchor.constraint(equalTo: stackView.leftAnchor).isActive = true
         petHoteView.rightAnchor.constraint(equalTo: stackView.rightAnchor).isActive = true
         petHoteView.heightAnchor.constraint(greaterThanOrEqualToConstant: 120).isActive = true
         
-        //MARK: detail PEsanan view constraint
+        //MARK: Detail Pesanan view constraint
         detailPesananView.leftAnchor.constraint(equalTo: stackView.leftAnchor).isActive = true
         detailPesananView.rightAnchor.constraint(equalTo: stackView.rightAnchor).isActive = true
         detailPesananView.heightAnchor.constraint(greaterThanOrEqualToConstant: 120).isActive = true
         
-        //MARK: detail harga view constraint
+        //MARK: Detail harga view constraint
         detailHargaView.leftAnchor.constraint(equalTo: stackView.leftAnchor).isActive = true
         detailHargaView.rightAnchor.constraint(equalTo: stackView.rightAnchor).isActive = true
         detailHargaView.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
@@ -392,7 +370,7 @@ extension BookingDetailViewController{
         detailHargaTableView.topAnchor.constraint(equalTo: detailHarga.bottomAnchor, constant: 8).isActive = true
         detailHargaTableView.leftAnchor.constraint(equalTo: detailHargaView.leftAnchor).isActive = true
         detailHargaTableView.rightAnchor.constraint(equalTo: detailHargaView.rightAnchor).isActive = true
-        detailHargaTableView.heightAnchor.constraint(greaterThanOrEqualToConstant: CGFloat(numPackage*18)).isActive = true
+       
         
         //MARK: total constraint
         total.topAnchor.constraint(equalTo: detailHargaTableView.bottomAnchor).isActive = true
@@ -405,13 +383,116 @@ extension BookingDetailViewController{
         totalHargaDetail.topAnchor.constraint(equalTo: total.topAnchor).isActive = true
         totalHargaDetail.rightAnchor.constraint(equalTo: detailHargaView.rightAnchor).isActive = true
         totalHargaDetail.bottomAnchor.constraint(equalTo: detailHargaView.bottomAnchor).isActive = true
+        hargaTableHeightConstant = detailHargaTableView.heightAnchor.constraint(greaterThanOrEqualToConstant: CGFloat(numHarga*18))
+        hargaTableHeightConstant!.isActive = true
         
         //MARK: detail paket table view constraint
         detailPaketTableView.topAnchor.constraint(equalTo: hewanPeliharaanDanPaket.bottomAnchor, constant: 8).isActive = true
         detailPaketTableView.bottomAnchor.constraint(equalTo: detailPesananView.bottomAnchor).isActive = true
         detailPaketTableView.leftAnchor.constraint(equalTo: detailPesananView.leftAnchor).isActive = true
         detailPaketTableView.rightAnchor.constraint(equalTo: detailPesananView.rightAnchor).isActive = true
-        detailPaketTableView.heightAnchor.constraint(equalToConstant: CGFloat(numPackage*18)).isActive = true
+        paketTableHeightConstant =  detailPaketTableView.heightAnchor.constraint(equalToConstant: CGFloat(numPackage*18))
+        paketTableHeightConstant!.isActive = true
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        bookingIdObservable.subscribe(onNext: { [self] (value) in
+            Task {
+                bookingViewModel.orderDetailId.accept(bookingIdObject.value)
+                await bookingViewModel.fetchDetailOrder()
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+    }
+    
+    //MARK: viewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupUI()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        bookingViewModel.orderModelArrayObserver.subscribe(onNext: { [self] (value) in
+            bookingModel.accept(value)
+            orderDetailModelArray.accept(value.orderDetail)
+            var package = [Package]()
+            for orderDetail in value.orderDetail {
+                package.append(orderDetail.package)
+            }
+            packageModelArray.accept(package)
+            numHarga   = orderDetailModelArray.value.count
+            numPackage = package.count
+            DispatchQueue.main.async { [self] in
+                hargaTableHeightConstant!.constant = CGFloat(numHarga*36)
+                paketTableHeightConstant!.constant = CGFloat(numPackage*18)
+                view.layoutIfNeeded()
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        bookingModelObserver.subscribe(onNext: { [self] (value) in
+            var cancelSop = String()
+            DispatchQueue.main.async { [self] in
+                petHotelName.text                = value.petHotel.petHotelName
+                detailCancellation.numberOfLines = value.petHotel.cancelSOP.count*3
+                lokasi.text                      = "\(value.petHotel.petHotelAddress), \(value.petHotel.petHotelKota), \(value.petHotel.petHotelProvinsi)"
+                
+                for image in value.petHotel.petHotelImage {
+                    petHotelImage.sd_setImage(with: URL(string: image.petHotelImageURL))
+                    break
+                }
+                
+                for sop in value.petHotel.cancelSOP {
+                    cancelSop += "\(sop.cancelSopsDescription)\n\n"
+                    detailCancellation.text = cancelSop
+                }
+                detailTanggal.text      =  "\(value.orderDateCheckin) - \(value.orderDateCheckout)"
+                detailInstruction.text  = value.petHotel.petHotelDescription
+                totalHargaDetail.text   = "Rp \(value.orderTotalPrice)"
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        packageModelArray.bind(to: detailHargaTableView.rx.items(cellIdentifier: HargaTableViewCell.cellId, cellType: HargaTableViewCell.self)) { row, model, cell in
+            cell.backgroundColor = .clear
+            cell.configureCell(model)
+        }.disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        orderDetailModelArray.bind(to: detailPaketTableView.rx.items(cellIdentifier: paketTableViewCell.cellId, cellType: paketTableViewCell.self)) { row, model, cell in
+            cell.backgroundColor = .clear
+            cell.configureView(model)
+        }.disposed(by: bags)
     }
 }
-

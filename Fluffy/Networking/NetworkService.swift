@@ -18,9 +18,7 @@ class NetworkService: NetworkServicing {
         #endif
 
         do {
-         
             let (data, response) = try await URLSession.shared.data(for: urlRequest)
-
             guard let response = response as? HTTPURLResponse else {
                 return .failure(.emptyResponse)
             }
@@ -30,6 +28,7 @@ class NetworkService: NetworkServicing {
             #endif
             
             do {
+                
                 let decodedData = try JSONDecoder().decode(model, from: data)
                 return .success(decodedData)
             }catch {

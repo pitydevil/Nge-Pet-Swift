@@ -6,36 +6,28 @@
 //
 
 import UIKit
-
-struct Booking{
-    let bookingId:String
-    let petHotelName:String
-    let detailPaket:[String]
-    let checkInDate:String
-    let checkOutDate:String
-    let bookingStatus:String
-}
+import RxSwift
+import RxCocoa
 
 class BookingViewController: UIViewController {
 
     //MARK: Properties
-    let items = ["Aktif", "Riwayat"]
-    let haptic = UISelectionFeedbackGenerator()
-    var bookingList:[Booking] = [
-        Booking(bookingId: "Rsv1234", petHotelName: "Katzenesia Pet Hotel", detailPaket: ["Mochi - Premium (4 catatan khusus)", "Chiron - Plus (2 catatan khusus)"], checkInDate: "27 September", checkOutDate: "29 September", bookingStatus: "Menunggu Konfirmasi"),
-        Booking(bookingId: "Rsv1235", petHotelName: "Pet Hotel Indonesia", detailPaket: ["Mochi - Premium (4 catatan khusus)", "Chiron - Plus (2 catatan khusus)"], checkInDate: "27 September", checkOutDate: "29 September", bookingStatus: "Dalam Penitipan")
-    ]
-    let activeBooking:[Booking] = [
-        Booking(bookingId: "Rsv1234", petHotelName: "Katzenesia Pet Hotel", detailPaket: ["Mochi - Premium (4 catatan khusus)", "Chiron - Plus (2 catatan khusus)"], checkInDate: "27 September", checkOutDate: "29 September", bookingStatus: "Menunggu Konfirmasi"),
-        Booking(bookingId: "Rsv1235", petHotelName: "Pet Hotel Indonesia", detailPaket: ["Mochi - Premium (4 catatan khusus)", "Chiron - Plus (2 catatan khusus)"], checkInDate: "27 September", checkOutDate: "29 September", bookingStatus: "Dalam Penitipan")
-    ]
-    let historyBooking:[Booking] = [
-        Booking(bookingId: "Rsv1234", petHotelName: "Katzenesia Pet Hotel", detailPaket: ["Mochi - Premium (4 catatan khusus)", "Chiron - Plus (2 catatan khusus)"], checkInDate: "27 September", checkOutDate: "29 September", bookingStatus: "Dijemput Pemilik")
-    ]
+    private let haptic = UISelectionFeedbackGenerator()
+    
+    //MARK: -VARIABLE DECLARATION
+    private let bookingViewModel      = BookingViewModel()
+    private var bookingPesananObject  = BehaviorRelay<bookingPesananCase>(value: .aktif)
+    private var bookingOnceableObject = BehaviorRelay<Bool>(value: false)
+    private var orderObjectList       = BehaviorRelay<[Order]>(value: [])
+    
+    //MARK: -OBSERVABLE VARIABLE DECLARATION
+    private var bookingPesananObserver : Observable<bookingPesananCase> {
+        return bookingPesananObject.asObservable()
+    }
     
     //MARK: Subviews
     private lazy var segmentedControl:UISegmentedControl = {
-       let view = UISegmentedControl(items: items)
+       let view = UISegmentedControl(items: ["Aktif", "Riwayat"])
         view.translatesAutoresizingMaskIntoConstraints = false
         view.selectedSegmentIndex = 0
         view.selectedSegmentTintColor = UIColor(named: "primaryMain")
@@ -44,11 +36,10 @@ class BookingViewController: UIViewController {
         let titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
              view.setTitleTextAttributes(titleTextAttributes, for:.normal)
         
-        view.addTarget(self, action: #selector(switchChange), for: .valueChanged)
         return view
     }()
     
-    private lazy var colorView:UIView = {
+    private lazy var colorView : UIView = {
        let view = UIView()
         view.backgroundColor = .yellow
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -63,8 +54,6 @@ class BookingViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.register(BookingTableViewCell.self, forCellReuseIdentifier: BookingTableViewCell.cellId)
@@ -79,27 +68,11 @@ class BookingViewController: UIViewController {
         return tableView
     }()
     
-    @objc func switchChange(){
-        haptic.selectionChanged()
-        switch segmentedControl.selectedSegmentIndex{
-        case 0:
-            bookingList = activeBooking
-            tableView.reloadData()
-        case 1:
-            bookingList = historyBooking
-            tableView.reloadData()
-        default:
-            bookingList = activeBooking
-            tableView.reloadData()
-        }
-    }
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    private func setupUI() {
         view.backgroundColor = UIColor(named: "grey3")
         self.navigationItem.titleView = navTitle
         self.navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        // Do any additional setup after loading the view.
         view.addSubview(segmentedControl)
         haptic.prepare()
         view.addSubview(tableView)
@@ -113,31 +86,97 @@ class BookingViewController: UIViewController {
         tableView.leftAnchor.constraint(equalTo: segmentedControl.leftAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: segmentedControl.rightAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+    }
         
+    override func viewWillAppear(_ animated: Bool) {
+        Task {
+            bookingViewModel.orderStatusObject.accept(bookingPesananObject.value.rawValue)
+            await bookingViewModel.fetchOrderList()
+        }
     }
     
-    @objc func seeDetail(){
-        let vc = BookingDetailViewController()
-        vc.modalPresentationStyle = .pageSheet
-        self.navigationController?.pushViewController(vc, animated: true)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        segmentedControl.rx.selectedSegmentIndex.subscribe(onNext: { [self] value in
+            self.orderObjectList.accept([])
+            switch value {
+                case 0:
+                    self.bookingPesananObject.accept(.aktif)
+                case 1:
+                    self.bookingPesananObject.accept(.riwayat)
+                default:
+                    print("test")
+            }
+        }).disposed(by: bags)
+        
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        bookingPesananObserver.skip(1).subscribe(onNext: { [self] (value) in
+            Task {
+                switch value {
+                    case .aktif:
+                        bookingViewModel.orderStatusObject.accept(value.rawValue)
+                        await bookingViewModel.fetchOrderList()
+                    case .riwayat:
+                        bookingViewModel.orderStatusObject.accept(value.rawValue)
+                        await bookingViewModel.fetchOrderList()
+                }
+            }
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        bookingViewModel.orderModelArrayObserver.subscribe(onNext: { (value) in
+            self.orderObjectList.accept(value)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        orderObjectList.bind(to: tableView.rx.items(cellIdentifier:  BookingTableViewCell.cellId, cellType: BookingTableViewCell.self)) { [self] row, model, cell in
+            bookingOnceableObject.accept(true)
+            cell.configureCell(model)
+            cell.backgroundColor = .clear
+            cell.orderDetailArray.accept(model.orderDetail)
+            
+            cell.leftButton.rx.tap.bind { [self] in
+                if let tabBarController = self.navigationController?.tabBarController  {
+                    tabBarController.selectedIndex = 1
+                }
+            }.disposed(by: bags)
+            
+            cell.rightButton.rx.tap.bind { [self] in
+                if bookingOnceableObject.value {
+                    bookingOnceableObject.accept(false)
+                    let vc = BookingDetailViewController()
+                    vc.modalPresentationStyle = .pageSheet
+                    vc.bookingIdObject.accept(model.orderId)
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }.disposed(by: bags)
+            
+        }.disposed(by: bags)
     }
-}
-
-extension BookingViewController: UITableViewDelegate, UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return bookingList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: BookingTableViewCell.cellId) as! BookingTableViewCell
-        cell.backgroundColor = .clear
-        cell.rightButton.addTarget(self, action: #selector(seeDetail), for: .touchUpInside)
-        cell.configureView(hotelName: bookingList[indexPath.row].petHotelName, bookingId: bookingList[indexPath.row].bookingId, detailPaket: bookingList[indexPath.row].detailPaket, checkIn: bookingList[indexPath.row].checkInDate, checkOut: bookingList[indexPath.row].checkOutDate, bookingStatus: bookingList[indexPath.row].bookingStatus)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
-    }
-    
 }

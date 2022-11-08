@@ -11,9 +11,11 @@ import RxCocoa
 
 class AddPetViewModel {
    
+    //MARK: - VARIABLE DECLARATION
     private var provider = BaseProviders()
     private var addPetErrorCaseObject = BehaviorRelay<addPetErrorCase>(value: .petBreedTidakAda())
     
+    //MARK: - OBSERVABLE OBJECT DECLARATION
     var petsObject = BehaviorRelay<Pets>(value: Pets())
     var addPetErrorObjectObserver : Observable<addPetErrorCase> {
         return addPetErrorCaseObject.asObservable()
@@ -24,6 +26,11 @@ class AddPetViewModel {
         
     }
     
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
     func addPet() {
         if petsObject.value.petData?.count != 0 && petsObject.value.petBreed?.count != 0 && petsObject.value.petGender?.count != 0 && petsObject.value.petName?.count != 0 && petsObject.value.petSize?.count != 0 && petsObject.value.petType?.count != 0 && petsObject.value.petAge != nil {
             
