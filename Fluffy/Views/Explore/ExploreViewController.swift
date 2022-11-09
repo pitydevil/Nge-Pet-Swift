@@ -74,6 +74,7 @@ class ExploreViewController: UIViewController {
             .font: UIFont(name: "Inter-Medium", size: 12)!
         ])
         textField.addTarget(self, action: #selector(toSelectPetModal), for: .editingDidBegin)
+        textField.isContextMenuInteractionEnabled = false
         return textField
     }()
     

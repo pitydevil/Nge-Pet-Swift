@@ -10,8 +10,9 @@ import UIKit
 @available(iOS 16.0, *)
 class ModalCheckInOutViewController: UIViewController, UICalendarViewDelegate {
     
-    var dateCount: Int = 0
-    var isClicked = false
+    var dateCount = 0
+    var firstCalendarSelected = false
+    var secondCalendarSelected = false
     
     private lazy var indicator: UIImageView = {
         let indicator = UIImageView()
@@ -22,8 +23,28 @@ class ModalCheckInOutViewController: UIViewController, UICalendarViewDelegate {
         return indicator
     }()
     
+    private lazy var scrollView: UIScrollView = {
+        let scroll = UIScrollView()
+        scroll.translatesAutoresizingMaskIntoConstraints = false
+        scroll.backgroundColor = UIColor(named: "white")
+        scroll.showsVerticalScrollIndicator = false
+        return scroll
+    }()
+    
+    private lazy var scrollContainer: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor(named: "white")
+        return view
+    }()
+    
     private lazy var headline: ReuseableLabel = {
         let headline = ReuseableLabel(labelText: "Check In", labelType: .titleH1, labelColor: .black)
+        return headline
+    }()
+    
+    private lazy var headlineSecond: ReuseableLabel = {
+        let headline = ReuseableLabel(labelText: "Check Out", labelType: .titleH1, labelColor: .black)
         return headline
     }()
     
@@ -46,9 +67,42 @@ class ModalCheckInOutViewController: UIViewController, UICalendarViewDelegate {
         calendarView.layer.shadowRadius = 5
         
         calendarView.delegate = self
-        calendarView.selectionBehavior = UICalendarSelectionMultiDate(delegate: self)
+        calendarView.selectionBehavior = UICalendarSelectionSingleDate(delegate: self)
 
         return calendarView
+    }()
+    
+    private lazy var bgDatePicker: UIView = {
+        let bg = UIView()
+        bg.backgroundColor = UIColor(named: "white")
+        bg.translatesAutoresizingMaskIntoConstraints = false
+        bg.layer.borderColor = UIColor.lightGray.cgColor
+        bg.layer.shadowOpacity = 0.1
+        bg.layer.shadowOffset = CGSize.zero
+        bg.layer.shadowRadius = 5
+        bg.layer.cornerRadius = 12
+        return bg
+    }()
+    
+    private lazy var calendarViewSecond: UIDatePicker = {
+       let datePicker = UIDatePicker()
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.calendar = .current
+        datePicker.locale = .current
+        datePicker.tintColor = UIColor(named: "primaryMain")
+        datePicker.backgroundColor = UIColor(named: "white")
+        datePicker.datePickerMode = .date
+        datePicker.preferredDatePickerStyle = .inline
+        datePicker.minimumDate = .now
+        datePicker.maximumDate = .distantFuture
+        
+        datePicker.layer.borderColor = UIColor.lightGray.cgColor
+        datePicker.layer.shadowOpacity = 0.1
+        datePicker.layer.shadowOffset = CGSize.zero
+        datePicker.layer.shadowRadius = 5
+        
+        datePicker.isUserInteractionEnabled = false
+        return datePicker
     }()
     
     private lazy var customBar: ReusableTabBar = {
@@ -59,17 +113,13 @@ class ModalCheckInOutViewController: UIViewController, UICalendarViewDelegate {
     }()
     
     private lazy var barBtnLewati: ReusableButton = {
-        let barBtnLewati = ReusableButton(titleBtn: "Lewati", styleBtn: .light)
+        let barBtnLewati = ReusableButton(titleBtn: "Batal", styleBtn: .light)
         barBtnLewati.addTarget(self, action: #selector(skipModal), for: .touchUpInside)
         return barBtnLewati
     }()
     
-    private lazy var barBtnHapusPilihan: ReusableButton = {
-        let barBtnHapusPilihan = ReusableButton(titleBtn: "Hapus Pilihan", styleBtn: .light)
-        barBtnHapusPilihan.addTarget(self, action: #selector(deleteSelectedDate), for: .touchUpInside)
-        return barBtnHapusPilihan
-    }()
-    
+    private lazy var checkInDate:String = "Check In Date"
+    private lazy var checkOutDate:String = "Check Out Date"
     var selectedDates: Set<DateComponents> = [] {
         didSet {
             let formatDate = selectedDates.compactMap { components in
@@ -91,102 +141,114 @@ class ModalCheckInOutViewController: UIViewController, UICalendarViewDelegate {
 
         //MARK: - Add Subview
         view.addSubview(indicator)
-        view.addSubview(headline)
-        view.addSubview(calendarView)
+        
+        view.addSubview(scrollView)
+        scrollView.addSubview(scrollContainer)
+        scrollContainer.addSubview(headline)
+        scrollContainer.addSubview(calendarView)
+        scrollContainer.addSubview(headlineSecond)
+        scrollContainer.addSubview(bgDatePicker)
+        bgDatePicker.addSubview(calendarViewSecond)
+        
         view.addSubview(customBar)
-        btnExtensionLewati()
+        view.addSubview(barBtnLewati)
+        
+        let scrollContentGuide = scrollView.contentLayoutGuide
+        let scrollFrameGuide = scrollView.frameLayoutGuide
         
         //MARK: - Setup Layout Pet
         NSLayoutConstraint.activate([
             indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             indicator.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             
-            headline.topAnchor.constraint(equalTo: view.topAnchor, constant: 48),
-            headline.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            headline.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -222),
+            scrollView.topAnchor.constraint(equalTo: indicator.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: customBar.topAnchor),
+            
+            scrollContainer.leadingAnchor.constraint(equalTo: scrollContentGuide.leadingAnchor),
+            scrollContainer.trailingAnchor.constraint(equalTo: scrollContentGuide.trailingAnchor),
+            scrollContainer.topAnchor.constraint(equalTo: scrollContentGuide.topAnchor),
+            scrollContainer.bottomAnchor.constraint(equalTo: scrollContentGuide.bottomAnchor),
+            
+            scrollContainer.leadingAnchor.constraint(equalTo: scrollFrameGuide.leadingAnchor),
+            scrollContainer.trailingAnchor.constraint(equalTo: scrollFrameGuide.trailingAnchor),
+            scrollContainer.heightAnchor.constraint(equalToConstant: 1050),
+            
+            headline.topAnchor.constraint(equalTo: scrollContainer.topAnchor, constant: 0),
+            headline.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
+            headline.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor, constant: -222),
             
             calendarView.topAnchor.constraint(equalTo: headline.bottomAnchor, constant: 20),
-            calendarView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            calendarView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            calendarView.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
+            calendarView.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor, constant: -24),
+            calendarView.heightAnchor.constraint(equalToConstant: 380),
+            
+            headlineSecond.topAnchor.constraint(equalTo: calendarView.bottomAnchor, constant: 32),
+            headlineSecond.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
+            headlineSecond.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor, constant: -222),
+            
+            bgDatePicker.topAnchor.constraint(equalTo: headlineSecond.bottomAnchor, constant: 20),
+            bgDatePicker.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
+            bgDatePicker.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor, constant: -24),
+            bgDatePicker.heightAnchor.constraint(equalToConstant: 380),
+            bgDatePicker.widthAnchor.constraint(equalToConstant: 342),
+            
+            calendarViewSecond.topAnchor.constraint(equalTo: bgDatePicker.topAnchor, constant: 0),
+            calendarViewSecond.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
+            calendarViewSecond.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor, constant: -24),
+            calendarViewSecond.heightAnchor.constraint(equalToConstant: 380),
             
             customBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             customBar.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             customBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-        ])
-        
-        //MARK: - For Hapus Pilihan
-        if isClicked == true {
-            //Restore UICalendarView to Empty Selected
-        }
-    }
-    
-    //MARK: - Button Target
-    @objc func checkinSelected() {
-        headline.text = "Check Out"
-        if dateCount == 1 {
-            customBar.barBtn.isEnabled = false
-            barBtnHapusPilihan.removeFromSuperview()
-            btnExtensionLewati()
-        } else if dateCount == 2 {
-            dismiss(animated: true)
-        }
-    }
-    
-    @objc func skipModal() {
-        dismiss(animated: true)
-    }
-    
-    private func btnExtensionLewati() {
-        view.addSubview(barBtnLewati)
-        NSLayoutConstraint.activate([
+            
             barBtnLewati.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             barBtnLewati.centerYAnchor.constraint(equalTo: customBar.barBtn.centerYAnchor),
         ])
     }
     
-    private func btnExtensionHapusPilihan() {
-        view.addSubview(barBtnHapusPilihan)
-        NSLayoutConstraint.activate([
-            barBtnHapusPilihan.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            barBtnHapusPilihan.centerYAnchor.constraint(equalTo: customBar.barBtn.centerYAnchor),
-        ])
+    //MARK: - Button Target
+    @objc func checkinSelected() {
+        dismiss(animated: true)
+    }
+    
+    @objc func skipModal() {
+        dismiss(animated: true)
     }
 
 }
 
 @available(iOS 16.0, *)
-extension ModalCheckInOutViewController: UICalendarSelectionMultiDateDelegate, UICalendarViewDelegate {
+extension ModalCheckInOutViewController: UICalendarViewDelegate, UICalendarSelectionSingleDateDelegate {
     
-    @objc func deleteSelectedDate() {
-        selectedDates = []
-        isClicked = true
-    }
-    
-    func multiDateSelection(_ selection: UICalendarSelectionMultiDate, didSelectDate dateComponents: DateComponents) {
-        selectedDates.insert(dateComponents)
-        customBar.barBtn.isEnabled = true
-        barBtnLewati.removeFromSuperview()
-        btnExtensionHapusPilihan()
-        dateCount += 1
+    func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
+        selectedDates.insert(dateComponents!)
+        let df = DateFormatter()
+        var titleLbl = ""
+        df.dateFormat = "dd MMM yy"
+        titleLbl = df.string(from: (dateComponents?.date)!)
         
+        if selectedDates.count == 1 {
+            checkInDate = titleLbl
+        }
+        else if selectedDates.count == 2 {
+            checkOutDate = titleLbl
+            customBar.barBtn.isEnabled = true
+        }
+        titleLbl = checkInDate + " - " + checkOutDate
+        print(titleLbl)
+//        let newDates = DateComponents(calendar: dateComponents?.calendar, timeZone: dateComponents?.timeZone, era: dateComponents?.era, year: dateComponents?.year, month: dateComponents?.month, day: (dateComponents?.day)! + 1, hour: dateComponents?.hour, minute: dateComponents?.minute, second: dateComponents?.second, nanosecond: dateComponents?.nanosecond, weekday: dateComponents?.weekday, weekdayOrdinal: dateComponents?.weekdayOrdinal, quarter: dateComponents?.quarter, weekOfMonth: dateComponents?.weekOfMonth, weekOfYear: dateComponents?.weekOfYear, yearForWeekOfYear: dateComponents?.yearForWeekOfYear)
+        var newDates = dateComponents
+        newDates?.day! += 1
+        calendarViewSecond.minimumDate = newDates?.date
+        print(dateComponents?.date)
+        calendarViewSecond.isUserInteractionEnabled = true
     }
     
-    func multiDateSelection(_ selection: UICalendarSelectionMultiDate, didDeselectDate dateComponents: DateComponents) {
-        selectedDates.remove(dateComponents)
-        customBar.barBtn.isEnabled = false
-        barBtnHapusPilihan.removeFromSuperview()
-        btnExtensionLewati()
-        dateCount -= 1
-    }
-    
-    func multiDateSelection(_ selection: UICalendarSelectionMultiDate, canSelectDate dateComponents: DateComponents) -> Bool {
+    func dateSelection(_ selection: UICalendarSelectionSingleDate, canSelectDate dateComponents: DateComponents?) -> Bool {
         return true
     }
-    
-    func multiDateSelection(_ selection: UICalendarSelectionMultiDate, canDeselectDate dateComponents: DateComponents) -> Bool {
-        return true
-    }
-    
     
     func calendarView(_ calendarView: UICalendarView, decorationFor dateComponents: DateComponents) -> UICalendarView.Decoration? {
         return nil
