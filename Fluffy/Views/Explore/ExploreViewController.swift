@@ -18,6 +18,8 @@ class ExploreViewController: UIViewController {
         return scroll
     }()
     
+    private let contentView = UIView()
+    
     private lazy var exploreRect:UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -35,6 +37,33 @@ class ExploreViewController: UIViewController {
     
     private lazy var exploreLabel:ReuseableLabel = ReuseableLabel(labelText: "Hello, Mau nitip hewan di mana nih?", labelType: .titleH1, labelColor: .white)
     
+    private lazy var searchLocView:UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toSearchModal))
+        view.addGestureRecognizer(tapGesture)
+        return view
+    }()
+    
+    private lazy var searchDateView:UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toDateModal))
+        view.addGestureRecognizer(tapGesture)
+        return view
+    }()
+    
+    private lazy var searchPetView:UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toSelectPetModal))
+        view.addGestureRecognizer(tapGesture)
+        return view
+    }()
+    
     private lazy var searchLocation: UITextField = {
         let textField = UITextField()
         textField.setLeftView(image: UIImage(systemName: "mappin.and.ellipse")!, color: UIColor(named: "white")!)
@@ -45,7 +74,8 @@ class ExploreViewController: UIViewController {
             .foregroundColor: UIColor(named: "primary4") as Any,
             .font: UIFont(name: "Inter-Medium", size: 12)!
         ])
-        textField.addTarget(self, action: #selector(toSearchModal), for: .editingDidBegin)
+        textField.isUserInteractionEnabled = false
+        
         return textField
     }()
     
@@ -59,6 +89,7 @@ class ExploreViewController: UIViewController {
             .foregroundColor: UIColor(named: "primary4") as Any,
             .font: UIFont(name: "Inter-Medium", size: 12)!
         ])
+        textField.isUserInteractionEnabled = false
         textField.addTarget(self, action: #selector(toDateModal), for: .editingDidBegin)
         return textField
     }()
@@ -73,6 +104,7 @@ class ExploreViewController: UIViewController {
             .foregroundColor: UIColor(named: "primary4") as Any,
             .font: UIFont(name: "Inter-Medium", size: 12)!
         ])
+        textField.isUserInteractionEnabled = false
         textField.addTarget(self, action: #selector(toSelectPetModal), for: .editingDidBegin)
         textField.isContextMenuInteractionEnabled = false
         return textField
@@ -96,6 +128,7 @@ class ExploreViewController: UIViewController {
         tableView.allowsSelection = true
         tableView.isScrollEnabled = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.sectionHeaderTopPadding = 0
         tableView.backgroundColor = UIColor(named: "grey3")
         return tableView
     }()
@@ -104,38 +137,16 @@ class ExploreViewController: UIViewController {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
-//        self.navigationItem.backBarButtonItem?.tintColor = UIColor(named: "grey1")
         view.backgroundColor = UIColor(named: "grey3")
         self.navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
-        view.addSubview(scrollView)
-
-        scrollView.addSubview(exploreRect)
-        scrollView.addSubview(exploreLabel)
-        scrollView.addSubview(searchLocation)
-        scrollView.addSubview(searchDate)
-        scrollView.addSubview(searchPet)
-        scrollView.addSubview(searchButton)
-        scrollView.addSubview(roundedCorner)
-        scrollView.addSubview(tableView)
-        view.insetsLayoutMarginsFromSafeArea = false
-        setupUI()
         
-
+        setupUI()
+        setupConstraints()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
         super.viewDidAppear(animated)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        // Navigation Customization
-//        self.navigationController?.navigationBar.isTranslucent = true
-//        self.navigationController?.navigationBar.shadowImage = nil
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        
-        // Remove 'Back' text and Title from Navigation Bar
-//        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     @objc func toSearchModal() {
@@ -164,22 +175,44 @@ class ExploreViewController: UIViewController {
     
 }
 
-
 //MARK: Setup Layout
 @available(iOS 16.0, *)
 extension ExploreViewController{
     func setupUI(){
-        
+        view.addSubview(scrollView)
+        scrollView.addSubview(contentView)
+        contentView.backgroundColor = UIColor(named: "grey3")
+        contentView.addSubview(exploreRect)
+        contentView.addSubview(exploreLabel)
+        contentView.addSubview(searchLocation)
+        contentView.addSubview(searchDate)
+        contentView.addSubview(searchPet)
+        contentView.addSubview(searchButton)
+        contentView.addSubview(searchLocView)
+        contentView.addSubview(searchDateView)
+        contentView.addSubview(searchPetView)
+        contentView.addSubview(roundedCorner)
+        contentView.addSubview(tableView)
+        setupConstraints()
+    }
+    
+    func setupConstraints(){
         //MARK: Scroll View Constraints
-        scrollView.contentSize = CGSize(width: view.frame.size.width, height: 5000)
-        scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        scrollView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
+        //MARK: COntent view constraint
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
+        contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        
         //MARK: Red Rectangle Constraints
-        exploreRect.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        exploreRect.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        exploreRect.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        exploreRect.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         exploreRect.heightAnchor.constraint(equalToConstant: 450).isActive = true
         exploreRect.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
         
@@ -194,6 +227,11 @@ extension ExploreViewController{
         searchLocation.leftAnchor.constraint(equalTo: exploreRect.leftAnchor, constant: 16).isActive = true
         searchLocation.rightAnchor.constraint(equalTo: exploreRect.rightAnchor, constant: -16).isActive = true
         searchLocation.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        
+        searchLocView.topAnchor.constraint(equalTo: exploreLabel.bottomAnchor, constant: 20).isActive = true
+        searchLocView.leftAnchor.constraint(equalTo: exploreRect.leftAnchor, constant: 16).isActive = true
+        searchLocView.rightAnchor.constraint(equalTo: exploreRect.rightAnchor, constant: -16).isActive = true
+        searchLocView.heightAnchor.constraint(equalToConstant: 44).isActive = true
 
         //MARK: Search Date Constraints
         searchDate.topAnchor.constraint(equalTo: searchLocation.bottomAnchor, constant: 12).isActive = true
@@ -201,11 +239,21 @@ extension ExploreViewController{
         searchDate.rightAnchor.constraint(equalTo: exploreRect.rightAnchor, constant: -16).isActive = true
         searchDate.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
+        searchDateView.topAnchor.constraint(equalTo: searchLocation.bottomAnchor, constant: 12).isActive = true
+        searchDateView.leftAnchor.constraint(equalTo: exploreRect.leftAnchor, constant: 16).isActive = true
+        searchDateView.rightAnchor.constraint(equalTo: exploreRect.rightAnchor, constant: -16).isActive = true
+        searchDateView.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        
         //MARK: Search Pet Constraints
         searchPet.topAnchor.constraint(equalTo: searchDate.bottomAnchor, constant: 12).isActive = true
         searchPet.leftAnchor.constraint(equalTo: exploreRect.leftAnchor, constant: 16).isActive = true
         searchPet.rightAnchor.constraint(equalTo: exploreRect.rightAnchor, constant: -16).isActive = true
         searchPet.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        
+        searchPetView.topAnchor.constraint(equalTo: searchDate.bottomAnchor, constant: 12).isActive = true
+        searchPetView.leftAnchor.constraint(equalTo: exploreRect.leftAnchor, constant: 16).isActive = true
+        searchPetView.rightAnchor.constraint(equalTo: exploreRect.rightAnchor, constant: -16).isActive = true
+        searchPetView.heightAnchor.constraint(equalToConstant: 44).isActive = true
         
         //MARK: Search Button Constraints
         searchButton.topAnchor.constraint(equalTo: searchPet.bottomAnchor, constant: 20).isActive = true
@@ -213,18 +261,19 @@ extension ExploreViewController{
         searchButton.rightAnchor.constraint(equalTo: exploreRect.rightAnchor, constant: -16).isActive = true
         
         //        MARK: Rounded Corner Constraints
-        roundedCorner.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        roundedCorner.heightAnchor.constraint(greaterThanOrEqualToConstant: 40).isActive = true
         roundedCorner.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         roundedCorner.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         roundedCorner.widthAnchor.constraint(equalToConstant: view.bounds.width).isActive = true
         roundedCorner.bottomAnchor.constraint(equalTo: exploreRect.bottomAnchor).isActive = true
         
         //MARK: Table View Constraints
-        tableView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 440).isActive = true
-        tableView.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
-        tableView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
-        tableView.heightAnchor.constraint(equalToConstant: 5000).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 450).isActive = true
+        tableView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 24).isActive = true
+        tableView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -24).isActive = true
+        tableView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+        tableView.heightAnchor.constraint(greaterThanOrEqualToConstant: 216*20).isActive = true
     }
 }
 
@@ -233,20 +282,38 @@ extension ExploreViewController{
 @available(iOS 16.0, *)
 extension ExploreViewController : UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return 20
+            return 1
         }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        20
+    }
     
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: ExploreTableViewCell.cellId) as! ExploreTableViewCell
-            cell.backgroundColor = .clear
+            cell.backgroundColor = .white
             let backgroundView = UIView()
             backgroundView.backgroundColor = .clear
+            cell.layer.cornerRadius = 12
             cell.selectedBackgroundView = backgroundView
             return cell
         }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 248
+        return 216
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = .clear
+        return headerView
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat{
+        if section>=1{
+            return 32
+        }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
