@@ -9,6 +9,21 @@ import UIKit
 
 @available(iOS 16.0, *)
 class DateSelectionViewController: UIViewController {
+    
+    private lazy var scrollView: UIScrollView = {
+        let scroll = UIScrollView()
+        scroll.translatesAutoresizingMaskIntoConstraints = false
+        scroll.backgroundColor = UIColor(named: "white")
+        scroll.showsVerticalScrollIndicator = false
+        return scroll
+    }()
+    
+    private lazy var scrollContainer: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor(named: "white")
+        return view
+    }()
 
     //MARK: Subviews
     private lazy var btmBar: ReusableTabBar = {
@@ -29,6 +44,11 @@ class DateSelectionViewController: UIViewController {
     
     private lazy var heading:ReuseableLabel = ReuseableLabel(labelText: "Check In", labelType: .titleH1, labelColor: .black)
     
+    private lazy var headingSecond: ReuseableLabel = {
+        let headline = ReuseableLabel(labelText: "Check Out", labelType: .titleH1, labelColor: .black)
+        return headline
+    }()
+    
     private lazy var calendarView:UICalendarView = {
         let calendarView = UICalendarView()
         calendarView.translatesAutoresizingMaskIntoConstraints = false
@@ -40,8 +60,7 @@ class DateSelectionViewController: UIViewController {
         calendarView.tintColor = UIColor(named: "primaryMain")
         calendarView.availableDateRange = DateInterval(start: .now, end: .distantFuture)
         calendarView.layer.cornerRadius = 12
-        let multiSelect = UICalendarSelectionMultiDate(delegate: self)
-        calendarView.selectionBehavior = multiSelect
+        calendarView.selectionBehavior = UICalendarSelectionSingleDate(delegate: self)
 
         
         calendarView.layer.borderColor = UIColor.lightGray.cgColor
@@ -52,7 +71,19 @@ class DateSelectionViewController: UIViewController {
         return calendarView
     }()
     
-    private lazy var datePicker:UIDatePicker = {
+    private lazy var bgDatePicker: UIView = {
+        let bg = UIView()
+        bg.backgroundColor = UIColor(named: "white")
+        bg.translatesAutoresizingMaskIntoConstraints = false
+        bg.layer.borderColor = UIColor.lightGray.cgColor
+        bg.layer.shadowOpacity = 0.1
+        bg.layer.shadowOffset = CGSize.zero
+        bg.layer.shadowRadius = 5
+        bg.layer.cornerRadius = 12
+        return bg
+    }()
+    
+    private lazy var calendarViewSecond: UIDatePicker = {
        let datePicker = UIDatePicker()
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         datePicker.calendar = .current
@@ -68,24 +99,15 @@ class DateSelectionViewController: UIViewController {
         datePicker.layer.shadowOpacity = 0.1
         datePicker.layer.shadowOffset = CGSize.zero
         datePicker.layer.shadowRadius = 5
+        
+        datePicker.isUserInteractionEnabled = false
+        datePicker.addTarget(self, action: #selector(valueChanged), for: .valueChanged)
         return datePicker
     }()
+    
     //MARK: Properties
     private lazy var checkInDate:String = "Check In Date"
     private lazy var checkOutDate:String = "Check Out Date"
-    var selectedDates: Set<DateComponents> = [] {
-        didSet {
-            let formatDate = selectedDates.compactMap { components in
-                Calendar.current
-                    .date(from: components)?
-                    .formatted(.dateTime.year().month().day()
-                        .locale(Locale(identifier: "en_US")))
-            }
-                .formatted()
-            
-            print(formatDate)
-        }
-    }
     
     @objc func doneEdit() {
         let vc = BookingConfirmationViewController()
@@ -105,9 +127,13 @@ class DateSelectionViewController: UIViewController {
         btmBar.addSubview(price)
         btmBar.addSubview(perDay)
         
-        view.addSubview(heading)
-        view.addSubview(calendarView)
-//        view.addSubview(datePicker)
+        view.addSubview(scrollView)
+        scrollView.addSubview(scrollContainer)
+        scrollContainer.addSubview(heading)
+        scrollContainer.addSubview(calendarView)
+        scrollContainer.addSubview(headingSecond)
+        scrollContainer.addSubview(bgDatePicker)
+        bgDatePicker.addSubview(calendarViewSecond)
         
         setupConstraint()
     }
@@ -117,7 +143,7 @@ class DateSelectionViewController: UIViewController {
 @available(iOS 16.0, *)
 extension DateSelectionViewController{
     func setupUI(){
-        if selectedDates.count==0{
+        if checkInDate == "Check In Date" {
             startFrom.text = "1 Hewan Dipilih"
         }
         else {
@@ -128,6 +154,9 @@ extension DateSelectionViewController{
     }
     
     func setupConstraint(){
+        let scrollContentGuide = scrollView.contentLayoutGuide
+        let scrollFrameGuide = scrollView.frameLayoutGuide
+        
         //MARK: tabbar constraint
         btmBar.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         btmBar.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
@@ -146,20 +175,46 @@ extension DateSelectionViewController{
         perDay.topAnchor.constraint(equalTo: price.topAnchor).isActive = true
         perDay.bottomAnchor.constraint(equalTo: price.bottomAnchor).isActive = true
         
-        //MARK: Heading Constraint
-        heading.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
-        heading.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
-        heading.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
-        
-        //MARK: Calendar Constraint
-        calendarView.topAnchor.constraint(equalTo: heading.bottomAnchor, constant: 20).isActive = true
-        calendarView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
-        calendarView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
-        
-        //MARK: Date Picker Constraints
-//        datePicker.topAnchor.constraint(equalTo: heading.bottomAnchor, constant: 20).isActive = true
-//        datePicker.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
-//        datePicker.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
+        NSLayoutConstraint.activate([
+            
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: btmBar.topAnchor),
+            
+            scrollContainer.leadingAnchor.constraint(equalTo: scrollContentGuide.leadingAnchor),
+            scrollContainer.trailingAnchor.constraint(equalTo: scrollContentGuide.trailingAnchor),
+            scrollContainer.topAnchor.constraint(equalTo: scrollContentGuide.topAnchor),
+            scrollContainer.bottomAnchor.constraint(equalTo: scrollContentGuide.bottomAnchor),
+            
+            scrollContainer.leadingAnchor.constraint(equalTo: scrollFrameGuide.leadingAnchor),
+            scrollContainer.trailingAnchor.constraint(equalTo: scrollFrameGuide.trailingAnchor),
+            scrollContainer.heightAnchor.constraint(equalToConstant: 950),
+            
+            heading.topAnchor.constraint(equalTo: scrollContainer.topAnchor, constant: 20),
+            heading.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
+            heading.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor, constant: -222),
+            
+            calendarView.topAnchor.constraint(equalTo: heading.bottomAnchor, constant: 20),
+            calendarView.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
+            calendarView.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor, constant: -24),
+            calendarView.heightAnchor.constraint(equalToConstant: 380),
+            
+            headingSecond.topAnchor.constraint(equalTo: calendarView.bottomAnchor, constant: 32),
+            headingSecond.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
+            headingSecond.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor, constant: -222),
+            
+            bgDatePicker.topAnchor.constraint(equalTo: headingSecond.bottomAnchor, constant: 20),
+            bgDatePicker.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
+            bgDatePicker.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor, constant: -24),
+            bgDatePicker.heightAnchor.constraint(equalToConstant: 380),
+            bgDatePicker.widthAnchor.constraint(equalToConstant: 342),
+            
+            calendarViewSecond.topAnchor.constraint(equalTo: bgDatePicker.topAnchor, constant: 0),
+            calendarViewSecond.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
+            calendarViewSecond.trailingAnchor.constraint(equalTo: scrollContainer.trailingAnchor, constant: -24),
+            calendarViewSecond.heightAnchor.constraint(equalToConstant: 380),
+        ])
     }
 }
 
@@ -201,83 +256,34 @@ extension DateSelectionViewController{
 }
 
 @available(iOS 16.0, *)
-extension DateSelectionViewController: UICalendarSelectionMultiDateDelegate, UICalendarViewDelegate {
+extension DateSelectionViewController: UICalendarViewDelegate, UICalendarSelectionSingleDateDelegate {
     
-    @objc func deleteSelectedDate() {
-        selectedDates = []
-//        isClicked = true
-    }
-    
-    func multiDateSelection(_ selection: UICalendarSelectionMultiDate, didSelectDate dateComponents: DateComponents) {
-        selectedDates.insert(dateComponents)
-        let currentDate = Date()
-        let currentYear = Calendar.current.component(.year, from: Date())
+    func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
         let df = DateFormatter()
-        var titleLbl = ""
-        
-        df.dateFormat = "dd MMM"
-        titleLbl = df.string(from: (dateComponents.date)!)
-  
-        if(selectedDates.count==1){
-            heading.text = "Check Out"
-            checkInDate = titleLbl
-        }
-        else{
-            checkOutDate = titleLbl
-        }
-        print(titleLbl)
-        startFrom.text = checkInDate + " - " + checkOutDate
+        df.dateFormat = "dd MMM yy"
+        checkInDate = df.string(from: (dateComponents?.date)!)
+        var newDates = dateComponents
+        newDates?.day! += 1
+        calendarViewSecond.minimumDate = newDates?.date
+        calendarViewSecond.isUserInteractionEnabled = true
+        checkOutDate = df.string(from: calendarViewSecond.date)
+        startFrom.text = (checkInDate + " - " + checkOutDate)
+        print(checkInDate + " - " + checkOutDate)
     }
     
-    func multiDateSelection(_ selection: UICalendarSelectionMultiDate, didDeselectDate dateComponents: DateComponents) {
-        selectedDates.remove(dateComponents)
-    }
-    
-    func multiDateSelection(_ selection: UICalendarSelectionMultiDate, canSelectDate dateComponents: DateComponents) -> Bool {
-        if(selectedDates.count == 2){
-            return false
-        }
-        else{
-            return true
-        }
-        
-    }
-    
-    func multiDateSelection(_ selection: UICalendarSelectionMultiDate, canDeselectDate dateComponents: DateComponents) -> Bool {
+    func dateSelection(_ selection: UICalendarSelectionSingleDate, canSelectDate dateComponents: DateComponents?) -> Bool {
         return true
     }
-    
     
     func calendarView(_ calendarView: UICalendarView, decorationFor dateComponents: DateComponents) -> UICalendarView.Decoration? {
         return nil
     }
+    
+    @objc func valueChanged(_ sender: UIDatePicker) {
+        let df = DateFormatter()
+        df.dateFormat = "dd MMM yy"
+        checkOutDate = df.string(from: (sender.date))
+        startFrom.text = (checkInDate + " - " + checkOutDate)
+        print(checkInDate + " - " + checkOutDate)
+    }
 }
-
-
-//MARK: UICalendarSelectionSingleDateDelegate
-//@available(iOS 16.0, *)
-//extension DateSelectionViewController: UICalendarSelectionSingleDateDelegate {
-//    @available(iOS 16.0, *)
-//    func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
-//        let currentDate = Date()
-//        let currentYear = Calendar.current.component(.year, from: Date())
-//        let df = DateFormatter()
-//        var titleLbl = ""
-//
-//        if dateComponents?.year == currentYear && dateComponents?.date != currentDate{
-//            df.dateFormat = "dd MMM"
-//            titleLbl = df.string(from: (dateComponents?.date)!)
-//        }
-//        else{
-//            df.dateFormat = "dd MMM yy"
-//            titleLbl = df.string(from: (dateComponents?.date)!)
-//        }
-//        df.dateFormat = "dd MMM"
-//        let currDate = df.string(from: (currentDate))
-//        if currDate == titleLbl{
-//            titleLbl = "Hari Ini"
-//        }
-//        print(currDate)
-//    }
-//
-//}

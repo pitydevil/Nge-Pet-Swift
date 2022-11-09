@@ -152,6 +152,14 @@ class ExploreViewController: UIViewController {
     @objc func toSearchModal() {
         let vc = ModalSearchLocationViewController()
         vc.modalPresentationStyle = .pageSheet
+        vc.passingLocation = { [weak self] text in
+            DispatchQueue.main.async {
+                self?.searchLocation.attributedPlaceholder = NSAttributedString(string: text!, attributes: [
+                    .foregroundColor: UIColor(named: "white") as Any,
+                    .font: UIFont(name: "Inter-Medium", size: 12)!
+                ])
+            }
+        }
         self.present(vc, animated: true)
     }
     
@@ -178,6 +186,14 @@ class ExploreViewController: UIViewController {
     @objc func toSelectPetModal() {
         let vc = ModalSelectPetViewController()
         vc.modalPresentationStyle = .pageSheet
+        vc.passingPet = { [weak self] text in
+            DispatchQueue.main.async {
+                self?.searchPet.attributedPlaceholder = NSAttributedString(string: text!, attributes: [
+                    .foregroundColor: UIColor(named: "white") as Any,
+                    .font: UIFont(name: "Inter-Medium", size: 12)!
+                ])
+            }
+        }
         self.present(vc, animated: true)
     }
     

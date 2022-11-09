@@ -10,10 +10,6 @@ import UIKit
 @available(iOS 16.0, *)
 class ModalCheckInOutViewController: UIViewController, UICalendarViewDelegate {
     
-    var dateCount = 0
-    var firstCalendarSelected = false
-    var secondCalendarSelected = false
-    
     private lazy var indicator: UIImageView = {
         let indicator = UIImageView()
         let config = UIImage.SymbolConfiguration(pointSize: 40, weight: .regular)
@@ -121,19 +117,6 @@ class ModalCheckInOutViewController: UIViewController, UICalendarViewDelegate {
     
     private lazy var checkInDate:String = "Check In Date"
     private lazy var checkOutDate:String = "Check Out Date"
-    var selectedDates: Set<DateComponents> = [] {
-        didSet {
-            let formatDate = selectedDates.compactMap { components in
-                Calendar.current
-                    .date(from: components)?
-                    .formatted(.dateTime.year().month().day()
-                        .locale(Locale(identifier: "en_US")))
-            }
-                .formatted()
-            
-            print(formatDate)
-        }
-    }
  
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -174,7 +157,7 @@ class ModalCheckInOutViewController: UIViewController, UICalendarViewDelegate {
             
             scrollContainer.leadingAnchor.constraint(equalTo: scrollFrameGuide.leadingAnchor),
             scrollContainer.trailingAnchor.constraint(equalTo: scrollFrameGuide.trailingAnchor),
-            scrollContainer.heightAnchor.constraint(equalToConstant: 1050),
+            scrollContainer.heightAnchor.constraint(equalToConstant: 950),
             
             headline.topAnchor.constraint(equalTo: scrollContainer.topAnchor, constant: 0),
             headline.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
@@ -209,9 +192,9 @@ class ModalCheckInOutViewController: UIViewController, UICalendarViewDelegate {
         ])
     }
     
-    //MARK: - Button Target
     public var passingDate: ((String?) -> Void)?
     
+    //MARK: - Button Target
     @objc func checkinSelected() {
         passingDate?(checkInDate + " - " + checkOutDate)
         dismiss(animated: true)
