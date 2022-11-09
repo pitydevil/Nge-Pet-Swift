@@ -102,6 +102,7 @@ class ModalCheckInOutViewController: UIViewController, UICalendarViewDelegate {
         datePicker.layer.shadowRadius = 5
         
         datePicker.isUserInteractionEnabled = false
+        datePicker.addTarget(self, action: #selector(valueChanged), for: .valueChanged)
         return datePicker
     }()
     
@@ -209,7 +210,10 @@ class ModalCheckInOutViewController: UIViewController, UICalendarViewDelegate {
     }
     
     //MARK: - Button Target
+    public var passingDate: ((String?) -> Void)?
+    
     @objc func checkinSelected() {
+        passingDate?(checkInDate + " - " + checkOutDate)
         dismiss(animated: true)
     }
     
@@ -223,27 +227,16 @@ class ModalCheckInOutViewController: UIViewController, UICalendarViewDelegate {
 extension ModalCheckInOutViewController: UICalendarViewDelegate, UICalendarSelectionSingleDateDelegate {
     
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
-        selectedDates.insert(dateComponents!)
         let df = DateFormatter()
-        var titleLbl = ""
         df.dateFormat = "dd MMM yy"
-        titleLbl = df.string(from: (dateComponents?.date)!)
-        
-        if selectedDates.count == 1 {
-            checkInDate = titleLbl
-        }
-        else if selectedDates.count == 2 {
-            checkOutDate = titleLbl
-            customBar.barBtn.isEnabled = true
-        }
-        titleLbl = checkInDate + " - " + checkOutDate
-        print(titleLbl)
-//        let newDates = DateComponents(calendar: dateComponents?.calendar, timeZone: dateComponents?.timeZone, era: dateComponents?.era, year: dateComponents?.year, month: dateComponents?.month, day: (dateComponents?.day)! + 1, hour: dateComponents?.hour, minute: dateComponents?.minute, second: dateComponents?.second, nanosecond: dateComponents?.nanosecond, weekday: dateComponents?.weekday, weekdayOrdinal: dateComponents?.weekdayOrdinal, quarter: dateComponents?.quarter, weekOfMonth: dateComponents?.weekOfMonth, weekOfYear: dateComponents?.weekOfYear, yearForWeekOfYear: dateComponents?.yearForWeekOfYear)
+        checkInDate = df.string(from: (dateComponents?.date)!)
         var newDates = dateComponents
         newDates?.day! += 1
         calendarViewSecond.minimumDate = newDates?.date
-        print(dateComponents?.date)
         calendarViewSecond.isUserInteractionEnabled = true
+        customBar.barBtn.isEnabled = true
+        checkOutDate = df.string(from: calendarViewSecond.date)
+        print(checkInDate + " - " + checkOutDate)
     }
     
     func dateSelection(_ selection: UICalendarSelectionSingleDate, canSelectDate dateComponents: DateComponents?) -> Bool {
@@ -252,5 +245,12 @@ extension ModalCheckInOutViewController: UICalendarViewDelegate, UICalendarSelec
     
     func calendarView(_ calendarView: UICalendarView, decorationFor dateComponents: DateComponents) -> UICalendarView.Decoration? {
         return nil
+    }
+    
+    @objc func valueChanged(_ sender: UIDatePicker) {
+        let df = DateFormatter()
+        df.dateFormat = "dd MMM yy"
+        checkOutDate = df.string(from: (sender.date))
+        print(checkInDate + " - " + checkOutDate)
     }
 }

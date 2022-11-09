@@ -164,6 +164,14 @@ class ExploreViewController: UIViewController {
     @objc func toDateModal() {
         let vc = ModalCheckInOutViewController()
         vc.modalPresentationStyle = .pageSheet
+        vc.passingDate = { [weak self] text in
+            DispatchQueue.main.async {
+                self?.searchDate.attributedPlaceholder = NSAttributedString(string: text!, attributes: [
+                    .foregroundColor: UIColor(named: "white") as Any,
+                    .font: UIFont(name: "Inter-Medium", size: 12)!
+                ])
+            }
+        }
         self.present(vc, animated: true)
     }
     
