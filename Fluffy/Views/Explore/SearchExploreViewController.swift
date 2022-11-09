@@ -71,6 +71,7 @@ class SearchExploreViewController: UIViewController, UISearchResultsUpdating, UI
         tableView.isScrollEnabled = true
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .clear
+        tableView.sectionHeaderTopPadding = 0
         return tableView
     }()
     
@@ -104,9 +105,9 @@ class SearchExploreViewController: UIViewController, UISearchResultsUpdating, UI
         rightButton.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 12).isActive = true
         rightButton.widthAnchor.constraint(equalToConstant: (view.frame.size.width-52)/2).isActive = true
         
-        tableView.topAnchor.constraint(equalTo: leftButton.bottomAnchor, constant: 40).isActive = true
-        tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: leftButton.bottomAnchor, constant: 20).isActive = true
+        tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
+        tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
     }
     
@@ -115,22 +116,39 @@ class SearchExploreViewController: UIViewController, UISearchResultsUpdating, UI
 @available(iOS 16.0, *)
 extension SearchExploreViewController : UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return 20
+            return 1
         }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        20
+    }
     
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: ExploreTableViewCell.cellId) as! ExploreTableViewCell
-            cell.backgroundColor = .clear
+            cell.backgroundColor = .white
             let backgroundView = UIView()
             backgroundView.backgroundColor = .clear
+            cell.layer.cornerRadius = 12
             cell.selectedBackgroundView = backgroundView
             return cell
         }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 248
+        return 216
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = .clear
+        return headerView
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat{
+        if section>=1{
+            return 32
+        }
+        return 0
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let newViewController = PetHotelViewController()
         newViewController.modalPresentationStyle = .fullScreen
