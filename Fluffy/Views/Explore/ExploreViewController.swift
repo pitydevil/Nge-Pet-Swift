@@ -103,38 +103,16 @@ class ExploreViewController: UIViewController {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
-//        self.navigationItem.backBarButtonItem?.tintColor = UIColor(named: "grey1")
         view.backgroundColor = UIColor(named: "grey3")
         self.navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
-        view.addSubview(scrollView)
-
-        scrollView.addSubview(exploreRect)
-        scrollView.addSubview(exploreLabel)
-        scrollView.addSubview(searchLocation)
-        scrollView.addSubview(searchDate)
-        scrollView.addSubview(searchPet)
-        scrollView.addSubview(searchButton)
-        scrollView.addSubview(roundedCorner)
-        scrollView.addSubview(tableView)
-        view.insetsLayoutMarginsFromSafeArea = false
-        setupUI()
         
-
+        setupUI()
+        setupConstraints()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         self.navigationController?.isNavigationBarHidden = true
         super.viewDidAppear(animated)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        // Navigation Customization
-//        self.navigationController?.navigationBar.isTranslucent = true
-//        self.navigationController?.navigationBar.shadowImage = nil
-//        self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        
-        // Remove 'Back' text and Title from Navigation Bar
-//        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     @objc func toSearchModal() {
@@ -163,12 +141,24 @@ class ExploreViewController: UIViewController {
     
 }
 
-
 //MARK: Setup Layout
 @available(iOS 16.0, *)
 extension ExploreViewController{
     func setupUI(){
-        
+        view.addSubview(scrollView)
+        scrollView.addSubview(exploreRect)
+        scrollView.addSubview(exploreLabel)
+        scrollView.addSubview(searchLocation)
+        scrollView.addSubview(searchDate)
+        scrollView.addSubview(searchPet)
+        scrollView.addSubview(searchButton)
+        scrollView.addSubview(roundedCorner)
+        scrollView.addSubview(tableView)
+        view.insetsLayoutMarginsFromSafeArea = false
+        setupConstraints()
+    }
+    
+    func setupConstraints(){
         //MARK: Scroll View Constraints
         scrollView.contentSize = CGSize(width: view.frame.size.width, height: 5000)
         scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true

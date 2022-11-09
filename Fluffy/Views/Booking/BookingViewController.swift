@@ -158,7 +158,7 @@ class BookingViewController: UIViewController {
         orderObjectList.bind(to: tableView.rx.items(cellIdentifier:  BookingTableViewCell.cellId, cellType: BookingTableViewCell.self)) { [self] row, model, cell in
             bookingOnceableObject.accept(true)
             cell.configureCell(model)
-            cell.backgroundColor = .clear
+            cell.backgroundColor = .clezar
             cell.orderDetailArray.accept(model.orderDetail)
             
             cell.leftButton.rx.tap.bind { [self] in
