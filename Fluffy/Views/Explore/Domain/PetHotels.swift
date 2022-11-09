@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Datum
-struct PetHotels: Codable {
+struct PetHotels: Decodable {
     let petHotelID: Int
     let petHotelName, petHotelLongitude, petHotelLatitude, petHotelDistance: String
     let petHotelImage: String
@@ -16,7 +16,7 @@ struct PetHotels: Codable {
     let petHotelStartPrice: String
 }
 
-extension PetHotels{
+extension PetHotels {
     enum CodingKeys: String, CodingKey {
         case petHotelID = "pet_hotel_id"
         case petHotelName = "pet_hotel_name"

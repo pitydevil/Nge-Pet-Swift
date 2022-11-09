@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - SupportedPetType
-struct SupportedPetType: Codable {
+struct SupportedPetType: Decodable {
     let supportedPetTypeID: Int
     let supportedPetID, supportedPetTypeShortSize: String
 }

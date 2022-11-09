@@ -5,9 +5,15 @@
 //  Created by Jessica Geofanie on 17/10/22.
 //
 import UIKit
+import RxSwift
+import RxCocoa
 
 @available(iOS 16.0, *)
 class ExploreViewController: UIViewController {
+    
+    //MARK: - OBJECT DECLARATION
+    private let exploreViewModel = ExploreViewModel(locationManager: LocationManager())
+    private let petHotelList = BehaviorRelay<[PetHotels]>(value: [])
     
     //MARK: Subviews
     private let scrollView:UIScrollView = {
@@ -86,8 +92,7 @@ class ExploreViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
+      
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.register(ExploreTableViewCell.self, forCellReuseIdentifier: ExploreTableViewCell.cellId)
@@ -98,16 +103,47 @@ class ExploreViewController: UIViewController {
         tableView.backgroundColor = UIColor(named: "grey3")
         return tableView
     }()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        Task {
+            await exploreViewModel.fetchExploreList()
+        }
+    }
+    
     //MARK: -ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.isNavigationBarHidden = true
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
-        view.backgroundColor = UIColor(named: "grey3")
-        self.navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
-        
         setupUI()
-        setupConstraints()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        exploreViewModel.petHotelModelArrayObserver.subscribe(onNext: { (value) in
+            self.petHotelList.accept(value)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Bind Journal List with Table View
+        petHotelList.bind(to: tableView.rx.items(cellIdentifier: ExploreTableViewCell.cellId, cellType: ExploreTableViewCell.self)) { row, model, cell in
+            let backgroundView = UIView()
+            cell.backgroundColor = .clear
+            backgroundView.backgroundColor = .clear
+            cell.selectedBackgroundView = backgroundView
+            cell.configureCell(model)
+        }.disposed(by: bags)
+        
+        tableView.rx.itemSelected.subscribe(onNext: { (indexPath) in
+            self.tableView.deselectRow(at: indexPath, animated: true)
+            
+            let petHotelViewController = PetHotelViewController()
+            petHotelViewController.modalPresentationStyle = .fullScreen
+            petHotelViewController.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(petHotelViewController, animated: true)
+        }).disposed(by: bags)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -145,6 +181,11 @@ class ExploreViewController: UIViewController {
 @available(iOS 16.0, *)
 extension ExploreViewController{
     func setupUI(){
+        self.navigationController?.isNavigationBarHidden = true
+        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
+        view.backgroundColor = UIColor(named: "grey3")
+        self.navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
+        
         view.addSubview(scrollView)
         scrollView.addSubview(exploreRect)
         scrollView.addSubview(exploreLabel)
@@ -155,10 +196,7 @@ extension ExploreViewController{
         scrollView.addSubview(roundedCorner)
         scrollView.addSubview(tableView)
         view.insetsLayoutMarginsFromSafeArea = false
-        setupConstraints()
-    }
-    
-    func setupConstraints(){
+        
         //MARK: Scroll View Constraints
         scrollView.contentSize = CGSize(width: view.frame.size.width, height: 5000)
         scrollView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
@@ -219,32 +257,32 @@ extension ExploreViewController{
 
 //MARK: UITableViewDataSource, UITableViewDelegate
 
-@available(iOS 16.0, *)
-extension ExploreViewController : UITableViewDataSource, UITableViewDelegate{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return 20
-        }
-    
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ExploreTableViewCell.cellId) as! ExploreTableViewCell
-            cell.backgroundColor = .clear
-            let backgroundView = UIView()
-            backgroundView.backgroundColor = .clear
-            cell.selectedBackgroundView = backgroundView
-            return cell
-        }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 248
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let newViewController = PetHotelViewController()
-        newViewController.modalPresentationStyle = .fullScreen
-        newViewController.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(newViewController, animated: true)
-    }
-}
+//@available(iOS 16.0, *)
+//extension ExploreViewController : UITableViewDataSource, UITableViewDelegate{
+//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+//            return 20
+//        }
+//
+//        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+//            let cell = tableView.dequeueReusableCell(withIdentifier: ExploreTableViewCell.cellId) as! ExploreTableViewCell
+//            cell.backgroundColor = .clear
+//            let backgroundView = UIView()
+//            backgroundView.backgroundColor = .clear
+//            cell.selectedBackgroundView = backgroundView
+//            return cell
+//        }
+//
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 248
+//    }
+//
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        let newViewController = PetHotelViewController()
+//        newViewController.modalPresentationStyle = .fullScreen
+//        newViewController.hidesBottomBarWhenPushed = true
+//        self.navigationController?.pushViewController(newViewController, animated: true)
+//    }
+//}
 
 //MARK: add left image
 extension UITextField {

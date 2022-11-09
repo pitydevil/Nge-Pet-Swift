@@ -80,7 +80,6 @@ class CatatanViewController: UIViewController {
     @objc func catatanKhusus() {
         dismiss(animated: true)
     }
-    
 }
 
 extension CatatanViewController: UITableViewDelegate, UITableViewDataSource {

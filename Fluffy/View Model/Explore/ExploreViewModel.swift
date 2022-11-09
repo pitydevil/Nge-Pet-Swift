@@ -8,33 +8,46 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import CoreLocation
 
 class ExploreViewModel{
+
     //MARK: - OBJECT DECLARATION
-    private let networkService    : NetworkServicing
-    private let orderModelArray   = BehaviorRelay<[Order]>(value: [])
-    var orderStatusObject = BehaviorRelay<String>(value: String())
-    var orderModelArrayObserver   : Observable<[Order]> {
-        return orderModelArray.asObservable()
+    private var LocationManager : LocationManager
+    private let networkService       : NetworkServicing
+    private let petHotelModelArray   = BehaviorRelay<[PetHotels]>(value: [])
+    
+    //MARK: - OBSERVABLE OBJECT DECLARATION
+    var locationObject               = BehaviorRelay<Location>(value: Location(longitude: 0.0, latitude: 0.0))
+    var petHotelModelArrayObserver   : Observable<[PetHotels]> {
+        return petHotelModelArray.asObservable()
     }
 
-    init(networkService: NetworkServicing = NetworkService()) {
+    init(networkService: NetworkServicing = NetworkService(), locationManager : LocationManager) {
         self.networkService = networkService
+        self.LocationManager = locationManager
+        
+        locationManager.locationObjectObserver.subscribe(onNext: { [self] (value) in
+            locationObject.accept(value)
+        },onError: { error in
+          print(error)
+        }).disposed(by: bags)
     }
     
+
     //MARK: - OBJECT DECLARATION
     /// Returns boolean true or false
     /// from the given components.
     /// - Parameters:
     ///     - allowedCharacter: character subset that's allowed to use on the textfield
     ///     - text: set of character/string that would like  to be checked.
-    func fetchOrderList() async {
-        let endpoint = ApplicationEndpoint.getOrderList(orderStatus: orderStatusObject.value)
-        let result = await networkService.request(to: endpoint, decodeTo: Response<[Order]>.self)
+    func fetchExploreList() async {
+        let endpoint = ApplicationEndpoint.getNearest(longitude: locationObject.value.longitude, latitude: locationObject.value.latitude)
+        let result = await networkService.request(to: endpoint, decodeTo: Response<[PetHotels]>.self)
         switch result {
         case .success(let response):
-            if let order = response.data {
-                self.orderModelArray.accept(order)
+            if let petHotel = response.data {
+                self.petHotelModelArray.accept(petHotel)
             }
         case .failure(let error):
             print(error)

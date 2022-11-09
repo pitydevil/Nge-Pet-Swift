@@ -8,10 +8,10 @@
 import UIKit
 
 class SearchExploreViewController: UIViewController, UISearchResultsUpdating, UISearchControllerDelegate {
+    
     func updateSearchResults(for searchController: UISearchController) {
         
     }
-    
 
     //MARK: Subviews
     private lazy var searchTextField: UITextField = {

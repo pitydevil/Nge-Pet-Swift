@@ -4,7 +4,6 @@
 //
 //  Created by Mikhael Adiputra on 08/11/22.
 //
-
 import Foundation
 import RxSwift
 import RxCocoa
@@ -13,10 +12,10 @@ class BookingViewModel {
     
     //MARK: - OBJECT DECLARATION
     private let networkService    : NetworkServicing
-    private let exploreModelArray   = BehaviorRelay<[PetHotels]>(value: [])
-    var exploreStatusObject = BehaviorRelay<String>(value: String())
-    var exploreModelArrayObserver   : Observable<[PetHotels]> {
-        return exploreModelArray.asObservable()
+    private let orderModelArray   = BehaviorRelay<[Order]>(value: [])
+    var orderStatusObject = BehaviorRelay<String>(value: String())
+    var orderModelArrayObserver   : Observable<[Order]> {
+        return orderModelArray.asObservable()
     }
 
     init(networkService: NetworkServicing = NetworkService()) {
@@ -29,13 +28,13 @@ class BookingViewModel {
     /// - Parameters:
     ///     - allowedCharacter: character subset that's allowed to use on the textfield
     ///     - text: set of character/string that would like  to be checked.
-    func fetchExploreList() async {
-        let endpoint = ApplicationEndpoint.getExploreList(exploreStatus: exploreStatusObject.value)
-        let result = await networkService.request(to: endpoint, decodeTo: Response<[PetHotels]>.self)
+    func fetchOrderList() async {
+        let endpoint = ApplicationEndpoint.getOrderList(orderStatus: orderStatusObject.value)
+        let result = await networkService.request(to: endpoint, decodeTo: Response<[Order]>.self)
         switch result {
         case .success(let response):
-            if let explore = response.data {
-                self.exploreModelArray.accept(explore)
+            if let order = response.data {
+                self.orderModelArray.accept(order)
             }
         case .failure(let error):
             print(error)
