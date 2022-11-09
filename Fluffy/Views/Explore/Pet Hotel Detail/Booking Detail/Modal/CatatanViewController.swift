@@ -40,6 +40,8 @@ class CatatanViewController: UIViewController {
         return modalTableView
     }()
     
+    let btnCatatan = ReusableButton(titleBtn: "Tambah", styleBtn: .longOutline)
+    
     private lazy var customBar: ReusableTabBar = {
         let customBar = ReusableTabBar(btnText: "Simpan", showText: .notShow)
         customBar.barBtn.addTarget(self, action: #selector(catatanKhusus), for: .touchUpInside)
@@ -106,13 +108,12 @@ extension CatatanViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = UIView()
-        let btn = ReusableButton(titleBtn: "Tambah", styleBtn: .longOutline)
-        footerView.addSubview(btn)
-        btn.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
-        btn.leadingAnchor.constraint(equalTo: footerView.leadingAnchor).isActive = true
-        btn.trailingAnchor.constraint(equalTo: footerView.trailingAnchor).isActive = true
-        btn.addTarget(self, action: #selector(tambahCatatan), for: .touchUpInside)
-        btn.isEnabled = true
+        footerView.addSubview(btnCatatan)
+        btnCatatan.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
+        btnCatatan.leadingAnchor.constraint(equalTo: footerView.leadingAnchor).isActive = true
+        btnCatatan.trailingAnchor.constraint(equalTo: footerView.trailingAnchor).isActive = true
+        btnCatatan.addTarget(self, action: #selector(tambahCatatan), for: .touchUpInside)
+        btnCatatan.isEnabled = false
         return footerView
     }
     
@@ -120,6 +121,7 @@ extension CatatanViewController: UITableViewDelegate, UITableViewDataSource {
         let indexPath = IndexPath(row: cellContent, section: 0)
         cellContent += 1
         modalTableView.insertRows(at: [indexPath], with: .bottom)
+        btnCatatan.isEnabled = false
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -133,16 +135,29 @@ extension CatatanViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CatatanTableViewCell.identifier, for: indexPath) as! CatatanTableViewCell
         cell.contentView.backgroundColor = UIColor(named: "white")
+        cell.catatanKhusus.addTarget(self, action: #selector(btnEnable), for: .editingDidEnd)
+        
         return cell
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = modalTableView.cellForRow(at: indexPath) as! CatatanTableViewCell
-        
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let cell = modalTableView.cellForRow(at: indexPath) as! CatatanTableViewCell
-        
+    @objc func btnEnable() {
+        for path in 0..<cellContent - 1 {
+            let index = IndexPath(row: path, section: 0)
+            let cell = modalTableView.cellForRow(at: index) as! CatatanTableViewCell
+            
+            if cell.catatanKhusus.text == "" {
+                cellContent -= 1
+                modalTableView.deleteRows(at: [index], with: .automatic)
+                break
+            }
+
+        }
+        let index = IndexPath(row: cellContent - 1, section: 0)
+        let cell = modalTableView.cellForRow(at: index) as! CatatanTableViewCell
+        if cell.catatanKhusus.text != "" {
+            btnCatatan.isEnabled = true
+        } else {
+            btnCatatan.isEnabled = false
+        }
     }
 }
