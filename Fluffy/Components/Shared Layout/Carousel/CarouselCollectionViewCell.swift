@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class CarouselCollectionViewCell: UICollectionViewCell {
     
@@ -31,7 +32,6 @@ class CarouselCollectionViewCell: UICollectionViewCell {
 private extension CarouselCollectionViewCell {
     func setupUI() {
         backgroundColor = .clear
-        
         addSubview(imageView)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
@@ -40,13 +40,12 @@ private extension CarouselCollectionViewCell {
         imageView.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-//        imageView.layer.cornerRadius = 12
     }
 }
 
 // MARK: - Public
 extension CarouselCollectionViewCell {
-    public func configure(image: UIImage?) {
-        imageView.image = image
+    public func configure(_ petHotelImage : PetHotelImage) {
+        imageView.sd_setImage(with: URL(string: petHotelImage.petHotelImageURL))
     }
 }

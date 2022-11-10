@@ -7,11 +7,10 @@
 
 import Foundation
 
-struct CancelSOP: Codable {
+struct CancelSOP: Decodable {
     let cancelSopsID: Int
     let cancelSopsDescription, petHotelID: String
 }
-
 extension CancelSOP {
     
     enum CodingKeys: String, CodingKey {

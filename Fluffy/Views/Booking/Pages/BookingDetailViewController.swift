@@ -18,7 +18,7 @@ class BookingDetailViewController: UIViewController {
     private var packageModelArray       = BehaviorRelay<[Package]>(value: [])
     private var orderDetailModelArray   = BehaviorRelay<[CustomOrderDetail]>(value: [])
     private var numPackage  = 0
-    private var numHarga  = 0
+    private var numHarga    = 0
     var bookingIdObject     = BehaviorRelay<Int>(value: 0)
     
     //MARK: -OBSERVABLE VARIABLE DECLARATION

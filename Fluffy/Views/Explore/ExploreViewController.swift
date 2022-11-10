@@ -186,11 +186,12 @@ class ExploreViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
-        tableView.rx.itemSelected.subscribe(onNext: { (indexPath) in
+        tableView.rx.itemSelected.subscribe(onNext: { [self] (indexPath) in
             self.tableView.deselectRow(at: indexPath, animated: true)
             let petHotelViewController = PetHotelViewController()
             petHotelViewController.modalPresentationStyle = .fullScreen
             petHotelViewController.hidesBottomBarWhenPushed = true
+            petHotelViewController.petHotelDetailID.accept(petHotelList.value[indexPath.row].petHotelID)
             self.navigationController?.pushViewController(petHotelViewController, animated: true)
         }).disposed(by: bags)
     }

@@ -52,7 +52,6 @@ class PetTypeCollectionViewCell: UICollectionViewCell {
 }
 
 // MARK: - Setups
-
 private extension PetTypeCollectionViewCell {
     func setupUI() {
         backgroundColor = .clear
@@ -76,23 +75,28 @@ private extension PetTypeCollectionViewCell {
 
         information.topAnchor.constraint(equalTo: self.topAnchor, constant: 8).isActive = true
         information.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8).isActive = true
-//
-
     }
 }
 
-// MARK: - Public
-
 extension PetTypeCollectionViewCell {
-    public func configure(type:String, sizeString:String) {
-        petType.text = type
-        if type == "Anjing"{
-            icon.image = UIImage(named: "dog-icon")
+    func configure(_ supportedPet : SupportedPet, _ supportedPetTypeDetail : [SupportedPetTypeDetail]) {
+        
+        var sizeString = String()
+        petType.text = supportedPet.supportedPetName
+       
+        for pet in supportedPetTypeDetail {
+            sizeString += "\(pet.supportedPetTypeShortSize), "
         }
-        else{
+        
+        sizeString.removeLast()
+        sizeString.removeLast()
+        
+        size.text = sizeString
+        if supportedPet.supportedPetName == "Anjing"{
+            icon.image = UIImage(named: "dog-icon")
+        }else{
             icon.image = UIImage(named: "cat-icon")
         }
-        size.text = sizeString
     }
 }
 
