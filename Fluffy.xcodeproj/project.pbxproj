@@ -97,6 +97,8 @@
 		4BD8C2A0291A206400F7DB18 /* CustomOrderDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C29F291A206300F7DB18 /* CustomOrderDetail.swift */; };
 		4BD8C2A2291A20B600F7DB18 /* CustomSOP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2A1291A20B600F7DB18 /* CustomSOP.swift */; };
 		4BD8C2A4291A86BC00F7DB18 /* PetHotelImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2A3291A86BC00F7DB18 /* PetHotelImage.swift */; };
+		4BD8C2A6291BD4EF00F7DB18 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2A5291BD4EF00F7DB18 /* Location.swift */; };
+		4BD8C2AB291BE07A00F7DB18 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2AA291BE07A00F7DB18 /* LocationManager.swift */; };
 		4E1371D9291B90AF00300AA6 /* PetHotels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1371D8291B90AF00300AA6 /* PetHotels.swift */; };
 		4E1371DB291B90C100300AA6 /* PetHotelSupportedPet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1371DA291B90C100300AA6 /* PetHotelSupportedPet.swift */; };
 		4E1371DD291B90CE00300AA6 /* SupportedPetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1371DC291B90CE00300AA6 /* SupportedPetType.swift */; };
@@ -252,6 +254,8 @@
 		4BD8C29F291A206300F7DB18 /* CustomOrderDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomOrderDetail.swift; sourceTree = "<group>"; };
 		4BD8C2A1291A20B600F7DB18 /* CustomSOP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSOP.swift; sourceTree = "<group>"; };
 		4BD8C2A3291A86BC00F7DB18 /* PetHotelImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotelImage.swift; sourceTree = "<group>"; };
+		4BD8C2A5291BD4EF00F7DB18 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		4BD8C2AA291BE07A00F7DB18 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		4E1371D8291B90AF00300AA6 /* PetHotels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotels.swift; sourceTree = "<group>"; };
 		4E1371DA291B90C100300AA6 /* PetHotelSupportedPet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotelSupportedPet.swift; sourceTree = "<group>"; };
 		4E1371DC291B90CE00300AA6 /* SupportedPetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedPetType.swift; sourceTree = "<group>"; };
@@ -460,7 +464,6 @@
 				4B3D82C829051D8D00F6A82F /* Endpoint.swift */,
 				4B3D82C929051D8D00F6A82F /* NetworkError.swift */,
 				4B3D82C729051D8D00F6A82F /* NetworkLogger.swift */,
-				4B3D82CA29051D8D00F6A82F /* NetworkService.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -632,6 +635,7 @@
 			isa = PBXGroup;
 			children = (
 				4B2A82FA2919895800830AE8 /* FluffyDebug.entitlements */,
+				4BD8C2AC291BE5E100F7DB18 /* Service */,
 				4B3D82CF29051D9100F6A82F /* Networking Domain */,
 				4B3D82C629051D6700F6A82F /* Networking */,
 				4B78DB3228EAD90E00744386 /* Models */,
@@ -689,12 +693,22 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		4BD8C2AC291BE5E100F7DB18 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				4B3D82CA29051D8D00F6A82F /* NetworkService.swift */,
+				4BD8C2AA291BE07A00F7DB18 /* LocationManager.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		4E1371D7291B90A300300AA6 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
 				4E1371D8291B90AF00300AA6 /* PetHotels.swift */,
 				4E1371DA291B90C100300AA6 /* PetHotelSupportedPet.swift */,
 				4E1371DC291B90CE00300AA6 /* SupportedPetType.swift */,
+				4BD8C2A5291BD4EF00F7DB18 /* Location.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -1127,6 +1141,7 @@
 				4E5068B429001C4C0005ADBF /* ExploreTableViewCell.swift in Sources */,
 				4BC609D728E572DE007A6DB0 /* AppDelegate.swift in Sources */,
 				4BC609D928E572DE007A6DB0 /* SceneDelegate.swift in Sources */,
+				4BD8C2A6291BD4EF00F7DB18 /* Location.swift in Sources */,
 				4EAF1EEB29084550007248AA /* PetSizeExplainationTableViewCell.swift in Sources */,
 				4B3D82C029051A3900F6A82F /* ModalMonitoringViewController.swift in Sources */,
 				1DA5543728EEA1570040E4F7 /* ReusableButton.swift in Sources */,
@@ -1155,6 +1170,7 @@
 				4E892D312912D02E0068D7E5 /* SearchExploreViewController.swift in Sources */,
 				4E892D2D29111E6F0068D7E5 /* BookingTableViewCell.swift in Sources */,
 				4BD8C296291A1B3800F7DB18 /* BookingDetailViewModel.swift in Sources */,
+				4BD8C2AB291BE07A00F7DB18 /* LocationManager.swift in Sources */,
 				4B2A82F12917ED9C00830AE8 /* EditPetViewModel.swift in Sources */,
 				4B6A64782917C73100597555 /* AddPetViewModel.swift in Sources */,
 				4BD8C29A291A1C0900F7DB18 /* PetHotel.swift in Sources */,

@@ -9,6 +9,7 @@ import UIKit
 
 class ExploreTableViewCell: UITableViewCell {
 
+
     //MARK: -Subviews
     var exploreImage:UIImageView = {
         let image = UIImageView()
@@ -34,31 +35,30 @@ class ExploreTableViewCell: UITableViewCell {
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.register(SupportedPetCollectionViewCell.self, forCellWithReuseIdentifier: SupportedPetCollectionViewCell.cellId)
         return collection
+
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+
         setupLayout()
         self.backgroundColor = .white
+
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: Properties
-    static let cellId = "ExploreTableViewCell"
-
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     //MARK: - layoutSubviews
     override func layoutSubviews() {
         super.layoutSubviews()
+
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 32, right: 0))
     }
 }
@@ -66,6 +66,7 @@ class ExploreTableViewCell: UITableViewCell {
 //MARK: - Setups
 
 extension ExploreTableViewCell{
+
     func setup() {
 //        petHotelNameLabel.text = petHotelName
 //        petHotelNameLabel.numberOfLines = 1
@@ -165,5 +166,6 @@ extension ExploreTableViewCell: UICollectionViewDelegate, UICollectionViewDataSo
 //        cell.configure(petTypeString: supportedPet[indexPath.row].petType, petSizeString: supportedPet[indexPath.row].size)
         cell.configure(petTypeString: "Anjing", petSizeString: "S,M")
         return cell
+
     }
 }
