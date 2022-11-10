@@ -43,6 +43,16 @@ public func changeDateIntoMMDD(dateString : String) -> String {
     return dateF.string(from: pastDateInvoice!)
 }
 
+/// Returns date in string
+/// from the given components.
+/// - Parameters:
+///     - dateObject:: date object that will be converted to yyyy-mm-dd
+public func changeDateIntoYYYYMMDD(_ dateObject : Date) -> String {
+    let dateF = DateFormatter()
+    dateF.dateFormat = "yyyy-MM-dd"
+    return dateF.string(from: dateObject)
+}
+
 //MARK: -TEXTFIELD FUNCTION CLASS
 /// Returns boolean true or false
 /// from the given components.

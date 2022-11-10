@@ -112,6 +112,17 @@ class MonitoringTableViewCell: UITableViewCell {
         setupUI()
         setupConstraint()
         
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        ///
+//        orderDetailArray.bind(to: detailPaketTableView.rx.items(cellIdentifier: paketTableViewCell.cellId, cellType: paketTableViewCell.self)) { row, model, cell in
+//            cell.backgroundColor = .clear
+//            cell.configureOrderDetail(model)
+//        }.disposed(by: bags)
     }
     
     //MARK: - layoutSubviews
@@ -130,7 +141,6 @@ class MonitoringTableViewCell: UITableViewCell {
 //MARK: - Setups
 
 extension MonitoringTableViewCell{
-
     func setupCollectionView() {
         carouselCollectionView.translatesAutoresizingMaskIntoConstraints = false
         carouselCollectionView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor,constant: 20).isActive = true
@@ -236,15 +246,16 @@ extension MonitoringTableViewCell{
 //MARK: - Public
 extension MonitoringTableViewCell{
      func configure(location:String, cardTitleString:String, timestamp:String, description:String, petImage:String, dogNameString:String, carouselData:[CarouselData], isNew:Bool){
+         
         locationLabel.text = location
         cardTitle.text = cardTitleString
         descriptionLabel.text = description
         petIcon.image = UIImage(named: petImage)
         dogName.text = dogNameString
         timeLabel.text = timestamp
-        self.configureView(with: carouselData)
+        configureView(with: carouselData)
         pageControl.numberOfPages = carouselData.count
-        newPost = isNew
+  //      newPost = isNew
     }
 }
 
@@ -275,17 +286,16 @@ extension MonitoringTableViewCell: UICollectionViewDataSource {
 }
 
 // MARK: - UICollectionView Delegate
-
 extension MonitoringTableViewCell: UICollectionViewDelegate {
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView){
         currentPage = getCurrentPage()
     }
     
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool){
         currentPage = getCurrentPage()
     }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView){
         currentPage = getCurrentPage()
     }
 }
@@ -300,7 +310,6 @@ extension MonitoringTableViewCell {
         carouselLayout.sectionInset = .init(top: 0, left: 0, bottom: 0, right: 0)
         carouselLayout.minimumLineSpacing = 0
         carouselCollectionView.collectionViewLayout = carouselLayout
-        
         carouselData = data
         carouselCollectionView.reloadData()
     }

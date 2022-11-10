@@ -18,6 +18,8 @@ extension ApplicationEndpoint: Endpoint {
             return "/public/api/reservation/order/list"
         case .getDetailOrderID:
             return "/public/api/reservation/order/detail"
+        case .getNearest:
+            return "/public/api/explore/get-nearest-pet-hotel"
         }
     }
 
@@ -26,6 +28,8 @@ extension ApplicationEndpoint: Endpoint {
         case .getOrderList:
             return .post
         case .getDetailOrderID:
+            return .post
+        case .getNearest:
             return .post
         }
     }
@@ -40,6 +44,11 @@ extension ApplicationEndpoint: Endpoint {
         case .getDetailOrderID(let orderID):
             return [
                 "order_id" : orderID
+            ]
+        case .getNearest(let longitude, let latitude):
+            return [
+                "longitude" : longitude,
+                "latitude"  : latitude
             ]
 //        case .postConsultation(let etalaseID, let companyName, let url1, let url2, let shortDescription, let problemDescription, let marketingBudget, let userID):
 //            return [

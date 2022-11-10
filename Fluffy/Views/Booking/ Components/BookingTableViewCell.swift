@@ -257,6 +257,7 @@ extension BookingTableViewCell{
         
         clockImage.widthAnchor.constraint(equalToConstant: 20).isActive = true
         clockImage.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        clockImage.contentMode = .scaleAspectFill
         clockImage.leftAnchor.constraint(equalTo: middleView.leftAnchor).isActive = true
         clockImage.topAnchor.constraint(equalTo: middleView.topAnchor).isActive = true
         clockImage.bottomAnchor.constraint(equalTo: middleView.bottomAnchor).isActive = true
@@ -285,8 +286,13 @@ extension BookingTableViewCell {
         numPackage = order.orderDetail.count
         
         if numPackage > 3 {
+            detailPaket.isHidden = false
+            detailPaket.text = "and \(numPackage - 3) more"
             numPackage = 3
+        }else {
+            detailPaket.isHidden = true
         }
+        
         for order in order.orderDetail {
             packageArray.append(order.packageName)
         }
@@ -300,11 +306,13 @@ extension BookingTableViewCell {
             leftButton.configuration?.attributedTitle = AttributedString("Cancel Order", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 12)!]))
             leftButton.configuration?.baseBackgroundColor = UIColor(named: "grey2")
             leftButton.configuration?.baseForegroundColor = UIColor(named: "white")
+            leftButton.isEnabled = false
         }
         else{
             leftButton.configuration?.attributedTitle = AttributedString("Lihat Monitoring", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 12)!]))
             leftButton.configuration?.baseBackgroundColor = UIColor(named: "primaryMain")
             leftButton.configuration?.baseForegroundColor = UIColor(named: "white")
+            leftButton.isEnabled = true
         }
     }
 }

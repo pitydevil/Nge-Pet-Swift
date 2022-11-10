@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 @available(iOS 16.0, *)
 class MonitoringViewController: UIViewController {
@@ -61,25 +63,27 @@ class MonitoringViewController: UIViewController {
         return calendarView
     }()
     
-    //MARK: -ViewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    private func setupUI() {
         self.navigationController?.isNavigationBarHidden = true
         view.backgroundColor = UIColor(named: "grey3")
         view.addSubview(dateButton)
         view.addSubview(selectPetButton)
         view.addSubview(tableView)
-        setupLayout()
-        tableView.reloadData()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        tableView.reloadData()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+        //MARK: Date Button Constraint
+        dateButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 12).isActive = true
+        dateButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+        dateButton.leftAnchor.constraint(greaterThanOrEqualTo: selectPetButton.rightAnchor, constant: 20).isActive = true
+        dateButton.widthAnchor.constraint(equalToConstant: 132).isActive = true
+        
+        //MARK: Select Pet Button Constraints
+        selectPetButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        selectPetButton.centerYAnchor.constraint(equalTo: dateButton.centerYAnchor).isActive = true
+        
+        //MARK: Table View Constraints
+        tableView.topAnchor.constraint(equalTo: selectPetButton.bottomAnchor, constant: 40).isActive = true
+        tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        tableView.rightAnchor.constraint(equalTo: dateButton.rightAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         tableView.reloadData()
     }
     
@@ -107,6 +111,13 @@ class MonitoringViewController: UIViewController {
         calendarView.topAnchor.constraint(equalTo: dateButton.bottomAnchor, constant: 20).isActive = true
     }
     
+    //MARK: -ViewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        
+        
+    }
 }
 
 //MARK: UICalendarSelectionSingleDateDelegate
@@ -122,43 +133,23 @@ extension MonitoringViewController: UICalendarSelectionSingleDateDelegate {
         if dateComponents?.year == currentYear && dateComponents?.date != currentDate{
             df.dateFormat = "dd MMM"
             titleLbl = df.string(from: (dateComponents?.date)!)
-        }
-        else{
+        }else{
             df.dateFormat = "dd MMM yy"
             titleLbl = df.string(from: (dateComponents?.date)!)
         }
+        
+        print(changeDateIntoYYYYMMDD(dateComponents!.date!))
+        
         df.dateFormat = "dd MMM"
         let currDate = df.string(from: (currentDate))
         if currDate == titleLbl{
             titleLbl = "Hari Ini"
         }
-        
         dateButton.titleLabel?.text = titleLbl
         calendarView.removeFromSuperview()
     }
 }
 
-//MARK: Setup Layout
-@available(iOS 16.0, *)
-extension MonitoringViewController{
-    func setupLayout(){
-        //MARK: Date Button Constraint
-        dateButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 12).isActive = true
-        dateButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
-        dateButton.leftAnchor.constraint(greaterThanOrEqualTo: selectPetButton.rightAnchor, constant: 20).isActive = true
-        dateButton.widthAnchor.constraint(equalToConstant: 132).isActive = true
-        
-        //MARK: Select Pet Button Constraints
-        selectPetButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
-        selectPetButton.centerYAnchor.constraint(equalTo: dateButton.centerYAnchor).isActive = true
-        
-        //MARK: Table View Constraints
-        tableView.topAnchor.constraint(equalTo: selectPetButton.bottomAnchor, constant: 40).isActive = true
-        tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
-        tableView.rightAnchor.constraint(equalTo: dateButton.rightAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-    }
-}
 
 //MARK: UITableViewDataSource, UITableViewDelegate
 

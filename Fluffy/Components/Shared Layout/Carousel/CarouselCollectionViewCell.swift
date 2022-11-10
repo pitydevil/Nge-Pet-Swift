@@ -12,7 +12,6 @@ class CarouselCollectionViewCell: UICollectionViewCell {
     // MARK: - SubViews
     private lazy var imageView = UIImageView()
 
-    
     // MARK: - Properties
     static let cellId = "CarouselCollectionViewCell"
     
@@ -29,7 +28,6 @@ class CarouselCollectionViewCell: UICollectionViewCell {
 }
 
 // MARK: - Setups
-
 private extension CarouselCollectionViewCell {
     func setupUI() {
         backgroundColor = .clear
@@ -47,11 +45,8 @@ private extension CarouselCollectionViewCell {
 }
 
 // MARK: - Public
-
 extension CarouselCollectionViewCell {
     public func configure(image: UIImage?) {
         imageView.image = image
     }
 }
-
-

@@ -17,7 +17,7 @@ enum HTTPMethod: String {
 enum ApplicationEndpoint {
     case getOrderList(orderStatus : String)
     case getDetailOrderID(orderID : Int)
-//    case getAllEtalase
+    case getNearest(longitude : Double, latitude : Double)
 //    case postConsultation(etalaseID: String, companyName : String, url1 : String, url2: String, shortDescription: String, problemDescription : String, marketingBudget : Double, userID : String)
 //    case getConsultation(userID : String)
 //    case getConsultationAgency(etalaseID : String)
