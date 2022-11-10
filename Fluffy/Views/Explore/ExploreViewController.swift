@@ -14,6 +14,8 @@ class ExploreViewController: UIViewController {
     //MARK: - OBJECT DECLARATION
     private let exploreViewModel = ExploreViewModel(locationManager: LocationManager())
     private let petHotelList = BehaviorRelay<[PetHotels]>(value: [])
+    private var modalSearchLocationObject = BehaviorRelay<LocationDetail>(value: LocationDetail(longitude: 0.0, latitude: 0.0, locationName: ""))
+    private var checkFinalObject = BehaviorRelay<CheckIn>(value:CheckIn(checkInDate: "", checkOutDate: ""))
     
     //MARK: Subviews
     private let scrollView:UIScrollView = {
@@ -201,14 +203,14 @@ class ExploreViewController: UIViewController {
     @objc func toSearchModal() {
         let vc = ModalSearchLocationViewController()
         vc.modalPresentationStyle = .pageSheet
-        vc.passingLocation = { [weak self] text in
-            DispatchQueue.main.async {
-                self?.searchLocation.attributedPlaceholder = NSAttributedString(string: text!, attributes: [
-                    .foregroundColor: UIColor(named: "white") as Any,
-                    .font: UIFont(name: "Inter-Medium", size: 12)!
-                ])
+        vc.modalSearchObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
+            modalSearchLocationObject.accept(value)
+            DispatchQueue.main.async { [self] in
+                searchLocation.attributedPlaceholder = attributedTextForSearchTextfield(value.locationName)
             }
-        }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
         self.present(vc, animated: true)
     }
     
@@ -221,14 +223,14 @@ class ExploreViewController: UIViewController {
     @objc func toDateModal() {
         let vc = ModalCheckInOutViewController()
         vc.modalPresentationStyle = .pageSheet
-        vc.passingDate = { [weak self] text in
-            DispatchQueue.main.async {
-                self?.searchDate.attributedPlaceholder = NSAttributedString(string: text!, attributes: [
-                    .foregroundColor: UIColor(named: "white") as Any,
-                    .font: UIFont(name: "Inter-Medium", size: 12)!
-                ])
+        vc.checkFinalObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
+            checkFinalObject.accept(value)
+            DispatchQueue.main.async { [self] in
+                searchDate.attributedPlaceholder = attributedTextForSearchTextfield("\(value.checkInDate) - \(value.checkOutDate)")
             }
-        }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
         self.present(vc, animated: true)
     }
     

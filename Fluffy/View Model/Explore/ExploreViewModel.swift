@@ -23,6 +23,7 @@ class ExploreViewModel{
         return petHotelModelArray.asObservable()
     }
 
+    //MARK: - INIT OBJECT
     init(networkService: NetworkServicing = NetworkService(), locationManager : LocationManager) {
         self.networkService = networkService
         self.LocationManager = locationManager

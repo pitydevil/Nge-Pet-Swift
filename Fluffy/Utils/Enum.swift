@@ -45,8 +45,8 @@ enum petSizeCase : String {
 }
 
 enum petTypeCase : String {
-    case kucing = "cat-icon"
-    case anjing = "dog-icon"
+    case kucing = "Kucing"
+    case anjing = "Anjing"
 }
 
 enum petIconCase : String {

@@ -99,6 +99,10 @@
 		4BD8C2A4291A86BC00F7DB18 /* PetHotelImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2A3291A86BC00F7DB18 /* PetHotelImage.swift */; };
 		4BD8C2A6291BD4EF00F7DB18 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2A5291BD4EF00F7DB18 /* Location.swift */; };
 		4BD8C2AB291BE07A00F7DB18 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2AA291BE07A00F7DB18 /* LocationManager.swift */; };
+		4BD8C2AE291D063800F7DB18 /* ModalSearchLocationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2AD291D063800F7DB18 /* ModalSearchLocationViewModel.swift */; };
+		4BD8C2B0291D068700F7DB18 /* LocationDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2AF291D068700F7DB18 /* LocationDetail.swift */; };
+		4BD8C2B2291D0EFD00F7DB18 /* CheckIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2B1291D0EFD00F7DB18 /* CheckIn.swift */; };
+		4BD8C2B4291D40BE00F7DB18 /* ModalSelectPetViewModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2B3291D40BE00F7DB18 /* ModalSelectPetViewModal.swift */; };
 		4E1371D9291B90AF00300AA6 /* PetHotels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1371D8291B90AF00300AA6 /* PetHotels.swift */; };
 		4E1371DB291B90C100300AA6 /* PetHotelSupportedPet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1371DA291B90C100300AA6 /* PetHotelSupportedPet.swift */; };
 		4E1371DD291B90CE00300AA6 /* SupportedPetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1371DC291B90CE00300AA6 /* SupportedPetType.swift */; };
@@ -256,6 +260,10 @@
 		4BD8C2A3291A86BC00F7DB18 /* PetHotelImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotelImage.swift; sourceTree = "<group>"; };
 		4BD8C2A5291BD4EF00F7DB18 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		4BD8C2AA291BE07A00F7DB18 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		4BD8C2AD291D063800F7DB18 /* ModalSearchLocationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalSearchLocationViewModel.swift; sourceTree = "<group>"; };
+		4BD8C2AF291D068700F7DB18 /* LocationDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetail.swift; sourceTree = "<group>"; };
+		4BD8C2B1291D0EFD00F7DB18 /* CheckIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckIn.swift; sourceTree = "<group>"; };
+		4BD8C2B3291D40BE00F7DB18 /* ModalSelectPetViewModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalSelectPetViewModal.swift; sourceTree = "<group>"; };
 		4E1371D8291B90AF00300AA6 /* PetHotels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotels.swift; sourceTree = "<group>"; };
 		4E1371DA291B90C100300AA6 /* PetHotelSupportedPet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotelSupportedPet.swift; sourceTree = "<group>"; };
 		4E1371DC291B90CE00300AA6 /* SupportedPetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedPetType.swift; sourceTree = "<group>"; };
@@ -709,6 +717,8 @@
 				4E1371DA291B90C100300AA6 /* PetHotelSupportedPet.swift */,
 				4E1371DC291B90CE00300AA6 /* SupportedPetType.swift */,
 				4BD8C2A5291BD4EF00F7DB18 /* Location.swift */,
+				4BD8C2AF291D068700F7DB18 /* LocationDetail.swift */,
+				4BD8C2B1291D0EFD00F7DB18 /* CheckIn.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -717,6 +727,8 @@
 			isa = PBXGroup;
 			children = (
 				4E1371DF291B972500300AA6 /* ExploreViewModel.swift */,
+				4BD8C2AD291D063800F7DB18 /* ModalSearchLocationViewModel.swift */,
+				4BD8C2B3291D40BE00F7DB18 /* ModalSelectPetViewModal.swift */,
 			);
 			path = Explore;
 			sourceTree = "<group>";
@@ -1131,6 +1143,7 @@
 				4B3D82CC29051D8E00F6A82F /* Endpoint.swift in Sources */,
 				4BD8C298291A1BA800F7DB18 /* DetailedOrder.swift in Sources */,
 				4EC56E4C28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift in Sources */,
+				4BD8C2B0291D068700F7DB18 /* LocationDetail.swift in Sources */,
 				4E1371DD291B90CE00300AA6 /* SupportedPetType.swift in Sources */,
 				4E5068AA28FD54D00005ADBF /* ExploreViewController.swift in Sources */,
 				4E1371D9291B90AF00300AA6 /* PetHotels.swift in Sources */,
@@ -1153,6 +1166,7 @@
 				1D174214290A7E87003A1C8E /* EditPetViewController.swift in Sources */,
 				4B78DB3128EAD90700744386 /* Api Services.swift in Sources */,
 				1D6614662907C623007B43DA /* AddPetViewController.swift in Sources */,
+				4BD8C2B2291D0EFD00F7DB18 /* CheckIn.swift in Sources */,
 				4EAF1EDD2907F55C007248AA /* PetTypeCollectionViewCell.swift in Sources */,
 				4BD8C2A4291A86BC00F7DB18 /* PetHotelImage.swift in Sources */,
 				4EAF1EED290989A2007248AA /* BookingConfirmationViewController.swift in Sources */,
@@ -1188,6 +1202,7 @@
 				4EAF1ED72907C807007248AA /* PetHotelDetailTableViewCell.swift in Sources */,
 				1DBF11CD28F00CAC00C53D1E /* ReusableTabBar.swift in Sources */,
 				4B3D82D529051DCB00F6A82F /* Enum.swift in Sources */,
+				4BD8C2B4291D40BE00F7DB18 /* ModalSelectPetViewModal.swift in Sources */,
 				4B2A82F929197D9D00830AE8 /* BookingViewModel.swift in Sources */,
 				4E5068A828FD51D80005ADBF /* TapBar.swift in Sources */,
 				4EAF1ED529068CDD007248AA /* PetHotelViewController.swift in Sources */,
@@ -1195,6 +1210,7 @@
 				4B2A82F5291979DB00830AE8 /* Order.swift in Sources */,
 				4E5A6D7028EC03D9009BBDE9 /* SwitchSelect.swift in Sources */,
 				4E5068AE28FD54ED0005ADBF /* BookingViewController.swift in Sources */,
+				4BD8C2AE291D063800F7DB18 /* ModalSearchLocationViewModel.swift in Sources */,
 				4EC56E4E28F826BB008ADD7F /* MonitoringViewController.swift in Sources */,
 				4B3D82D229051DAD00F6A82F /* Response.swift in Sources */,
 				4EAF1EF2290B05F3007248AA /* paketTableViewCell.swift in Sources */,

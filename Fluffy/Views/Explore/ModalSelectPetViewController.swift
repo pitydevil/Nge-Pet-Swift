@@ -6,8 +6,11 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class ModalSelectPetViewController: UIViewController {
+    
     
     var isChecked = true
     let checkedImage = UIImage(systemName: "checkmark.square.fill")
@@ -194,39 +197,39 @@ class ModalSelectPetViewController: UIViewController {
 }
 
 extension ModalSelectPetViewController: UITableViewDataSource, UITableViewDelegate {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 6
-    }
+//    func numberOfSections(in tableView: UITableView) -> Int {
+//        return 6
+//    }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let title = UILabel()
-        title.font = UIFont(name: "Poppins-Bold", size: 16)
-        title.text = self.tableView(tableView, titleForHeaderInSection: section)
-        title.textColor = UIColor(named: "black")
-        title.backgroundColor = UIColor(named: "white")
-        return title
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let sectionName: String
-        switch section {
-        case 0:
-            sectionName = NSLocalizedString("Anjing Kecil (S)", comment: "Anjing Kecil (S)")
-        case 1:
-            sectionName = NSLocalizedString("Anjing Sedang (M)", comment: "Anjing Sedang (M)")
-        case 2:
-            sectionName = NSLocalizedString("Anjing Besar (L)", comment: "Anjing Besar (L)")
-        case 3:
-            sectionName = NSLocalizedString("Kucing Kecil (S)", comment: "Kucing Kecil (S)")
-        case 4:
-            sectionName = NSLocalizedString("Kucing Sedang (M)", comment: "Kucing Sedang (M)")
-        case 5:
-            sectionName = NSLocalizedString("Kucing Besar (L)", comment: "Kucing Besar (L)")
-        default:
-            sectionName = NSLocalizedString("Anjing Kecil (S)", comment: "Anjing Kecil (S)")
-        }
-        return sectionName
-    }
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let title = UILabel()
+//        title.font = UIFont(name: "Poppins-Bold", size: 16)
+//        title.text = self.tableView(tableView, titleForHeaderInSection: section)
+//        title.textColor = UIColor(named: "black")
+//        title.backgroundColor = UIColor(named: "white")
+//        return title
+//    }
+//
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        let sectionName: String
+//        switch section {
+//        case 0:
+//            sectionName = NSLocalizedString("Anjing Kecil (S)", comment: "Anjing Kecil (S)")
+//        case 1:
+//            sectionName = NSLocalizedString("Anjing Sedang (M)", comment: "Anjing Sedang (M)")
+//        case 2:
+//            sectionName = NSLocalizedString("Anjing Besar (L)", comment: "Anjing Besar (L)")
+//        case 3:
+//            sectionName = NSLocalizedString("Kucing Kecil (S)", comment: "Kucing Kecil (S)")
+//        case 4:
+//            sectionName = NSLocalizedString("Kucing Sedang (M)", comment: "Kucing Sedang (M)")
+//        case 5:
+//            sectionName = NSLocalizedString("Kucing Besar (L)", comment: "Kucing Besar (L)")
+//        default:
+//            sectionName = NSLocalizedString("Anjing Kecil (S)", comment: "Anjing Kecil (S)")
+//        }
+//        return sectionName
+//    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 36
