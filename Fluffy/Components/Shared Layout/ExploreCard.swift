@@ -157,7 +157,7 @@ extension ExploreCard: UICollectionViewDelegate, UICollectionViewDataSource{
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SupportedPetCollectionViewCell.cellId, for: indexPath) as? SupportedPetCollectionViewCell else { return UICollectionViewCell() }
         
         //Ini ubah
-        cell.configure(petTypeString: supportedPet[indexPath.row].petType, petSizeString: supportedPet[indexPath.row].size)
+        //cell.configure(petTypeString: supportedPet[indexPath.row].petType, petSizeString: supportedPet[indexPath.row].size)
         return cell
     }
 }

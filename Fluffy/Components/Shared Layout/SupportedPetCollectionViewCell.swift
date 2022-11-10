@@ -67,21 +67,20 @@ private extension SupportedPetCollectionViewCell {
         
         imageViewConstraints()
         labelConstraints()
+        
     }
 }
 
 // MARK: - Public
-
 extension SupportedPetCollectionViewCell {
-    public func configure(petTypeString:String, petSizeString:String) {
+    func configure(_ petTypeString:String, _ supportedPetType: SupportedPetType) {
         petType.text = petTypeString
-        petSize.text = petSizeString
+        petSize.text = supportedPetType.supportedPetTypeShortSize
         if petTypeString == "Anjing"{
             imageView.image = UIImage(named: "dog-icon")
         }
         else if petTypeString == "Kucing"{
             imageView.image = UIImage(named: "cat-icon")
         }
-        
     }
 }
