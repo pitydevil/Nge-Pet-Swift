@@ -9,7 +9,6 @@ import UIKit
 
 class ExploreTableViewCell: UITableViewCell {
 
-
     //MARK: -Subviews
     var exploreImage:UIImageView = {
         let image = UIImageView()
@@ -22,6 +21,10 @@ class ExploreTableViewCell: UITableViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    
+    static let cellId = "ExploreTableViewCell"
+    
     private lazy var petHotelNameLabel:ReuseableLabel = ReuseableLabel(labelText: "Pet Hotel", labelType: .titleH2, labelColor: .black)
     private lazy var distanceLabel:ReuseableLabel = ReuseableLabel(labelText: "500m", labelType: .bodyP2, labelColor: .grey1)
     private lazy var BeforePriceLabel:ReuseableLabel = ReuseableLabel(labelText: "Perhari mulai dari", labelType: .bodyP2, labelColor: .grey1)
