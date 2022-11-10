@@ -84,12 +84,5 @@ extension SupportedPetCollectionViewCell {
         size.removeLast()
         
         petSize.text = size
-        
-        if petTypeString == "Anjing"{
-            imageView.image = UIImage(named: "dog-icon")
-        }
-        else if petTypeString == "Kucing"{
-            imageView.image = UIImage(named: "cat-icon")
-        }
-    }
+     }
 }

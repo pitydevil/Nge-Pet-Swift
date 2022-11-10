@@ -13,8 +13,9 @@ import SDWebImage
 class ExploreTableViewCell: UITableViewCell {
     
     //MARK: -OBJECT DECLARATION
+
     var petHotelSupportedObject = BehaviorRelay<[PetHotelSupportedPet]>(value: [])
-    
+
     //MARK: -Subviews
     var exploreImage:UIImageView = {
         let image = UIImageView()
