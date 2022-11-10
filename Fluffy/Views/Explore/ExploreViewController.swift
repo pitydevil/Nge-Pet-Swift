@@ -161,15 +161,15 @@ class ExploreViewController: UIViewController {
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
         
-        //MARK: - Bind Journal List with Table View
-        petHotelList.bind(to: tableView.rx.items(cellIdentifier: ExploreTableViewCell.cellId, cellType: ExploreTableViewCell.self)) { row, model, cell in
-            let backgroundView = UIView()
-            cell.backgroundColor = .clear
-            backgroundView.backgroundColor = .clear
-            cell.selectedBackgroundView = backgroundView
-            cell.configureCell(model)
-        }.disposed(by: bags)
-        
+//        //MARK: - Bind Journal List with Table View
+//        petHotelList.bind(to: tableView.rx.items(cellIdentifier: ExploreTableViewCell.cellId, cellType: ExploreTableViewCell.self)) { row, model, cell in
+////            let backgroundView = UIView()
+////            cell.backgroundColor = .clear
+////            backgroundView.backgroundColor = .clear
+//          //  cell.selectedBackgroundView = backgroundView
+//        //    cell.configureCell(model)
+//        }.disposed(by: bags)
+//        
         tableView.rx.itemSelected.subscribe(onNext: { (indexPath) in
             self.tableView.deselectRow(at: indexPath, animated: true)
             
@@ -356,15 +356,15 @@ extension ExploreViewController : UITableViewDataSource, UITableViewDelegate{
         20
     }
     
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ExploreTableViewCell.cellId) as! ExploreTableViewCell
-            cell.backgroundColor = .white
-            let backgroundView = UIView()
-            backgroundView.backgroundColor = .clear
-            cell.layer.cornerRadius = 12
-            cell.selectedBackgroundView = backgroundView
-            return cell
-        }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ExploreTableViewCell.cellId) as! ExploreTableViewCell
+        cell.backgroundColor = .white
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = .clear
+        cell.layer.cornerRadius = 12
+        cell.selectedBackgroundView = backgroundView
+        return cell
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 216

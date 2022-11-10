@@ -849,9 +849,7 @@ extension PetHotelViewController : UITableViewDataSource, UITableViewDelegate{
             return cell
         }
         return UITableViewCell()
-        
     }
-    
 }
 
 //MARK: UI STAck View add Separator
