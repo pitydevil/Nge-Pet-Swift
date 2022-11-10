@@ -6,10 +6,35 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 @available(iOS 16.0, *)
 class PetHotelViewController: UIViewController {
 
+    //MARK: - OBJECT DECLARATION
+    var petHotelDetailID          = BehaviorRelay<Int>(value: 0)
+    private let petHotelViewModel = PetHotelViewModel()
+    private var petHotelModel   = BehaviorRelay<PetHotelsDetail>(value: PetHotelsDetail(petHotelID: 0, petHotelName: "", petHotelDescription: "", petHotelLongitude: "", petHotelLatitude: "", petHotelAddress: "", petHotelKelurahan: "", petHotelKecamatan: "", petHotelKota: "", petHotelProvinsi: "", petHotelPos: "", petHotelStartPrice: "", supportedPet: [SupportedPet](), petHotelImage: [PetHotelImage](), fasilitas: [Fasilitas](), sopGeneral: [SopGeneral](), asuransi: [AsuransiDetail](), cancelSOP: [CancelSOP]()))
+    
+    private var supportedPetModelArray   = BehaviorRelay<[SupportedPet]>(value: [])
+    private var petHotelImageModelArray   = BehaviorRelay<[PetHotelImage]>(value: [])
+    private var fasilitasModelArray   = BehaviorRelay<[Fasilitas]>(value: [])
+    private var sopGeneralModelArray   = BehaviorRelay<[SopGeneral]>(value: [])
+    private var asuransiModelArray   = BehaviorRelay<[AsuransiDetail]>(value: [])
+    private var cancelSOPModelArray   = BehaviorRelay<[CancelSOP]>(value: [])
+    
+    //MARK: - OBSERVER OBJECT DECLARATION
+    private var petHotelDetailIDObservable : Observable<Int> {
+        return petHotelDetailID.asObservable()
+    }
+    
+    private var currentPage = 0 {
+        didSet {
+            pageControl.currentPage = currentPage
+        }
+    }
+    
     //MARK: Subviews
     private let scrollView:UIScrollView = {
         let scroll = UIScrollView()
@@ -20,15 +45,14 @@ class PetHotelViewController: UIViewController {
     }()
     
     private lazy var carouselCollectionView: UICollectionView = {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        layout.itemSize = CGSize(width: view.frame.size.width, height: view.frame.size.width)
-        
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let carouselLayout = UICollectionViewFlowLayout()
+        carouselLayout.scrollDirection = .horizontal
+        carouselLayout.itemSize = .init(width: view.frame.size.width, height: view.frame.size.width)
+        carouselLayout.sectionInset = .init(top: 0, left: 0, bottom: 0, right: 0)
+        carouselLayout.minimumLineSpacing = 0
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: carouselLayout)
         collection.showsHorizontalScrollIndicator = false
         collection.isPagingEnabled = true
-        collection.dataSource = self
-        collection.delegate = self
         collection.register(CarouselCollectionViewCell.self, forCellWithReuseIdentifier: CarouselCollectionViewCell.cellId)
         collection.backgroundColor = .clear
         collection.isScrollEnabled = true
@@ -43,8 +67,6 @@ class PetHotelViewController: UIViewController {
         layout.scrollDirection = .horizontal
         let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.showsHorizontalScrollIndicator = false
-        collection.dataSource = self
-        collection.delegate = self
         collection.register(PetTypeCollectionViewCell.self, forCellWithReuseIdentifier: PetTypeCollectionViewCell.cellId)
         collection.backgroundColor = .clear
         collection.translatesAutoresizingMaskIntoConstraints = false
@@ -193,7 +215,6 @@ class PetHotelViewController: UIViewController {
     private lazy var seeAllFacilityButton:ReusableButton = {
         let btn = ReusableButton(titleBtn: "Lihat Semua Fasilitas", styleBtn: .longOutline)
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.addTarget(self, action: #selector(openFacilityModal), for: .touchUpInside)
         return btn
     }()
     
@@ -206,21 +227,17 @@ class PetHotelViewController: UIViewController {
     private lazy var seeRulesButton:ReusableButton = {
         let btn = ReusableButton(titleBtn: "Lihat Semua Peraturan", styleBtn: .longOutline)
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.addTarget(self, action: #selector(openRulesModal), for: .touchUpInside)
         return btn
     }()
     
     private lazy var seeAssuranceButton:ReusableButton = {
         let btn = ReusableButton(titleBtn: "Lihat Semua Asuransi", styleBtn: .longOutline)
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.addTarget(self, action: #selector(openAsuransiModal), for: .touchUpInside)
         return btn
     }()
     
     private lazy var facilityTableView: UITableView = {
         let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.register(FasilitasTableViewCell.self, forCellReuseIdentifier: FasilitasTableViewCell.cellId)
@@ -234,8 +251,6 @@ class PetHotelViewController: UIViewController {
     
     private lazy var rulesTableView: UITableView = {
         let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.register(PetHotelDetailTableViewCell.self, forCellReuseIdentifier: PetHotelDetailTableViewCell.cellId)
@@ -249,8 +264,6 @@ class PetHotelViewController: UIViewController {
     
     private lazy var assuranceTableView: UITableView = {
         let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.register(PetHotelDetailTableViewCell.self, forCellReuseIdentifier: PetHotelDetailTableViewCell.cellId)
@@ -262,15 +275,15 @@ class PetHotelViewController: UIViewController {
         return tableView
     }()
     
-        private lazy var btmBar: ReusableTabBar = {
-            let customBar = ReusableTabBar(btnText: "Pilih Paket", showText: .notShow)
-            customBar.barBtn.addTarget(self, action: #selector(pilihPaket), for: .touchUpInside)
-            customBar.translatesAutoresizingMaskIntoConstraints = false
-            customBar.backgroundColor = UIColor(named: "primaryMain")
-            customBar.barBtn.configuration?.baseBackgroundColor = UIColor(named: "white")
-            customBar.barBtn.configuration?.baseForegroundColor = UIColor(named: "primaryMain")
-            return customBar
-        }()
+    private lazy var btmBar: ReusableTabBar = {
+        let customBar = ReusableTabBar(btnText: "Pilih Paket", showText: .notShow)
+        
+        customBar.translatesAutoresizingMaskIntoConstraints = false
+        customBar.backgroundColor = UIColor(named: "primaryMain")
+        customBar.barBtn.configuration?.baseBackgroundColor = UIColor(named: "white")
+        customBar.barBtn.configuration?.baseForegroundColor = UIColor(named: "primaryMain")
+        return customBar
+    }()
     
     private lazy var startFrom:ReuseableLabel = ReuseableLabel(labelText: "Mulai dari", labelType: .bodyP2, labelColor: .white)
     
@@ -284,8 +297,6 @@ class PetHotelViewController: UIViewController {
         btn.configuration?.baseForegroundColor = UIColor(named: "grey1")
         btn.configuration?.baseBackgroundColor = UIColor(named: "grey3")
         btn.configuration?.attributedTitle = AttributedString("Hewan", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 12)!]))
-        btn.addTarget(self, action: #selector(scrollToHewan), for: .touchUpInside)
-        
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.widthAnchor.constraint(equalToConstant: 109).isActive = true
         btn.heightAnchor.constraint(equalToConstant: 40).isActive = true
@@ -351,7 +362,7 @@ class PetHotelViewController: UIViewController {
         btn.configuration?.baseForegroundColor = UIColor(named: "grey1")
         btn.configuration?.baseBackgroundColor = UIColor(named: "grey3")
         btn.configuration?.attributedTitle = AttributedString("Pembatalan", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 12)!]))
-        btn.addTarget(self, action: #selector(scrollToCancel), for: .touchUpInside)
+      //  btn.addTarget(self, action: #selector(scrollToCancel), for: .touchUpInside)
         
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.widthAnchor.constraint(equalToConstant: 109).isActive = true
@@ -359,58 +370,13 @@ class PetHotelViewController: UIViewController {
         return btn
     }()
     
-    //MARK: Shortcut Button behavior
-    @objc func scrollToHewan(){
-        scrollView.scrollRectToVisible(petType.frame, animated: true)
-    }
-    
-    @objc func scrollToCancel(){
-        print("to cancel")
-        scrollView.scrollRectToVisible(cancelationView.frame, animated: true)
-    }
-    
-    //MARK: Open Modal
-    @objc func openFacilityModal() {
-        let vc = FasilitasViewController()
-        vc.modalPresentationStyle = .pageSheet
-        self.present(vc, animated: true)
-    }
-    
-    @objc func openRulesModal() {
-        let vc = RulesViewController()
-        vc.modalPresentationStyle = .pageSheet
-        self.present(vc, animated: true)
-    }
-    
-    @objc func openAsuransiModal() {
-        let vc = AsuransiViewController()
-        vc.modalPresentationStyle = .pageSheet
-        self.present(vc, animated: true)
-    }
-    
-    @objc func pilihPaket() {
-        let vc = SelectBookingDetailsViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    //MARK: properties
-    private var carouselData = [CarouselData]()
-    private var currentPage = 0 {
-        didSet {
-            pageControl.currentPage = currentPage
-        }
-    }
-    
-    //MARK: Initializers
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    private func setupUI() {
         view.backgroundColor = UIColor(named: "white")
         self.navigationController?.isNavigationBarHidden = false
         self.navigationItem.titleView = setTitle(title: "Pet Hotel Name", subtitle: "location")
         self.navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
-     
         view.addSubview(scrollView)
         view.addSubview(btmBar)
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -425,19 +391,10 @@ class PetHotelViewController: UIViewController {
         exploreRect.addSubview(carouselCollectionView)
         exploreRect.addSubview(pageControl)
 
-        
         petHotelInformation.addSubview(petHotelName)
         petHotelInformation.addSubview(locIcon)
         petHotelInformation.addSubview(locationLabel)
         petHotelInformation.addSubview(descriptionLabel)
-        
-        placeholderShortcut.addSubview(btn1)
-        placeholderShortcut.addSubview(btn2)
-        placeholderShortcut.addSubview(btn3)
-        placeholderShortcut.addSubview(btn4)
-        placeholderShortcut.addSubview(btn5)
-        placeholderShortcut.addSubview(btn6)
-        petHotelInformation.addSubview(placeholderShortcut)
         
         petType.addSubview(petTypeLabel)
         petType.addSubview(petTypeCollectionView)
@@ -469,22 +426,177 @@ class PetHotelViewController: UIViewController {
         stackView.addVerticalSeparators(color: UIColor(named: "grey2") ?? .systemGray2)
         
         setupViews()
-        
-        carouselData = [CarouselData(image: UIImage(named: "slide1")), CarouselData(image: UIImage(named: "slide2")), CarouselData(image: UIImage(named: "slide3"))]
-        carouselConfigureView()
-        pageControl.numberOfPages = carouselData.count
-        
     }
-
-    public func carouselConfigureView() {
-        let carouselLayout = UICollectionViewFlowLayout()
-        carouselLayout.scrollDirection = .horizontal
-        carouselLayout.itemSize = .init(width: view.frame.size.width, height: view.frame.size.width)
-        carouselLayout.sectionInset = .init(top: 0, left: 0, bottom: 0, right: 0)
-        carouselLayout.minimumLineSpacing = 0
-        carouselCollectionView.collectionViewLayout = carouselLayout
+    
+    override func viewWillAppear(_ animated: Bool) {
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petHotelDetailIDObservable.subscribe(onNext: { [self] (value) in
+            Task {
+                petHotelViewModel.petHotelID.accept(value)
+                await petHotelViewModel.fetchPetHotelDetail()
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+    }
+    
+    //MARK: Initializers
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
         
-        carouselCollectionView.reloadData()
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petHotelViewModel.petHotelModelArrayObserver.subscribe(onNext: { [self] (value) in
+            DispatchQueue.main.async { [self] in
+                navigationItem.titleView = setTitle(title: value.petHotelName, subtitle: "\(value.petHotelAddress),\(value.petHotelProvinsi)")
+                petHotelName.text     = value.petHotelName
+                descriptionLabel.text = value.petHotelDescription
+                detailedLocation.text = "\(value.petHotelAddress), \(value.petHotelKelurahan), \(value.petHotelKecamatan), \(value.petHotelKota), \(value.petHotelProvinsi) \(value.petHotelPos)"
+                locationLabel.text    = "\(value.petHotelKota), \(value.petHotelProvinsi)"
+                price.text            = "Rp.\(value.petHotelStartPrice)"
+                var cancelSop = String()
+                for sop in value.cancelSOP {
+                    cancelSop += "\(sop.cancelSopsDescription)\n\n"
+                }
+                cancellationDescription.text = cancelSop
+                
+                // Array Initialization
+                supportedPetModelArray.accept(value.supportedPet)
+                petHotelImageModelArray.accept(value.petHotelImage)
+                fasilitasModelArray.accept(value.fasilitas)
+                sopGeneralModelArray.accept(value.sopGeneral)
+                asuransiModelArray.accept(value.asuransi)
+                cancelSOPModelArray.accept(value.cancelSOP)
+                petHotelModel.accept(value)
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        supportedPetModelArray.bind(to: petTypeCollectionView.rx.items(cellIdentifier:  PetTypeCollectionViewCell.cellId, cellType: PetTypeCollectionViewCell.self)) { row, model, cell in
+            cell.configure(model, model.supportedPetTypes)
+        }.disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petHotelImageModelArray.bind(to: carouselCollectionView.rx.items(cellIdentifier:  CarouselCollectionViewCell.cellId, cellType: CarouselCollectionViewCell.self)) { row, model, cell in
+            cell.configure(model)
+        }.disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        fasilitasModelArray.bind(to: facilityTableView.rx.items(cellIdentifier:  FasilitasTableViewCell.cellId, cellType: FasilitasTableViewCell.self)) { row, model, cell in
+            cell.configure(model)
+            cell.backgroundColor = .clear
+        }.disposed(by: bags)
+        
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        asuransiModelArray.bind(to: assuranceTableView.rx.items(cellIdentifier:  PetHotelDetailTableViewCell.cellId, cellType: PetHotelDetailTableViewCell.self)) { row, model, cell in
+            cell.configureView(tabelType: "asuransi", description: model.asuransiDescription)
+            cell.backgroundColor = .clear
+        }.disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        sopGeneralModelArray.bind(to: rulesTableView.rx.items(cellIdentifier:  PetHotelDetailTableViewCell.cellId, cellType: PetHotelDetailTableViewCell.self)) { row, model, cell in
+            cell.configureView(tabelType: "rules", description: model.sopGeneralsDescription)
+            cell.backgroundColor = .clear
+        }.disposed(by: bags)
+       
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        seeAllFacilityButton.rx.tap.bind { [self] in
+            let vc = FasilitasViewController()
+            vc.fasilitasModelArray.accept(fasilitasModelArray.value)
+            vc.modalPresentationStyle = .pageSheet
+            present(vc, animated: true)
+        }.disposed(by: bags)
+            
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        seeRulesButton.rx.tap.bind { [self] in
+            let vc = RulesViewController()
+            vc.sopGeneralModelArray.accept(sopGeneralModelArray.value)
+            vc.modalPresentationStyle = .pageSheet
+            self.present(vc, animated: true)
+        }.disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        seeAssuranceButton.rx.tap.bind { [self] in
+            let vc = AsuransiViewController()
+            vc.asuransiModelArray.accept(asuransiModelArray.value)
+            vc.modalPresentationStyle = .pageSheet
+            present(vc, animated: true)
+        }.disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        seeLocationButton.rx.tap.bind { [self] in
+            petHotelViewModel.locationObject.accept(Location(longitude: Double(petHotelModel.value.petHotelLongitude)!, latitude: Double(petHotelModel.value.petHotelLatitude)!))
+            petHotelViewModel.openGoogleMap()
+        }.disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        btmBar.barBtn.rx.tap.bind {
+            let vc = SelectBookingDetailsViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }.disposed(by: bags)
     }
 }
 
@@ -493,6 +605,7 @@ extension UIApplication {
         return value(forKey: "statusBar") as? UIView
     }
 }
+
 //MARK: Setups
 @available(iOS 16.0, *)
 extension PetHotelViewController{
@@ -540,28 +653,7 @@ extension PetHotelViewController{
         perDay.leftAnchor.constraint(equalTo: price.rightAnchor).isActive = true
         perDay.topAnchor.constraint(equalTo: price.topAnchor).isActive = true
         perDay.bottomAnchor.constraint(equalTo: price.bottomAnchor).isActive = true
-        
-        //MARK: shortcut botton constraint
-        btn1.topAnchor.constraint(equalTo: placeholderShortcut.topAnchor).isActive = true
-        btn1.leftAnchor.constraint(equalTo: placeholderShortcut.leftAnchor).isActive = true
-        
-        btn2.topAnchor.constraint(equalTo: btn1.topAnchor).isActive = true
-        btn2.leftAnchor.constraint(equalTo: btn1.rightAnchor, constant: 8).isActive = true
-        
-        btn3.topAnchor.constraint(equalTo: btn2.topAnchor).isActive = true
-        btn3.leftAnchor.constraint(equalTo: btn2.rightAnchor, constant: 8).isActive = true
-        btn3.rightAnchor.constraint(equalTo: placeholderShortcut.rightAnchor, constant: 0).isActive = true
-        
-        btn4.topAnchor.constraint(equalTo: btn1.bottomAnchor, constant: 8).isActive = true
-        btn4.leftAnchor.constraint(equalTo: placeholderShortcut.leftAnchor).isActive = true
-        
-        btn5.topAnchor.constraint(equalTo: btn4.topAnchor).isActive = true
-        btn5.leftAnchor.constraint(equalTo: btn4.rightAnchor, constant: 8).isActive = true
-        
-        btn6.topAnchor.constraint(equalTo: btn5.topAnchor).isActive = true
-        btn6.leftAnchor.constraint(equalTo: btn5.rightAnchor, constant: 8).isActive = true
-        btn6.rightAnchor.constraint(equalTo: placeholderShortcut.rightAnchor).isActive = true
-        
+    
         //MARK: placeholder carousel view constraints
         exploreRect.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         exploreRect.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
@@ -585,7 +677,7 @@ extension PetHotelViewController{
         petHotelInformation.topAnchor.constraint(equalTo: stackView.topAnchor).isActive = true
         petHotelInformation.leftAnchor.constraint(equalTo: stackView.leftAnchor).isActive = true
         petHotelInformation.rightAnchor.constraint(equalTo: stackView.rightAnchor).isActive = true
-        petHotelInformation.heightAnchor.constraint(greaterThanOrEqualToConstant: 300).isActive = true
+        petHotelInformation.heightAnchor.constraint(greaterThanOrEqualToConstant: 175).isActive = true
         
         //MARK: pet hotel name constraint
         petHotelName.topAnchor.constraint(equalTo: petHotelInformation.topAnchor).isActive = true
@@ -609,13 +701,7 @@ extension PetHotelViewController{
         descriptionLabel.topAnchor.constraint(equalTo: locIcon.bottomAnchor, constant: 20).isActive = true
         descriptionLabel.leftAnchor.constraint(equalTo: petHotelInformation.leftAnchor).isActive = true
         descriptionLabel.rightAnchor.constraint(equalTo: petHotelInformation.rightAnchor).isActive = true
-        
-        //MARK: shortcut view constraint
-        placeholderShortcut.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 20).isActive = true
-        placeholderShortcut.leftAnchor.constraint(equalTo: petHotelInformation.leftAnchor).isActive = true
-        placeholderShortcut.rightAnchor.constraint(equalTo: petHotelInformation.rightAnchor).isActive = true
-        placeholderShortcut.heightAnchor.constraint(equalToConstant: 88).isActive = true
-
+    
         //MARK: pet type view constrainr
         petType.leftAnchor.constraint(equalTo: stackView.leftAnchor).isActive = true
         petType.rightAnchor.constraint(equalTo: stackView.rightAnchor).isActive = true
@@ -736,119 +822,22 @@ extension PetHotelViewController{
         cancellationDescription.leftAnchor.constraint(equalTo: cancelationView.leftAnchor).isActive = true
         cancellationDescription.rightAnchor.constraint(equalTo: cancelationView.rightAnchor).isActive = true
         cancellationDescription.topAnchor.constraint(equalTo: cancellation.bottomAnchor, constant: 20).isActive = true
-        
     }
-
-}
-
-// MARK: - UICollectionViewDataSource
-
-@available(iOS 16.0, *)
-extension PetHotelViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if collectionView == petTypeCollectionView{
-            return 1    
-        }
-        if collectionView == carouselCollectionView{
-            return carouselData.count
-        }
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == petTypeCollectionView{
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PetTypeCollectionViewCell.cellId, for: indexPath) as? PetTypeCollectionViewCell else { return UICollectionViewCell() }
-            
-            cell.configure(type: "Anjing", sizeString: "S,M")
-            return cell
-        }
-        if collectionView == carouselCollectionView{
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CarouselCollectionViewCell.cellId, for: indexPath) as? CarouselCollectionViewCell else { return UICollectionViewCell() }
-            
-            cell.configure(image: carouselData[indexPath.row].image)
-            return cell
-        }
-        return UICollectionViewCell()
-    }
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == petTypeCollectionView{
-            print(indexPath)
-            let secondViewController = PetSizeViewController()
-            secondViewController.modalPresentationStyle = .pageSheet
-            self.present(secondViewController, animated: true)
-        }
-        
-    }
-    
 }
 
 // MARK: - UICollectionView Delegate
-
 @available(iOS 16.0, *)
 extension PetHotelViewController: UICollectionViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        currentPage = getCurrentPage()
+        currentPage = petHotelViewModel.getCurrentPage(carouselCollectionView, currentPage)
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        currentPage = getCurrentPage()
+        currentPage = petHotelViewModel.getCurrentPage(carouselCollectionView, currentPage)
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        currentPage = getCurrentPage()
-    }
-}
-//MARK: page Control get current page
-@available(iOS 16.0, *)
-private extension PetHotelViewController {
-    func getCurrentPage() -> Int {
-        
-        let visibleRect = CGRect(origin: carouselCollectionView.contentOffset, size: carouselCollectionView.bounds.size)
-        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
-        if let visibleIndexPath = carouselCollectionView.indexPathForItem(at: visiblePoint) {
-            return visibleIndexPath.row
-        }
-        
-        return currentPage
-    }
-}
-//MARK: UITableViewDataSource, UITableViewDelegate
-@available(iOS 16.0, *)
-extension PetHotelViewController : UITableViewDataSource, UITableViewDelegate{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if tableView == rulesTableView{
-            return 3
-        }
-        else if tableView == assuranceTableView{
-            return 3
-        }
-        else if tableView == facilityTableView{
-            return 5
-        }
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if tableView == rulesTableView{
-            let cell = tableView.dequeueReusableCell(withIdentifier: PetHotelDetailTableViewCell.cellId) as! PetHotelDetailTableViewCell
-            cell.configureView(tabelType: "rules", description: "Fasilitas tambahan akan dikenakan biaya tambahan")
-            cell.backgroundColor = .clear
-            return cell
-        }
-        else if tableView == assuranceTableView{
-            let cell = tableView.dequeueReusableCell(withIdentifier: PetHotelDetailTableViewCell.cellId) as! PetHotelDetailTableViewCell
-            cell.configureView(tabelType: "asuransi", description: "Hewan yang kembali dalam keadaan sakit akan memperoleh ganti rugi")
-            cell.backgroundColor = .clear
-            return cell
-        }
-        else if tableView == facilityTableView{
-            let cell = tableView.dequeueReusableCell(withIdentifier: FasilitasTableViewCell.cellId) as! FasilitasTableViewCell
-            cell.configureView(image: UIImage(named: "material-symbols_assured-workload-rounded")!, description: "jfwejfke", add: true)
-            cell.backgroundColor = .clear
-            return cell
-        }
-        return UITableViewCell()
+        currentPage = petHotelViewModel.getCurrentPage(carouselCollectionView, currentPage)
     }
 }
 
@@ -914,8 +903,6 @@ extension PetHotelViewController{
         let navBarAppearance = UINavigationBarAppearance()
         
         navBarAppearance.configureWithTransparentBackground()
-//        navBarAppearance.titleTextAttributes = [.foregroundColor: .black]
-//        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: .black]
         navBarAppearance.backgroundColor = .white
         
         navigationController?.navigationBar.standardAppearance = navBarAppearance

@@ -68,12 +68,24 @@ class PetViewController: UIViewController {
         super.viewDidLoad()
         setupUI()
         
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         petViewModel.petModelArrayObserver.subscribe(onNext: { (value) in
             self.petList.accept(value)
         },onError: { error in
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
         
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         modalTableView.rx.itemSelected.subscribe(onNext: { (indexPath) in
             self.modalTableView.deselectRow(at: indexPath, animated: true)
             let editPetDetailController = EditPetViewController()
@@ -85,7 +97,13 @@ class PetViewController: UIViewController {
             self.present(editPetDetailController, animated: true)
         }).disposed(by: bags)
         
-        //MARK: - Bind Journal List with Table View
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         petList.bind(to: modalTableView.rx.items(cellIdentifier: "PetTableViewCell", cellType: PetTableViewCell.self)) { row, model, cell in
             cell.contentView.backgroundColor = UIColor(named: "white")
             cell.configure(model)
@@ -97,7 +115,6 @@ class PetViewController: UIViewController {
         vc.modalPresentationStyle = .fullScreen
         navigationController?.present(vc, animated: true)
     }
-    
 }
 
 //MARK: - PET TABLE VIEW DELEGATE

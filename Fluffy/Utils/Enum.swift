@@ -19,6 +19,7 @@ enum ApplicationEndpoint {
     case getDetailOrderID(orderID : Int)
     case getNearest(longitude : Double, latitude : Double)
     case postOrder(order: [AddOrder])
+    case getPetHotelDetail(petHotelID : Int)
 //    case postConsultation(etalaseID: String, companyName : String, url1 : String, url2: String, shortDescription: String, problemDescription : String, marketingBudget : Double, userID : String)
 //    case getConsultation(userID : String)
 //    case getConsultationAgency(etalaseID : String)

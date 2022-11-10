@@ -67,7 +67,6 @@ private extension SupportedPetCollectionViewCell {
         
         imageViewConstraints()
         labelConstraints()
-        
     }
 }
 
