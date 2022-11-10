@@ -20,6 +20,8 @@ extension ApplicationEndpoint: Endpoint {
             return "/public/api/reservation/order/detail"
         case .getNearest:
             return "/public/api/explore/get-nearest-pet-hotel"
+        case .postOrder:
+            return "/public/api/reservation/order/add"
         }
     }
 
@@ -30,6 +32,8 @@ extension ApplicationEndpoint: Endpoint {
         case .getDetailOrderID:
             return .post
         case .getNearest:
+            return .post
+        case .postOrder:
             return .post
         }
     }
