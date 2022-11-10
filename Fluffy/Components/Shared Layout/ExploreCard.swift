@@ -64,7 +64,7 @@ class ExploreCard: UIView {
 //MARK: - Setups
 
 extension ExploreCard{
-    fileprivate func setup() {
+    func setup() {
         petHotelNameLabel.text = petHotelName
         petHotelNameLabel.numberOfLines = 1
         distanceLabel.text = distance
@@ -80,7 +80,7 @@ extension ExploreCard{
         }
     }
     
-    fileprivate func imageConstraints() {
+    func imageConstraints() {
         exploreImage.contentMode = .scaleAspectFill
         exploreImage.clipsToBounds = true
         exploreImage.layer.cornerRadius = 12
@@ -91,20 +91,20 @@ extension ExploreCard{
         exploreImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 20).isActive = true
     }
     
-    fileprivate func petHotelNameConstraints() {
+    func petHotelNameConstraints() {
         petHotelNameLabel.leftAnchor.constraint(equalTo: exploreImage.rightAnchor, constant: 20).isActive = true
         petHotelNameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 20).isActive = true
         petHotelNameLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20).isActive = true
         petHotelNameLabel.heightAnchor.constraint(equalToConstant: 23).isActive = true
     }
     
-    fileprivate func distanceConstraints() {
+    func distanceConstraints() {
         distanceLabel.leftAnchor.constraint(equalTo: exploreImage.rightAnchor, constant: 20).isActive = true
         distanceLabel.topAnchor.constraint(equalTo: petHotelNameLabel.bottomAnchor, constant: 4).isActive = true
         distanceLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20).isActive = true
     }
     
-    fileprivate func priceConstraints() {
+    func priceConstraints() {
         redRectangle.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         redRectangle.heightAnchor.constraint(equalToConstant: 48).isActive = true
         redRectangle.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
@@ -145,6 +145,7 @@ extension ExploreCard{
         
     }
 }
+
 //MARK: -UICollectionViewDelegate, UICollectionViewDataSource
 extension ExploreCard: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
