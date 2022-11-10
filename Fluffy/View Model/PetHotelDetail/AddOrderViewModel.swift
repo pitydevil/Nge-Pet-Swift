@@ -38,7 +38,7 @@ class AddOrderViewModel{
         let result = await networkService.request(to: endpoint, decodeTo: Response<[OrderResponse]>.self)
         switch result {
         case .success(let response):
-            if let status = response.status {
+            if case 200 = response.status {
                print("success")
             }
         case .failure(let error):
