@@ -24,6 +24,7 @@ class CatatanTableViewCell: UITableViewCell {
             .font: UIFont(name: "Inter-Medium", size: 12)!
         ])
         textField.delegate = self
+//        textField.addTarget(self, action: #selector(btnEnable), for: .editingDidBegin)
         return textField
     }()
 
@@ -45,6 +46,8 @@ class CatatanTableViewCell: UITableViewCell {
             catatanKhusus.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             catatanKhusus.heightAnchor.constraint(equalToConstant: 38),
         ])
+        
+        catatanKhusus.text = ""
     }
     
     required init?(coder: NSCoder) {
@@ -62,6 +65,10 @@ class CatatanTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+//    @objc func btnEnable() {
+//        CatatanViewController().btnCatatan.isEnabled = true
+//    }
 
 }
 

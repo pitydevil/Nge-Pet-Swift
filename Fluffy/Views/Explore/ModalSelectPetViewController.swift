@@ -155,8 +155,11 @@ class ModalSelectPetViewController: UIViewController {
         ])
     }
     
+    public var passingPet: ((String?) -> Void)?
+    
     //MARK: - Button Target
     @objc func petSelected() {
+        passingPet?("\(modalTableView.indexPathsForSelectedRows?.count ?? 0) hewan dipilih")
         dismiss(animated: true)
     }
     
@@ -257,8 +260,6 @@ extension ModalSelectPetViewController: UITableViewDataSource, UITableViewDelega
             isChecked = true
             customBar.hewanDipilih.text = "Semua hewan dipilih"
         }
-        
-        
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {

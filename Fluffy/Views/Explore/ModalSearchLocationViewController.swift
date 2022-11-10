@@ -104,6 +104,8 @@ class ModalSearchLocationViewController: UIViewController {
 
     }
     
+    public var passingLocation: ((String?) -> Void)?
+    
     @objc func searchSelected() {
         dismiss(animated: true)
     }
@@ -145,6 +147,10 @@ extension ModalSearchLocationViewController: UITableViewDelegate, UITableViewDat
         cell.layer.cornerRadius = 8
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        passingLocation?(filteredData[indexPath.row])
     }
     
 }
