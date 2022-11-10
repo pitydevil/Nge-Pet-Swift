@@ -30,6 +30,7 @@ class BookingDetailViewModel {
     ///     - allowedCharacter: character subset that's allowed to use on the textfield
     ///     - text: set of character/string that would like  to be checked.
     func fetchDetailOrder() async {
+        print("testing masuk fetch")
         let endpoint = ApplicationEndpoint.getDetailOrderID(orderID: orderDetailId.value)
         let result = await networkService.request(to: endpoint, decodeTo: Response<DetailedOrder>.self)
         switch result {
