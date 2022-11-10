@@ -279,6 +279,13 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
         if indexPath.row == 0 {
             let vc = HotelPackageViewController()
             vc.modalPresentationStyle = .pageSheet
+            vc.passingPackage = { [weak self] text in
+                DispatchQueue.main.async {
+                    let path = IndexPath(row: 0, section: indexPath.section)
+                    let cell = self!.packageTableView.cellForRow(at: path) as! SelectPackageTableViewCell
+                    cell.configure(textDetails: text)
+                }
+            }
             self.present(vc, animated: true)
         } else if indexPath.row == 1 {
             let vc = CatatanViewController()

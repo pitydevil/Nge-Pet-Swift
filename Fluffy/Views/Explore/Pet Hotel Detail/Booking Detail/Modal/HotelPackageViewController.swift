@@ -9,6 +9,7 @@ import UIKit
 
 class HotelPackageViewController: UIViewController {
     
+    let titlePackage = "Basic"
     private var selectedCell = 0
     
     private lazy var indicator: UIImageView = {
@@ -77,7 +78,10 @@ class HotelPackageViewController: UIViewController {
         ])
     }
     
+    public var passingPackage: ((String?) -> Void)?
+    
     @objc func selectPackage() {
+        passingPackage?(titlePackage)
         dismiss(animated: true)
     }
 
@@ -116,7 +120,7 @@ extension HotelPackageViewController: UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = modalTableView.cellForRow(at: indexPath) as! HotelPackageTableViewCell
-        cell.configure(title: "Basic", detail: "- Memakai kandang besi ukuran 60 cm \n- Memakai kandang besi ukuran 60 cm", price: "Rp 60.000", select: true)
+        cell.configure(title: titlePackage, detail: "- Memakai kandang besi ukuran 60 cm \n- Memakai kandang besi ukuran 60 cm", price: "Rp 60.000", select: true)
         
     }
     
