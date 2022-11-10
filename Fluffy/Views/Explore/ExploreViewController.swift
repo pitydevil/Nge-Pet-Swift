@@ -125,7 +125,8 @@ class ExploreViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-      
+        tableView.delegate   = self
+//        tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.register(ExploreTableViewCell.self, forCellReuseIdentifier: ExploreTableViewCell.cellId)
@@ -161,18 +162,30 @@ class ExploreViewController: UIViewController {
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
         
-//        //MARK: - Bind Journal List with Table View
-//        petHotelList.bind(to: tableView.rx.items(cellIdentifier: ExploreTableViewCell.cellId, cellType: ExploreTableViewCell.self)) { row, model, cell in
-////            let backgroundView = UIView()
-////            cell.backgroundColor = .clear
-////            backgroundView.backgroundColor = .clear
-//          //  cell.selectedBackgroundView = backgroundView
-//        //    cell.configureCell(model)
-//        }.disposed(by: bags)
-//        
+        //MARK: - Bind Journal List with Table View
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petHotelList.bind(to: tableView.rx.items(cellIdentifier: ExploreTableViewCell.cellId, cellType: ExploreTableViewCell.self)) { row, model, cell in
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = .clear
+            cell.backgroundColor = .white
+            cell.layer.cornerRadius = 12
+            cell.selectedBackgroundView = backgroundView
+            cell.petHotelSupportedObject.accept(model.petHotelSupportedPet)
+            cell.setup(model)
+        }.disposed(by: bags)
+        
+        //MARK: - Bind Journal List with Table View
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         tableView.rx.itemSelected.subscribe(onNext: { (indexPath) in
             self.tableView.deselectRow(at: indexPath, animated: true)
-            
             let petHotelViewController = PetHotelViewController()
             petHotelViewController.modalPresentationStyle = .fullScreen
             petHotelViewController.hidesBottomBarWhenPushed = true
@@ -345,31 +358,14 @@ extension ExploreViewController{
 }
 
 //MARK: UITableViewDataSource, UITableViewDelegate
-
+//
 @available(iOS 16.0, *)
-extension ExploreViewController : UITableViewDataSource, UITableViewDelegate{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return 1
-        }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        20
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ExploreTableViewCell.cellId) as! ExploreTableViewCell
-        cell.backgroundColor = .white
-        let backgroundView = UIView()
-        backgroundView.backgroundColor = .clear
-        cell.layer.cornerRadius = 12
-        cell.selectedBackgroundView = backgroundView
-        return cell
-    }
+extension ExploreViewController : UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 216
     }
-    
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
         headerView.backgroundColor = .clear
@@ -381,13 +377,6 @@ extension ExploreViewController : UITableViewDataSource, UITableViewDelegate{
             return 32
         }
         return 0
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let newViewController = PetHotelViewController()
-        newViewController.modalPresentationStyle = .fullScreen
-        newViewController.hidesBottomBarWhenPushed = true
-        self.navigationController?.pushViewController(newViewController, animated: true)
     }
 }
 

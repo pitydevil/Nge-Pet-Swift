@@ -6,9 +6,21 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import SDWebImage
 
 class ExploreTableViewCell: UITableViewCell {
-
+    
+    //MARK: -OBJECT DECLARATION
+  //  var petHotelsupportedPetObject = BehaviorRelay<PetHotelSupportedPet>(value: PetHotelSupportedPet("", "", 0, [SupportedPetType]()) )
+    var petHotelSupportedObject = BehaviorRelay<[PetHotelSupportedPet]>(value: [])
+    
+//    //MARK: - OBSERVABLE OBJECT DECLARATION
+//    var supportedPetObserver   : Observable<[PetHotelSupportedPet]> {
+//        return supportedPetObject.asObservable()
+//    }
+//
     //MARK: -Subviews
     var exploreImage:UIImageView = {
         let image = UIImageView()
@@ -22,7 +34,7 @@ class ExploreTableViewCell: UITableViewCell {
         return view
     }()
     
-    
+    //MARK: - CELL IDENTIFIER
     static let cellId = "ExploreTableViewCell"
     
     private lazy var petHotelNameLabel:ReuseableLabel = ReuseableLabel(labelText: "Pet Hotel", labelType: .titleH2, labelColor: .black)
@@ -33,8 +45,6 @@ class ExploreTableViewCell: UITableViewCell {
     private lazy var supportedPetView:UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collection.showsHorizontalScrollIndicator = false
-        collection.dataSource = self
-        collection.delegate = self
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.register(SupportedPetCollectionViewCell.self, forCellWithReuseIdentifier: SupportedPetCollectionViewCell.cellId)
         return collection
@@ -43,11 +53,13 @@ class ExploreTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
-
-        setupLayout()
-        self.backgroundColor = .white
-
+        
+        setupUI()
+        
+        petHotelSupportedObject.bind(to: supportedPetView.rx.items(cellIdentifier: SupportedPetCollectionViewCell.cellId, cellType: SupportedPetCollectionViewCell.self)) { row, model, cell in
+            print("data")
+         //   cell.configure(model.supportedPetName, model.supportedPetType)
+        }.disposed(by: bags)
     }
     
     required init?(coder: NSCoder) {
@@ -70,13 +82,13 @@ class ExploreTableViewCell: UITableViewCell {
 
 extension ExploreTableViewCell{
 
-    func setup() {
-//        petHotelNameLabel.text = petHotelName
-//        petHotelNameLabel.numberOfLines = 1
-//        distanceLabel.text = distance
-//        distanceLabel.numberOfLines = 1
-//        exploreImage.image = UIImage(named: displayImage)
-//        
+    func setup(_ petHotels : PetHotels) {
+        petHotelNameLabel.text = petHotels.petHotelName
+        petHotelNameLabel.numberOfLines = 1
+        distanceLabel.text = petHotels.petHotelDistance
+        distanceLabel.numberOfLines = 1
+        exploreImage.sd_setImage(with: URL(string: petHotels.petHotelImage))
+        priceLabel.text = petHotels.petHotelStartPrice
 //        let formatter = NumberFormatter()
 //        formatter.locale = Locale(identifier: "id_ID")
 //        formatter.groupingSeparator = "."
@@ -86,7 +98,7 @@ extension ExploreTableViewCell{
 //        }
     }
     
-    func imageConstraints() {
+    private func imageConstraints() {
         exploreImage.contentMode = .scaleAspectFill
         exploreImage.clipsToBounds = true
         exploreImage.layer.cornerRadius = 12
@@ -97,20 +109,20 @@ extension ExploreTableViewCell{
         exploreImage.topAnchor.constraint(equalTo: self.topAnchor, constant: 20).isActive = true
     }
     
-    func petHotelNameConstraints() {
+    private func petHotelNameConstraints() {
         petHotelNameLabel.leftAnchor.constraint(equalTo: exploreImage.rightAnchor, constant: 20).isActive = true
         petHotelNameLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 20).isActive = true
         petHotelNameLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20).isActive = true
         petHotelNameLabel.heightAnchor.constraint(equalToConstant: 23).isActive = true
     }
     
-    func distanceConstraints() {
+    private func distanceConstraints() {
         distanceLabel.leftAnchor.constraint(equalTo: exploreImage.rightAnchor, constant: 20).isActive = true
         distanceLabel.topAnchor.constraint(equalTo: petHotelNameLabel.bottomAnchor, constant: 4).isActive = true
         distanceLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20).isActive = true
     }
     
-    func priceConstraints() {
+    private func priceConstraints() {
         redRectangle.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
         redRectangle.heightAnchor.constraint(equalToConstant: 48).isActive = true
         redRectangle.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
@@ -128,9 +140,8 @@ extension ExploreTableViewCell{
         BeforePriceLabel.centerYAnchor.constraint(equalTo: redRectangle.centerYAnchor).isActive = true
     }
     
-    func setupLayout(){
-        setup()
-        
+    private func setupUI(){
+        self.backgroundColor = .white
         self.addSubview(exploreImage)
         self.addSubview(petHotelNameLabel)
         self.addSubview(distanceLabel)
@@ -151,24 +162,5 @@ extension ExploreTableViewCell{
         supportedPetView.heightAnchor.constraint(equalToConstant: 68).isActive = true
         supportedPetView.backgroundColor = .clear
         
-    }
-}
-
-//MARK: -UICollectionViewDelegate, UICollectionViewDataSource
-extension ExploreTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource{
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //ini ubah
-//        return supportedPet.count
-        return 2
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SupportedPetCollectionViewCell.cellId, for: indexPath) as? SupportedPetCollectionViewCell else { return UICollectionViewCell() }
-        
-        //Ini ubah
-//        cell.configure(petTypeString: supportedPet[indexPath.row].petType, petSizeString: supportedPet[indexPath.row].size)
-        cell.configure(petTypeString: "Anjing", petSizeString: "S,M")
-        return cell
-
     }
 }
