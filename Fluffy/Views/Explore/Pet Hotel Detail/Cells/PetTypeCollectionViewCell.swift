@@ -29,6 +29,19 @@ class PetTypeCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private lazy var supportedPetSizeCollectionView:UICollectionView = {
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+//        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
+        layout.minimumLineSpacing = 4
+        layout.minimumInteritemSpacing = 4
+        layout.itemSize = CGSize(width: 12, height: 18)
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collection.showsHorizontalScrollIndicator = false
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        collection.register(PetSizeCollectionViewCell.self, forCellWithReuseIdentifier: PetSizeCollectionViewCell.cellId)
+        return collection
+    }()
+    
     private lazy var size:ReuseableLabel = {
         let label = ReuseableLabel(labelText: "S,M,L", labelType: .bodyP2, labelColor: .grey1)
         return label
@@ -59,7 +72,7 @@ private extension PetTypeCollectionViewCell {
         
         self.addSubview(icon)
         self.addSubview(petType)
-        self.addSubview(size)
+        self.addSubview(supportedPetSizeCollectionView)
         self.addSubview(information)
         
         icon.topAnchor.constraint(equalTo: self.topAnchor, constant: 16).isActive = true
@@ -69,10 +82,14 @@ private extension PetTypeCollectionViewCell {
 
         petType.topAnchor.constraint(equalTo: icon.bottomAnchor, constant: 4).isActive = true
         petType.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        petType.heightAnchor.constraint(equalToConstant: 18).isActive = true
 
-        size.topAnchor.constraint(equalTo: petType.bottomAnchor,constant: 4).isActive = true
-        size.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        size.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16).isActive = true
+        supportedPetSizeCollectionView.backgroundColor = .clear
+        supportedPetSizeCollectionView.topAnchor.constraint(equalTo: petType.bottomAnchor, constant: 4).isActive = true
+        supportedPetSizeCollectionView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+        supportedPetSizeCollectionView.heightAnchor.constraint(equalToConstant: 18).isActive = true
+        supportedPetSizeCollectionView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 4).isActive = true
+        supportedPetSizeCollectionView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -4).isActive = true
 
         information.topAnchor.constraint(equalTo: self.topAnchor, constant: 8).isActive = true
         information.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -8).isActive = true
@@ -84,7 +101,7 @@ private extension PetTypeCollectionViewCell {
 // MARK: - Public
 
 extension PetTypeCollectionViewCell {
-    public func configure(type:String, sizeString:String) {
+    public func configure(type:String) {
         petType.text = type
         if type == "Anjing"{
             icon.image = UIImage(named: "dog-icon")
@@ -92,9 +109,21 @@ extension PetTypeCollectionViewCell {
         else{
             icon.image = UIImage(named: "cat-icon")
         }
-        size.text = sizeString
     }
 }
 
 
+extension PetTypeCollectionViewCell:UICollectionViewDataSource, UICollectionViewDelegate{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PetSizeCollectionViewCell.cellId, for: indexPath) as? PetSizeCollectionViewCell else { return UICollectionViewCell() }
+        cell.backgroundColor = .blue
+        cell.configure(petSizeString: "S")
+
+        return cell
+    }
+}
 

@@ -113,6 +113,7 @@
 		4E892D2D29111E6F0068D7E5 /* BookingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E892D2C29111E6F0068D7E5 /* BookingTableViewCell.swift */; };
 		4E892D2F291189C40068D7E5 /* BookingDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E892D2E291189C40068D7E5 /* BookingDetailViewController.swift */; };
 		4E892D312912D02E0068D7E5 /* SearchExploreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E892D302912D02E0068D7E5 /* SearchExploreViewController.swift */; };
+		4E8B11CD291CE54C005C4980 /* PetSizeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8B11CC291CE54C005C4980 /* PetSizeCollectionViewCell.swift */; };
 		4EAF1ED229027FC2007248AA /* NavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1ED129027FC2007248AA /* NavController.swift */; };
 		4EAF1ED529068CDD007248AA /* PetHotelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1ED429068CDD007248AA /* PetHotelViewController.swift */; };
 		4EAF1ED72907C807007248AA /* PetHotelDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1ED62907C807007248AA /* PetHotelDetailTableViewCell.swift */; };
@@ -270,6 +271,7 @@
 		4E892D2C29111E6F0068D7E5 /* BookingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingTableViewCell.swift; sourceTree = "<group>"; };
 		4E892D2E291189C40068D7E5 /* BookingDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingDetailViewController.swift; sourceTree = "<group>"; };
 		4E892D302912D02E0068D7E5 /* SearchExploreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchExploreViewController.swift; sourceTree = "<group>"; };
+		4E8B11CC291CE54C005C4980 /* PetSizeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetSizeCollectionViewCell.swift; sourceTree = "<group>"; };
 		4EAF1ED129027FC2007248AA /* NavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavController.swift; sourceTree = "<group>"; };
 		4EAF1ED429068CDD007248AA /* PetHotelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotelViewController.swift; sourceTree = "<group>"; };
 		4EAF1ED62907C807007248AA /* PetHotelDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotelDetailTableViewCell.swift; sourceTree = "<group>"; };
@@ -807,6 +809,7 @@
 				4EAF1ED82907E1F6007248AA /* FasilitasTableViewCell.swift */,
 				4EAF1EEA29084550007248AA /* PetSizeExplainationTableViewCell.swift */,
 				4EAF1EDC2907F55C007248AA /* PetTypeCollectionViewCell.swift */,
+				4E8B11CC291CE54C005C4980 /* PetSizeCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -1132,6 +1135,7 @@
 				4BD8C298291A1BA800F7DB18 /* DetailedOrder.swift in Sources */,
 				4EC56E4C28F7FE33008ADD7F /* SupportedPetCollectionViewCell.swift in Sources */,
 				4E1371DD291B90CE00300AA6 /* SupportedPetType.swift in Sources */,
+				4E8B11CD291CE54C005C4980 /* PetSizeCollectionViewCell.swift in Sources */,
 				4E5068AA28FD54D00005ADBF /* ExploreViewController.swift in Sources */,
 				4E1371D9291B90AF00300AA6 /* PetHotels.swift in Sources */,
 				1DE771CB2911235700A23A66 /* CatatanKhususTableViewCell.swift in Sources */,

@@ -156,11 +156,11 @@ class ExploreViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
-        exploreViewModel.petHotelModelArrayObserver.subscribe(onNext: { (value) in
-            self.petHotelList.accept(value)
-        },onError: { error in
-            self.present(errorAlert(), animated: true)
-        }).disposed(by: bags)
+//        exploreViewModel.petHotelModelArrayObserver.subscribe(onNext: { (value) in
+//            self.petHotelList.accept(value)
+//        },onError: { error in
+//            self.present(errorAlert(), animated: true)
+//        }).disposed(by: bags)
         
         //MARK: - Bind Journal List with Table View
         /// Returns boolean true or false
@@ -168,29 +168,29 @@ class ExploreViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
-        petHotelList.bind(to: tableView.rx.items(cellIdentifier: ExploreTableViewCell.cellId, cellType: ExploreTableViewCell.self)) { row, model, cell in
-            let backgroundView = UIView()
-            backgroundView.backgroundColor = .clear
-            cell.backgroundColor = .white
-            cell.layer.cornerRadius = 12
-            cell.selectedBackgroundView = backgroundView
-            cell.petHotelSupportedObject.accept(model.petHotelSupportedPet)
-            cell.setup(model)
-        }.disposed(by: bags)
-        
+//        petHotelList.bind(to: tableView.rx.items(cellIdentifier: ExploreTableViewCell.cellId, cellType: ExploreTableViewCell.self)) { row, model, cell in
+//            let backgroundView = UIView()
+//            backgroundView.backgroundColor = .clear
+//            cell.backgroundColor = .white
+//            cell.layer.cornerRadius = 12
+//            cell.selectedBackgroundView = backgroundView
+//            cell.petHotelSupportedObject.accept(model.petHotelSupportedPet)
+//            cell.setup(model)
+//        }.disposed(by: bags)
+//
         //MARK: - Bind Journal List with Table View
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
-        tableView.rx.itemSelected.subscribe(onNext: { (indexPath) in
-            self.tableView.deselectRow(at: indexPath, animated: true)
-            let petHotelViewController = PetHotelViewController()
-            petHotelViewController.modalPresentationStyle = .fullScreen
-            petHotelViewController.hidesBottomBarWhenPushed = true
-            self.navigationController?.pushViewController(petHotelViewController, animated: true)
-        }).disposed(by: bags)
+//        tableView.rx.itemSelected.subscribe(onNext: { (indexPath) in
+//            self.tableView.deselectRow(at: indexPath, animated: true)
+//            let petHotelViewController = PetHotelViewController()
+//            petHotelViewController.modalPresentationStyle = .fullScreen
+//            petHotelViewController.hidesBottomBarWhenPushed = true
+//            self.navigationController?.pushViewController(petHotelViewController, animated: true)
+//        }).disposed(by: bags)
     }
     
     override func viewDidAppear(_ animated: Bool) {

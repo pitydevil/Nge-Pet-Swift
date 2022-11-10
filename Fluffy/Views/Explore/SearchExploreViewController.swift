@@ -7,12 +7,7 @@
 
 import UIKit
 
-class SearchExploreViewController: UIViewController, UISearchResultsUpdating, UISearchControllerDelegate {
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        
-    }
-
+class SearchExploreViewController: UIViewController {
     //MARK: Subviews
     private lazy var searchTextField: UITextField = {
         let textField = UITextField(frame: CGRect(x: 0, y: 0, width: 306, height: 40))
@@ -30,15 +25,6 @@ class SearchExploreViewController: UIViewController, UISearchResultsUpdating, UI
     }()
     private lazy var navTitle:ReuseableLabel = ReuseableLabel(labelText: "Hasil Pencarian", labelType: .titleH2, labelColor: .black)
     
-    private lazy var searchController: UISearchController = {
-        let sc = UISearchController(searchResultsController: nil)
-        sc.searchResultsUpdater = self
-        sc.delegate = self
-        sc.obscuresBackgroundDuringPresentation = true
-        sc.searchBar.placeholder = "lokasi"
-        sc.searchBar.barTintColor = UIColor(named: "grey1")
-        return sc
-    }()
     lazy var leftButton:ReusableButton = {
         let btn = ReusableButton(titleBtn: "Hari Ini", styleBtn:.normal,icon: UIImage(systemName: "calendar"))
         btn.configuration?.attributedTitle = AttributedString("Hari Ini", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 12)!]))
@@ -116,22 +102,22 @@ class SearchExploreViewController: UIViewController, UISearchResultsUpdating, UI
 @available(iOS 16.0, *)
 extension SearchExploreViewController : UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return 1
-        }
+        return 1
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         20
     }
     
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ExploreTableViewCell.cellId) as! ExploreTableViewCell
-            cell.backgroundColor = .white
-            let backgroundView = UIView()
-            backgroundView.backgroundColor = .clear
-            cell.layer.cornerRadius = 12
-            cell.selectedBackgroundView = backgroundView
-            return cell
-        }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ExploreTableViewCell.cellId) as! ExploreTableViewCell
+        cell.backgroundColor = .white
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = .clear
+        cell.layer.cornerRadius = 12
+        cell.selectedBackgroundView = backgroundView
+        return cell
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 216
@@ -142,7 +128,7 @@ extension SearchExploreViewController : UITableViewDataSource, UITableViewDelega
         headerView.backgroundColor = .clear
         return headerView
     }
-
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat{
         if section>=1{
             return 32

@@ -14,7 +14,7 @@ class ExploreTableViewCell: UITableViewCell {
     
     //MARK: -OBJECT DECLARATION
   //  var petHotelsupportedPetObject = BehaviorRelay<PetHotelSupportedPet>(value: PetHotelSupportedPet("", "", 0, [SupportedPetType]()) )
-    var petHotelSupportedObject = BehaviorRelay<[PetHotelSupportedPet]>(value: [])
+//    var petHotelSupportedObject = BehaviorRelay<[PetHotelSupportedPet]>(value: [])
     
 //    //MARK: - OBSERVABLE OBJECT DECLARATION
 //    var supportedPetObserver   : Observable<[PetHotelSupportedPet]> {
@@ -43,12 +43,18 @@ class ExploreTableViewCell: UITableViewCell {
     private lazy var priceLabel:ReuseableLabel = ReuseableLabel(labelText: "Rp 30.000", labelType: .titleH2, labelColor: .primaryMain)
 
     private lazy var supportedPetView:UICollectionView = {
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+//        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 4)
+        layout.minimumLineSpacing = 4
+        layout.minimumInteritemSpacing = 4
+        layout.itemSize = CGSize(width: 72, height: 68)
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collection.showsHorizontalScrollIndicator = false
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.register(SupportedPetCollectionViewCell.self, forCellWithReuseIdentifier: SupportedPetCollectionViewCell.cellId)
+        collection.delegate = self
+        collection.dataSource = self
         return collection
-
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -56,10 +62,10 @@ class ExploreTableViewCell: UITableViewCell {
         
         setupUI()
         
-        petHotelSupportedObject.bind(to: supportedPetView.rx.items(cellIdentifier: SupportedPetCollectionViewCell.cellId, cellType: SupportedPetCollectionViewCell.self)) { row, model, cell in
-            print("data")
+//        petHotelSupportedObject.bind(to: supportedPetView.rx.items(cellIdentifier: SupportedPetCollectionViewCell.cellId, cellType: SupportedPetCollectionViewCell.self)) { row, model, cell in
+//            print("data")
          //   cell.configure(model.supportedPetName, model.supportedPetType)
-        }.disposed(by: bags)
+//        }.disposed(by: bags)
     }
     
     required init?(coder: NSCoder) {
@@ -160,7 +166,18 @@ extension ExploreTableViewCell{
         supportedPetView.leftAnchor.constraint(equalTo: exploreImage.rightAnchor, constant: 20).isActive = true
         supportedPetView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20).isActive = true
         supportedPetView.heightAnchor.constraint(equalToConstant: 68).isActive = true
-        supportedPetView.backgroundColor = .clear
         
+    }
+}
+
+extension ExploreTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SupportedPetCollectionViewCell.cellId, for: indexPath) as? SupportedPetCollectionViewCell else { return UICollectionViewCell() }
+        cell.configure("Anjing")
+        return cell
     }
 }

@@ -759,7 +759,7 @@ extension PetHotelViewController: UICollectionViewDataSource {
         if collectionView == petTypeCollectionView{
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PetTypeCollectionViewCell.cellId, for: indexPath) as? PetTypeCollectionViewCell else { return UICollectionViewCell() }
             
-            cell.configure(type: "Anjing", sizeString: "S,M")
+            cell.configure(type: "Anjing")
             return cell
         }
         if collectionView == carouselCollectionView{
