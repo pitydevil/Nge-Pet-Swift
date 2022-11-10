@@ -73,9 +73,18 @@ private extension SupportedPetCollectionViewCell {
 
 // MARK: - Public
 extension SupportedPetCollectionViewCell {
-    func configure(_ petTypeString:String, _ supportedPetType: SupportedPetType) {
+    func configure(_ petTypeString:String, _ supportedPetType: [SupportedPetType]) {
+        var size = String()
         petType.text = petTypeString
-        petSize.text = supportedPetType.supportedPetTypeShortSize
+        
+        for supportedPet in supportedPetType {
+            size += "\(supportedPet.supportedPetTypeShortSize), "
+        }
+        size.removeLast()
+        size.removeLast()
+        
+        petSize.text = size
+        
         if petTypeString == "Anjing"{
             imageView.image = UIImage(named: "dog-icon")
         }

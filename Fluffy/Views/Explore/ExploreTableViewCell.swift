@@ -13,14 +13,8 @@ import SDWebImage
 class ExploreTableViewCell: UITableViewCell {
     
     //MARK: -OBJECT DECLARATION
-  //  var petHotelsupportedPetObject = BehaviorRelay<PetHotelSupportedPet>(value: PetHotelSupportedPet("", "", 0, [SupportedPetType]()) )
     var petHotelSupportedObject = BehaviorRelay<[PetHotelSupportedPet]>(value: [])
     
-//    //MARK: - OBSERVABLE OBJECT DECLARATION
-//    var supportedPetObserver   : Observable<[PetHotelSupportedPet]> {
-//        return supportedPetObject.asObservable()
-//    }
-//
     //MARK: -Subviews
     var exploreImage:UIImageView = {
         let image = UIImageView()
@@ -57,8 +51,7 @@ class ExploreTableViewCell: UITableViewCell {
         setupUI()
         
         petHotelSupportedObject.bind(to: supportedPetView.rx.items(cellIdentifier: SupportedPetCollectionViewCell.cellId, cellType: SupportedPetCollectionViewCell.self)) { row, model, cell in
-            print("data")
-         //   cell.configure(model.supportedPetName, model.supportedPetType)
+            cell.configure(model.supportedPetName, model.supportedPetType)
         }.disposed(by: bags)
     }
     
