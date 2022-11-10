@@ -65,4 +65,15 @@ public func checkAllowedText(_ allowedCharacter : String, _ text : String) -> Bo
     return allowedCharacterSet.isSuperset(of: typedCharacterSetIn)
 }
 
+/// Returns attributed text for search textfield
+/// from the given components.
+/// - Parameters:
+///     - allowedCharacter: character subset that's allowed to use on the textfield
+///     - text: set of character/string that would like  to be checked.
+public func attributedTextForSearchTextfield(_ text : String) -> NSAttributedString{
+    return NSAttributedString(string: text, attributes: [
+        .foregroundColor: UIColor(named: "white") as Any,
+        .font: UIFont(name: "Inter-Medium", size: 12)!
+    ])
+}
 //MARK: -PET SWITCH FUNCTION ->

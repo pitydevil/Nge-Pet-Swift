@@ -5,17 +5,31 @@
 //  Created by Zacky Ilahi Azmi on 24/10/22.
 //
 
+import MapKit
 import UIKit
+import RxCocoa
+import RxSwift
 
 class ModalSearchLocationViewController: UIViewController {
     
-    let data = ["Cakung, Jakarta Timur, Jakarta 13955",
-                "Medan Satria, Bekasi, Jawa Barat 14212",
-                "Jatinangor, Sumedang, Jawa barat 12301",
-                "Jatinangor, Sumedang, Jawa Barat asdasdkjasndajshdhbubhdjhvsjjsvjghvjsgdyufsgufygsuyfgsudyfsba",]
+    //MARK: - OBJECT DECLARATION
+    private var modalSearchLocationViewModel = ModalSearchLocationViewModel()
+    private var searchCompleterObject        = BehaviorRelay<MKLocalSearchCompleter>(value: MKLocalSearchCompleter())
+    private var searchResultsObject          = BehaviorRelay<[MKLocalSearchCompletion]>(value: [])
+    private var modalSearchLocationObject    = BehaviorRelay<LocationDetail>(value: LocationDetail(longitude: 0.0, latitude: 0.0, locationName: ""))
     
-    var filteredData: [String]!
+    //MARK: - OBJECT OBSERVER DECLARATION
+    var searchResultsObjectObserver: Observable<[MKLocalSearchCompletion]> {
+        return searchResultsObject.asObservable()
+    }
     
+    //MARK: - OBJECT OBSERVER DECLARATION
+    var modalSearchObjectObserver: Observable<LocationDetail> {
+        return modalSearchLocationObject.asObservable()
+    }
+    
+    //MARK: - SUBVIEWS
+    public var passingLocation: ((String?) -> Void)?
     private lazy var indicator: UIImageView = {
         let indicator = UIImageView()
         let config = UIImage.SymbolConfiguration(pointSize: 40, weight: .regular)
@@ -41,16 +55,14 @@ class ModalSearchLocationViewController: UIViewController {
         searchBar.barTintColor = UIColor(named: "white")
         searchBar.layer.borderWidth = 1
         searchBar.layer.borderColor = searchBar.barTintColor?.cgColor
-        searchBar.placeholder = "Cari Hewan"
+        searchBar.placeholder = "Cari Lokasi Pet Hotel"
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         return searchBar
     }()
     
     private lazy var modalTableView: UITableView = {
         let modalTableView = UITableView(frame: CGRect(), style: .plain)
-        modalTableView.delegate = self
-        modalTableView.dataSource = self
-        modalTableView.backgroundColor = UIColor(named: "white")
+        modalTableView.backgroundColor = UIColor(named: "gray3")
         modalTableView.translatesAutoresizingMaskIntoConstraints = false
         modalTableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         modalTableView.showsVerticalScrollIndicator = false
@@ -58,26 +70,15 @@ class ModalSearchLocationViewController: UIViewController {
         modalTableView.separatorStyle = .singleLine
         return modalTableView
     }()
-    
-    private lazy var customBar: ReusableTabBar = {
-        let customBar = ReusableTabBar(btnText: "Lanjut", showText: .notShow)
-        customBar.barBtn.addTarget(self, action: #selector(searchSelected), for: .touchUpInside)
-        return customBar
-    }()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
         
+    private func setupUI() {
         view.backgroundColor = UIColor(named: "white")
-        
-        filteredData = data
-        
+    
         //MARK: - Add Subview
         view.addSubview(indicator)
         view.addSubview(headline)
         view.addSubview(searchBar)
         view.addSubview(modalTableView)
-        view.addSubview(customBar)
         
         //MARK: - Setup Constraint
         NSLayoutConstraint.activate([
@@ -92,65 +93,69 @@ class ModalSearchLocationViewController: UIViewController {
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             
-            customBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            customBar.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            customBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
             modalTableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10),
             modalTableView.widthAnchor.constraint(equalToConstant: 342),
-            modalTableView.bottomAnchor.constraint(equalTo: customBar.topAnchor, constant: -20),
+            modalTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -20),
             modalTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
         ])
-
-    }
-    
-    public var passingLocation: ((String?) -> Void)?
-    
-    @objc func searchSelected() {
-        dismiss(animated: true)
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupUI()
+        
+        searchCompleterObject.value.delegate = self
+        
+        //MARK: - Bind Journal List with Table View
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        searchResultsObject.bind(to: modalTableView.rx.items(cellIdentifier: "cell", cellType: UITableViewCell.self)) { row, model, cell in
+            cell.textLabel?.text = model.title
+            cell.detailTextLabel?.text = model.subtitle
+        }.disposed(by: bags)
+        
+        //MARK: - Bind Journal List with Table View
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        modalTableView.rx.itemSelected.subscribe(onNext: { [self] (indexPath) in
+            modalTableView.deselectRow(at: indexPath, animated: true)
+            modalSearchLocationViewModel.searchResultsObject.accept(searchResultsObject.value[indexPath.row])
+            modalSearchLocationViewModel.getLocationObject()
+        }).disposed(by: bags)
+        
+        //MARK: - Bind Journal List with Table View
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        modalSearchLocationViewModel.modalSearchObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
+            modalSearchLocationObject.accept(value)
+            self.dismiss(animated: true)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+    }
+}
+
+extension ModalSearchLocationViewController :  MKLocalSearchCompleterDelegate  {
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        searchResultsObject.accept(completer.results)
+    }
+    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+        // Error
+    }
 }
 
 extension ModalSearchLocationViewController: UISearchBarDelegate {
-    
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        
-        filteredData = []
-        
-        if searchText == "" {
-            filteredData = data
-        } else {
-            for fruit in data {
-                if fruit.lowercased().contains(searchText.lowercased()) {
-                    filteredData.append(fruit)
-                }
-            }
-        }
-        self.modalTableView.reloadData()
+        searchCompleterObject.value.queryFragment = searchText
     }
-}
-
-extension ModalSearchLocationViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filteredData.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath as IndexPath)
-        
-        cell.textLabel?.text = filteredData[indexPath.row]
-        cell.textLabel?.font = UIFont(name: "Inter-Medium", size: 12)
-        cell.textLabel?.numberOfLines = 3
-        cell.backgroundColor = UIColor(named: "grey3")
-        cell.layer.cornerRadius = 8
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        passingLocation?(filteredData[indexPath.row])
-    }
-    
 }
