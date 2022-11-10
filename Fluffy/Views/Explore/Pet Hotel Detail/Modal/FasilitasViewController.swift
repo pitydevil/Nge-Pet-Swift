@@ -6,13 +6,17 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class FasilitasViewController: UIViewController {
-
+    
+    //MARK: - OBJECT DECLARATION
+    var fasilitasModelArray   = BehaviorRelay<[Fasilitas]>(value: [])
+    
     //MARK: Subviews
     private lazy var customBar: ReusableTabBar = {
         let customBar = ReusableTabBar(btnText: "Tutup", showText: .notShow)
-        customBar.barBtn.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
         customBar.barBtn.isEnabled = true
         customBar.barBtn.configuration?.baseBackgroundColor = UIColor(named: "grey2")
         customBar.barBtn.configuration?.baseForegroundColor = UIColor(named: "white")
@@ -28,8 +32,6 @@ class FasilitasViewController: UIViewController {
     
     private lazy var facilityTableView: UITableView = {
         let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.register(FasilitasTableViewCell.self, forCellReuseIdentifier: FasilitasTableViewCell.cellId)
@@ -41,15 +43,8 @@ class FasilitasViewController: UIViewController {
         return tableView
     }()
     
-    @objc func dismissModal() {
-        dismiss(animated: true)
-    }
-    
-    //MARK: viewdidload
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    private func setupUI() {
         view.backgroundColor = UIColor(named: "white")
-        // Do any additional setup after loading the view.
         view.addSubview(headline)
         view.addSubview(facilityTableView)
         view.addSubview(customBar)
@@ -72,20 +67,30 @@ class FasilitasViewController: UIViewController {
         facilityTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
     }
     
-}
-
-//MARK: UITableViewDelegate, UITableViewDataSource
-extension FasilitasViewController:UITableViewDelegate, UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+    //MARK: viewdidload
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        customBar.barBtn.rx.tap.bind { [self] in
+            dismiss(animated: true)
+        }.disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        fasilitasModelArray.bind(to: facilityTableView.rx.items(cellIdentifier:  FasilitasTableViewCell.cellId, cellType: FasilitasTableViewCell.self)) { row, model, cell in
+            cell.configure(model)
+            cell.backgroundColor = .clear
+        }.disposed(by: bags)
     }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FasilitasTableViewCell.cellId) as! FasilitasTableViewCell
-        cell.configureView(image: UIImage(named: "mapIcon")!, description: "Pembersihan Tempat Makan", add: true)
-        cell.backgroundColor = .clear
-        return cell
-    }
-    
-    
 }

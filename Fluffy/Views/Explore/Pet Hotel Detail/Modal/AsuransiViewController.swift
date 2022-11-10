@@ -6,16 +6,20 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
 
 class AsuransiViewController: UIViewController {
+    
+    //MARK: -OBJECT DECLARATION
+    var asuransiModelArray   = BehaviorRelay<[AsuransiDetail]>(value: [])
+    
     //MARK: Subviews
     private lazy var customBar: ReusableTabBar = {
         let customBar = ReusableTabBar(btnText: "Tutup", showText: .notShow)
-//        customBar.barBtn.addTarget(self, action: #selector(checkinSelected), for: .touchUpInside)
         customBar.barBtn.isEnabled = true
         customBar.barBtn.configuration?.baseBackgroundColor = UIColor(named: "grey2")
         customBar.barBtn.configuration?.baseForegroundColor = UIColor(named: "white")
-        customBar.barBtn.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
         return customBar
     }()
     
@@ -28,8 +32,6 @@ class AsuransiViewController: UIViewController {
     
     private lazy var assuranceTableView: UITableView = {
         let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.register(PetHotelDetailTableViewCell.self, forCellReuseIdentifier: PetHotelDetailTableViewCell.cellId)
@@ -41,15 +43,8 @@ class AsuransiViewController: UIViewController {
         return tableView
     }()
     
-    @objc func dismissModal() {
-        dismiss(animated: true)
-    }
-    
-    //MARK: viewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    private func setupUI() {
         view.backgroundColor = UIColor(named: "white")
-        // Do any additional setup after loading the view.
         view.addSubview(headline)
         view.addSubview(assuranceTableView)
         view.addSubview(customBar)
@@ -70,23 +65,32 @@ class AsuransiViewController: UIViewController {
         assuranceTableView.bottomAnchor.constraint(equalTo: customBar.topAnchor).isActive = true
         assuranceTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
         assuranceTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
-        
     }
-    
-}
 
-//MARK: UITableViewDelegate, UITableViewDataSource
-extension AsuransiViewController:UITableViewDelegate, UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+    //MARK: viewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        customBar.barBtn.rx.tap.bind { [self] in
+            dismiss(animated: true)
+        }.disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        asuransiModelArray.bind(to: assuranceTableView.rx.items(cellIdentifier:  PetHotelDetailTableViewCell.cellId, cellType: PetHotelDetailTableViewCell.self)) { row, model, cell in
+            cell.configureView(tabelType: "asuransi", description: model.asuransiDescription)
+            cell.backgroundColor = .clear
+        }.disposed(by: bags)
     }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: PetHotelDetailTableViewCell.cellId) as! PetHotelDetailTableViewCell
-        cell.configureView(tabelType: "asuransi", description: "Hewan yang kembali dalam keadaan sakit akan memperoleh ganti rugi")
-        cell.backgroundColor = .clear
-        return cell
-    }
-    
-    
 }

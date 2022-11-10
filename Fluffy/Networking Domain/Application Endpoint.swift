@@ -20,6 +20,8 @@ extension ApplicationEndpoint: Endpoint {
             return "/public/api/reservation/order/detail"
         case .getNearest:
             return "/public/api/explore/get-nearest-pet-hotel"
+        case .getPetHotelDetail:
+            return "/public/api/reservation/pet_hotel/detail"
         }
     }
 
@@ -31,10 +33,11 @@ extension ApplicationEndpoint: Endpoint {
             return .post
         case .getNearest:
             return .post
+        case .getPetHotelDetail:
+            return .post
         }
     }
 
-    // disesuaikan dengan body yang harus di post ke endpoint.
     var body: [String : Any]? {
         switch self {
         case .getOrderList(let orderStatus):
@@ -49,6 +52,10 @@ extension ApplicationEndpoint: Endpoint {
             return [
                 "longitude" : longitude,
                 "latitude"  : latitude
+            ]
+        case .getPetHotelDetail(let petHotelID):
+            return [
+                "pet_hotel_id" : petHotelID
             ]
 //        case .postConsultation(let etalaseID, let companyName, let url1, let url2, let shortDescription, let problemDescription, let marketingBudget, let userID):
 //            return [

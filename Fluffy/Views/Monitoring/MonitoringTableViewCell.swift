@@ -275,7 +275,7 @@ extension MonitoringTableViewCell: UICollectionViewDataSource {
         
         let image = carouselData[indexPath.row].image
         
-        cell.configure(image: image)
+       // cell.configure(image: image)
         
         return cell
     }

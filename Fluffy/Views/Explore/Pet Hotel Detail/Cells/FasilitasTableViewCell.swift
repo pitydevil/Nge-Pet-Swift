@@ -70,16 +70,16 @@ extension FasilitasTableViewCell{
 
 // MARK: - Public
 extension FasilitasTableViewCell {
-    func configureView(image:UIImage, description:String, add:Bool) {
-        icon.image = image
+    func configure(_ fasilitas : Fasilitas) {
         
-        descriptionLabel.text = description
-        
-        if add{
-            additional.text = "*"
-        }
-        else{
-            additional.text = ""
-        }
+        descriptionLabel.text = fasilitas.fasilitasName
+        additional.text       = ""
+        icon.image = UIImage(named: "material-symbols_assured-workload-rounded")!
+          
+//        if add{
+//            additional.text = "*"
+//        }else{
+//            additional.text = ""
+//        }
     }
 }

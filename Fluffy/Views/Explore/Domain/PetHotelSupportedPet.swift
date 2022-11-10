@@ -7,7 +7,6 @@
 
 import Foundation
 
-// MARK: - PetHotelSupportedPet
 struct PetHotelSupportedPet: Decodable {
     let petHotelID, supportedPetName: String
     let supportedPetID: Int
