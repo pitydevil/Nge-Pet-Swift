@@ -79,7 +79,10 @@ class CatatanViewController: UIViewController {
         ])
     }
     
+    public var passingCellContent: ((String?) -> Void)?
+    
     @objc func catatanKhusus() {
+        passingCellContent?("\(cellContent) catatan khusus ditambahkan")
         dismiss(animated: true)
     }
     

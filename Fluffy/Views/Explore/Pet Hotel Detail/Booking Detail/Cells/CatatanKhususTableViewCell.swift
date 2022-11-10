@@ -34,6 +34,14 @@ class CatatanKhususTableViewCell: UITableViewCell {
         contentView.layer.cornerRadius = 8
         contentView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         
+        details.text = "Tambah Catatan Khusus"
+        
+//        CatatanViewController().passingCellContent = { [weak self] text in
+//            DispatchQueue.main.async {
+//                self?.details.text = text
+//            }
+//        }
+        
         contentView.addSubview(titleLbl)
         contentView.addSubview(details)
         contentView.addSubview(chevronRight)

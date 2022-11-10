@@ -266,6 +266,7 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
             let cell = tableView.dequeueReusableCell(withIdentifier: CatatanKhususTableViewCell.cellId, for: indexPath) as! CatatanKhususTableViewCell
             cell.contentView.backgroundColor = UIColor(named: "white")
             cell.configure(textDetails: "Tambah catatan khusus")
+
             return cell
         }
         let cell = tableView.dequeueReusableCell(withIdentifier: SelectPackageTableViewCell.cellId, for: indexPath) as! SelectPackageTableViewCell
@@ -282,10 +283,14 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
         } else if indexPath.row == 1 {
             let vc = CatatanViewController()
             vc.modalPresentationStyle = .pageSheet
+            vc.passingCellContent = { [weak self] text in
+                DispatchQueue.main.async {
+                    let path = IndexPath(row: 1, section: indexPath.section)
+                    let cell = self!.packageTableView.cellForRow(at: path) as! CatatanKhususTableViewCell
+                    cell.configure(textDetails: text)
+                }
+            }
             self.present(vc, animated: true)
         }
-    }
-
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
     }
 }

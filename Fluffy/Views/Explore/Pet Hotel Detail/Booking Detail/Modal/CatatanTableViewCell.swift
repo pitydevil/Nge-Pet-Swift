@@ -24,7 +24,6 @@ class CatatanTableViewCell: UITableViewCell {
             .font: UIFont(name: "Inter-Medium", size: 12)!
         ])
         textField.delegate = self
-//        textField.addTarget(self, action: #selector(btnEnable), for: .editingDidBegin)
         return textField
     }()
 
@@ -59,16 +58,6 @@ class CatatanTableViewCell: UITableViewCell {
         
         contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 12, right: 0))
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
-//    @objc func btnEnable() {
-//        CatatanViewController().btnCatatan.isEnabled = true
-//    }
 
 }
 
