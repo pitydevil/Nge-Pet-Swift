@@ -258,8 +258,8 @@ extension MonitoringTableViewCell{
 
         for sop in monitoring.customSops {
             customSop += "\(sop.customSopName)\n"
-            print(sop.customSopName)
         }
+        descriptionLabel.numberOfLines = monitoring.customSops.count
         customSop.removeFirst()
         customSop.removeFirst()
         
@@ -268,7 +268,7 @@ extension MonitoringTableViewCell{
         dogName.text = monitoring.petName
         timeLabel.text = monitoring.timeUpload
         pageControl.numberOfPages = monitoring.monitoringImage.count
-        
+        layoutIfNeeded()
     }
 }
 
