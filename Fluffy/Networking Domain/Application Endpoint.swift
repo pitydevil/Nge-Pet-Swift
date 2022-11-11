@@ -61,6 +61,7 @@ extension ApplicationEndpoint: Endpoint {
             return [
                 "pet_hotel_id" : petHotelID
             ]
+            
 //        case .postConsultation(let etalaseID, let companyName, let url1, let url2, let shortDescription, let problemDescription, let marketingBudget, let userID):
 //            return [
 //                "etalaseID" : etalaseID,

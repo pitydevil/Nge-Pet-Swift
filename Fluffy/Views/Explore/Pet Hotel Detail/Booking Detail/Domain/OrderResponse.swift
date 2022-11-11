@@ -7,8 +7,6 @@
 
 import Foundation
 
-import Foundation
-
 struct OrderResponse: Decodable{
     let status:Int
     let error: String?

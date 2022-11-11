@@ -128,7 +128,6 @@
 		4E9DEFB9291D5BAA0001930D /* AddOrderDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9DEFB8291D5BAA0001930D /* AddOrderDetail.swift */; };
 		4E9DEFBB291D5BD20001930D /* AddCustomSOP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9DEFBA291D5BD20001930D /* AddCustomSOP.swift */; };
 		4E9DEFBE291D5CBA0001930D /* AddOrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9DEFBD291D5CBA0001930D /* AddOrderViewModel.swift */; };
-		4E9DEFC2291D70C30001930D /* OrderResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9DEFC1291D70C30001930D /* OrderResponse.swift */; };
 		4EAF1ED229027FC2007248AA /* NavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1ED129027FC2007248AA /* NavController.swift */; };
 		4EAF1ED529068CDD007248AA /* PetHotelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1ED429068CDD007248AA /* PetHotelViewController.swift */; };
 		4EAF1ED72907C807007248AA /* PetHotelDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EAF1ED62907C807007248AA /* PetHotelDetailTableViewCell.swift */; };
@@ -301,7 +300,6 @@
 		4E9DEFB8291D5BAA0001930D /* AddOrderDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrderDetail.swift; sourceTree = "<group>"; };
 		4E9DEFBA291D5BD20001930D /* AddCustomSOP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCustomSOP.swift; sourceTree = "<group>"; };
 		4E9DEFBD291D5CBA0001930D /* AddOrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOrderViewModel.swift; sourceTree = "<group>"; };
-		4E9DEFC1291D70C30001930D /* OrderResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderResponse.swift; sourceTree = "<group>"; };
 		4EAF1ED129027FC2007248AA /* NavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavController.swift; sourceTree = "<group>"; };
 		4EAF1ED429068CDD007248AA /* PetHotelViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotelViewController.swift; sourceTree = "<group>"; };
 		4EAF1ED62907C807007248AA /* PetHotelDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotelDetailTableViewCell.swift; sourceTree = "<group>"; };
@@ -844,7 +842,6 @@
 				4E9DEFB6291D5AFC0001930D /* AddOrder.swift */,
 				4E9DEFB8291D5BAA0001930D /* AddOrderDetail.swift */,
 				4E9DEFBA291D5BD20001930D /* AddCustomSOP.swift */,
-				4E9DEFC1291D70C30001930D /* OrderResponse.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -1232,7 +1229,6 @@
 				4B3D82C029051A3900F6A82F /* ModalMonitoringViewController.swift in Sources */,
 				1DA5543728EEA1570040E4F7 /* ReusableButton.swift in Sources */,
 				1D661468290A12CF007B43DA /* PetIconCollectionViewCell.swift in Sources */,
-				4E9DEFC2291D70C30001930D /* OrderResponse.swift in Sources */,
 				4BD8C2B9291D4D8700F7DB18 /* AsuransiDetail.swift in Sources */,
 				4BD8C29C291A1C7A00F7DB18 /* CancelSop.swift in Sources */,
 				4B78DB1C28EAD8A200744386 /* Style Guide.swift in Sources */,

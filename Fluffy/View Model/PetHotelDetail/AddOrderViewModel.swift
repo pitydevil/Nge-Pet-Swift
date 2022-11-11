@@ -26,7 +26,6 @@ class AddOrderViewModel{
         self.networkService = networkService
     }
     
-
     //MARK: - OBJECT DECLARATION
     /// Returns boolean true or false
     /// from the given components.
@@ -35,14 +34,6 @@ class AddOrderViewModel{
     ///     - text: set of character/string that would like  to be checked.
     func addOrder() async {
         let endpoint = ApplicationEndpoint.postOrder(order: AddOrderArray.value)
-        let result = await networkService.request(to: endpoint, decodeTo: Response<[OrderResponse]>.self)
-        switch result {
-        case .success(let response):
-            if case 200 = response.status {
-               print("success")
-            }
-        case .failure(let error):
-            print(error)
-        }
+        _ = await networkService.request(to: endpoint, decodeTo: Response<EmptyData>.self)
     }
 }
