@@ -6,8 +6,13 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class MonitoringTableViewCell: UITableViewCell {
+    
+    //MARK: - OBJECT DECLARATION
+    var monitoringImageModelArray = BehaviorRelay<[MonitoringImage]>(value: [])
     
     //MARK: - Subviews
     private lazy var cardTitle:ReuseableLabel = ReuseableLabel(labelText: "Card Title", labelType: .titleH2, labelColor: .black)
@@ -53,10 +58,14 @@ class MonitoringTableViewCell: UITableViewCell {
     }()
     
     private lazy var carouselCollectionView: UICollectionView = {
-        let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        let carouselLayout = UICollectionViewFlowLayout()
+        carouselLayout.scrollDirection = .horizontal
+        carouselLayout.itemSize = .init(width: 310, height: 310)
+        carouselLayout.sectionInset = .init(top: 0, left: 0, bottom: 0, right: 0)
+        carouselLayout.minimumLineSpacing = 0
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: carouselLayout)
         collection.showsHorizontalScrollIndicator = false
         collection.isPagingEnabled = true
-        collection.dataSource = self
         collection.delegate = self
         collection.register(CarouselCollectionViewCell.self, forCellWithReuseIdentifier: CarouselCollectionViewCell.cellId)
         collection.backgroundColor = .clear
@@ -74,7 +83,7 @@ class MonitoringTableViewCell: UITableViewCell {
     
     //MARK: - Properties
     static let cellId = "MonitoringTableViewCell"
-    private var carouselData = [CarouselData]()
+    
     private var currentPage = 0 {
         didSet {
             pageControl.currentPage = currentPage
@@ -92,10 +101,6 @@ class MonitoringTableViewCell: UITableViewCell {
         contentView.layer.shadowOpacity = 0.1
         contentView.layer.shadowColor = UIColor.gray.cgColor
         contentView.layer.shadowOffset = CGSize(width: 4, height: 4)
-    }
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(locIcon)
         contentView.addSubview(locationLabel)
@@ -109,8 +114,13 @@ class MonitoringTableViewCell: UITableViewCell {
         contentView.addSubview(dogName)
         contentView.addSubview(carouselCollectionView)
         contentView.addSubview(pageControl)
-        setupUI()
+        
         setupConstraint()
+    }
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUI()
         
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
@@ -119,10 +129,10 @@ class MonitoringTableViewCell: UITableViewCell {
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
         ///
-//        orderDetailArray.bind(to: detailPaketTableView.rx.items(cellIdentifier: paketTableViewCell.cellId, cellType: paketTableViewCell.self)) { row, model, cell in
-//            cell.backgroundColor = .clear
-//            cell.configureOrderDetail(model)
-//        }.disposed(by: bags)
+        monitoringImageModelArray.bind(to: carouselCollectionView.rx.items(cellIdentifier: CarouselCollectionViewCell.cellId, cellType: CarouselCollectionViewCell.self)) { row, model, cell in
+            cell.backgroundColor = .clear
+            cell.configureImage(model.monitoringImageURL)
+        }.disposed(by: bags)
     }
     
     //MARK: - layoutSubviews
@@ -135,11 +145,9 @@ class MonitoringTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
 }
 
 //MARK: - Setups
-
 extension MonitoringTableViewCell{
     func setupCollectionView() {
         carouselCollectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -225,11 +233,10 @@ extension MonitoringTableViewCell{
         petIcon.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
         
         //MARK: Description Constraints
-        descriptionLabel.numberOfLines = 0
         descriptionLabel.textAlignment = .justified
         descriptionLabel.showsExpansionTextWhenTruncated = true
         
-        descriptionLabel.topAnchor.constraint(equalTo: cardTitle.bottomAnchor, constant: 8).isActive = true
+        descriptionLabel.topAnchor.constraint(equalTo: cardTitle.bottomAnchor, constant: 0).isActive = true
         descriptionLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
         descriptionLabel.rightAnchor.constraint(equalTo: dogName.leftAnchor, constant: -24).isActive = true
         descriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 64).isActive = true
@@ -240,53 +247,37 @@ extension MonitoringTableViewCell{
         //MARK: Page Control Setup
         setupPageControl()
     }
-    
 }
 
 //MARK: - Public
 extension MonitoringTableViewCell{
-     func configure(location:String, cardTitleString:String, timestamp:String, description:String, petImage:String, dogNameString:String, carouselData:[CarouselData], isNew:Bool){
-         
-        locationLabel.text = location
-        cardTitle.text = cardTitleString
-        descriptionLabel.text = description
-        petIcon.image = UIImage(named: petImage)
-        dogName.text = dogNameString
-        timeLabel.text = timestamp
-        configureView(with: carouselData)
-        pageControl.numberOfPages = carouselData.count
-  //      newPost = isNew
+    func configure(_ monitoring : Monitoring){
+        var customSop = String()
+        locationLabel.text = monitoring.petHotelName
+        cardTitle.text = monitoring.monitoringActivity
+
+        for sop in monitoring.customSops {
+            customSop += "\(sop.customSopName)\n"
+            print(sop.customSopName)
+        }
+        customSop.removeFirst()
+        customSop.removeFirst()
+        
+        descriptionLabel.text = customSop
+        petIcon.image = UIImage(named: "dog1")
+        dogName.text = monitoring.petName
+        timeLabel.text = monitoring.timeUpload
+        pageControl.numberOfPages = monitoring.monitoringImage.count
+        
     }
 }
 
 // MARK: - UICollectionViewDataSource
-
-extension MonitoringTableViewCell: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return carouselData.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CarouselCollectionViewCell.cellId, for: indexPath) as? CarouselCollectionViewCell else { return UICollectionViewCell() }
-        
-        let image = carouselData[indexPath.row].image
-        
-       // cell.configure(image: image)
-        
-        return cell
-    }
-    
+extension MonitoringTableViewCell: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
-}
-
-// MARK: - UICollectionView Delegate
-extension MonitoringTableViewCell: UICollectionViewDelegate {
+    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView){
         currentPage = getCurrentPage()
     }
@@ -300,31 +291,14 @@ extension MonitoringTableViewCell: UICollectionViewDelegate {
     }
 }
 
-// MARK: - Public
-
-extension MonitoringTableViewCell {
-    public func configureView(with data: [CarouselData]) {
-        let carouselLayout = UICollectionViewFlowLayout()
-        carouselLayout.scrollDirection = .horizontal
-        carouselLayout.itemSize = .init(width: 310, height: 310)
-        carouselLayout.sectionInset = .init(top: 0, left: 0, bottom: 0, right: 0)
-        carouselLayout.minimumLineSpacing = 0
-        carouselCollectionView.collectionViewLayout = carouselLayout
-        carouselData = data
-        carouselCollectionView.reloadData()
-    }
-}
-
 // MARK: - Helpers
 private extension MonitoringTableViewCell {
     func getCurrentPage() -> Int {
-        
         let visibleRect = CGRect(origin: carouselCollectionView.contentOffset, size: carouselCollectionView.bounds.size)
         let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
         if let visibleIndexPath = carouselCollectionView.indexPathForItem(at: visiblePoint) {
             return visibleIndexPath.row
         }
-        
         return currentPage
     }
 }

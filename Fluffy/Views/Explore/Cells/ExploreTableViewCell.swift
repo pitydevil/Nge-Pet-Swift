@@ -13,7 +13,6 @@ import SDWebImage
 class ExploreTableViewCell: UITableViewCell {
     
     //MARK: -OBJECT DECLARATION
-
     var petHotelSupportedObject = BehaviorRelay<[PetHotelSupportedPet]>(value: [])
 
     //MARK: -Subviews
@@ -43,7 +42,6 @@ class ExploreTableViewCell: UITableViewCell {
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.register(SupportedPetCollectionViewCell.self, forCellWithReuseIdentifier: SupportedPetCollectionViewCell.cellId)
         return collection
-
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -51,6 +49,12 @@ class ExploreTableViewCell: UITableViewCell {
         
         setupUI()
         
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         petHotelSupportedObject.bind(to: supportedPetView.rx.items(cellIdentifier: SupportedPetCollectionViewCell.cellId, cellType: SupportedPetCollectionViewCell.self)) { row, model, cell in
             cell.configure(model.supportedPetName, model.supportedPetType)
         }.disposed(by: bags)
@@ -73,7 +77,6 @@ class ExploreTableViewCell: UITableViewCell {
 }
 
 //MARK: - Setups
-
 extension ExploreTableViewCell{
 
     func setup(_ petHotels : PetHotels) {
@@ -155,6 +158,5 @@ extension ExploreTableViewCell{
         supportedPetView.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -20).isActive = true
         supportedPetView.heightAnchor.constraint(equalToConstant: 68).isActive = true
         supportedPetView.backgroundColor = .clear
-        
     }
 }

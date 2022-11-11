@@ -19,6 +19,11 @@ class ModalSearchLocationViewModel {
         return modalSearchLocationObject.asObservable()
     }
     
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
     func getLocationObject() {
         let result =  searchResultsObject.value
         let searchRequest = MKLocalSearch.Request(completion: result)

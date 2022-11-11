@@ -61,8 +61,6 @@ class SearchExploreViewController: UIViewController, UISearchResultsUpdating, UI
     }()
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.register(ExploreTableViewCell.self, forCellReuseIdentifier: ExploreTableViewCell.cellId)
@@ -78,12 +76,10 @@ class SearchExploreViewController: UIViewController, UISearchResultsUpdating, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "white")
-//        self.navigationItem.searchController = searchController
         self.navigationItem.titleView = navTitle
         self.navigationController?.isNavigationBarHidden = false
         self.navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        // Do any additional setup after loading the view.
 
         view.addSubview(searchTextField)
         view.addSubview(leftButton)
@@ -123,15 +119,15 @@ extension SearchExploreViewController : UITableViewDataSource, UITableViewDelega
         20
     }
     
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: ExploreTableViewCell.cellId) as! ExploreTableViewCell
-            cell.backgroundColor = .white
-            let backgroundView = UIView()
-            backgroundView.backgroundColor = .clear
-            cell.layer.cornerRadius = 12
-            cell.selectedBackgroundView = backgroundView
-            return cell
-        }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: ExploreTableViewCell.cellId) as! ExploreTableViewCell
+        cell.backgroundColor = .white
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = .clear
+        cell.layer.cornerRadius = 12
+        cell.selectedBackgroundView = backgroundView
+        return cell
+    }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 216

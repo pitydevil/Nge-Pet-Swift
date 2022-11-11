@@ -24,6 +24,8 @@ extension ApplicationEndpoint: Endpoint {
             return "/public/api/reservation/order/add"
         case .getPetHotelDetail:
             return "/public/api/reservation/pet_hotel/detail"
+        case .getMonitoringByDate:
+            return "/public/api/monitoring/get-monitoring-data-by-date"
         }
     }
 
@@ -38,6 +40,8 @@ extension ApplicationEndpoint: Endpoint {
         case .postOrder:
             return .post
         case .getPetHotelDetail:
+            return .post
+        case .getMonitoringByDate:
             return .post
         }
     }
@@ -60,6 +64,11 @@ extension ApplicationEndpoint: Endpoint {
         case .getPetHotelDetail(let petHotelID):
             return [
                 "pet_hotel_id" : petHotelID
+            ]
+        case .getMonitoringByDate(let userID, let date):
+            return [
+                "user_id"   : userID,
+                "date"      : date
             ]
 //        case .postConsultation(let etalaseID, let companyName, let url1, let url2, let shortDescription, let problemDescription, let marketingBudget, let userID):
 //            return [

@@ -33,9 +33,12 @@ class ExploreViewModel{
         },onError: { error in
           print(error)
         }).disposed(by: bags)
+        
+        if defaults.object(forKey: "userID") != nil{
+            defaults.setValue(1, forKey: "userID")
+        }
     }
     
-
     //MARK: - OBJECT DECLARATION
     /// Returns boolean true or false
     /// from the given components.
