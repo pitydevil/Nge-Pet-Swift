@@ -11,7 +11,6 @@ import RxCocoa
 
 class ModalSelectPetViewController: UIViewController {
     
-    
     var isChecked = true
     let checkedImage = UIImage(systemName: "checkmark.square.fill")
     let uncheckedImage = UIImage(systemName: "square")
@@ -151,7 +150,7 @@ class ModalSelectPetViewController: UIViewController {
             customBar.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             customBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            modalTableView.topAnchor.constraint(equalTo: headline.bottomAnchor, constant: 0),
+            modalTableView.topAnchor.constraint(equalTo: headline.bottomAnchor, constant: 20),
             modalTableView.widthAnchor.constraint(equalToConstant: 342),
             modalTableView.bottomAnchor.constraint(equalTo: customBar.topAnchor, constant: -20),
             modalTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
@@ -172,23 +171,21 @@ class ModalSelectPetViewController: UIViewController {
     
     @objc func isClicked() {
         isChecked = !isChecked
-        for section in 0...5 {
-            for index in 0...4 {
-                let indexPath = IndexPath(row: index, section: section)
-                if isChecked {
-                    customBar.boxBtn.setImage(checkedImage, for: .normal)
-                    if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
-                        cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
-                        modalTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
-                        customBar.hewanDipilih.text = "Semua hewan dipilih"
-                    }
-                } else {
-                    customBar.boxBtn.setImage(uncheckedImage, for: .normal)
-                    if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
-                        cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
-                        modalTableView.deselectRow(at: indexPath, animated: true)
-                        customBar.hewanDipilih.text = "Tidak ada hewan dipilih"
-                    }
+        for index in 0...6 {
+            let indexPath = IndexPath(row: index, section: 0)
+            if isChecked {
+                customBar.boxBtn.setImage(checkedImage, for: .normal)
+                if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
+                    cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
+                    modalTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+                    customBar.hewanDipilih.text = "Semua hewan dipilih"
+                }
+            } else {
+                customBar.boxBtn.setImage(uncheckedImage, for: .normal)
+                if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
+                    cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
+                    modalTableView.deselectRow(at: indexPath, animated: true)
+                    customBar.hewanDipilih.text = "Tidak ada hewan dipilih"
                 }
             }
         }
@@ -197,46 +194,9 @@ class ModalSelectPetViewController: UIViewController {
 }
 
 extension ModalSelectPetViewController: UITableViewDataSource, UITableViewDelegate {
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        return 6
-//    }
-    
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let title = UILabel()
-//        title.font = UIFont(name: "Poppins-Bold", size: 16)
-//        title.text = self.tableView(tableView, titleForHeaderInSection: section)
-//        title.textColor = UIColor(named: "black")
-//        title.backgroundColor = UIColor(named: "white")
-//        return title
-//    }
-//
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        let sectionName: String
-//        switch section {
-//        case 0:
-//            sectionName = NSLocalizedString("Anjing Kecil (S)", comment: "Anjing Kecil (S)")
-//        case 1:
-//            sectionName = NSLocalizedString("Anjing Sedang (M)", comment: "Anjing Sedang (M)")
-//        case 2:
-//            sectionName = NSLocalizedString("Anjing Besar (L)", comment: "Anjing Besar (L)")
-//        case 3:
-//            sectionName = NSLocalizedString("Kucing Kecil (S)", comment: "Kucing Kecil (S)")
-//        case 4:
-//            sectionName = NSLocalizedString("Kucing Sedang (M)", comment: "Kucing Sedang (M)")
-//        case 5:
-//            sectionName = NSLocalizedString("Kucing Besar (L)", comment: "Kucing Besar (L)")
-//        default:
-//            sectionName = NSLocalizedString("Anjing Kecil (S)", comment: "Anjing Kecil (S)")
-//        }
-//        return sectionName
-//    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 36
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return 6
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
