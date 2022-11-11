@@ -20,7 +20,6 @@ class MonitoringViewController: UIViewController {
     private lazy var dateButton:ReusableButton = {
         let btn = ReusableButton(titleBtn: "Hari Ini", styleBtn:.normal, icon: UIImage(systemName: "calendar"))
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.addTarget(self, action: #selector(selectDate), for: .touchUpInside)
         return btn
     }()
     
@@ -29,7 +28,6 @@ class MonitoringViewController: UIViewController {
         config = config.applying(UIImage.SymbolConfiguration(weight: .bold))
         let btn = ReusableButton(titleBtn: "Semua Hewan", styleBtn: .frameless, icon: UIImage(systemName: "chevron.down", withConfiguration: config))
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.addTarget(self, action: #selector(selectPetModal), for: .touchUpInside)
         return btn
     }()
     
@@ -86,30 +84,6 @@ class MonitoringViewController: UIViewController {
         tableView.rightAnchor.constraint(equalTo: dateButton.rightAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         tableView.reloadData()
-    }
-    
-    @objc func selectPetModal(){
-        let vc = ModalMonitoringViewController()
-        vc.modalPresentationStyle = .pageSheet
-        vc.completion = { [weak self] text in
-            DispatchQueue.main.async {
-                self?.selectPetButton.self.configuration?.attributedTitle = AttributedString(text ?? self!.selectPetButton.titleBtn, attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 16)!]))
-            }
-        }
-        self.present(vc, animated: true)
-    }
-    
-    @objc func selectDate(){
-        view.addSubview(calendarView)
-        calendarView.delegate = self
-        let selection = UICalendarSelectionSingleDate(delegate: self)
-        calendarView.selectionBehavior = selection
-        
-        //MARK: - Calendar View Constraints
-        calendarView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
-        calendarView.heightAnchor.constraint(equalToConstant: 356).isActive = true
-        calendarView.widthAnchor.constraint(equalToConstant: 312).isActive = true
-        calendarView.topAnchor.constraint(equalTo: dateButton.bottomAnchor, constant: 20).isActive = true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -176,6 +150,37 @@ class MonitoringViewController: UIViewController {
             cell.monitoringImageModelArray.accept(model.monitoringImage)
             cell.configure(model)
         }.disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        dateButton.rx.tap.bind { [self] in
+            let selection = UICalendarSelectionSingleDate(delegate: self)
+            view.addSubview(calendarView)
+            calendarView.delegate = self
+            calendarView.selectionBehavior = selection
+            
+            //MARK: - Calendar View Constraints
+            calendarView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20).isActive = true
+            calendarView.heightAnchor.constraint(equalToConstant: 356).isActive = true
+            calendarView.widthAnchor.constraint(equalToConstant: 312).isActive = true
+            calendarView.topAnchor.constraint(equalTo: dateButton.bottomAnchor, constant: 20).isActive = true
+        }.disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        selectPetButton.rx.tap.bind {
+            let vc = ModalMonitoringViewController()
+            vc.modalPresentationStyle = .pageSheet
+            self.present(vc, animated: true)
+        }.disposed(by: bags)
     }
 }
 
@@ -184,7 +189,6 @@ class MonitoringViewController: UIViewController {
 extension MonitoringViewController: UICalendarSelectionSingleDateDelegate {
     @available(iOS 16.0, *)
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
-        print("masuk?")
         monitoringViewModel.dateModelObject.accept(dateComponents!)
         monitoringViewModel.configureDate()
         calendarView.removeFromSuperview()

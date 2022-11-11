@@ -28,15 +28,18 @@ class ExploreViewModel{
         self.networkService = networkService
         self.LocationManager = locationManager
         
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         locationManager.locationObjectObserver.subscribe(onNext: { [self] (value) in
             locationObject.accept(value)
         },onError: { error in
           print(error)
         }).disposed(by: bags)
         
-        if defaults.object(forKey: "userID") != nil{
-            defaults.setValue(1, forKey: "userID")
-        }
+        defaults.setValue(1, forKey: "userID")
     }
     
     //MARK: - OBJECT DECLARATION
