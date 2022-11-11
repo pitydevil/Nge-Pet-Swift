@@ -12,6 +12,10 @@ import RxCocoa
 @available(iOS 16.0, *)
 class MonitoringViewController: UIViewController {
     
+    //MARK: OBJECT DECLARATION
+    private var monitoringModelArray   = BehaviorRelay<[Monitoring]>(value: [])
+    private let monitoringViewModel    = MonitoringViewModel()
+    
     //MARK: Subviews
     private lazy var dateButton:ReusableButton = {
         let btn = ReusableButton(titleBtn: "Hari Ini", styleBtn:.normal, icon: UIImage(systemName: "calendar"))
@@ -31,8 +35,6 @@ class MonitoringViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = UIColor(named: "grey3")
         tableView.register(MonitoringTableViewCell.self, forCellReuseIdentifier: MonitoringTableViewCell.cellId)
@@ -53,7 +55,6 @@ class MonitoringViewController: UIViewController {
         calendarView.tintColor = UIColor(named: "primaryMain")
         calendarView.availableDateRange = DateInterval(start: .distantPast, end: .now)
         calendarView.layer.cornerRadius = 12
-        
         
         calendarView.layer.borderColor = UIColor.lightGray.cgColor
         calendarView.layer.shadowOpacity = 0.1
@@ -111,12 +112,70 @@ class MonitoringViewController: UIViewController {
         calendarView.topAnchor.constraint(equalTo: dateButton.bottomAnchor, constant: 20).isActive = true
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        Task {
+            monitoringViewModel.tanggalEndpointModelObject.accept(changeDateIntoYYYYMMDD(Date()))
+            await monitoringViewModel.fetchMonitoring()
+        }
+    }
+    
     //MARK: -ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
         
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        monitoringViewModel.titleDateModelObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
+            DispatchQueue.main.async { [self] in
+                dateButton.titleLabel?.text = value
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
         
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        monitoringViewModel.tanggalModelObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
+            monitoringViewModel.tanggalEndpointModelObject.accept(value)
+            Task {
+                await monitoringViewModel.fetchMonitoring()
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        monitoringViewModel.monitoringModelArrayObserver.skip(1).subscribe(onNext: { [self] (value) in
+            monitoringModelArray.accept(value)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        monitoringModelArray.bind(to: tableView.rx.items(cellIdentifier: MonitoringTableViewCell.cellId, cellType: MonitoringTableViewCell.self)) { row, model, cell in
+            cell.backgroundColor = .clear
+            cell.monitoringImageModelArray.accept(model.monitoringImage)
+            cell.configure(model)
+        }.disposed(by: bags)
     }
 }
 
@@ -125,49 +184,10 @@ class MonitoringViewController: UIViewController {
 extension MonitoringViewController: UICalendarSelectionSingleDateDelegate {
     @available(iOS 16.0, *)
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
-        let currentDate = Date()
-        let currentYear = Calendar.current.component(.year, from: Date())
-        let df = DateFormatter()
-        var titleLbl = ""
-        
-        if dateComponents?.year == currentYear && dateComponents?.date != currentDate{
-            df.dateFormat = "dd MMM"
-            titleLbl = df.string(from: (dateComponents?.date)!)
-        }else{
-            df.dateFormat = "dd MMM yy"
-            titleLbl = df.string(from: (dateComponents?.date)!)
-        }
-        
-        print(changeDateIntoYYYYMMDD(dateComponents!.date!))
-        
-        df.dateFormat = "dd MMM"
-        let currDate = df.string(from: (currentDate))
-        if currDate == titleLbl{
-            titleLbl = "Hari Ini"
-        }
-        dateButton.titleLabel?.text = titleLbl
+        print("masuk?")
+        monitoringViewModel.dateModelObject.accept(dateComponents!)
+        monitoringViewModel.configureDate()
         calendarView.removeFromSuperview()
-    }
-}
-
-
-//MARK: UITableViewDataSource, UITableViewDelegate
-
-@available(iOS 16.0, *)
-extension MonitoringViewController : UITableViewDataSource, UITableViewDelegate{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: MonitoringTableViewCell.cellId) as! MonitoringTableViewCell
-        cell.backgroundColor = .clear
-        cell.configure(location: "Attlasian Pet Hotel", cardTitleString: "Kasih Makan ", timestamp: "7m", description: "Royal canin y, kucing sultan ni Royal canin y, kucing sultan ni Royal canin y, kucing sultan ni Royal canin y, kucing sultan ni Royal canin y, kucing sultan ni", petImage: "pugIcon", dogNameString: "Blekki Irrrrrrr", carouselData: [CarouselData(image: UIImage(named: "slide1")), CarouselData(image: UIImage(named: "slide2")), CarouselData(image: UIImage(named: "slide3")), CarouselData(image: UIImage(named: "slide1")), CarouselData(image: UIImage(named: "slide2"))], isNew: false)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
     }
 }
 

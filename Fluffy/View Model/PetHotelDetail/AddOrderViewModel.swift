@@ -33,16 +33,16 @@ class AddOrderViewModel{
     /// - Parameters:
     ///     - allowedCharacter: character subset that's allowed to use on the textfield
     ///     - text: set of character/string that would like  to be checked.
-    func addOrder() async {
-        let endpoint = ApplicationEndpoint.postOrder(order: AddOrderArray.value)
-        let result = await networkService.request(to: endpoint, decodeTo: Response<[OrderResponse]>.self)
-        switch result {
-        case .success(let response):
-            if case 200 = response.status {
-               print("success")
-            }
-        case .failure(let error):
-            print(error)
-        }
-    }
+//    func addOrder() async {
+//        let endpoint = ApplicationEndpoint.postOrder(order: AddOrderArray.value)
+//        let result = await networkService.request(to: endpoint, decodeTo: Response<[OrderResponse]>.self)
+//        switch result {
+//        case .success(let response):
+//            if case 200 = response.status {
+//               print("success")
+//            }
+//        case .failure(let error):
+//            print(error)
+//        }
+//    }
 }

@@ -48,4 +48,7 @@ extension CarouselCollectionViewCell {
     public func configure(_ petHotelImage : PetHotelImage) {
         imageView.sd_setImage(with: URL(string: petHotelImage.petHotelImageURL))
     }
+    public func configureImage(_ urlString : String) {
+        imageView.sd_setImage(with: URL(string: urlString))
+    }
 }

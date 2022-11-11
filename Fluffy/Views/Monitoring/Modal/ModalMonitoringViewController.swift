@@ -113,7 +113,6 @@ class ModalMonitoringViewController: UIViewController {
             }
         }
     }
-    
 }
 
 extension ModalMonitoringViewController: UITableViewDataSource, UITableViewDelegate {
