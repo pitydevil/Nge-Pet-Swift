@@ -204,6 +204,12 @@ class ExploreViewController: UIViewController {
     @objc func toSearchModal() {
         let vc = ModalSearchLocationViewController()
         vc.modalPresentationStyle = .pageSheet
+        //MARK: - Bind Journal List with Table View
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         vc.modalSearchObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
             modalSearchLocationObject.accept(value)
             DispatchQueue.main.async { [self] in
@@ -224,6 +230,12 @@ class ExploreViewController: UIViewController {
     @objc func toDateModal() {
         let vc = ModalCheckInOutViewController()
         vc.modalPresentationStyle = .pageSheet
+        //MARK: - Bind Journal List with Table View
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         vc.checkFinalObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
             checkFinalObject.accept(value)
             DispatchQueue.main.async { [self] in
@@ -248,7 +260,6 @@ class ExploreViewController: UIViewController {
         }
         self.present(vc, animated: true)
     }
-    
 }
 
 //MARK: Setup Layout

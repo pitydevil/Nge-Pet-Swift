@@ -46,10 +46,9 @@ class ModalMonitoringViewController: UIViewController {
         customBar.boxBtn.setImage(checkedImage, for: .normal)
         return customBar
     }()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    
+    private func setupUI() {
+        
         view.backgroundColor = UIColor(named: "white")
         
         view.addSubview(indicator)
@@ -81,13 +80,15 @@ class ModalMonitoringViewController: UIViewController {
             modalTableView.bottomAnchor.constraint(equalTo: customBar.topAnchor, constant: -20),
             modalTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
         ])
-        
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupUI()
     }
     
-    public var completion: ((String?) -> Void)?
-    
     @objc func petSelected() {
-        completion?("\(modalTableView.indexPathsForSelectedRows?.count ?? 0) Hewan")
+      //  completion?("\(modalTableView.indexPathsForSelectedRows?.count ?? 0) Hewan")
         dismiss(animated: true)
     }
     
@@ -164,9 +165,7 @@ extension ModalMonitoringViewController: UITableViewDataSource, UITableViewDeleg
             cell.contentView.backgroundColor = UIColor(named: "grey1")?.withAlphaComponent(0.5)
             cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
         }
-        
         return cell
-
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
