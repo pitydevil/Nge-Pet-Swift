@@ -60,7 +60,6 @@ class ModalMonitoringTableViewCell: UITableViewCell {
             checkedImage.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12),
             checkedImage.centerYAnchor.constraint(equalTo: petIcon.centerYAnchor),
         ])
-        
     }
     
     required init?(coder: NSCoder) {
@@ -75,21 +74,18 @@ class ModalMonitoringTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
-
 }
 
 //MARK: - Public
 extension ModalMonitoringTableViewCell {
-    public func configure(namePet: String?, petImage: String?, imageCheckmark: Bool){
-        petName.text = namePet
-        petIcon.image = UIImage(systemName: petImage ?? "")
-        if imageCheckmark == false {
-            checkedImage.image = UIImage(systemName: "")
-        } else {
+    public func configure(_ petsSelection : PetsSelection){
+        petName.text = petsSelection.petName ?? ""
+        petIcon.image = UIImage(systemName: "pawprint.fill")
+        if petsSelection.isChecked! {
             checkedImage.image = UIImage(systemName: "checkmark")
+        } else {
+            checkedImage.image = UIImage(systemName: "")
         }
     }
 }

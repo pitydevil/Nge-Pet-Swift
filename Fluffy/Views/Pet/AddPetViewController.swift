@@ -16,9 +16,9 @@ class AddPetViewController: UIViewController {
     private var petGenderObject    = BehaviorRelay<genderCase>(value: .male)
     private var petTypeObject      = BehaviorRelay<petTypeCase>(value: .kucing)
     private var petIconObject      = BehaviorRelay<petIconCase>(value: .dog1)
-    private var petSizeObject      = BehaviorRelay<petSizeCase>(value: .kucingKecil)
+    private var petSizeObject      = BehaviorRelay<petSizeCase>(value: .kecil)
     private let petIconDataObject  = BehaviorRelay<[String]>(value: ["dog1","dog2","dog3","dog4","dog5","dog6","dog7","dog8","dog9"])
-    private let petSizeArrayObject = BehaviorRelay<[String]>(value: ["Kucing Kecil (Panjang 5 - 10 cm)", "Kucing Sedang (Panjang 10 - 15 cm)", "Kucing Besar (Panjang 15 - 20 cm)", "Anjing Kecil (Panjang 5 - 10 cm)", "Anjing Sedang (Panjang 10 - 15 cm)", "Anjing Besar (Panjang 15 - 20 cm)"])
+    private let petSizeArrayObject = BehaviorRelay<[String]>(value: ["Kecil", "Sedang", "Besar"])
     
     //MARK: - Observable Variable Declaration
     private var petTypeObserver : Observable<petTypeCase> {
@@ -479,7 +479,7 @@ class AddPetViewController: UIViewController {
                         self.present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "OK"), animated: true)
                     case let .sukses(errorTitle, errorMessage):
                     self.present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "OK"), animated: true) {
-                        self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
+                        self.view.window!.rootViewController?.dismiss(animated: true, completion: nil)
                     }
                     case let .petAgeTidakAda(errorTitle, errorMessage):
                         self.present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "OK"), animated: true)
