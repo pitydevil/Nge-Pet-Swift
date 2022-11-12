@@ -24,8 +24,8 @@ extension ApplicationEndpoint: Endpoint {
             return "/public/api/reservation/order/add"
         case .getPetHotelDetail:
             return "/public/api/reservation/pet_hotel/detail"
-        case .getMonitoringByDate:
-            return "/public/api/monitoring/get-monitoring-data-by-date"
+        case .getListMonitoring:
+            return "/public/api/monitoring/get-monitoring-data"
         }
     }
 
@@ -41,7 +41,7 @@ extension ApplicationEndpoint: Endpoint {
             return .post
         case .getPetHotelDetail:
             return .post
-        case .getMonitoringByDate:
+        case .getListMonitoring:
             return .post
         }
     }
@@ -65,55 +65,19 @@ extension ApplicationEndpoint: Endpoint {
             return [
                 "pet_hotel_id" : petHotelID
             ]
-        case .getMonitoringByDate(let userID, let date):
+        case .getListMonitoring(let monitoringBody):
+            let pets = monitoringBody.pets.map { obj -> [String: Any] in
+                return [
+                    "pet_name" : obj.petName,
+                    "pet_type" : obj.petType,
+                    "pet_size" : obj.petSize
+                ]
+            }
             return [
-                "user_id"   : userID,
-                "date"      : date
+                "user_id"   : monitoringBody.userID,
+                "date"      : monitoringBody.date,
+                "pets"      : pets
             ]
-//        case .postConsultation(let etalaseID, let companyName, let url1, let url2, let shortDescription, let problemDescription, let marketingBudget, let userID):
-//            return [
-//                "etalaseID" : etalaseID,
-//                "companyName" : companyName,
-//                "url1" : url1,
-//                "url2" : url2,
-//                "shortDescription" : shortDescription,
-//                "problemDescription" : problemDescription,
-//                "marketingBudget" : marketingBudget,
-//                "userID": userID
-//            ]
-//        case .getConsultation(let userID):
-//            return [
-//                "userID" : userID
-//            ]
-//        case .rejectUserConsultation(let consultationID):
-//            return [
-//                "consultationID" : consultationID
-//            ]
-//        case .getConsultationAgency(let etalaseID):
-//            return [
-//                "etalaseID" : etalaseID
-//            ]
-//        case .rejectEtalaseConsultation(let consultationID, let feedback):
-//            return [
-//                "consultationID" : consultationID,
-//                "feedback" : feedback
-//            ]
-//        case .acceptEtalaseConsultation(let consultationID):
-//            return [
-//                "consultationID" : consultationID
-//            ]
-//        case .getOfferByEtalaseId(let etalaseID):
-//            return [
-//                "etalaseID" : etalaseID
-//            ]
-//        case .getTaskByOfferID(let offerID):
-//            return [
-//                "offerID" : offerID
-//            ]
-//        case .getOfferByUserId(let userID):
-//            return [
-//                "userID" : userID
-//            ]
         default:
             return nil
         }

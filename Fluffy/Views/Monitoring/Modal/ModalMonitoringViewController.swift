@@ -100,14 +100,14 @@ class ModalMonitoringViewController: UIViewController {
             if isChecked {
                 customBar.boxBtn.setImage(checkedImage, for: .normal)
                 if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
-                    cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
+                //    cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
                     modalTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
                     customBar.hewanDipilih.text = "Semua hewan dipilih"
                 }
             } else {
                 customBar.boxBtn.setImage(uncheckedImage, for: .normal)
                 if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
-                    cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
+                        //cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
                     customBar.hewanDipilih.text = "Tidak ada hewan dipilih"
                     modalTableView.deselectRow(at: indexPath, animated: true)
                 }
@@ -129,7 +129,7 @@ extension ModalMonitoringViewController: UITableViewDataSource, UITableViewDeleg
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: ModalMonitoringTableViewCell.cellId, for: indexPath) as! ModalMonitoringTableViewCell
         cell.contentView.backgroundColor = UIColor(named: "grey3")
-        cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
+     //   cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
         return cell
     }
     
@@ -139,7 +139,7 @@ extension ModalMonitoringViewController: UITableViewDataSource, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = modalTableView.cellForRow(at: indexPath) as! ModalMonitoringTableViewCell
-        cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
+     //   cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
         customBar.hewanDipilih.text = "\(modalTableView.indexPathsForSelectedRows?.count ?? 0) hewan dipilih"
         if modalTableView.indexPathsForSelectedRows?.count == totalCell {
             customBar.boxBtn.setImage(checkedImage, for: .normal)
@@ -150,7 +150,7 @@ extension ModalMonitoringViewController: UITableViewDataSource, UITableViewDeleg
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let cell = modalTableView.cellForRow(at: indexPath) as! ModalMonitoringTableViewCell
-        cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
+      //  cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
         customBar.hewanDipilih.text = "\(modalTableView.indexPathsForSelectedRows?.count ?? 0) hewan dipilih"
         customBar.boxBtn.setImage(uncheckedImage, for: .normal)
         isChecked = false

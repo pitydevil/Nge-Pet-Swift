@@ -11,14 +11,32 @@ import RxCocoa
 
 class ModalSelectPetViewController: UIViewController {
     
-    var totalCell = 3
-    var isChecked = true
-    let checkedImage = UIImage(systemName: "checkmark.square.fill")
-    let uncheckedImage = UIImage(systemName: "square")
+    //MARK: OBJECT DECLARATION
+    private let modalMonitoringViewModel = ModalSelectPetMonitoringViewModel()
+    private var monitoringEnumCaseModel  = BehaviorRelay<monitoringCase>(value: .empty)
+    var petSelectionModelArray           = BehaviorRelay<[PetsSelection]>(value: [])
+    var petSelectedModelArray            = BehaviorRelay<[PetsSelection]>(value: [])
+    var petBodyModelArray            = BehaviorRelay<[PetBody]>(value: [])
+    var monitoringStateSelectionEnumModel  = BehaviorRelay<stateSelectectionCase>(value: .kosong)
     
-    //MARK: - Show Empty State vs Exist State
-    var isPetExist = true
+    //MARK: OBJECT OBSERVER DECLARATION
+    var petsSelectedModelArrayObserver : Observable<[PetsSelection]> {
+        return petSelectedModelArray.asObservable()
+    }
     
+    var petsSelectionModelArrayObserver : Observable<[PetsSelection]> {
+        return petSelectionModelArray.asObservable()
+    }
+    
+    private var monitoringEnumCaseObserver : Observable<monitoringCase> {
+        return monitoringEnumCaseModel.asObservable()
+    }
+    
+    var petsBodhyModelArrayObserver : Observable<[PetBody]> {
+       return petBodyModelArray.asObservable()
+    }
+    
+    //MARK: - SUBVIEWS
     private lazy var indicator: UIImageView = {
         let indicator = UIImageView()
         let config = UIImage.SymbolConfiguration(pointSize: 40, weight: .regular)
@@ -52,7 +70,6 @@ class ModalSelectPetViewController: UIViewController {
     private lazy var addPetBtn: ReusableButton = {
         let config = UIImage.SymbolConfiguration(weight: .bold)
         let addPetBtn = ReusableButton(titleBtn: "Tambah Hewan", styleBtn: .normal, icon: UIImage(systemName: "plus", withConfiguration: config))
-        addPetBtn.addTarget(self, action: #selector(addPet), for: .touchUpInside)
         return addPetBtn
     }()
     
@@ -63,9 +80,8 @@ class ModalSelectPetViewController: UIViewController {
     
     private lazy var modalTableView: UITableView = {
         let modalTableView = UITableView(frame: CGRect(), style: .plain)
-        modalTableView.delegate = self
-        modalTableView.dataSource = self
         modalTableView.backgroundColor = UIColor(named: "white")
+        modalTableView.delegate = self
         modalTableView.register(ModalMonitoringTableViewCell.self, forCellReuseIdentifier: ModalMonitoringTableViewCell.cellId)
         modalTableView.translatesAutoresizingMaskIntoConstraints = false
         modalTableView.allowsMultipleSelection = true
@@ -78,24 +94,10 @@ class ModalSelectPetViewController: UIViewController {
     
     private lazy var customBar: ReusableTabBar = {
         let customBar = ReusableTabBar(btnText: "Pilih", showText: .show)
-        customBar.barBtn.addTarget(self, action: #selector(petSelected), for: .touchUpInside)
-        customBar.boxBtn.addTarget(self, action: #selector(isClicked), for: .touchUpInside)
-        customBar.boxBtn.setImage(checkedImage, for: .normal)
+        customBar.barBtn.isEnabled = false
+        customBar.boxBtn.setImage(UIImage(systemName: "square"), for: .normal)
         return customBar
     }()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        view.backgroundColor = UIColor(named: "white")
-        
-        if isPetExist == true {
-            petExist()
-        } else {
-            emptyPet()
-        }
-        
-    }
     
     //MARK: - Setup Layout
     private func emptyPet(){
@@ -158,98 +160,192 @@ class ModalSelectPetViewController: UIViewController {
         ])
     }
     
-    public var passingPet: ((String?) -> Void)?
-    
-    //MARK: - Button Target
-    @objc func petSelected() {
-        passingPet?("\(modalTableView.indexPathsForSelectedRows?.count ?? 0) hewan dipilih")
-        dismiss(animated: true)
+    //MARK: - VIEW WILL APPEAR
+    override func viewWillAppear(_ animated: Bool) {
+        modalMonitoringViewModel.petSelectionModelArray.accept(petSelectionModelArray.value)
+        modalMonitoringViewModel.checkMonitoringModalState()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = UIColor(named: "white")
+                        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        modalMonitoringViewModel.monitoringEnumCaseObserver.subscribe(onNext: { [self] (value) in
+            switch value {
+            case .terisi:
+                petExist()
+            case .empty:
+                emptyPet()
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        modalMonitoringViewModel.petFirstSelectionArrayObserver.skip(1).subscribe(onNext: { [self] (value) in
+            petSelectionModelArray.accept(value)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        modalMonitoringViewModel.petSelectedArrayObserver.subscribe(onNext: { [self] (value) in
+            petSelectedModelArray.accept(value)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petsSelectedModelArrayObserver.skip(1).subscribe(onNext: { (value) in
+            DispatchQueue.main.async { [self] in
+                customBar.barBtn.isEnabled = value.count != 0 ? true : false
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petSelectionModelArray.bind(to: modalTableView.rx.items(cellIdentifier: ModalMonitoringTableViewCell.cellId, cellType: ModalMonitoringTableViewCell.self)) { [self] row, model, cell in
+            modalMonitoringViewModel.petSelectionModelArray.accept(petSelectionModelArray.value)
+            modalMonitoringViewModel.petSelectedModelArray.accept(petSelectedModelArray.value)
+            modalMonitoringViewModel.checkStateSelection()
+            cell.contentView.backgroundColor = UIColor(named: "grey3")
+            cell.configure(model)
+        }.disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        modalTableView.rx.itemSelected.subscribe(onNext: { [self] (indexPath) in
+            modalMonitoringViewModel.selectedIndexPetModel.accept(indexPath.row)
+            modalMonitoringViewModel.petSelectionModelArray.accept(petSelectionModelArray.value)
+            modalMonitoringViewModel.petSelectedModelArray.accept(petSelectedModelArray.value)
+            modalMonitoringViewModel.didSelectResponse()
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        modalMonitoringViewModel.monitoringStateEnumCaseObserver.skip(1).subscribe(onNext: { [self] (value) in
+            monitoringStateSelectionEnumModel.accept(value)
+            switch value {
+            case .full:
+                customBar.boxBtn.setImage(UIImage(systemName: "checkmark.square.fill"), for: .normal)
+                customBar.hewanDipilih.text = "Semua hewan dipilih"
+            case .kosong:
+                customBar.boxBtn.setImage(UIImage(systemName: "square"), for: .normal)
+                customBar.hewanDipilih.text = "Tidak ada hewan dipilih"
+            case .parsial(let jumlah):
+                customBar.boxBtn.setImage(UIImage(systemName: "square"), for: .normal)
+                customBar.hewanDipilih.text = "\(jumlah) hewan dipilih"
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        customBar.boxBtn.rx.tap.bind { [self] in
+            modalMonitoringViewModel.petSelectionModelArray.accept(petSelectionModelArray.value)
+            modalMonitoringViewModel.monitoringStateSelectionEnumModel.accept(monitoringStateSelectionEnumModel.value)
+            modalMonitoringViewModel.selectAndDeselectAllPet()
+        }.disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        customBar.barBtn.rx.tap.bind { [self] in
+            let pets = petSelectedModelArray.value.map { obj -> PetBody in
+                return PetBody(petName: obj.petName!, petType: obj.petType!, petSize: obj.petSize!)
+            }
+            petBodyModelArray.accept(pets)
+            dismiss(animated: true)
+        }.disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        addPetBtn.rx.tap.bind { [self] in
+            let vc = AddPetViewController()
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true)
+        }.disposed(by: bags)
     }
     
+//    isChecked = !isChecked
+//    for index in 0...totalCell {
+//        let indexPath = IndexPath(row: index, section: 0)
+//        if isChecked {
+//            customBar.boxBtn.setImage(checkedImage, for: .normal)
+//            if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
+//               // cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
+//                modalTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
+//                customBar.hewanDipilih.text = "Semua hewan dipilih"
+//            }
+//        } else {
+//            customBar.boxBtn.setImage(uncheckedImage, for: .normal)
+//            if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
+//             //   cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
+//                modalTableView.deselectRow(at: indexPath, animated: true)
+//                customBar.hewanDipilih.text = "Tidak ada hewan dipilih"
+//            }
+//        }
+//    }
+//    customBar.hewanDipilih.text = "\(modalTableView.indexPathsForSelectedRows?.count ?? 0) hewan dipilih"
+//    if modalTableView.indexPathsForSelectedRows?.count == totalCell {
+//        customBar.boxBtn.setImage(checkedImage, for: .normal)
+//        isChecked = true
+//        customBar.hewanDipilih.text = "Semua hewan dipilih"
+//    }
     @objc func addPet() {
         dismiss(animated: true)
     }
-    
-    @objc func isClicked() {
-        isChecked = !isChecked
-        for index in 0...totalCell {
-            let indexPath = IndexPath(row: index, section: 0)
-            if isChecked {
-                customBar.boxBtn.setImage(checkedImage, for: .normal)
-                if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
-                    cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
-                    modalTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
-                    customBar.hewanDipilih.text = "Semua hewan dipilih"
-                }
-            } else {
-                customBar.boxBtn.setImage(uncheckedImage, for: .normal)
-                if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
-                    cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
-                    modalTableView.deselectRow(at: indexPath, animated: true)
-                    customBar.hewanDipilih.text = "Tidak ada hewan dipilih"
-                }
-            }
-        }
-    }
-
 }
 
-extension ModalSelectPetViewController: UITableViewDataSource, UITableViewDelegate {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return totalCell
-    }
-    
+extension ModalSelectPetViewController:  UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ModalMonitoringTableViewCell.cellId, for: indexPath) as! ModalMonitoringTableViewCell
-        cell.contentView.backgroundColor = UIColor(named: "grey3")
-        cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        modalTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = modalTableView.cellForRow(at: indexPath) as! ModalMonitoringTableViewCell
-        cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
-        customBar.hewanDipilih.text = "\(modalTableView.indexPathsForSelectedRows?.count ?? 0) hewan dipilih"
-        if modalTableView.indexPathsForSelectedRows?.count == totalCell {
-            customBar.boxBtn.setImage(checkedImage, for: .normal)
-            isChecked = true
-            customBar.hewanDipilih.text = "Semua hewan dipilih"
-        }
-    }
-
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let cell = modalTableView.cellForRow(at: indexPath) as! ModalMonitoringTableViewCell
-        cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
-        customBar.hewanDipilih.text = "\(modalTableView.indexPathsForSelectedRows?.count ?? 0) hewan dipilih"
-        customBar.boxBtn.setImage(uncheckedImage, for: .normal)
-        isChecked = false
-        if modalTableView.indexPathsForSelectedRows?.count == nil {
-            customBar.hewanDipilih.text = "Tidak ada hewan dipilih"
-        }
-    }
-    
-}
-
-//MARK: - Adding Line Spacing for UILabel
-extension UILabel {
-    var spacing:CGFloat {
-        get {return 0}
-        set {
-            let textAlignment = self.textAlignment
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineSpacing = newValue
-            let attributedString = NSAttributedString(string: self.text ?? "", attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
-            self.attributedText = attributedString
-            self.textAlignment = textAlignment
-        }
     }
 }
