@@ -13,8 +13,24 @@ import RxCocoa
 class MonitoringViewController: UIViewController {
     
     //MARK: OBJECT DECLARATION
-    private var monitoringModelArray   = BehaviorRelay<[Monitoring]>(value: [])
-    private let monitoringViewModel    = MonitoringViewModel()
+    private var dateModelObject      = BehaviorRelay<DateComponents>(value: DateComponents())
+    private var monitoringModelArray      = BehaviorRelay<[Monitoring]>(value: [])
+    private var petsSelectionModelArray   = BehaviorRelay<[PetsSelection]>(value: [])
+    private var petsBodyModelArray        = BehaviorRelay<[PetBody]>(value: [])
+    private var petSelectedModelArray            = BehaviorRelay<[PetsSelection]>(value: [])
+    private let monitoringViewModel       = MonitoringViewModel()
+    private let modalSelectPetViewController = ModalSelectPetViewController()
+    var tanggalEndpointModelObject        = BehaviorRelay<String>(value: changeDateIntoYYYYMMDD(Date()))
+  
+    //MARK: OBJECT OBSERVER DECLARATION
+    var petsSelectionModelArrayObserver : Observable<[PetsSelection]> {
+        return petsSelectionModelArray.asObservable()
+    }
+    
+    //MARK: OBJECT OBSERVER DECLARATION
+    var petBodyModelArrayObserver : Observable<[PetBody]> {
+        return petsBodyModelArray.asObservable()
+    }
     
     //MARK: Subviews
     private lazy var dateButton:ReusableButton = {
@@ -26,7 +42,7 @@ class MonitoringViewController: UIViewController {
     private lazy var selectPetButton:ReusableButton = {
         var config = UIImage.SymbolConfiguration(hierarchicalColor: UIColor(named: "primaryMain") ?? .systemPink)
         config = config.applying(UIImage.SymbolConfiguration(weight: .bold))
-        let btn = ReusableButton(titleBtn: "Semua Hewan", styleBtn: .frameless, icon: UIImage(systemName: "chevron.down", withConfiguration: config))
+        var btn = ReusableButton(titleBtn: "Semua Hewan", styleBtn: .frameless, icon: UIImage(systemName: "chevron.down", withConfiguration: config))
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -86,10 +102,10 @@ class MonitoringViewController: UIViewController {
         tableView.reloadData()
     }
     
+    //MARK: -VIEWWILLAPPEAR
     override func viewWillAppear(_ animated: Bool) {
         Task {
-            monitoringViewModel.tanggalEndpointModelObject.accept(changeDateIntoYYYYMMDD(Date()))
-            await monitoringViewModel.fetchMonitoring()
+            monitoringViewModel.getAllPet()
         }
     }
     
@@ -97,6 +113,41 @@ class MonitoringViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petsSelectionModelArrayObserver.skip(1).subscribe(onNext: { [self] (value) in
+            let pets = petsSelectionModelArray.value.map { obj -> PetBody in
+                return PetBody(petName: obj.petName!, petType: obj.petType!, petSize: obj.petSize!)
+            }
+            petsBodyModelArray.accept(pets)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petBodyModelArrayObserver.skip(1).subscribe(onNext: { [self] (value) in
+            Task {
+                monitoringViewModel.monitoringBodyModelObject.accept(MonitoringBody(userID: userID, date: tanggalEndpointModelObject.value, pets: value))
+                await monitoringViewModel.fetchMonitoring()
+            }
+        }).disposed(by: bags)
+
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        monitoringViewModel.petModelArrayObserver.skip(1).subscribe(onNext: { [self] (value) in
+            petsSelectionModelArray.accept(value)
+        }).disposed(by: bags)
         
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
@@ -106,7 +157,7 @@ class MonitoringViewController: UIViewController {
         ///     - text: set of character/string that would like  to be checked.
         monitoringViewModel.titleDateModelObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
             DispatchQueue.main.async { [self] in
-                dateButton.titleLabel?.text = value
+                dateButton.setAttributedTitle(NSAttributedString(string: value, attributes: [NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 16)!]), for: .normal)
             }
         },onError: { error in
             self.present(errorAlert(), animated: true)
@@ -119,8 +170,9 @@ class MonitoringViewController: UIViewController {
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
         monitoringViewModel.tanggalModelObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
-            monitoringViewModel.tanggalEndpointModelObject.accept(value)
+            tanggalEndpointModelObject.accept(value)
             Task {
+                monitoringViewModel.monitoringBodyModelObject.accept(MonitoringBody(userID: userID, date: value, pets: petsBodyModelArray.value))
                 await monitoringViewModel.fetchMonitoring()
             }
         },onError: { error in
@@ -176,10 +228,66 @@ class MonitoringViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
-        selectPetButton.rx.tap.bind {
-            let vc = ModalMonitoringViewController()
-            vc.modalPresentationStyle = .pageSheet
-            self.present(vc, animated: true)
+        modalSelectPetViewController.petsSelectionModelArrayObserver.subscribe(onNext: { [self] (value) in
+            petsSelectionModelArray.accept(value)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        modalSelectPetViewController.petsSelectedModelArrayObserver.subscribe(onNext: { [self] (value) in
+            petSelectedModelArray.accept(value)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        modalSelectPetViewController.petsBodhyModelArrayObserver.skip(1).subscribe(onNext: { [self] (value) in
+            monitoringViewModel.petBody.accept(value)
+            monitoringViewModel.petSelection.accept(petsSelectionModelArray.value)
+            monitoringViewModel.configureHewanCounterLabel()
+            petsBodyModelArray.accept(value)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        monitoringViewModel.jumlahHewanObjectObserver.skip(1).subscribe(onNext: { (value) in
+            DispatchQueue.main.async { [self] in
+                selectPetButton.setAttributedTitle(NSAttributedString(string: value, attributes: [NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 16)!]), for: .normal)
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        selectPetButton.rx.tap.bind { [self] in
+            modalSelectPetViewController.petSelectionModelArray.accept(petsSelectionModelArray.value)
+            modalSelectPetViewController.petSelectedModelArray.accept(petSelectedModelArray.value)
+            modalSelectPetViewController.petBodyModelArray.accept([])
+            modalSelectPetViewController.modalPresentationStyle = .pageSheet
+            modalSelectPetViewController.isModalInPresentation  = true
+            present(modalSelectPetViewController, animated: true)
         }.disposed(by: bags)
     }
 }
@@ -189,6 +297,7 @@ class MonitoringViewController: UIViewController {
 extension MonitoringViewController: UICalendarSelectionSingleDateDelegate {
     @available(iOS 16.0, *)
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
+        dateModelObject.accept(dateComponents!)
         monitoringViewModel.dateModelObject.accept(dateComponents!)
         monitoringViewModel.configureDate()
         calendarView.removeFromSuperview()

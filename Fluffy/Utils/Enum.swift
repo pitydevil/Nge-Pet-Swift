@@ -20,6 +20,7 @@ enum ApplicationEndpoint {
     case getNearest(longitude : Double, latitude : Double)
     case postOrder(order: [AddOrder])
     case getPetHotelDetail(petHotelID : Int)
+    case getListMonitoring(MonitoringBody : MonitoringBody)
     case getMonitoringByDate(userID : Int, date : String)
     case getPetHotelPackage(petHotelID: Int, supportedPetName: String)
 //    case postConsultation(etalaseID: String, companyName : String, url1 : String, url2: String, shortDescription: String, problemDescription : String, marketingBudget : Double, userID : String)
@@ -40,12 +41,9 @@ enum genderCase : String {
 }
 
 enum petSizeCase : String {
-    case kucingKecil  = "Kucing Kecil (Panjang 5 - 10 cm)"
-    case kucingSedang = "Kucing Sedang (Panjang 10 - 15 cm)"
-    case kucingBesar  = "Kucing Besar (Panjang 15 - 20 cm)"
-    case anjingKecil  = "Anjing Kecil (Panjang 5 - 10 cm)"
-    case anjingSedang = "Anjing Sedang (Panjang 10 - 15 cm)"
-    case anjingBesar  = "Anjing Besar (Panjang 15 - 20 cm)"
+    case kecil  = "Kecil"
+    case sedang = "Sedang"
+    case besar  = "Besar"
 }
 
 enum petTypeCase : String {
@@ -84,4 +82,16 @@ enum summaryGenerate : Error {
 enum bookingPesananCase : String {
     case aktif   = "aktif"
     case riwayat = "riwayat"
+}
+
+//MARK: -MONITORING ENUMERATION DECLARATION
+enum monitoringCase  {
+    case empty
+    case terisi
+}
+
+enum stateSelectectionCase  {
+    case full
+    case kosong
+    case parsial(jumlah : Int)
 }

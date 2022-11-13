@@ -20,7 +20,7 @@ class EditPetViewController: UIViewController {
     private var petGenderObject  = BehaviorRelay<genderCase>(value: .male)
     private var petTypeObject    = BehaviorRelay<petTypeCase>(value: .kucing)
     private var petIconObject    = BehaviorRelay<petIconCase>(value: .dog1)
-    private var petSizeObject    = BehaviorRelay<petSizeCase>(value: .kucingKecil)
+    private var petSizeObject    = BehaviorRelay<petSizeCase>(value: .kecil)
 
     private var petTypeObserver : Observable<petTypeCase> {
         return petTypeObject.asObservable()
@@ -33,7 +33,7 @@ class EditPetViewController: UIViewController {
     }
     
     private let petIconDataObject  = BehaviorRelay<[String]>(value: ["dog1","dog2","dog3","dog4","dog5","dog6","dog7","dog8","dog9"])
-    private let petSizeArrayObject = BehaviorRelay<[String]>(value: ["Kucing Kecil (Panjang 5 - 10 cm)", "Kucing Sedang (Panjang 10 - 15 cm)", "Kucing Besar (Panjang 15 - 20 cm)", "Anjing Kecil (Panjang 5 - 10 cm)", "Anjing Sedang (Panjang 10 - 15 cm)", "Anjing Besar (Panjang 15 - 20 cm)"])
+    private let petSizeArrayObject = BehaviorRelay<[String]>(value: ["Kecil", "Sedang", "Besar"])
     
 
     //MARK: Subviews

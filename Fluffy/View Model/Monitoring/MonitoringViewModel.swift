@@ -12,11 +12,17 @@ import RxCocoa
 class MonitoringViewModel {
     
     //MARK: OBJECT DECLARATION
-    var monitoringModelArray = BehaviorRelay<[Monitoring]>(value: [])
-    var dateModelObject      = BehaviorRelay<DateComponents>(value: DateComponents())
-    var titleDateModelObject = BehaviorRelay<String>(value: String())
-    var tanggalModelObject   = BehaviorRelay<String>(value: String())
-    var tanggalEndpointModelObject   = BehaviorRelay<String>(value: String())
+    private var provider = BaseProviders()
+    private var monitoringModelArray = BehaviorRelay<[Monitoring]>(value: [])
+    private var petArray: Observable<[Pets]>?
+    private let petModelArray = BehaviorRelay<[PetsSelection]>(value: [])
+    var petSelection          = BehaviorRelay<[PetsSelection]>(value: [])
+    var petBody               = BehaviorRelay<[PetBody]>(value: [])
+    var dateModelObject       = BehaviorRelay<DateComponents>(value: DateComponents())
+    var titleDateModelObject  = BehaviorRelay<String>(value: String())
+    var tanggalModelObject    = BehaviorRelay<String>(value: String())
+    var jumlahHewanObject     = BehaviorRelay<String>(value: String())
+    var monitoringBodyModelObject   = BehaviorRelay<MonitoringBody>(value: MonitoringBody(userID: 1, date: "", pets: [PetBody]()))
     private let networkService       : NetworkServicing
     
     //MARK: OBJECT OBSERVER DECLARATION
@@ -32,11 +38,45 @@ class MonitoringViewModel {
         return monitoringModelArray.asObservable()
     }
     
+    var petModelArrayObserver: Observable<[PetsSelection]> {
+        return petModelArray.asObservable()
+    }
+    
+    var jumlahHewanObjectObserver: Observable<String> {
+        return jumlahHewanObject.asObservable()
+    }
+    
     //MARK: - INIT OBJECT
     init(networkService: NetworkServicing = NetworkService()) {
         self.networkService = networkService
+        self.provider =  BaseProviders()
     }
     
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
+    func getAllPet() {
+        petArray = provider.callDatabase()
+        petArray?.subscribe(onNext: { (value) in
+            var petModel = [PetsSelection]()
+            for pet in value {
+                petModel.append(PetsSelection(petID: pet.petID, petData: pet.petData, petAge: Int(pet.petAge!), petBreed: pet.petBreed, petName: pet.petName, petSize: pet.petSize, petType: pet.petType, petGender: pet.petGender, dateCreated: pet.dateCreated, isChecked: false))
+            }
+            self.petModelArray.accept(petModel)
+        }, onError: { (error) in
+            _ = self.petModelArrayObserver.catch { (error) in
+                Observable.empty()
+            }
+        }).disposed(by: bags)
+    }
+    
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
     func configureDate() {
         let currentDate = Date()
         let currentYear = Calendar.current.component(.year, from: Date())
@@ -59,7 +99,21 @@ class MonitoringViewModel {
         tanggalModelObject.accept(changeDateIntoYYYYMMDD(dateModelObject.value.date!))
         titleDateModelObject.accept(titleLbl)
     }
-
+    
+    //MARK: - OBJECT DECLARATION
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
+    func configureHewanCounterLabel() {
+        if petBody.value.count == petSelection.value.count {
+            jumlahHewanObject.accept("Semua Hewan")
+        }else {
+            jumlahHewanObject.accept("\(petBody.value.count) hewan dipilih")
+        }
+    }
+    
     //MARK: - OBJECT DECLARATION
     /// Returns boolean true or false
     /// from the given components.
@@ -67,7 +121,7 @@ class MonitoringViewModel {
     ///     - allowedCharacter: character subset that's allowed to use on the textfield
     ///     - text: set of character/string that would like  to be checked.
     func fetchMonitoring() async {
-        let endpoint = ApplicationEndpoint.getMonitoringByDate(userID: userID, date: tanggalEndpointModelObject.value)
+        let endpoint = ApplicationEndpoint.getListMonitoring(MonitoringBody: monitoringBodyModelObject.value)
         let result = await networkService.request(to: endpoint, decodeTo: Response<[Monitoring]>.self)
         switch result {
         case .success(let response):

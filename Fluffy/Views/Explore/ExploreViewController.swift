@@ -16,6 +16,7 @@ class ExploreViewController: UIViewController {
     private let petHotelList = BehaviorRelay<[PetHotels]>(value: [])
     private var modalSearchLocationObject = BehaviorRelay<LocationDetail>(value: LocationDetail(longitude: 0.0, latitude: 0.0, locationName: ""))
     private var checkFinalObject = BehaviorRelay<CheckIn>(value:CheckIn(checkInDate: "", checkOutDate: ""))
+    private var numCard    = 0
     
     //MARK: Subviews
     private let scrollView:UIScrollView = {
@@ -141,6 +142,8 @@ class ExploreViewController: UIViewController {
         return tableView
     }()
     
+    private var tableViewHeightConstraint : NSLayoutConstraint?
+    
     override func viewWillAppear(_ animated: Bool) {
         Task {
             await exploreViewModel.fetchExploreList()
@@ -160,6 +163,13 @@ class ExploreViewController: UIViewController {
         ///     - text: set of character/string that would like  to be checked.
         exploreViewModel.petHotelModelArrayObserver.subscribe(onNext: { (value) in
             self.petHotelList.accept(value)
+            
+            self.numCard = self.petHotelList.value.count
+            
+            DispatchQueue.main.async { [self] in
+                tableViewHeightConstraint!.constant = CGFloat(numCard*216)
+                view.layoutIfNeeded()
+            }
         },onError: { error in
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
@@ -250,14 +260,6 @@ class ExploreViewController: UIViewController {
     @objc func toSelectPetModal() {
         let vc = ModalSelectPetViewController()
         vc.modalPresentationStyle = .pageSheet
-        vc.passingPet = { [weak self] text in
-            DispatchQueue.main.async {
-                self?.searchPet.attributedPlaceholder = NSAttributedString(string: text!, attributes: [
-                    .foregroundColor: UIColor(named: "white") as Any,
-                    .font: UIFont(name: "Inter-Medium", size: 12)!
-                ])
-            }
-        }
         self.present(vc, animated: true)
     }
 }
@@ -302,6 +304,7 @@ extension ExploreViewController{
         contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        contentView.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor).isActive = true
         contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
         
         //MARK: Red Rectangle Constraints
@@ -366,8 +369,8 @@ extension ExploreViewController{
         tableView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 24).isActive = true
         tableView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -24).isActive = true
         tableView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        tableView.heightAnchor.constraint(greaterThanOrEqualToConstant: 216*20).isActive = true
+        tableViewHeightConstraint = tableView.heightAnchor.constraint(greaterThanOrEqualToConstant: 216)
+        tableViewHeightConstraint!.isActive = true
     }
 }
 

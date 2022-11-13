@@ -19,7 +19,7 @@ class PetViewModel {
     }
 
     init() {
-        self.provider = { return BaseProviders()}()
+        self.provider = BaseProviders()
     }
 
     /// Returns boolean true or false
@@ -36,7 +36,7 @@ class PetViewModel {
             }
             self.petModelArray.accept(petModel)
         }, onError: { (error) in
-            _ = self.petModelArrayObserver.catchError { (error) in
+            _ = self.petModelArrayObserver.catch { (error) in
                 Observable.empty()
             }
         }).disposed(by: bags)
