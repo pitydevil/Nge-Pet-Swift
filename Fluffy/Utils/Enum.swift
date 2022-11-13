@@ -21,6 +21,7 @@ enum ApplicationEndpoint {
     case postOrder(order: [AddOrder])
     case getPetHotelDetail(petHotelID : Int)
     case getMonitoringByDate(userID : Int, date : String)
+    case getPetHotelPackage(petHotelID: Int, supportedPetName: String)
 //    case postConsultation(etalaseID: String, companyName : String, url1 : String, url2: String, shortDescription: String, problemDescription : String, marketingBudget : Double, userID : String)
 //    case getConsultation(userID : String)
 //    case getConsultationAgency(etalaseID : String)
