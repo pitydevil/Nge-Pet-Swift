@@ -30,7 +30,6 @@ class SupportedPetCollectionViewCell: UICollectionViewCell {
 }
 
 // MARK: - Setups
-
 private extension SupportedPetCollectionViewCell {
     func imageViewConstraints() {
         imageView.translatesAutoresizingMaskIntoConstraints = false

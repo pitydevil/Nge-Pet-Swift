@@ -262,7 +262,6 @@ class BookingConfirmationViewController: UIViewController {
         
         setupConstraint()
     }
-    
 }
 
 @available(iOS 16.0, *)
