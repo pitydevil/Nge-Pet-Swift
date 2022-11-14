@@ -13,11 +13,11 @@ import RxCocoa
 class MonitoringViewController: UIViewController {
     
     //MARK: OBJECT DECLARATION
-    private var dateModelObject      = BehaviorRelay<DateComponents>(value: DateComponents())
+    private var dateModelObject           = BehaviorRelay<DateComponents>(value: DateComponents())
     private var monitoringModelArray      = BehaviorRelay<[Monitoring]>(value: [])
     private var petsSelectionModelArray   = BehaviorRelay<[PetsSelection]>(value: [])
     private var petsBodyModelArray        = BehaviorRelay<[PetBody]>(value: [])
-    private var petSelectedModelArray            = BehaviorRelay<[PetsSelection]>(value: [])
+    private var petSelectedModelArray     = BehaviorRelay<[PetsSelection]>(value: [])
     private let monitoringViewModel       = MonitoringViewModel()
     private let modalSelectPetViewController = ModalSelectPetViewController()
     var tanggalEndpointModelObject        = BehaviorRelay<String>(value: changeDateIntoYYYYMMDD(Date()))
@@ -157,7 +157,7 @@ class MonitoringViewController: UIViewController {
         ///     - text: set of character/string that would like  to be checked.
         monitoringViewModel.titleDateModelObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
             DispatchQueue.main.async { [self] in
-                dateButton.setAttributedTitle(NSAttributedString(string: value, attributes: [NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 16)!]), for: .normal)
+                dateButton.setAttributeTitleText(value, 16)
             }
         },onError: { error in
             self.present(errorAlert(), animated: true)
@@ -269,7 +269,7 @@ class MonitoringViewController: UIViewController {
         ///     - text: set of character/string that would like  to be checked.
         monitoringViewModel.jumlahHewanObjectObserver.skip(1).subscribe(onNext: { (value) in
             DispatchQueue.main.async { [self] in
-                selectPetButton.setAttributedTitle(NSAttributedString(string: value, attributes: [NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 16)!]), for: .normal)
+                selectPetButton.setAttributeTitleText(value, 16)
             }
         },onError: { error in
             self.present(errorAlert(), animated: true)

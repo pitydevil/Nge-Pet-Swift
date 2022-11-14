@@ -76,4 +76,5 @@ public func attributedTextForSearchTextfield(_ text : String) -> NSAttributedStr
         .font: UIFont(name: "Inter-Medium", size: 12)!
     ])
 }
+
 //MARK: -PET SWITCH FUNCTION ->

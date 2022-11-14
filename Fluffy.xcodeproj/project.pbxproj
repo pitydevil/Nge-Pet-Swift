@@ -115,6 +115,7 @@
 		4BD8C2DD291F6DCB00F7DB18 /* MonitoringBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2DC291F6DCB00F7DB18 /* MonitoringBody.swift */; };
 		4BD8C2E1291F6E3100F7DB18 /* PetBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2E0291F6E3100F7DB18 /* PetBody.swift */; };
 		4BD8C2E3291F8BBE00F7DB18 /* ModalMonitoringViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2E2291F8BBE00F7DB18 /* ModalMonitoringViewModel.swift */; };
+		4BD8C2E5292206FB00F7DB18 /* ExploreSearchBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2E4292206FB00F7DB18 /* ExploreSearchBody.swift */; };
 		4E1371D9291B90AF00300AA6 /* PetHotels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1371D8291B90AF00300AA6 /* PetHotels.swift */; };
 		4E1371DB291B90C100300AA6 /* PetHotelSupportedPet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1371DA291B90C100300AA6 /* PetHotelSupportedPet.swift */; };
 		4E1371DD291B90CE00300AA6 /* SupportedPetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1371DC291B90CE00300AA6 /* SupportedPetType.swift */; };
@@ -292,6 +293,7 @@
 		4BD8C2DC291F6DCB00F7DB18 /* MonitoringBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringBody.swift; sourceTree = "<group>"; };
 		4BD8C2E0291F6E3100F7DB18 /* PetBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetBody.swift; sourceTree = "<group>"; };
 		4BD8C2E2291F8BBE00F7DB18 /* ModalMonitoringViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalMonitoringViewModel.swift; sourceTree = "<group>"; };
+		4BD8C2E4292206FB00F7DB18 /* ExploreSearchBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreSearchBody.swift; sourceTree = "<group>"; };
 		4E1371D8291B90AF00300AA6 /* PetHotels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotels.swift; sourceTree = "<group>"; };
 		4E1371DA291B90C100300AA6 /* PetHotelSupportedPet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotelSupportedPet.swift; sourceTree = "<group>"; };
 		4E1371DC291B90CE00300AA6 /* SupportedPetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedPetType.swift; sourceTree = "<group>"; };
@@ -628,9 +630,8 @@
 		4B78DB3328EAD91100744386 /* API Model */ = {
 			isa = PBXGroup;
 			children = (
-				4BD8C29B291A1C7A00F7DB18 /* CancelSop.swift */,
-				4BD8C29D291A1C8E00F7DB18 /* Package.swift */,
-				4BD8C2A1291A20B600F7DB18 /* CustomSOP.swift */,
+				4BD8C2E92922077400F7DB18 /* Body */,
+				4BD8C2E82922076D00F7DB18 /* Response */,
 			);
 			path = "API Model";
 			sourceTree = "<group>";
@@ -821,7 +822,6 @@
 			isa = PBXGroup;
 			children = (
 				4BD8C2DC291F6DCB00F7DB18 /* MonitoringBody.swift */,
-				4BD8C2E0291F6E3100F7DB18 /* PetBody.swift */,
 			);
 			path = Body;
 			sourceTree = "<group>";
@@ -836,15 +836,50 @@
 			path = Response;
 			sourceTree = "<group>";
 		};
-		4E1371D7291B90A300300AA6 /* Domain */ = {
+		4BD8C2E62922070000F7DB18 /* Response */ = {
 			isa = PBXGroup;
 			children = (
 				4E1371D8291B90AF00300AA6 /* PetHotels.swift */,
 				4E1371DA291B90C100300AA6 /* PetHotelSupportedPet.swift */,
 				4E1371DC291B90CE00300AA6 /* SupportedPetType.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		4BD8C2E72922070D00F7DB18 /* Body */ = {
+			isa = PBXGroup;
+			children = (
+				4BD8C2E4292206FB00F7DB18 /* ExploreSearchBody.swift */,
+				4BD8C2B1291D0EFD00F7DB18 /* CheckIn.swift */,
 				4BD8C2A5291BD4EF00F7DB18 /* Location.swift */,
 				4BD8C2AF291D068700F7DB18 /* LocationDetail.swift */,
-				4BD8C2B1291D0EFD00F7DB18 /* CheckIn.swift */,
+			);
+			path = Body;
+			sourceTree = "<group>";
+		};
+		4BD8C2E82922076D00F7DB18 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				4BD8C29B291A1C7A00F7DB18 /* CancelSop.swift */,
+				4BD8C29D291A1C8E00F7DB18 /* Package.swift */,
+				4BD8C2A1291A20B600F7DB18 /* CustomSOP.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		4BD8C2E92922077400F7DB18 /* Body */ = {
+			isa = PBXGroup;
+			children = (
+				4BD8C2E0291F6E3100F7DB18 /* PetBody.swift */,
+			);
+			path = Body;
+			sourceTree = "<group>";
+		};
+		4E1371D7291B90A300300AA6 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				4BD8C2E72922070D00F7DB18 /* Body */,
+				4BD8C2E62922070000F7DB18 /* Response */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -1299,6 +1334,7 @@
 				4E1371D9291B90AF00300AA6 /* PetHotels.swift in Sources */,
 				1DE771CB2911235700A23A66 /* CatatanKhususTableViewCell.swift in Sources */,
 				4E9DEFBB291D5BD20001930D /* AddCustomSOP.swift in Sources */,
+				4BD8C2E5292206FB00F7DB18 /* ExploreSearchBody.swift in Sources */,
 				1DE771C52910D0AB00A23A66 /* SelectBookingDetailsViewController.swift in Sources */,
 				4B3D82D329051DAD00F6A82F /* Application Endpoint.swift in Sources */,
 				4BD8C2D8291E35E900F7DB18 /* Shared Static Instances.swift in Sources */,
