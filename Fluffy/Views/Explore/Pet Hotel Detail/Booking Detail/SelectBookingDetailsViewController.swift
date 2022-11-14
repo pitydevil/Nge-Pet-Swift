@@ -9,26 +9,18 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-struct ExpandableNames {
-    var isExpanded: Bool = false
-    var namesIs: String
-}
-
 @available(iOS 16.0, *)
 class SelectBookingDetailsViewController: UIViewController {
     
     //MARK: - VIEW CONTROLLER OBJECT
-    private let petViewModel = PetViewModel()
-    private let petList = BehaviorRelay<[Pets]>(value: [])
+    private let selectBookingViewModel = SelectBookingViewModel()
+    private let petList = BehaviorRelay<[PetsSelection]>(value: [])
+    private let filteredPetList = BehaviorRelay<[PetsSelection]>(value: [])
     
-    var filteredData: [ExpandableNames] = []
-    
-    var names = [
-        ExpandableNames(isExpanded: false, namesIs: "Bonnie"),
-        ExpandableNames(isExpanded: false, namesIs: "Chiron"),
-        ExpandableNames(isExpanded: false, namesIs: "Budiman"),
-        ExpandableNames(isExpanded: false, namesIs: "Toro"),
-        ]
+    //MARK: OBJECT OBSERVER DECLARATION
+    var filteredPetListModelArrayObserver : Observable<[PetsSelection]> {
+        return filteredPetList.asObservable()
+    }
 
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -91,8 +83,6 @@ class SelectBookingDetailsViewController: UIViewController {
         navigationItem.titleView = setTitle(title: "Katze Nesia Cat Hotel", subtitle: "Bekasi, Jawa Barat")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         
-        filteredData = names
-        
         view.addSubview(searchBar)
         view.addSubview(packageTableView)
         
@@ -137,7 +127,7 @@ class SelectBookingDetailsViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        petViewModel.getAllPet()
+        selectBookingViewModel.getAllPet()
     }
 
     override func viewDidLoad() {
@@ -151,8 +141,26 @@ class SelectBookingDetailsViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
-        petViewModel.petModelArrayObserver.subscribe(onNext: { (value) in
-            self.petList.accept(value)
+        selectBookingViewModel.petModelArrayObserver.subscribe(onNext: { [self] (value) in
+            petList.accept(value)
+            filteredPetList.accept(value)
+            DispatchQueue.main.async { [self] in
+                packageTableView.reloadData()
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        filteredPetListModelArrayObserver.subscribe(onNext: { [self] (value) in
+            DispatchQueue.main.async { [self] in
+                packageTableView.reloadData()
+            }
         },onError: { error in
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
@@ -218,43 +226,50 @@ extension SelectBookingDetailsViewController {
 extension SelectBookingDetailsViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        filteredData = searchText.isEmpty ? names : names.filter({ ExpandableNames in
-            return ExpandableNames.namesIs.range(of: searchText, options: .caseInsensitive) != nil
+        filteredPetList.accept(searchProcess(text: searchText))
+        
+    }
+    
+    func searchProcess(text: String) -> [PetsSelection] {
+        text.isEmpty ? petList.value : petList.value.filter({ Pets in
+            return Pets.petName!.range(of: text, options: .caseInsensitive) != nil
         })
-        self.packageTableView.reloadData()
     }
 }
 
 @available(iOS 16.0, *)
 extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return filteredData.count
+        return filteredPetList.value.count
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ExpandableHeaderView.identifier) as! ExpandableHeaderView
         
-        //MARK: - Add Pet Data Here
-//        headerView.configure(iconPackage: "birman", namePet: filteredData[section].namesIs, sizePet: "Kucing Sedang", racePet: " - Domestic")
         
-        headerView.switchBtn.addTarget(self, action: #selector(didChangeSwitch), for: .valueChanged)
+        //MARK: - Add Pet Data Here
+        headerView.configure(petList.value[section])
         headerView.switchBtn.tag = section
+        headerView.switchBtn.addTarget(self, action: #selector(didChangeSwitch), for: .valueChanged)
+        
         
         return headerView
     }
     
     @objc func didChangeSwitch(button: UISwitch) {
         let section = button.tag
+        print(section)
         var indexPaths = [IndexPath]()
-        filteredData[section].isExpanded = !filteredData[section].isExpanded
+        
+        let isExpand = filteredPetList.value[section].isChecked
+        filteredPetList.accept([PetsSelection(isChecked: !isExpand!)])
         
         for row in 0...1 {
             let indexPath = IndexPath(row: row, section: section)
             indexPaths.append(indexPath)
         }
-        
         let cell = packageTableView.headerView(forSection: section)
-        if filteredData[section].isExpanded {
+        if filteredPetList.value[section].isChecked! {
             packageTableView.insertRows(at: indexPaths, with: .fade)
             cell?.contentView.layer.shadowColor = UIColor(named: "white")?.cgColor
             cell?.contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
@@ -265,19 +280,20 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
                 separator.widthAnchor.constraint(equalToConstant: 300),
                 separator.centerXAnchor.constraint(equalTo: (cell?.contentView.centerXAnchor)!),
             ])
-        } else if !names[section].isExpanded {
+        } else if !filteredPetList.value[section].isChecked! {
             packageTableView.deleteRows(at: indexPaths, with: .fade)
             cell?.contentView.layer.shadowColor = UIColor(named: "grey1")?.cgColor
             cell?.contentView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
             separator.removeFromSuperview()
-        }    }
+        }
+    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 88
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if !filteredData[section].isExpanded {
+        if !filteredPetList.value[section].isChecked! {
             return 0
         }
         return 2

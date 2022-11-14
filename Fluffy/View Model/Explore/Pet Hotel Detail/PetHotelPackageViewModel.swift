@@ -15,6 +15,7 @@ struct PetHotelPackageViewModel {
     private var petHotelPackageModel = BehaviorRelay<[PetHotelPackage]>(value: [])
     var petHotelID                   = BehaviorRelay<Int>(value: 0)
     var supportedPetName             = BehaviorRelay<String>(value: "")
+    var selectedIndexPetModel        = BehaviorRelay<Int>(value: -1)
     
     //MARK: - OBSERVABLE OBJECT DECLARATION
     var petHotelPackageModelArrayObserver : Observable<[PetHotelPackage]> {

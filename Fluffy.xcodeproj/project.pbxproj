@@ -46,6 +46,7 @@
 		1DC60F65292122210094DA39 /* PetHotelPackage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC60F64292122210094DA39 /* PetHotelPackage.swift */; };
 		1DC60F672921229E0094DA39 /* PackageDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC60F662921229E0094DA39 /* PackageDetail.swift */; };
 		1DC60F6A292127D40094DA39 /* PetHotelPackageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC60F69292127D40094DA39 /* PetHotelPackageViewModel.swift */; };
+		1DC60F6E2922B95E0094DA39 /* SelectBookingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC60F6D2922B95E0094DA39 /* SelectBookingViewModel.swift */; };
 		1DE1B008291263C1002095A0 /* CatatanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE1B007291263C1002095A0 /* CatatanViewController.swift */; };
 		1DE1B00A2912D260002095A0 /* CatatanTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE1B0092912D260002095A0 /* CatatanTableViewCell.swift */; };
 		1DE5D73F2906463A00CD4820 /* ModalSearchLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE5D73E2906463A00CD4820 /* ModalSearchLocationViewController.swift */; };
@@ -218,6 +219,7 @@
 		1DC60F64292122210094DA39 /* PetHotelPackage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotelPackage.swift; sourceTree = "<group>"; };
 		1DC60F662921229E0094DA39 /* PackageDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageDetail.swift; sourceTree = "<group>"; };
 		1DC60F69292127D40094DA39 /* PetHotelPackageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotelPackageViewModel.swift; sourceTree = "<group>"; };
+		1DC60F6D2922B95E0094DA39 /* SelectBookingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectBookingViewModel.swift; sourceTree = "<group>"; };
 		1DE1B007291263C1002095A0 /* CatatanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatatanViewController.swift; sourceTree = "<group>"; };
 		1DE1B0092912D260002095A0 /* CatatanTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatatanTableViewCell.swift; sourceTree = "<group>"; };
 		1DE5D73E2906463A00CD4820 /* ModalSearchLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalSearchLocationViewController.swift; sourceTree = "<group>"; };
@@ -759,6 +761,7 @@
 			children = (
 				4BD8C2C5291D525F00F7DB18 /* PetHotelViewModel.swift */,
 				1DC60F69292127D40094DA39 /* PetHotelPackageViewModel.swift */,
+				1DC60F6D2922B95E0094DA39 /* SelectBookingViewModel.swift */,
 			);
 			path = "Pet Hotel Detail";
 			sourceTree = "<group>";
@@ -1281,6 +1284,7 @@
 				4BD8C2BB291D4DB400F7DB18 /* SOPGeneral.swift in Sources */,
 				1D85772228EC086600CF2D5E /* ReuseableLabel.swift in Sources */,
 				4E892D2F291189C40068D7E5 /* BookingDetailViewController.swift in Sources */,
+				1DC60F6E2922B95E0094DA39 /* SelectBookingViewModel.swift in Sources */,
 				4E1371DB291B90C100300AA6 /* PetHotelSupportedPet.swift in Sources */,
 				4BD8C2B7291D4D6700F7DB18 /* PetHotelsDetail.swift in Sources */,
 				4BC60A1428E5744E007A6DB0 /* Extension.swift in Sources */,

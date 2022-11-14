@@ -18,6 +18,8 @@ class PetIconCollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(named: "dog9")
+        imageView.contentMode = .scaleAspectFit
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -32,7 +34,9 @@ class PetIconCollectionViewCell: UICollectionViewCell {
         
         NSLayoutConstraint.activate([
             petImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            petImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+            petImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            petImageView.widthAnchor.constraint(equalToConstant: 52),
+            petImageView.heightAnchor.constraint(equalToConstant: 52),
         ])
     }
     

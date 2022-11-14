@@ -12,7 +12,9 @@ class PetTableViewCell: UITableViewCell {
     static let cellId = "PetTableViewCell"
     
     private lazy var petIcon: UIImageView = {
-       let imageView = UIImageView()
+        let imageView = UIImageView()
+        imageView.backgroundColor = UIColor(red: 0.82, green: 0.82, blue: 0.83, alpha: 1.00)
+        imageView.layer.cornerRadius = 12
         return imageView
     }()
     
