@@ -162,9 +162,6 @@ class ModalSelectPetViewController: UIViewController {
     
     //MARK: - VIEW WILL APPEAR
     override func viewWillAppear(_ animated: Bool) {
-        for pet in petSelectionModelArray.value {
-            print("testing 4\(pet)")
-        }
         modalMonitoringViewModel.petSelectionModelArray.accept(petSelectionModelArray.value)
         modalMonitoringViewModel.checkMonitoringModalState()
     }
