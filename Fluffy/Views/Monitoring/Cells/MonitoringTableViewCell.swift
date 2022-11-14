@@ -260,8 +260,8 @@ extension MonitoringTableViewCell{
             customSop += "\(sop.customSopName)\n"
         }
         descriptionLabel.numberOfLines = monitoring.customSops.count
-        customSop.removeFirst()
-        customSop.removeFirst()
+        customSop.removeLast()
+        customSop.removeLast()
         
         descriptionLabel.text = customSop
         petIcon.image = UIImage(named: "dog1")

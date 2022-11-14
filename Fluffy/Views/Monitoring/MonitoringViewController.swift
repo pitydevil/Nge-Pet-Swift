@@ -33,6 +33,11 @@ class MonitoringViewController: UIViewController {
     }
     
     //MARK: Subviews
+    private var refreshControl : UIRefreshControl  =  {
+        let refresh = UIRefreshControl()
+        return refresh
+    }()
+    
     private lazy var dateButton:ReusableButton = {
         let btn = ReusableButton(titleBtn: "Hari Ini", styleBtn:.normal, icon: UIImage(systemName: "calendar"))
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -99,7 +104,11 @@ class MonitoringViewController: UIViewController {
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         tableView.rightAnchor.constraint(equalTo: dateButton.rightAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        tableView.reloadData()
+        
+        //MARK: - REFRESH CONTROL
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        tableView.addSubview(refreshControl)
     }
     
     //MARK: -ViewDidLoad
@@ -197,6 +206,9 @@ class MonitoringViewController: UIViewController {
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
         monitoringViewModel.monitoringModelArrayObserver.skip(1).subscribe(onNext: { [self] (value) in
+            DispatchQueue.main.async { [self] in
+                refreshControl.endRefreshing()
+            }
             monitoringModelArray.accept(value)
         },onError: { error in
             self.present(errorAlert(), animated: true)
@@ -300,6 +312,19 @@ class MonitoringViewController: UIViewController {
             modalSelectPetViewController.isModalInPresentation  = true
             present(modalSelectPetViewController, animated: true)
         }.disposed(by: bags)
+    }
+    
+    //MARK: - Bind Journal List with Table View
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
+    @objc func handleRefreshControl() {
+        Task {
+            monitoringViewModel.monitoringBodyModelObject.accept(MonitoringBody(userID: userID, date: tanggalEndpointModelObject.value, pets: petsBodyModelArray.value))
+            await monitoringViewModel.fetchMonitoring()
+        }
     }
 }
 
