@@ -11,8 +11,6 @@ target 'Fluffy' do
   pod 'SkeletonView'
   pod 'RxSwift'
   pod 'RxCocoa'
-  pod 'SwiftyJSON', '~> 4.0'
-  pod 'SnapKit', '~> 5.0.0'
   target 'FluffyTests' do
     inherit! :search_paths
     # Pods for testing

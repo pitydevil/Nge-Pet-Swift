@@ -773,13 +773,6 @@
 			path = Cells;
 			sourceTree = "<group>";
 		};
-		4BD8C2CD291E2F7600F7DB18 /* Modal */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Modal;
-			sourceTree = "<group>";
-		};
 		4BD8C2CE291E2F8F00F7DB18 /* Modal */ = {
 			isa = PBXGroup;
 			children = (
@@ -908,7 +901,6 @@
 		4E5068B029001BF90005ADBF /* Monitoring */ = {
 			isa = PBXGroup;
 			children = (
-				4BD8C2CD291E2F7600F7DB18 /* Modal */,
 				4BD8C2CC291E2F6B00F7DB18 /* Cells */,
 				4BD8C2C7291E2D1500F7DB18 /* Domain */,
 				4EC56E4D28F826BB008ADD7F /* MonitoringViewController.swift */,
