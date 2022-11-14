@@ -416,6 +416,10 @@ class BookingDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //MARK: - Observer for Pet Type Value
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         setupUI()
         
         //MARK: - Observer for Pet Type Value
@@ -438,6 +442,33 @@ class BookingDetailViewController: UIViewController {
                 hargaTableHeightConstant!.constant = CGFloat(numHarga*36)
                 paketTableHeightConstant!.constant = CGFloat(numPackage*18)
                 view.layoutIfNeeded()
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        bookingViewModel.genericHandlingErrorObserver.skip(1).subscribe(onNext: { [self] (value) in
+            switch value {
+            case .objectNotFound:
+                self.present(genericAlert(titleAlert: "Booking Order Tidak Ada!", messageAlert: "Booking Order tidak ada, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true) {
+                    self.view.window!.rootViewController?.dismiss(animated: true, completion: {
+                        self.navigationController?.popViewController(animated: true)
+                    })
+                }
+            case .success:
+                print("Sukses Console 200")
+            default:
+                self.present(genericAlert(titleAlert: "Terjadi Gangguan server!", messageAlert: "Terjadi kesalahan dalam melakukan pencarian booking, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true) {
+                    self.view.window!.rootViewController?.dismiss(animated: true, completion: {
+                        self.navigationController?.popViewController(animated: true)
+                    })
+                }
             }
         },onError: { error in
             self.present(errorAlert(), animated: true)

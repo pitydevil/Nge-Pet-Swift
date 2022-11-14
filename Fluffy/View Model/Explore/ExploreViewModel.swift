@@ -20,6 +20,7 @@ class ExploreViewModel{
     private let searchPetHotelModelArray   = BehaviorRelay<[PetHotels]>(value: [])
     private var petArray: Observable<[Pets]>?
     private let petModelArray   = BehaviorRelay<[PetsSelection]>(value: [])
+    private var genericHandlingErrorObject = BehaviorRelay<genericHandlingError>(value: .success)
     var petSelection            = BehaviorRelay<[PetsSelection]>(value: [])
     var petBody                 = BehaviorRelay<[PetBody]>(value: [])
     var jumlahHewanObject       = BehaviorRelay<String>(value: String())
@@ -42,6 +43,10 @@ class ExploreViewModel{
     
     var jumlahHewanObjectObserver: Observable<String> {
         return jumlahHewanObject.asObservable()
+    }
+    
+    var genericHandlingErrorObserver   : Observable<genericHandlingError> {
+        return genericHandlingErrorObject.asObservable()
     }
 
     //MARK: - INIT OBJECT
@@ -109,11 +114,12 @@ class ExploreViewModel{
         let result = await networkService.request(to: endpoint, decodeTo: Response<[PetHotels]>.self)
         switch result {
         case .success(let response):
+            genericHandlingErrorObject.accept(genericHandlingError(rawValue: response.status!)!)
             if let petHotel = response.data {
                 self.searchPetHotelModelArray.accept(petHotel)
             }
-        case .failure(let error):
-            print(error)
+        case .failure(_):
+            genericHandlingErrorObject.accept(genericHandlingError(rawValue: 500)!)
         }
     }
     
@@ -128,11 +134,12 @@ class ExploreViewModel{
         let result = await networkService.request(to: endpoint, decodeTo: Response<[PetHotels]>.self)
         switch result {
         case .success(let response):
+            genericHandlingErrorObject.accept(genericHandlingError(rawValue: response.status!)!)
             if let petHotel = response.data {
                 self.petHotelModelArray.accept(petHotel)
             }
-        case .failure(let error):
-            print(error)
+        case .failure(_):
+            genericHandlingErrorObject.accept(genericHandlingError(rawValue: 500)!)
         }
     }
 }

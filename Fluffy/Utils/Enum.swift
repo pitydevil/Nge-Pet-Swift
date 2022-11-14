@@ -24,6 +24,14 @@ enum ApplicationEndpoint {
     case getSearchListPetHotel(exploreSearchBody : ExploreSearchBody)
 }
 
+enum genericHandlingError : Int {
+    case objectNotFound  = 404
+    case methodNotFound  = 405
+    case tooManyRequest  = 429
+    case success         = 200
+    case unexpectedError = 500
+}
+
 //MARK: - PET ENUMERATION DECLARATION
 enum genderCase : String {
     case female = "female"
