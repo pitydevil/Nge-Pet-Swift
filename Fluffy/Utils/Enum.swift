@@ -65,6 +65,11 @@ enum addPetErrorCase  {
     case sukses(errorTitle : String = "Sukses!", errorMessage : String =  "Data Hewan Perliharaan Kamu Berhasil Ditambahkan!")
 }
 
+enum removePetErrorCase  {
+    case gagalBuangPet(errorTitle   : String = "Gagal Menghapus Pet!", errorMessage : String = "Terjadi kegagalan dalam menghapus hewan peliharaan kamu, silahkan coba lagi nanti")
+    case sukses(errorTitle : String = "Sukses!", errorMessage : String =  "Data Hewan Perliharaan Kamu Berhasil Dibuang!")
+}
+
 //MARK: - BOOKING ENUMERATION DECLARATION
 enum bookingPesananCase : String {
     case aktif   = "aktif"

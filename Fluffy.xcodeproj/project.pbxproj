@@ -60,7 +60,6 @@
 		4B2A82F729197BA000830AE8 /* OrderDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2A82F629197BA000830AE8 /* OrderDetail.swift */; };
 		4B2A82F929197D9D00830AE8 /* BookingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2A82F829197D9D00830AE8 /* BookingViewModel.swift */; };
 		4B3D82BE29051A2F00F6A82F /* ModalSelectPetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82BD29051A2F00F6A82F /* ModalSelectPetViewController.swift */; };
-		4B3D82C029051A3900F6A82F /* ModalMonitoringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82BF29051A3900F6A82F /* ModalMonitoringViewController.swift */; };
 		4B3D82C229051A4500F6A82F /* ModalMonitoringTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82C129051A4500F6A82F /* ModalMonitoringTableViewCell.swift */; };
 		4B3D82C429051A5000F6A82F /* ModalCheckInOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82C329051A5000F6A82F /* ModalCheckInOutViewController.swift */; };
 		4B3D82CB29051D8E00F6A82F /* NetworkLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82C729051D8D00F6A82F /* NetworkLogger.swift */; };
@@ -234,7 +233,6 @@
 		4B2A82F829197D9D00830AE8 /* BookingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingViewModel.swift; sourceTree = "<group>"; };
 		4B2A82FA2919895800830AE8 /* FluffyDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FluffyDebug.entitlements; sourceTree = "<group>"; };
 		4B3D82BD29051A2F00F6A82F /* ModalSelectPetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalSelectPetViewController.swift; path = Fluffy/Views/Explore/Modal/ModalSelectPetViewController.swift; sourceTree = SOURCE_ROOT; };
-		4B3D82BF29051A3900F6A82F /* ModalMonitoringViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalMonitoringViewController.swift; path = Fluffy/Views/Monitoring/Modal/ModalMonitoringViewController.swift; sourceTree = SOURCE_ROOT; };
 		4B3D82C129051A4500F6A82F /* ModalMonitoringTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalMonitoringTableViewCell.swift; path = Fluffy/Views/Monitoring/Cells/ModalMonitoringTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		4B3D82C329051A5000F6A82F /* ModalCheckInOutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalCheckInOutViewController.swift; path = Fluffy/Views/Explore/Modal/ModalCheckInOutViewController.swift; sourceTree = SOURCE_ROOT; };
 		4B3D82C729051D8D00F6A82F /* NetworkLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkLogger.swift; sourceTree = "<group>"; };
@@ -778,7 +776,6 @@
 		4BD8C2CD291E2F7600F7DB18 /* Modal */ = {
 			isa = PBXGroup;
 			children = (
-				4B3D82BF29051A3900F6A82F /* ModalMonitoringViewController.swift */,
 			);
 			path = Modal;
 			sourceTree = "<group>";
@@ -1345,7 +1342,6 @@
 				4BC609D928E572DE007A6DB0 /* SceneDelegate.swift in Sources */,
 				4BD8C2A6291BD4EF00F7DB18 /* Location.swift in Sources */,
 				4EAF1EEB29084550007248AA /* PetSizeExplainationTableViewCell.swift in Sources */,
-				4B3D82C029051A3900F6A82F /* ModalMonitoringViewController.swift in Sources */,
 				1DA5543728EEA1570040E4F7 /* ReusableButton.swift in Sources */,
 				1D661468290A12CF007B43DA /* PetIconCollectionViewCell.swift in Sources */,
 				4BD8C2B9291D4D8700F7DB18 /* AsuransiDetail.swift in Sources */,
