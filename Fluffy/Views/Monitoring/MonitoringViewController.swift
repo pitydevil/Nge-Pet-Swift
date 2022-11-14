@@ -55,11 +55,15 @@ class MonitoringViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = UIColor(named: "grey3")
+        tableView.backgroundColor = .clear
         tableView.register(MonitoringTableViewCell.self, forCellReuseIdentifier: MonitoringTableViewCell.cellId)
         tableView.separatorColor = .clear
         tableView.allowsSelection = false
+        tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+//        tableView.estimatedRowHeight = 500
+
         return tableView
     }()
     
@@ -346,4 +350,11 @@ extension MonitoringViewController: UICalendarViewDelegate{
     func calendarView(_ calendarView: UICalendarView, decorationFor dateComponents: DateComponents) -> UICalendarView.Decoration? {
         return nil
     }
+}
+
+@available(iOS 16.0, *)
+extension MonitoringViewController:UITableViewDelegate{
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return UITableView.automaticDimension
+//    }
 }

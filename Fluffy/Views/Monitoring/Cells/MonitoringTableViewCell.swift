@@ -41,9 +41,16 @@ class MonitoringTableViewCell: UITableViewCell {
     
     private lazy var timeLabel:ReuseableLabel = ReuseableLabel(labelText: "8m", labelType: .bodyP2, labelColor: .grey1)
     
-    private lazy var descriptionView:UIView = {
+    private lazy var container:UIView = {
        let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor(named: "white")
+        view.layer.cornerRadius = 12
+        view.layer.masksToBounds = false
+        view.layer.shadowRadius = 4.0
+        view.layer.shadowOpacity = 0.1
+        view.layer.shadowColor = UIColor.gray.cgColor
+        view.layer.shadowOffset = CGSize(width: 4, height: 4)
         return view
     }()
     
@@ -92,6 +99,7 @@ class MonitoringTableViewCell: UITableViewCell {
     
     //MARK: - Properties
     static let cellId = "MonitoringTableViewCell"
+    var height = 18
     
     private var currentPage = 0 {
         didSet {
@@ -103,29 +111,24 @@ class MonitoringTableViewCell: UITableViewCell {
     //MARK: - Initializer
     
     fileprivate func setupUI() {
-        contentView.backgroundColor = UIColor(named: "white")
-        contentView.layer.cornerRadius = 12
-        contentView.layer.masksToBounds = false
-        contentView.layer.shadowRadius = 4.0
-        contentView.layer.shadowOpacity = 0.1
-        contentView.layer.shadowColor = UIColor.gray.cgColor
-        contentView.layer.shadowOffset = CGSize(width: 4, height: 4)
+ 
         
-        contentView.addSubview(locIcon)
-        contentView.addSubview(locationLabel)
-        contentView.addSubview(cardTitle)
-        contentView.addSubview(timeLabel)
-        contentView.addSubview(descriptionView)
-        descriptionView.addSubview(descriptionLabel)
+        contentView.addSubview(container)
+        container.addSubview(locIcon)
+        container.addSubview(locationLabel)
+        container.addSubview(cardTitle)
+        container.addSubview(timeLabel)
+//        contentView.addSubview(descriptionView)
+        container.addSubview(descriptionLabel)
         if newPost{
-            contentView.addSubview(notification)
+            container.addSubview(notification)
         }
-        contentView.addSubview(petIcon)
-        contentView.addSubview(dogName)
-        contentView.addSubview(carouselCollectionView)
-        contentView.addSubview(pageControl)
+        container.addSubview(petIcon)
+        container.addSubview(dogName)
+        container.addSubview(carouselCollectionView)
+        container.addSubview(pageControl)
         
-        setupConstraint()
+//        setupConstraint()
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -149,7 +152,7 @@ class MonitoringTableViewCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 48, right: 0))
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
     }
     
     required init?(coder: NSCoder) {
@@ -161,7 +164,7 @@ class MonitoringTableViewCell: UITableViewCell {
 extension MonitoringTableViewCell{
     func setupCollectionView() {
         carouselCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        carouselCollectionView.topAnchor.constraint(equalTo: descriptionView.bottomAnchor,constant: 20).isActive = true
+        carouselCollectionView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor,constant: 8).isActive = true
         carouselCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
         carouselCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
         carouselCollectionView.widthAnchor.constraint(equalToConstant: 310).isActive = true
@@ -175,8 +178,19 @@ extension MonitoringTableViewCell{
         pageControl.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         pageControl.widthAnchor.constraint(equalToConstant: 150).isActive = true
         pageControl.heightAnchor.constraint(equalToConstant: 28).isActive = true
-        pageControl.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20).isActive = true
+        pageControl.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -20).isActive = true
     }
+    
+    func heightForView(text:String, width:CGFloat) -> CGFloat{
+       let label:UILabel = UILabel(frame: CGRectMake(0, 0, width, CGFloat.greatestFiniteMagnitude))
+       label.numberOfLines = 0
+       label.lineBreakMode = NSLineBreakMode.byWordWrapping
+       label.font = UIFont(name: "Inter-Medium", size: 12)
+       label.text = text
+
+       label.sizeToFit()
+       return label.frame.height
+   }
     
     func setupConstraint() {
         //MARK: Autoresize constraints
@@ -187,6 +201,12 @@ extension MonitoringTableViewCell{
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         locIcon.translatesAutoresizingMaskIntoConstraints = false
         petIcon.translatesAutoresizingMaskIntoConstraints = false
+        
+        //MARK: Container Constraints
+        container.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        container.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+        container.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+        container.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -24).isActive = true
         
         //MARK: Location Icon Constraints
         locIcon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
@@ -231,7 +251,7 @@ extension MonitoringTableViewCell{
             petIcon.topAnchor.constraint(equalTo: notification.bottomAnchor, constant: 8).isActive = true
         }
         else{
-            
+            notification.removeFromSuperview()
             petIcon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
         }
         
@@ -244,18 +264,12 @@ extension MonitoringTableViewCell{
         
         //MARK: Description Constraints
         
-//        descriptionView.topAnchor.constraint(equalTo: cardTitle.bottomAnchor, constant: 4).isActive = true
-//        descriptionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
-//        descriptionView.rightAnchor.constraint(equalTo: dogName.leftAnchor, constant: -24).isActive = true
-//        descriptionView.widthAnchor.constraint(equalToConstant: 220).isActive = true
-//        descriptionView.heightAnchor.constraint(equalToConstant: 64).isActive = true
-        
-        descriptionLabel.topAnchor.constraint(equalTo: descriptionView.topAnchor).isActive = true
-        descriptionLabel.leftAnchor.constraint(equalTo: descriptionView.leftAnchor).isActive = true
-        descriptionLabel.rightAnchor.constraint(equalTo: descriptionView.leftAnchor).isActive = true
+        descriptionLabel.contentMode = .topLeft
+        descriptionLabel.topAnchor.constraint(equalTo: cardTitle.bottomAnchor, constant: 4).isActive = true
+        descriptionLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
         descriptionLabel.widthAnchor.constraint(equalToConstant: 220).isActive = true
-        descriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 18).isActive = true
-        
+        descriptionLabel.heightAnchor.constraint(equalToConstant: CGFloat(height)).isActive = true
+
         //MARK: Carousel Setup
         setupCollectionView()
         
@@ -275,15 +289,22 @@ extension MonitoringTableViewCell{
             customSop += "\(sop.customSopName)\n"
         }
         descriptionLabel.numberOfLines = monitoring.customSops.count
-        customSop.removeLast()
-        customSop.removeLast()
+//        customSop.removeLast()
+//        customSop.removeLast()
         
+        
+
         descriptionLabel.text = customSop
+        height = Int(heightForView(text: customSop, width: 220))
+//        descriptionLabel.text = "Jangan gunakan mainan plastik\n Jangan dielus saat bermain \n Jangan gunakan mainan plastik"
         print("text = \(customSop)")
         petIcon.image = UIImage(named: "dog1")
         dogName.text = monitoring.petName
         timeLabel.text = monitoring.timeUpload
         pageControl.numberOfPages = monitoring.monitoringImage.count
+        
+        newPost = monitoring.notification
+        setupConstraint()
         layoutIfNeeded()
     }
 }
