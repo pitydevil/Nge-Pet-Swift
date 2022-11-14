@@ -108,11 +108,8 @@ class PetTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
     }
-}
-
-//MARK: - Public
-extension PetTableViewCell {
-    public func configure(_ pets : Pets){
+    
+    func configure(_ pets : Pets){
         petIcon.image = UIImage(named: pets.petData!)
         petRace.text  = pets.petBreed!
         petName.text  = pets.petName!
