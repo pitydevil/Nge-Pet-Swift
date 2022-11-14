@@ -41,9 +41,18 @@ class MonitoringTableViewCell: UITableViewCell {
     
     private lazy var timeLabel:ReuseableLabel = ReuseableLabel(labelText: "8m", labelType: .bodyP2, labelColor: .grey1)
     
+    private lazy var descriptionView:UIView = {
+       let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     private lazy var descriptionLabel:UILabel = {
         let label =  ReuseableLabel(labelText: "Card Description", labelType: .bodyP2, labelColor: .grey1)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.frame.size.width = 220
+        label.sizeToFit()
         return label
     }()
     
@@ -106,7 +115,8 @@ class MonitoringTableViewCell: UITableViewCell {
         contentView.addSubview(locationLabel)
         contentView.addSubview(cardTitle)
         contentView.addSubview(timeLabel)
-        contentView.addSubview(descriptionLabel)
+        contentView.addSubview(descriptionView)
+        descriptionView.addSubview(descriptionLabel)
         if newPost{
             contentView.addSubview(notification)
         }
@@ -151,7 +161,7 @@ class MonitoringTableViewCell: UITableViewCell {
 extension MonitoringTableViewCell{
     func setupCollectionView() {
         carouselCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        carouselCollectionView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor,constant: 20).isActive = true
+        carouselCollectionView.topAnchor.constraint(equalTo: descriptionView.bottomAnchor,constant: 20).isActive = true
         carouselCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
         carouselCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
         carouselCollectionView.widthAnchor.constraint(equalToConstant: 310).isActive = true
@@ -233,13 +243,18 @@ extension MonitoringTableViewCell{
         petIcon.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
         
         //MARK: Description Constraints
-        descriptionLabel.textAlignment = .justified
-        descriptionLabel.showsExpansionTextWhenTruncated = true
         
-        descriptionLabel.topAnchor.constraint(equalTo: cardTitle.bottomAnchor, constant: 0).isActive = true
-        descriptionLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
-        descriptionLabel.rightAnchor.constraint(equalTo: dogName.leftAnchor, constant: -24).isActive = true
-        descriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 64).isActive = true
+//        descriptionView.topAnchor.constraint(equalTo: cardTitle.bottomAnchor, constant: 4).isActive = true
+//        descriptionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
+//        descriptionView.rightAnchor.constraint(equalTo: dogName.leftAnchor, constant: -24).isActive = true
+//        descriptionView.widthAnchor.constraint(equalToConstant: 220).isActive = true
+//        descriptionView.heightAnchor.constraint(equalToConstant: 64).isActive = true
+        
+        descriptionLabel.topAnchor.constraint(equalTo: descriptionView.topAnchor).isActive = true
+        descriptionLabel.leftAnchor.constraint(equalTo: descriptionView.leftAnchor).isActive = true
+        descriptionLabel.rightAnchor.constraint(equalTo: descriptionView.leftAnchor).isActive = true
+        descriptionLabel.widthAnchor.constraint(equalToConstant: 220).isActive = true
+        descriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 18).isActive = true
         
         //MARK: Carousel Setup
         setupCollectionView()
@@ -264,6 +279,7 @@ extension MonitoringTableViewCell{
         customSop.removeLast()
         
         descriptionLabel.text = customSop
+        print("text = \(customSop)")
         petIcon.image = UIImage(named: "dog1")
         dogName.text = monitoring.petName
         timeLabel.text = monitoring.timeUpload
