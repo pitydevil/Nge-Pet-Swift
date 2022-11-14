@@ -62,8 +62,6 @@ class MonitoringViewController: UIViewController {
         tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
-//        tableView.estimatedRowHeight = 500
-
         return tableView
     }()
     
@@ -350,11 +348,4 @@ extension MonitoringViewController: UICalendarViewDelegate{
     func calendarView(_ calendarView: UICalendarView, decorationFor dateComponents: DateComponents) -> UICalendarView.Decoration? {
         return nil
     }
-}
-
-@available(iOS 16.0, *)
-extension MonitoringViewController:UITableViewDelegate{
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableView.automaticDimension
-//    }
 }

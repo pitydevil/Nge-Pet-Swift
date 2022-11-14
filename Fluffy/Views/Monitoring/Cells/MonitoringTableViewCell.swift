@@ -128,7 +128,6 @@ class MonitoringTableViewCell: UITableViewCell {
         container.addSubview(carouselCollectionView)
         container.addSubview(pageControl)
         
-//        setupConstraint()
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -296,8 +295,6 @@ extension MonitoringTableViewCell{
 
         descriptionLabel.text = customSop
         height = Int(heightForView(text: customSop, width: 220))
-//        descriptionLabel.text = "Jangan gunakan mainan plastik\n Jangan dielus saat bermain \n Jangan gunakan mainan plastik"
-        print("text = \(customSop)")
         petIcon.image = UIImage(named: "dog1")
         dogName.text = monitoring.petName
         timeLabel.text = monitoring.timeUpload
