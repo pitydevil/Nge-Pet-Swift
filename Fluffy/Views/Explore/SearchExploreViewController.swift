@@ -37,7 +37,6 @@ class SearchExploreViewController: UIViewController {
             .font: UIFont(name: "Inter-Medium", size: 12)!
         ])
         textField.allowsEditingTextAttributes = false
-//        textField.addTarget(self, action: #selector(toSelectPetModal), for: .editingDidBegin)
         return textField
     }()
     
@@ -93,27 +92,27 @@ class SearchExploreViewController: UIViewController {
         self.navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
-        view.addSubview(searchTextField)
-        view.addSubview(leftButton)
-        view.addSubview(rightButton)
+//        view.addSubview(searchTextField)
+//        view.addSubview(leftButton)
+//        view.addSubview(rightButton)
         view.addSubview(tableView)
  
-        searchTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 12).isActive = true
-        searchTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        searchTextField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
-        searchTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
-
-        leftButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
-        leftButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        leftButton.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 12).isActive = true
-        leftButton.widthAnchor.constraint(equalToConstant: (view.frame.size.width-52)/2).isActive = true
+//        searchTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 12).isActive = true
+//        searchTextField.heightAnchor.constraint(equalToConstant: 40).isActive = true
+//        searchTextField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
+//        searchTextField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
+//
+//        leftButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
+//        leftButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+//        leftButton.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 12).isActive = true
+//        leftButton.widthAnchor.constraint(equalToConstant: (view.frame.size.width-52)/2).isActive = true
+//
+//        rightButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
+//        rightButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+//        rightButton.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 12).isActive = true
+//        rightButton.widthAnchor.constraint(equalToConstant: (view.frame.size.width-52)/2).isActive = true
         
-        rightButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
-        rightButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        rightButton.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 12).isActive = true
-        rightButton.widthAnchor.constraint(equalToConstant: (view.frame.size.width-52)/2).isActive = true
-        
-        tableView.topAnchor.constraint(equalTo: leftButton.bottomAnchor, constant: 20).isActive = true
+        tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
