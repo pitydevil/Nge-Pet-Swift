@@ -110,16 +110,21 @@ class HotelPackageTableViewCell: UITableViewCell {
 
 //MARK: - Public
 extension HotelPackageTableViewCell {
-    public func configure(title: String, detail: String, price: String, select: Bool) {
-        packageTitle.text = title
-        details.text = detail
-        pricePackage.text = price
-       
-        if select == true {
-            selectedCell()
-        } else {
-            normalState()
+    public func configure(_ package: PetHotelPackage) {
+        var string = ""
+        for package in package.packageDetail {
+            string += "- \(package.packageDetailName)\n"
         }
+        
+        packageTitle.text = package.packageName
+        details.text = string
+        pricePackage.text = "Rp\(package.packagePrice)"
+        
+//        if select == true {
+//            selectedCell()
+//        } else {
+//            normalState()
+//        }
     }
     
     func selectedCell() {

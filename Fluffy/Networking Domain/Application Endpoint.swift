@@ -49,6 +49,8 @@ extension ApplicationEndpoint: Endpoint {
             return .post
         case .getPetHotelPackage:
             return .post
+        case .getMonitoringByDate:
+            return .post
         }
     }
 

@@ -239,7 +239,7 @@ extension MonitoringTableViewCell{
         descriptionLabel.topAnchor.constraint(equalTo: cardTitle.bottomAnchor, constant: 0).isActive = true
         descriptionLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
         descriptionLabel.rightAnchor.constraint(equalTo: dogName.leftAnchor, constant: -24).isActive = true
-        descriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 64).isActive = true
+        descriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 20).isActive = true
         
         //MARK: Carousel Setup
         setupCollectionView()

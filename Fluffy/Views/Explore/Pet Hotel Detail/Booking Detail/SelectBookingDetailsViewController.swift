@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 struct ExpandableNames {
     var isExpanded: Bool = false
@@ -14,6 +16,10 @@ struct ExpandableNames {
 
 @available(iOS 16.0, *)
 class SelectBookingDetailsViewController: UIViewController {
+    
+    //MARK: - VIEW CONTROLLER OBJECT
+    private let petViewModel = PetViewModel()
+    private let petList = BehaviorRelay<[Pets]>(value: [])
     
     var filteredData: [ExpandableNames] = []
     
@@ -79,10 +85,8 @@ class SelectBookingDetailsViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    
+    private func setupUI() {
         view.backgroundColor = UIColor(named: "grey3")
         navigationItem.titleView = setTitle(title: "Katze Nesia Cat Hotel", subtitle: "Bekasi, Jawa Barat")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -130,6 +134,28 @@ class SelectBookingDetailsViewController: UIViewController {
             perDay.topAnchor.constraint(equalTo: price.topAnchor),
             perDay.bottomAnchor.constraint(equalTo: price.bottomAnchor),
         ])
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        petViewModel.getAllPet()
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupUI()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petViewModel.petModelArrayObserver.subscribe(onNext: { (value) in
+            self.petList.accept(value)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
         
     }
     
@@ -209,7 +235,7 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
         let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ExpandableHeaderView.identifier) as! ExpandableHeaderView
         
         //MARK: - Add Pet Data Here
-        headerView.configure(iconPackage: "birman", namePet: filteredData[section].namesIs, sizePet: "Kucing Sedang", racePet: " - Domestic")
+//        headerView.configure(iconPackage: "birman", namePet: filteredData[section].namesIs, sizePet: "Kucing Sedang", racePet: " - Domestic")
         
         headerView.switchBtn.addTarget(self, action: #selector(didChangeSwitch), for: .valueChanged)
         headerView.switchBtn.tag = section
@@ -284,8 +310,5 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
             vc.modalPresentationStyle = .pageSheet
             self.present(vc, animated: true)
         }
-    }
-
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
     }
 }

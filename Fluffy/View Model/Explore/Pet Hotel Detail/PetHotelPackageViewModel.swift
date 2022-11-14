@@ -12,12 +12,12 @@ import RxSwift
 struct PetHotelPackageViewModel {
     //MARK: - OBJECT DECLARATION
     private let networkService       : NetworkServicing
-    private var petHotelPackageModel = BehaviorRelay<PetHotelPackage>(value: PetHotelPackage(packageID: 0, packageName: "", packagePrice: "", petHotelID: "", supportedPetID: "", packageDetail: [PackageDetail]()))
+    private var petHotelPackageModel = BehaviorRelay<[PetHotelPackage]>(value: [])
     var petHotelID                   = BehaviorRelay<Int>(value: 0)
     var supportedPetName             = BehaviorRelay<String>(value: "")
     
     //MARK: - OBSERVABLE OBJECT DECLARATION
-    var petHotelPackageModelArrayObserver : Observable<PetHotelPackage> {
+    var petHotelPackageModelArrayObserver : Observable<[PetHotelPackage]> {
         return petHotelPackageModel.asObservable()
     }
     
@@ -34,11 +34,11 @@ struct PetHotelPackageViewModel {
     ///     - text: set of character/string that would like  to be checked.
     func fetchPetHotelPackage() async {
         let endpoint = ApplicationEndpoint.getPetHotelPackage(petHotelID: petHotelID.value, supportedPetName: supportedPetName.value)
-        let result = await networkService.request(to: endpoint, decodeTo: Response<PetHotelPackage>.self)
+        let result = await networkService.request(to: endpoint, decodeTo: Response<[PetHotelPackage]>.self)
         switch result {
         case .success(let response):
-            if let petHotel = response.data {
-                self.petHotelPackageModel.accept(petHotel)
+            if let petHotelPackage = response.data {
+                self.petHotelPackageModel.accept(petHotelPackage)
             }
         case .failure(let error):
             print(error)

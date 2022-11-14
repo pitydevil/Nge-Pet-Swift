@@ -90,10 +90,10 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
 
 //MARK: - Public
 extension ExpandableHeaderView {
-    public func configure(iconPackage: String, namePet: String, sizePet: String, racePet: String){
-        icon.image = UIImage(named: iconPackage)
-        petName.text = namePet
-        petSize.text = sizePet
-        petRace.text = racePet
+    public func configure(_ pets: Pets){
+        icon.image = UIImage(named: pets.petData!)
+        petName.text = pets.petName
+        petSize.text = pets.petSize
+        petRace.text = pets.petBreed
     }
 }
