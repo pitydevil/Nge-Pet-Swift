@@ -13,12 +13,17 @@ struct PetHotelViewModel {
     //MARK: - OBJECT DECLARATION
     private let networkService       : NetworkServicing
     private var petHotelModel   = BehaviorRelay<PetHotelsDetail>(value: PetHotelsDetail(petHotelID: 0, petHotelName: "", petHotelDescription: "", petHotelLongitude: "", petHotelLatitude: "", petHotelAddress: "", petHotelKelurahan: "", petHotelKecamatan: "", petHotelKota: "", petHotelProvinsi: "", petHotelPos: "", petHotelStartPrice: "", supportedPet: [SupportedPet](), petHotelImage: [PetHotelImage](), fasilitas: [Fasilitas](), sopGeneral: [SopGeneral](), asuransi: [AsuransiDetail](), cancelSOP: [CancelSOP]()))
+    private var genericHandlingErrorObject = BehaviorRelay<genericHandlingError>(value: .success)
     var locationObject          = BehaviorRelay<Location>(value: Location(longitude: 0.0, latitude: 0.0))
     var petHotelID                   = BehaviorRelay<Int>(value: 0)
     
     //MARK: - OBSERVABLE OBJECT DECLARATION
     var petHotelModelArrayObserver   : Observable<PetHotelsDetail> {
         return petHotelModel.asObservable()
+    }
+    
+    var genericHandlingErrorObserver   : Observable<genericHandlingError> {
+        return genericHandlingErrorObject.asObservable()
     }
 
     //MARK: - INIT OBJECT
@@ -70,11 +75,12 @@ struct PetHotelViewModel {
         let result = await networkService.request(to: endpoint, decodeTo: Response<PetHotelsDetail>.self)
         switch result {
         case .success(let response):
+            genericHandlingErrorObject.accept(genericHandlingError(rawValue: response.status!)!)
             if let petHotel = response.data {
                 self.petHotelModel.accept(petHotel)
             }
-        case .failure(let error):
-            print(error)
+        case .failure(_):
+            genericHandlingErrorObject.accept(genericHandlingError(rawValue: 500)!)
         }
     }
 }

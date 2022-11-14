@@ -12,9 +12,11 @@ import RxCocoa
 class MonitoringViewModel {
     
     //MARK: OBJECT DECLARATION
+    private let networkService       : NetworkServicing
     private var provider = BaseProviders()
     private var monitoringModelArray = BehaviorRelay<[Monitoring]>(value: [])
     private var petArray: Observable<[Pets]>?
+    private var genericHandlingErrorObject = BehaviorRelay<genericHandlingError>(value: .success)
     private let petModelArray = BehaviorRelay<[PetsSelection]>(value: [])
     var petSelection          = BehaviorRelay<[PetsSelection]>(value: [])
     var petBody               = BehaviorRelay<[PetBody]>(value: [])
@@ -23,7 +25,6 @@ class MonitoringViewModel {
     var tanggalModelObject    = BehaviorRelay<String>(value: String())
     var jumlahHewanObject     = BehaviorRelay<String>(value: String())
     var monitoringBodyModelObject   = BehaviorRelay<MonitoringBody>(value: MonitoringBody(userID: 1, date: "", pets: [PetBody]()))
-    private let networkService       : NetworkServicing
     
     //MARK: OBJECT OBSERVER DECLARATION
     var titleDateModelObjectObserver : Observable<String> {
@@ -44,6 +45,10 @@ class MonitoringViewModel {
     
     var jumlahHewanObjectObserver: Observable<String> {
         return jumlahHewanObject.asObservable()
+    }
+    
+    var genericHandlingErrorObserver   : Observable<genericHandlingError> {
+        return genericHandlingErrorObject.asObservable()
     }
     
     //MARK: - INIT OBJECT
@@ -125,11 +130,12 @@ class MonitoringViewModel {
         let result = await networkService.request(to: endpoint, decodeTo: Response<[Monitoring]>.self)
         switch result {
         case .success(let response):
+            genericHandlingErrorObject.accept(genericHandlingError(rawValue: response.status!)!)
             if let monitoring = response.data {
                 self.monitoringModelArray.accept(monitoring)
             }
-        case .failure(let error):
-            print(error)
+        case .failure(_):
+            genericHandlingErrorObject.accept(genericHandlingError(rawValue: 500)!)
         }
     }
 }

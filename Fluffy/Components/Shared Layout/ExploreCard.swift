@@ -149,15 +149,11 @@ extension ExploreCard{
 //MARK: -UICollectionViewDelegate, UICollectionViewDataSource
 extension ExploreCard: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        //ini ubah
         return supportedPet.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SupportedPetCollectionViewCell.cellId, for: indexPath) as? SupportedPetCollectionViewCell else { return UICollectionViewCell() }
-        
-        //Ini ubah
-        //cell.configure(petTypeString: supportedPet[indexPath.row].petType, petSizeString: supportedPet[indexPath.row].size)
         return cell
     }
 }

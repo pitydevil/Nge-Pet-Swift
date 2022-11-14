@@ -107,7 +107,33 @@ class BookingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         setupUI()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        bookingViewModel.genericHandlingErrorObserver.skip(1).subscribe(onNext: { [self] (value) in
+            switch value {
+            case .objectNotFound:
+                self.present(genericAlert(titleAlert: "Booking Order Tidak Ada!", messageAlert: "Booking Order tidak ada, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
+            case .success:
+                print("Sukses Console 200")
+            default:
+                self.present(genericAlert(titleAlert: "Terjadi Gangguan server!", messageAlert: "Terjadi kesalahan dalam melakukan pencarian booking, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
         
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
@@ -126,7 +152,6 @@ class BookingViewController: UIViewController {
                     print("test")
             }
         }).disposed(by: bags)
-        
         
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
@@ -202,12 +227,12 @@ class BookingViewController: UIViewController {
     @objc func handleRefreshControl() {
         Task {
             switch bookingPesananObject.value {
-                case .aktif:
-                    bookingViewModel.orderStatusObject.accept(bookingPesananObject.value.rawValue)
-                    await bookingViewModel.fetchOrderList()
-                case .riwayat:
-                    bookingViewModel.orderStatusObject.accept(bookingPesananObject.value.rawValue)
-                    await bookingViewModel.fetchOrderList()
+            case .aktif:
+                bookingViewModel.orderStatusObject.accept(bookingPesananObject.value.rawValue)
+                await bookingViewModel.fetchOrderList()
+            case .riwayat:
+                bookingViewModel.orderStatusObject.accept(bookingPesananObject.value.rawValue)
+                await bookingViewModel.fetchOrderList()
             }
         }
     }

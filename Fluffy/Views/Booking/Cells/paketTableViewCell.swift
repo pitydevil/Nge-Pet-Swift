@@ -21,7 +21,7 @@ class paketTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(detailPaket)
-        
+
         setupConstraint()
     }
     
@@ -31,7 +31,6 @@ class paketTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
     }
 }
 

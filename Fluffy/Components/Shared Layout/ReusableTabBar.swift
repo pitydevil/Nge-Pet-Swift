@@ -47,21 +47,11 @@ class ReusableTabBar: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    @objc func isClicked() {
-//        isChecked = !isChecked
-//        if isChecked {
-//            boxBtn.setImage(checkedImage, for: .normal)
-//        } else {
-//            boxBtn.setImage(uncheckedImage, for: .normal)
-//        }
-//    }
-    
     private func configureLayout() {
         switch showText {
         case .show:
             
             boxBtn.tintColor = UIColor(named: "primaryMain")
-//            boxBtn.addTarget(self, action: #selector(isClicked), for: .touchUpInside)
             boxBtn.setImage(uncheckedImage, for: .normal)
             
         case .notShow:
@@ -113,7 +103,5 @@ class ReusableTabBar: UIView {
             lineView.widthAnchor.constraint(equalToConstant: 500),
             lineView.heightAnchor.constraint(equalToConstant: 1),
         ])
-        
     }
-
 }
