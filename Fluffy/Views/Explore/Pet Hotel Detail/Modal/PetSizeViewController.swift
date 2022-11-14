@@ -68,10 +68,9 @@ class PetSizeViewController: UIViewController {
         petSizeTableView.bottomAnchor.constraint(equalTo: customBar.topAnchor).isActive = true
         petSizeTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
         petSizeTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
-        
     }
-    
 }
+
 //MARK: UITableViewDelegate, UITableViewDataSource
 extension PetSizeViewController:UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

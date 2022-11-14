@@ -26,8 +26,14 @@ class ExploreViewController: UIViewController {
     var petsSelectionModelArrayObserver : Observable<[PetsSelection]> {
         return petsSelectionModelArray.asObservable()
     }
-
+    
     //MARK: Subviews
+    private var refreshControl : UIRefreshControl  =  {
+        let refresh = UIRefreshControl()
+        refresh.tintColor = .white
+        return refresh
+    }()
+    
     private let scrollView:UIScrollView = {
         let scroll = UIScrollView()
         scroll.translatesAutoresizingMaskIntoConstraints = false
@@ -176,8 +182,10 @@ class ExploreViewController: UIViewController {
         scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        scrollView.refreshControl = refreshControl
+        scrollView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
         
-        //MARK: COntent view constraint
+        //MARK: Content view constraint
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
@@ -258,11 +266,11 @@ class ExploreViewController: UIViewController {
             await exploreViewModel.fetchExploreList()
         }
     }
-
+    
     //MARK: -ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
         /// from the given components.
@@ -291,6 +299,7 @@ class ExploreViewController: UIViewController {
         exploreViewModel.petHotelModelArrayObserver.subscribe(onNext: { [self] (value) in
             petHotelList.accept(value)
             DispatchQueue.main.async { [self] in
+                refreshControl.endRefreshing()
                 tableViewHeightConstraint!.constant = CGFloat(petHotelList.value.count*216)
                 view.layoutIfNeeded()
             }
@@ -438,6 +447,18 @@ class ExploreViewController: UIViewController {
                 await exploreViewModel.fetchSearchExploreList()
             }
         }.disposed(by: bags)
+    }
+    
+    //MARK: - Bind Journal List with Table View
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
+    @objc func handleRefreshControl() {
+        Task {
+            await exploreViewModel.fetchExploreList()
+        }
     }
     
     //MARK: - Bind Journal List with Table View
