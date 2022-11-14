@@ -15,6 +15,12 @@ class MonitoringTableViewCell: UITableViewCell {
     var monitoringImageModelArray = BehaviorRelay<[MonitoringImage]>(value: [])
     
     //MARK: - Subviews
+    private lazy var topView:UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        return view
+    }()
     private lazy var cardTitle:ReuseableLabel = ReuseableLabel(labelText: "Card Title", labelType: .titleH2, labelColor: .black)
     
     private lazy var locIcon: UIImageView = {
@@ -44,6 +50,8 @@ class MonitoringTableViewCell: UITableViewCell {
     
     private lazy var descriptionLabel:UILabel = {
         let label =  ReuseableLabel(labelText: "Card Description", labelType: .bodyP2, labelColor: .grey1)
+        label.textAlignment = .left
+        label.sizeToFit()
         return label
     }()
     
@@ -102,16 +110,17 @@ class MonitoringTableViewCell: UITableViewCell {
         contentView.layer.shadowColor = UIColor.gray.cgColor
         contentView.layer.shadowOffset = CGSize(width: 4, height: 4)
         
-        contentView.addSubview(locIcon)
-        contentView.addSubview(locationLabel)
-        contentView.addSubview(cardTitle)
-        contentView.addSubview(timeLabel)
-        contentView.addSubview(descriptionLabel)
+        contentView.addSubview(topView)
+        topView.addSubview(locIcon)
+        topView.addSubview(locationLabel)
+        topView.addSubview(cardTitle)
+        topView.addSubview(timeLabel)
+        topView.addSubview(descriptionLabel)
         if newPost{
-            contentView.addSubview(notification)
+            topView.addSubview(notification)
         }
-        contentView.addSubview(petIcon)
-        contentView.addSubview(dogName)
+        topView.addSubview(petIcon)
+        topView.addSubview(dogName)
         contentView.addSubview(carouselCollectionView)
         contentView.addSubview(pageControl)
         
@@ -151,7 +160,7 @@ class MonitoringTableViewCell: UITableViewCell {
 extension MonitoringTableViewCell{
     func setupCollectionView() {
         carouselCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        carouselCollectionView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor,constant: 20).isActive = true
+        carouselCollectionView.topAnchor.constraint(equalTo: topView.bottomAnchor,constant: 20).isActive = true
         carouselCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
         carouselCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
         carouselCollectionView.widthAnchor.constraint(equalToConstant: 310).isActive = true
@@ -178,9 +187,15 @@ extension MonitoringTableViewCell{
         locIcon.translatesAutoresizingMaskIntoConstraints = false
         petIcon.translatesAutoresizingMaskIntoConstraints = false
         
+        topView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
+        topView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
+        topView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
+        topView.heightAnchor.constraint(greaterThanOrEqualToConstant: 70).isActive = true
+        topView.bottomAnchor.constraint(equalTo: carouselCollectionView.topAnchor, constant: -20).isActive = true
+        
         //MARK: Location Icon Constraints
-        locIcon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
-        locIcon.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
+        locIcon.topAnchor.constraint(equalTo: topView.topAnchor).isActive = true
+        locIcon.leftAnchor.constraint(equalTo: topView.leftAnchor).isActive = true
         locIcon.widthAnchor.constraint(equalToConstant: 20).isActive = true
         locIcon.heightAnchor.constraint(equalToConstant: 20).isActive = true
         
@@ -195,7 +210,7 @@ extension MonitoringTableViewCell{
         dogName.textAlignment = .right
         
         dogName.topAnchor.constraint(equalTo: petIcon.bottomAnchor, constant: 8).isActive = true
-        dogName.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
+        dogName.rightAnchor.constraint(equalTo: topView.rightAnchor).isActive = true
         dogName.widthAnchor.constraint(equalToConstant: 60).isActive = true
         
         //MARK: Time Constraints
@@ -207,22 +222,22 @@ extension MonitoringTableViewCell{
         
         //MARK: Card Title Constraints
         cardTitle.numberOfLines = 1
-        cardTitle.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
+        cardTitle.leftAnchor.constraint(equalTo: topView.leftAnchor).isActive = true
         cardTitle.rightAnchor.constraint(equalTo: timeLabel.leftAnchor, constant: -8).isActive = true
         cardTitle.topAnchor.constraint(equalTo: locIcon.bottomAnchor, constant: 4).isActive = true
         cardTitle.heightAnchor.constraint(equalToConstant: 24).isActive = true
         
         //MARK: Notification Constraints
         if newPost{
-            notification.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
-            notification.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
+            notification.topAnchor.constraint(equalTo: topView.topAnchor).isActive = true
+            notification.rightAnchor.constraint(equalTo: topView.rightAnchor).isActive = true
             notification.widthAnchor.constraint(equalToConstant: 8).isActive = true
             notification.heightAnchor.constraint(equalToConstant: 8).isActive = true
             petIcon.topAnchor.constraint(equalTo: notification.bottomAnchor, constant: 8).isActive = true
         }
         else{
             
-            petIcon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20).isActive = true
+            petIcon.topAnchor.constraint(equalTo: topView.topAnchor).isActive = true
         }
         
         //MARK: Pet Icon Constraints
@@ -230,14 +245,15 @@ extension MonitoringTableViewCell{
         petIcon.layer.masksToBounds = true
         petIcon.widthAnchor.constraint(equalToConstant: 32).isActive = true
         petIcon.heightAnchor.constraint(equalToConstant: 32).isActive = true
-        petIcon.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
+        petIcon.rightAnchor.constraint(equalTo: topView.rightAnchor).isActive = true
         
         //MARK: Description Constraints
         descriptionLabel.textAlignment = .justified
-        descriptionLabel.showsExpansionTextWhenTruncated = true
+        descriptionLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+//        descriptionLabel.showsExpansionTextWhenTruncated = true
         
         descriptionLabel.topAnchor.constraint(equalTo: cardTitle.bottomAnchor, constant: 0).isActive = true
-        descriptionLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
+        descriptionLabel.leftAnchor.constraint(equalTo: topView.leftAnchor).isActive = true
         descriptionLabel.rightAnchor.constraint(equalTo: dogName.leftAnchor, constant: -24).isActive = true
         descriptionLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 64).isActive = true
         
