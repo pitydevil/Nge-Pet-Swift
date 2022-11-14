@@ -17,7 +17,6 @@ class PetViewController: UIViewController {
     
     private lazy var modalTableView: UITableView = {
         let modalTableView = UITableView(frame: CGRect(), style: .plain)
-        modalTableView.delegate = self
         modalTableView.backgroundColor = UIColor(named: "grey3")
         modalTableView.register(PetTableViewCell.self, forCellReuseIdentifier: PetTableViewCell.cellId)
         modalTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -65,6 +64,13 @@ class PetViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         setupUI()
         
         //MARK: - Observer for Pet Type Value
@@ -73,8 +79,16 @@ class PetViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
-        petViewModel.petModelArrayObserver.subscribe(onNext: { (value) in
-            self.petList.accept(value)
+        modalTableView.rx.setDelegate(self)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petViewModel.petModelArrayObserver.subscribe(onNext: { [self] (value) in
+            petList.accept(value)
         },onError: { error in
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
@@ -85,15 +99,15 @@ class PetViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
-        modalTableView.rx.itemSelected.subscribe(onNext: { (indexPath) in
+        modalTableView.rx.itemSelected.subscribe(onNext: { [self] (indexPath) in
             self.modalTableView.deselectRow(at: indexPath, animated: true)
             let editPetDetailController = EditPetViewController()
-            editPetDetailController.petObject.accept(self.petList.value[indexPath.row])
+            editPetDetailController.petObject.accept(petList.value[indexPath.row])
             editPetDetailController.petObjectObserver.subscribe(onNext: { _ in
-                self.modalTableView.reloadData()
+                modalTableView.reloadData()
             }).disposed(by: bags)
             editPetDetailController.modalPresentationStyle = .fullScreen
-            self.present(editPetDetailController, animated: true)
+            present(editPetDetailController, animated: true)
         }).disposed(by: bags)
         
         //MARK: - Observer for Pet Type Value
@@ -114,13 +128,13 @@ class PetViewController: UIViewController {
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
         petViewModel.removeErrorCaseObserver.skip(1).subscribe(onNext: { (value) in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [self] in
                 switch value {
                     case let .sukses(errorTitle, errorMessage):
-                        self.present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "OK"), animated: true)
-                        self.petViewModel.getAllPet()
+                        present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "OK"), animated: true)
+                        petViewModel.getAllPet()
                     case let .gagalBuangPet(errorTitle, errorMessage):
-                        self.present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "OK"), animated: true)
+                        present(genericAlert(titleAlert: errorTitle, messageAlert: errorMessage, buttonText: "OK"), animated: true)
                 }
             }
         },onError: { error in
