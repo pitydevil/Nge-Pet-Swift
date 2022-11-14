@@ -282,7 +282,6 @@ class AddPetViewController: UIViewController {
     
     private lazy var customBar: ReusableTabBar = {
         let customBar = ReusableTabBar(btnText: "Simpan", showText: .notShow)
-        customBar.barBtn.addTarget(self, action: #selector(addPet), for: .touchUpInside)
         return customBar
     }()
     
@@ -302,7 +301,6 @@ class AddPetViewController: UIViewController {
     
     private lazy var barBtnHapusPet: ReusableButton = {
         let barBtnHapusPet = ReusableButton(titleBtn: "Batal", styleBtn: .light)
-        barBtnHapusPet.addTarget(self, action: #selector(batalPet), for: .touchUpInside)
         return barBtnHapusPet
     }()
     
@@ -590,27 +588,21 @@ class AddPetViewController: UIViewController {
                     break
             }
         }.disposed(by: bags)
-    }
-    
-    //MARK: - Add Pet Function
-    /// Returns boolean true or false
-    /// from the given components.
-    /// - Parameters:
-    ///     - allowedCharacter: character subset that's allowed to use on the textfield
-    ///     - text: set of character/string that would like  to be checked.
-    @objc func batalPet() {
-        dismiss(animated: true)
-    }
-    
-    //MARK: - Add Pet Function
-    /// Returns boolean true or false
-    /// from the given components.
-    /// - Parameters:
-    ///     - allowedCharacter: character subset that's allowed to use on the textfield
-    ///     - text: set of character/string that would like  to be checked.
-    @objc func addPet() {
-        addPetViewModel.petsObject.accept(Pets(petID: UUID(), petData: petIconObject.value.rawValue, petAge: Int16(umurHewan.text ?? "0") , petBreed: rasHewan.text ?? "" , petName: namaHewan.text ?? "", petSize: petSizeObject.value.rawValue, petType: petTypeObject.value.rawValue, petGender: petGenderObject.value.rawValue, dateCreated: Date()))
-        addPetViewModel.addPet()
+        
+        //MARK: - Add Pet Function
+        /// Returns boolean true or false
+        /// from the given components.
+        customBar.barBtn.rx.tap.bind { [self] in
+            addPetViewModel.petsObject.accept(Pets(petID: UUID(), petData: petIconObject.value.rawValue, petAge: Int16(umurHewan.text ?? "0") , petBreed: rasHewan.text ?? "" , petName: namaHewan.text ?? "", petSize: petSizeObject.value.rawValue, petType: petTypeObject.value.rawValue, petGender: petGenderObject.value.rawValue, dateCreated: Date()))
+            addPetViewModel.addPet()
+        }.disposed(by: bags)
+        
+        //MARK: - Add Pet Function
+        /// Returns boolean true or false
+        /// from the given components.
+        barBtnHapusPet.rx.tap.bind { [self] in
+            dismiss(animated: true)
+        }.disposed(by: bags)
     }
      
     //MARK: - Add Pet Function

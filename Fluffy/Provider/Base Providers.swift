@@ -92,29 +92,24 @@ extension BaseProviders  {
     func addPet(_ petID : UUID, _ petAge : Int16, _ petData: String, _ petBreed : String, _ petGender : String,_ petName : String ,_ petSize : String,_ petType : String, _ dateCreated : Date ,completion: @escaping(_ result: Bool) -> Void) {
         let taskContext = newTaskContext()
         taskContext.perform {
-            do {
-                if let entity = NSEntityDescription.entity(forEntityName: "Pet", in: taskContext) {
-
-                    let member = NSManagedObject(entity: entity, insertInto: taskContext)
-                    member.setValue(petID, forKeyPath: "petID")
-                    member.setValue(petAge, forKeyPath: "petAge")
-                    member.setValue(petData, forKeyPath: "petData")
-                    member.setValue(petBreed, forKeyPath: "petBreed")
-                    member.setValue(petGender, forKeyPath: "petGender")
-                    member.setValue(petName, forKeyPath: "petName")
-                    member.setValue(petSize, forKeyPath: "petSize")
-                    member.setValue(petType, forKeyPath: "petType")
-                    member.setValue(dateCreated, forKeyPath: "dateCreated")
-                    do {
-                        try taskContext.save()
-                        completion(true)
-                    } catch let error as NSError {
-                        completion(false)
-                        print("Could not save: \(error.userInfo)")
-                    }
+            if let entity = NSEntityDescription.entity(forEntityName: "Pet", in: taskContext) {
+                let member = NSManagedObject(entity: entity, insertInto: taskContext)
+                member.setValue(petID, forKeyPath: "petID")
+                member.setValue(petAge, forKeyPath: "petAge")
+                member.setValue(petData, forKeyPath: "petData")
+                member.setValue(petBreed, forKeyPath: "petBreed")
+                member.setValue(petGender, forKeyPath: "petGender")
+                member.setValue(petName, forKeyPath: "petName")
+                member.setValue(petSize, forKeyPath: "petSize")
+                member.setValue(petType, forKeyPath: "petType")
+                member.setValue(dateCreated, forKeyPath: "dateCreated")
+                do {
+                    try taskContext.save()
+                    completion(true)
+                } catch let error as NSError {
+                    completion(false)
+                    print("Could not save: \(error.userInfo)")
                 }
-            } catch let error as NSError {
-                completion(false)
             }
         }
     }

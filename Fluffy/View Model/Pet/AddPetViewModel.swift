@@ -25,7 +25,7 @@ class AddPetViewModel {
         self.provider = { return BaseProviders()}()
         
     }
-    
+
     /// Returns boolean true or false
     /// from the given components.
     /// - Parameters:
