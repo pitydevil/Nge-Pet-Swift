@@ -21,15 +21,7 @@ enum ApplicationEndpoint {
     case postOrder(order: [AddOrder])
     case getPetHotelDetail(petHotelID : Int)
     case getListMonitoring(MonitoringBody : MonitoringBody)
-//    case postConsultation(etalaseID: String, companyName : String, url1 : String, url2: String, shortDescription: String, problemDescription : String, marketingBudget : Double, userID : String)
-//    case getConsultation(userID : String)
-//    case getConsultationAgency(etalaseID : String)
-//    case rejectEtalaseConsultation(consultationID : String, feedback : String )
-//    case acceptEtalaseConsultation(consultationID : String)
-//    case rejectUserConsultation(consultationID : String)
-//    case getOfferByEtalaseId(etalaseID : String)
-//    case getTaskByOfferID(offerID : String)
-//    case getOfferByUserId(userID: String)
+    case getSearchListPetHotel(exploreSearchBody : ExploreSearchBody)
 }
 
 //MARK: - PET ENUMERATION DECLARATION
@@ -71,9 +63,6 @@ enum addPetErrorCase  {
     case petAgeTidakAda(errorTitle : String = "Umur Hewan Tidak Ada!", errorMessage : String   = "Kamu Belum Mengisi Umur Hewan Kamu")
     case petAddGagal(errorTitle : String = "Gagal Menambah Data!", errorMessage : String   = "Telah terjadi kesalahan dalam menginput hewan peliharaan kamu, silahkan coba lagi nanti")
     case sukses(errorTitle : String = "Sukses!", errorMessage : String =  "Data Hewan Perliharaan Kamu Berhasil Ditambahkan!")
-}
-enum summaryGenerate : Error {
-    case dataTidakAda(errorMessage: String), success(errorMessage: String)
 }
 
 //MARK: - BOOKING ENUMERATION DECLARATION

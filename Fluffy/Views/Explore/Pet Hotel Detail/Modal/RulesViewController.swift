@@ -67,7 +67,7 @@ class RulesViewController: UIViewController {
         rulesTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
     }
     
-    //MARK: viewdidload
+    //MARK: viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()

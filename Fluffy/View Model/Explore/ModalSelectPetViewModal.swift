@@ -23,7 +23,6 @@ class ModalSelectPetViewModel {
         self.provider = { return BaseProviders()}()
     }
     
-    
     /// Returns boolean true or false
     /// from the given components.
     /// - Parameters:
@@ -38,7 +37,7 @@ class ModalSelectPetViewModel {
             }
             self.petModelArray.accept(petModel)
         }, onError: { (error) in
-            _ = self.petModelArrayObserver.catchError { (error) in
+            _ = self.petModelArrayObserver.catch { (error) in
                 Observable.empty()
             }
         }).disposed(by: bags)

@@ -362,8 +362,6 @@ class PetHotelViewController: UIViewController {
         btn.configuration?.baseForegroundColor = UIColor(named: "grey1")
         btn.configuration?.baseBackgroundColor = UIColor(named: "grey3")
         btn.configuration?.attributedTitle = AttributedString("Pembatalan", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 12)!]))
-      //  btn.addTarget(self, action: #selector(scrollToCancel), for: .touchUpInside)
-        
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.widthAnchor.constraint(equalToConstant: 109).isActive = true
         btn.heightAnchor.constraint(equalToConstant: 40).isActive = true
@@ -372,7 +370,7 @@ class PetHotelViewController: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = UIColor(named: "white")
-        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationItem.titleView = setTitle(title: "Pet Hotel Name", subtitle: "location")
         self.navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -597,12 +595,6 @@ class PetHotelViewController: UIViewController {
             let vc = SelectBookingDetailsViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         }.disposed(by: bags)
-    }
-}
-
-extension UIApplication {
-    var statusView: UIView? {
-        return value(forKey: "statusBar") as? UIView
     }
 }
 
