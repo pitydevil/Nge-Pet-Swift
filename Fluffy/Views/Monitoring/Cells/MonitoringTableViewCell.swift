@@ -118,7 +118,6 @@ class MonitoringTableViewCell: UITableViewCell {
         container.addSubview(locationLabel)
         container.addSubview(cardTitle)
         container.addSubview(timeLabel)
-//        contentView.addSubview(descriptionView)
         container.addSubview(descriptionLabel)
         if newPost{
             container.addSubview(notification)
@@ -134,7 +133,7 @@ class MonitoringTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Bind Monitoring Image Model Array to Carousel Collection View
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -161,25 +160,7 @@ class MonitoringTableViewCell: UITableViewCell {
 
 //MARK: - Setups
 extension MonitoringTableViewCell{
-    func setupCollectionView() {
-        carouselCollectionView.translatesAutoresizingMaskIntoConstraints = false
-        carouselCollectionView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor,constant: 8).isActive = true
-        carouselCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
-        carouselCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
-        carouselCollectionView.widthAnchor.constraint(equalToConstant: 310).isActive = true
-        carouselCollectionView.heightAnchor.constraint(equalToConstant: 310).isActive = true
-        carouselCollectionView.layer.cornerRadius = 12
-    }
-    
-    func setupPageControl() {
-        pageControl.translatesAutoresizingMaskIntoConstraints = false
-        pageControl.topAnchor.constraint(equalTo: carouselCollectionView.bottomAnchor, constant: 0).isActive = true
-        pageControl.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        pageControl.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        pageControl.heightAnchor.constraint(equalToConstant: 28).isActive = true
-        pageControl.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -20).isActive = true
-    }
-    
+
     func heightForView(text:String, width:CGFloat) -> CGFloat{
        let label:UILabel = UILabel(frame: CGRectMake(0, 0, width, CGFloat.greatestFiniteMagnitude))
        label.numberOfLines = 0
@@ -270,12 +251,23 @@ extension MonitoringTableViewCell{
         descriptionLabel.widthAnchor.constraint(equalToConstant: 220).isActive = true
         descriptionLabel.heightAnchor.constraint(equalToConstant: CGFloat(height)).isActive = true
 
-
-        //MARK: Carousel Setup
-        setupCollectionView()
+        //MARK: Carousel Collection View Constraint
+        carouselCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        carouselCollectionView.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor,constant: 8).isActive = true
+        carouselCollectionView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
+        carouselCollectionView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -20).isActive = true
+        carouselCollectionView.widthAnchor.constraint(equalToConstant: 310).isActive = true
+        carouselCollectionView.heightAnchor.constraint(equalToConstant: 310).isActive = true
+        carouselCollectionView.layer.cornerRadius = 12
         
-        //MARK: Page Control Setup
-        setupPageControl()
+        //MARK: Page Control Constraint
+        pageControl.translatesAutoresizingMaskIntoConstraints = false
+        pageControl.topAnchor.constraint(equalTo: carouselCollectionView.bottomAnchor, constant: 0).isActive = true
+        pageControl.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        pageControl.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        pageControl.heightAnchor.constraint(equalToConstant: 28).isActive = true
+        pageControl.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -20).isActive = true
+
     }
 }
 
@@ -290,11 +282,10 @@ extension MonitoringTableViewCell{
             customSop += "\(sop.customSopName)\n"
         }
         descriptionLabel.numberOfLines = monitoring.customSops.count
-//        customSop.removeLast()
-//        customSop.removeLast()
         
         descriptionLabel.text = customSop
         height = Int(heightForView(text: customSop, width: 220))
+        //MARK: -Belum sambung ke local data
         petIcon.image = UIImage(named: "dog1")
         dogName.text = monitoring.petName
         timeLabel.text = monitoring.timeUpload

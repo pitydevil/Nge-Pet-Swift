@@ -90,6 +90,7 @@ class MonitoringViewController: UIViewController {
         view.addSubview(dateButton)
         view.addSubview(selectPetButton)
         view.addSubview(tableView)
+        
         //MARK: Date Button Constraint
         dateButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 12).isActive = true
         dateButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
@@ -116,7 +117,7 @@ class MonitoringViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Get All Pet
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -126,15 +127,9 @@ class MonitoringViewController: UIViewController {
             monitoringViewModel.getAllPet()
         }
         
-        //MARK: - Observer for Pet Type Value
-        /// Returns boolean true or false
-        /// from the given components.
-        /// - Parameters:
-        ///     - allowedCharacter: character subset that's allowed to use on the textfield
-        ///     - text: set of character/string that would like  to be checked.
         setupUI()
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Observer for Generic Handling Error Observer
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -153,7 +148,7 @@ class MonitoringViewController: UIViewController {
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Observer for Pets Selection Model Array
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -166,7 +161,7 @@ class MonitoringViewController: UIViewController {
             petsBodyModelArray.accept(pets)
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Observer for Pet Body Model Array
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -179,7 +174,7 @@ class MonitoringViewController: UIViewController {
             }
         }).disposed(by: bags)
 
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Observer for Pet Model Array
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -189,7 +184,7 @@ class MonitoringViewController: UIViewController {
             petsSelectionModelArray.accept(value)
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Observer for Title Date Model Object
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -203,7 +198,7 @@ class MonitoringViewController: UIViewController {
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Observer for Tanggal Model Object
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -219,7 +214,7 @@ class MonitoringViewController: UIViewController {
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Observer for Monitoring Model Array
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -234,7 +229,7 @@ class MonitoringViewController: UIViewController {
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Bind Monitoring Model Array to Table View
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -246,7 +241,7 @@ class MonitoringViewController: UIViewController {
             cell.configure(model)
         }.disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Bind Calendar View
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -265,7 +260,7 @@ class MonitoringViewController: UIViewController {
             calendarView.topAnchor.constraint(equalTo: dateButton.bottomAnchor, constant: 20).isActive = true
         }.disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Observer for Pets Selection Model Array
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -277,7 +272,7 @@ class MonitoringViewController: UIViewController {
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Observer for Pets Selected Model Array
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -289,7 +284,7 @@ class MonitoringViewController: UIViewController {
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Observer for Pets Bodhy Model Array
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -304,7 +299,7 @@ class MonitoringViewController: UIViewController {
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Observer for Jumlah Hewan Object
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -318,7 +313,7 @@ class MonitoringViewController: UIViewController {
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Bind Modal Select Pet View Controller to Select Pet Button
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -334,7 +329,7 @@ class MonitoringViewController: UIViewController {
         }.disposed(by: bags)
     }
     
-    //MARK: - Bind Journal List with Table View
+    //MARK: - Refresh Control
     /// Returns boolean true or false
     /// from the given components.
     /// - Parameters:

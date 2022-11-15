@@ -494,7 +494,7 @@ class EditPetViewController: UIViewController {
             }
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Observer for Pet Object
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -564,6 +564,7 @@ class EditPetViewController: UIViewController {
             cell.configure(model)
         }.disposed(by: bags)
 
+        //MARK: Collection View Selection Delegate
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -578,6 +579,7 @@ class EditPetViewController: UIViewController {
             petIconObject.accept(petIconCase!)
         }).disposed(by: bags)
 
+        //MARK: Collection View Deselect Delegate
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -588,7 +590,7 @@ class EditPetViewController: UIViewController {
             cell.contentView.backgroundColor = UIColor(named: "white")
         }).disposed(by: bags)
 
-        //MARK: - Picker View Delegate and Datasource Function
+        //MARK: - Bind to Picker
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -598,6 +600,7 @@ class EditPetViewController: UIViewController {
             return element
         }.disposed(by: bags)
 
+        //MARK: Bind Item Selected to Picker
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -622,7 +625,7 @@ class EditPetViewController: UIViewController {
             editPetViewModel.updateExistingPet()
         }.disposed(by: bags)
         
-        //MARK: - Add Pet Function
+        //MARK: - Bind Hapus Pet
         /// Returns boolean true or false
         /// from the given components.
         barBtnHapusPet.rx.tap.bind { [self] in
