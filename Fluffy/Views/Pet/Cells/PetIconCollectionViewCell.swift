@@ -27,9 +27,7 @@ class PetIconCollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         
         contentView.backgroundColor = UIColor(named: "white")
-        
         contentView.layer.cornerRadius = 8
-        
         contentView.addSubview(petImageView)
         
         NSLayoutConstraint.activate([

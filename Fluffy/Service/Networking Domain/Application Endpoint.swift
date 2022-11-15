@@ -86,10 +86,10 @@ extension ApplicationEndpoint: Endpoint {
                 "date"      : monitoringBody.date,
                 "pets"      : pets
             ]
-        case .getPetHotelPackage(let petHotelID, let supportedPetName):
+        case .getPetHotelPackage(let petHotelPackage):
             return [
-                "pet_hotel_id"       : petHotelID,
-                "supported_pet_name" : supportedPetName
+                "pet_hotel_id"       : petHotelPackage.petHotelID,
+                "supported_pet_name" : petHotelPackage.supportedPetName
             ]
         case .getSearchListPetHotel(let exploreSearchBody):
             let pets = exploreSearchBody.pets.map { obj -> [String: Any] in

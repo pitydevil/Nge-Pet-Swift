@@ -37,7 +37,7 @@ class PetViewController: UIViewController {
         var config = UIImage.SymbolConfiguration(hierarchicalColor: UIColor(named: "primaryMain") ?? .systemPink)
         config = config.applying(UIImage.SymbolConfiguration(weight: .bold))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus", withConfiguration: config), style: .done, target: self, action: #selector(toAddPet))
-        self.navigationController?.navigationItem.titleView = ReuseableLabel(labelText: "Hewan Peliharaanku", labelType: .titleH2, labelColor: .black)
+        navigationController?.navigationItem.titleView = ReuseableLabel(labelText: "Hewan Peliharaanku", labelType: .titleH2, labelColor: .black)
         
         //MARK: - Setup Navigation Color
         let appearance = UINavigationBarAppearance()
@@ -59,6 +59,12 @@ class PetViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         petViewModel.getAllPet()
     }
 
@@ -79,23 +85,16 @@ class PetViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
-        modalTableView.rx.setDelegate(self)
-        
-        //MARK: - Observer for Pet Type Value
-        /// Returns boolean true or false
-        /// from the given components.
-        /// - Parameters:
-        ///     - allowedCharacter: character subset that's allowed to use on the textfield
-        ///     - text: set of character/string that would like  to be checked.
         petViewModel.petModelArrayObserver.subscribe(onNext: { [self] (value) in
             petList.accept(value)
         },onError: { error in
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
-        /// Returns boolean true or false
-        /// from the given components.
+        //MARK: - RESPONSE TABLE VIEW DIDSELECT DELEGATE FUNCTION
+        modalTableView.rx.setDelegate(self)
+        
+        //MARK: - RESPONSE TABLE VIEW DIDSELECT DELEGATE FUNCTION
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
@@ -103,19 +102,17 @@ class PetViewController: UIViewController {
             self.modalTableView.deselectRow(at: indexPath, animated: true)
             let editPetDetailController = EditPetViewController()
             editPetDetailController.petObject.accept(petList.value[indexPath.row])
-            editPetDetailController.petObjectObserver.subscribe(onNext: { _ in
+            editPetDetailController.petObjectObserver.subscribe(onNext: { [self] _ in
                 modalTableView.reloadData()
             }).disposed(by: bags)
             editPetDetailController.modalPresentationStyle = .fullScreen
             present(editPetDetailController, animated: true)
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
-        /// Returns boolean true or false
-        /// from the given components.
+        //MARK: - BINDING PET LIST WITH TABLE VIEW
         /// - Parameters:
-        ///     - allowedCharacter: character subset that's allowed to use on the textfield
-        ///     - text: set of character/string that would like  to be checked.
+        ///     - modalTableView : UITableView
+        ///     - petTableViewCell : UiTableViewCell
         petList.bind(to: modalTableView.rx.items(cellIdentifier: "PetTableViewCell", cellType: PetTableViewCell.self)) { row, model, cell in
             cell.contentView.backgroundColor = UIColor(named: "white")
             cell.configure(model)

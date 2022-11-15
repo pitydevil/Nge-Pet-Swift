@@ -21,7 +21,7 @@ enum ApplicationEndpoint {
     case postOrder(order: [AddOrder])
     case getPetHotelDetail(petHotelID : Int)
     case getListMonitoring(MonitoringBody : MonitoringBody) 
-    case getPetHotelPackage(petHotelID: Int, supportedPetName: String)
+    case getPetHotelPackage(hotelPackageBody : HotelPackageBody)
     case getSearchListPetHotel(exploreSearchBody : ExploreSearchBody)
 }
 

@@ -14,14 +14,23 @@ class HotelPackageViewController: UIViewController {
     private let petHotelPackageViewModel       = PetHotelPackageViewModel()
     private var petHotelPackageModelArray      = BehaviorRelay<[PetHotelPackage]>(value: [])
     private var petHotelPackageSelectedModel   = BehaviorRelay<PetHotelPackage>(value: PetHotelPackage(packageID: 0, packageName: "", packagePrice: "", petHotelID: "", supportedPetID: "", packageDetail: [PackageDetail]()))
+    var hotelPackageBodyObject                  = BehaviorRelay<HotelPackageBody>(value: HotelPackageBody(petHotelID: 0, supportedPetName: ""))
+    
+    var petHotelModelObject                     = BehaviorRelay<OrderDetailBody>(value: OrderDetailBody(petName: "", petType: "", petSize: "", packageID: 0, isExpanded: false, customSOP: [CustomSopBody]()))
     
     //MARK: OBJECT OBSERVER DECLARATION
+    private var hotelPackageBodyObjectObserver : Observable<HotelPackageBody> {
+        return hotelPackageBodyObject.asObservable()
+    }
+    
     var petHotelPackageModelArrayObserver : Observable<[PetHotelPackage]> {
         return petHotelPackageModelArray.asObservable()
     }
     
-    private var selectedCell = 0
-    
+    var petHotelModelObserver : Observable<OrderDetailBody> {
+        return petHotelModelObject.asObservable()
+    }
+
     private lazy var indicator: UIImageView = {
         let indicator = UIImageView()
         let config = UIImage.SymbolConfiguration(pointSize: 40, weight: .regular)
@@ -52,7 +61,6 @@ class HotelPackageViewController: UIViewController {
     
     private lazy var customBar: ReusableTabBar = {
         let customBar = ReusableTabBar(btnText: "Simpan", showText: .notShow)
-        customBar.barBtn.addTarget(self, action: #selector(selectPackage), for: .touchUpInside)
         return customBar
     }()
     
@@ -63,7 +71,7 @@ class HotelPackageViewController: UIViewController {
         view.addSubview(indicator)
         view.addSubview(headline)
         view.addSubview(modalTableView)
-        view.addSubview(customBar)
+      //  view.addSubview(customBar)
         
         //MARK: - Setup Const
         NSLayoutConstraint.activate([
@@ -77,27 +85,36 @@ class HotelPackageViewController: UIViewController {
             modalTableView.topAnchor.constraint(equalTo: headline.bottomAnchor, constant: 20),
             modalTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             modalTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-            modalTableView.bottomAnchor.constraint(equalTo: customBar.topAnchor),
+            modalTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            customBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            customBar.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            customBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
     
-    //MARK: -VIEWWILLAPPEAR
-    override func viewWillAppear(_ animated: Bool) {
-        Task {
-            petHotelPackageViewModel.supportedPetName.accept("Kucing")
-            petHotelPackageViewModel.petHotelID.accept(1)
-            await petHotelPackageViewModel.fetchPetHotelPackage()
-        }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         setupUI()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        hotelPackageBodyObjectObserver.subscribe(onNext: { [self] (value) in
+            Task {
+                petHotelPackageViewModel.hotelPackageBodyObject.accept(value)
+                await petHotelPackageViewModel.fetchPetHotelPackage()
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
         
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
@@ -123,35 +140,16 @@ class HotelPackageViewController: UIViewController {
         }.disposed(by: bags)
         
         modalTableView.rx.itemSelected.subscribe(onNext: { [self] (indexPath) in
-            petHotelPackageViewModel.selectedIndexPetModel.accept(indexPath.row)
-//            petHotelPackageViewModel.petHotelPackageSelectedModel.accept(petHotelPackageSelectedModel.value)
-//            petHotelPackageViewModel.didSelectResponse()
+            var petHotelArray = petHotelModelObject.value
+            petHotelArray.packageID = petHotelPackageModelArray.value[indexPath.row].packageID
+            petHotelModelObject.accept(petHotelArray)
+            dismiss(animated: true)
         }).disposed(by: bags)
     }
-    
-    @objc func selectPackage() {
-        dismiss(animated: true)
-    }
-
 }
 
 extension HotelPackageViewController: UITableViewDelegate {
-
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 180
-    }
-
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = modalTableView.cellForRow(at: indexPath) as! HotelPackageTableViewCell
-//        cell.isSelect = true
-//        cell.configure(title: "Basic", detail: "- Memakai kandang besi ukuran 60 cm \n- Memakai kandang besi ukuran 60 cm", price: "Rp 60.000", select: true)
-
-    }
-
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let cell = modalTableView.cellForRow(at: indexPath) as! HotelPackageTableViewCell
-//        cell.isSelect = false
-//        cell.configure(title: "Basic", detail: "- Memakai kandang besi ukuran 60 cm \n- Memakai kandang besi ukuran 60 cm", price: "Rp 60.000", select: false)
-
     }
 }

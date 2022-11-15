@@ -7,10 +7,18 @@
 
 import UIKit
 
+protocol ChangeSwitchResponse {
+    func changeSwitchResponse(section : Int)
+}
+
+
 class ExpandableHeaderView: UITableViewHeaderFooterView {
     
     // MARK: - Identifier
     static let identifier = "ExpandableHeaderView"
+    
+    var section  : Int?
+    var delegate : ChangeSwitchResponse?
     
     private lazy var icon: UIImageView = {
         let icon = UIImageView()
@@ -34,7 +42,8 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
         switchBtn.layer.cornerRadius = 16
         switchBtn.layer.masksToBounds = true
         switchBtn.clipsToBounds = true
-       switchBtn.translatesAutoresizingMaskIntoConstraints = false
+        switchBtn.translatesAutoresizingMaskIntoConstraints = false
+        switchBtn.addTarget(self, action: #selector(responseSwitch), for: .valueChanged)
         return switchBtn
     }()
 
@@ -76,21 +85,20 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
             switchBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             switchBtn.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ])
-        
+    }
+    
+    @objc private func responseSwitch(button: UISwitch) {
+        delegate?.changeSwitchResponse(section: self.section ?? 0)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-}
-
-//MARK: - Public
-extension ExpandableHeaderView {
-    public func configure(_ pets: PetsSelection){
-        icon.image = UIImage(named: pets.petData!)
-        petName.text = "\(pets.petName ?? "")"
-        petSize.text = "\(pets.petType ?? "") \(pets.petSize ?? "")"
-        petRace.text = " - \(pets.petBreed ?? "")"
+    func configure(_ pets: OrderDetailBody){
+        icon.image = UIImage(named: "dog1")
+        petName.text = "\(pets.petName )"
+        petSize.text = "\(pets.petSize )"
+        petRace.text = " - \(pets.petType )"
     }
 }

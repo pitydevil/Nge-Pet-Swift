@@ -625,8 +625,9 @@ class PetHotelViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
-        btmBar.barBtn.rx.tap.bind {
+        btmBar.barBtn.rx.tap.bind { [self] in
             let vc = SelectBookingDetailsViewController()
+            vc.petHotelIDObject.accept(petHotelDetailID.value)
             self.navigationController?.pushViewController(vc, animated: true)
         }.disposed(by: bags)
     }

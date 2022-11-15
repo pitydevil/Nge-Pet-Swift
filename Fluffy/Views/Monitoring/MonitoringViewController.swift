@@ -59,7 +59,6 @@ class MonitoringViewController: UIViewController {
         tableView.register(MonitoringTableViewCell.self, forCellReuseIdentifier: MonitoringTableViewCell.cellId)
         tableView.separatorColor = .clear
         tableView.allowsSelection = false
-        tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         return tableView
@@ -86,7 +85,7 @@ class MonitoringViewController: UIViewController {
     }()
     
     private func setupUI() {
-        self.navigationController?.isNavigationBarHidden = true
+        navigationController?.isNavigationBarHidden = true
         view.backgroundColor = UIColor(named: "grey3")
         view.addSubview(dateButton)
         view.addSubview(selectPetButton)
