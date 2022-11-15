@@ -20,7 +20,8 @@ enum ApplicationEndpoint {
     case getNearest(longitude : Double, latitude : Double)
     case postOrder(order: [AddOrder])
     case getPetHotelDetail(petHotelID : Int)
-    case getListMonitoring(MonitoringBody : MonitoringBody)
+    case getListMonitoring(MonitoringBody : MonitoringBody) 
+    case getPetHotelPackage(petHotelID: Int, supportedPetName: String)
     case getSearchListPetHotel(exploreSearchBody : ExploreSearchBody)
 }
 

@@ -266,8 +266,10 @@ extension MonitoringTableViewCell{
         descriptionLabel.contentMode = .topLeft
         descriptionLabel.topAnchor.constraint(equalTo: cardTitle.bottomAnchor, constant: 4).isActive = true
         descriptionLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 20).isActive = true
+
         descriptionLabel.widthAnchor.constraint(equalToConstant: 220).isActive = true
         descriptionLabel.heightAnchor.constraint(equalToConstant: CGFloat(height)).isActive = true
+
 
         //MARK: Carousel Setup
         setupCollectionView()
@@ -291,8 +293,6 @@ extension MonitoringTableViewCell{
 //        customSop.removeLast()
 //        customSop.removeLast()
         
-        
-
         descriptionLabel.text = customSop
         height = Int(heightForView(text: customSop, width: 220))
         petIcon.image = UIImage(named: "dog1")

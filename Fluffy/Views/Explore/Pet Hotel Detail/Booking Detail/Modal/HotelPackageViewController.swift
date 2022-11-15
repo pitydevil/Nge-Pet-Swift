@@ -6,8 +6,19 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class HotelPackageViewController: UIViewController {
+    
+    private let petHotelPackageViewModel       = PetHotelPackageViewModel()
+    private var petHotelPackageModelArray      = BehaviorRelay<[PetHotelPackage]>(value: [])
+    private var petHotelPackageSelectedModel   = BehaviorRelay<PetHotelPackage>(value: PetHotelPackage(packageID: 0, packageName: "", packagePrice: "", petHotelID: "", supportedPetID: "", packageDetail: [PackageDetail]()))
+    
+    //MARK: OBJECT OBSERVER DECLARATION
+    var petHotelPackageModelArrayObserver : Observable<[PetHotelPackage]> {
+        return petHotelPackageModelArray.asObservable()
+    }
     
     private var selectedCell = 0
     
@@ -27,9 +38,8 @@ class HotelPackageViewController: UIViewController {
     
     private lazy var modalTableView: UITableView = {
         let modalTableView = UITableView(frame: CGRect(), style: .plain)
-        modalTableView.delegate = self
-        modalTableView.dataSource = self
         modalTableView.backgroundColor = UIColor(named: "grey3")
+        modalTableView.delegate = self
         modalTableView.register(HotelPackageTableViewCell.self, forCellReuseIdentifier: HotelPackageTableViewCell.identifier)
         modalTableView.translatesAutoresizingMaskIntoConstraints = false
         modalTableView.allowsMultipleSelection = false
@@ -45,10 +55,8 @@ class HotelPackageViewController: UIViewController {
         customBar.barBtn.addTarget(self, action: #selector(selectPackage), for: .touchUpInside)
         return customBar
     }()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    
+    private func setupUI() {
         view.backgroundColor = UIColor(named: "grey3")
         
         //MARK: - Add Subview
@@ -66,7 +74,7 @@ class HotelPackageViewController: UIViewController {
             headline.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             headline.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -222),
             
-            modalTableView.topAnchor.constraint(equalTo: headline.bottomAnchor, constant: 0),
+            modalTableView.topAnchor.constraint(equalTo: headline.bottomAnchor, constant: 20),
             modalTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             modalTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
             modalTableView.bottomAnchor.constraint(equalTo: customBar.topAnchor),
@@ -77,52 +85,73 @@ class HotelPackageViewController: UIViewController {
         ])
     }
     
+    //MARK: -VIEWWILLAPPEAR
+    override func viewWillAppear(_ animated: Bool) {
+        Task {
+            petHotelPackageViewModel.supportedPetName.accept("Kucing")
+            petHotelPackageViewModel.petHotelID.accept(1)
+            await petHotelPackageViewModel.fetchPetHotelPackage()
+        }
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupUI()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petHotelPackageViewModel.petHotelPackageModelArrayObserver.subscribe(onNext: { [self] (value) in
+            petHotelPackageModelArray.accept(value)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petHotelPackageModelArray.bind(to: modalTableView.rx.items(cellIdentifier: HotelPackageTableViewCell.identifier, cellType: HotelPackageTableViewCell.self)) { row, model, cell in
+            cell.backgroundColor = .clear
+            cell.configure(model)
+        }.disposed(by: bags)
+        
+        modalTableView.rx.itemSelected.subscribe(onNext: { [self] (indexPath) in
+            petHotelPackageViewModel.selectedIndexPetModel.accept(indexPath.row)
+//            petHotelPackageViewModel.petHotelPackageSelectedModel.accept(petHotelPackageSelectedModel.value)
+//            petHotelPackageViewModel.didSelectResponse()
+        }).disposed(by: bags)
+    }
+    
     @objc func selectPackage() {
         dismiss(animated: true)
     }
 
 }
 
-extension HotelPackageViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 6
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 20
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.backgroundColor = UIColor.clear
-        return headerView
-    }
-    
+extension HotelPackageViewController: UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 160
+        return 180
     }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: HotelPackageTableViewCell.identifier, for: indexPath) as! HotelPackageTableViewCell
-        cell.contentView.backgroundColor = UIColor(named: "white")
-        cell.configure(title: "Basic", detail: "- Memakai kandang besi ukuran 60 cm \n- Memakai kandang besi ukuran 60 cm", price: "Rp 60.000", select: false)
-        return cell
-    }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = modalTableView.cellForRow(at: indexPath) as! HotelPackageTableViewCell
-        cell.configure(title: "Basic", detail: "- Memakai kandang besi ukuran 60 cm \n- Memakai kandang besi ukuran 60 cm", price: "Rp 60.000", select: true)
-        
+//        cell.isSelect = true
+//        cell.configure(title: "Basic", detail: "- Memakai kandang besi ukuran 60 cm \n- Memakai kandang besi ukuran 60 cm", price: "Rp 60.000", select: true)
+
     }
-    
+
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         let cell = modalTableView.cellForRow(at: indexPath) as! HotelPackageTableViewCell
-        cell.configure(title: "Basic", detail: "- Memakai kandang besi ukuran 60 cm \n- Memakai kandang besi ukuran 60 cm", price: "Rp 60.000", select: false)
-        
+//        cell.isSelect = false
+//        cell.configure(title: "Basic", detail: "- Memakai kandang besi ukuran 60 cm \n- Memakai kandang besi ukuran 60 cm", price: "Rp 60.000", select: false)
+
     }
 }

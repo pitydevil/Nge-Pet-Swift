@@ -16,6 +16,9 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
         let icon = UIImageView()
         icon.image = UIImage(named: "poodle")
         icon.backgroundColor = UIColor(named: "white")
+        icon.contentMode = .scaleAspectFit
+        icon.translatesAutoresizingMaskIntoConstraints = false
+        icon.clipsToBounds = true
         return icon
     }()
     
@@ -31,6 +34,7 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
         switchBtn.layer.cornerRadius = 16
         switchBtn.layer.masksToBounds = true
         switchBtn.clipsToBounds = true
+       switchBtn.translatesAutoresizingMaskIntoConstraints = false
         return switchBtn
     }()
 
@@ -53,13 +57,6 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
         contentView.addSubview(petSize)
         contentView.addSubview(petRace)
         contentView.addSubview(switchBtn)
-        
-        //MARK: - Set Autoresizing False
-        icon.translatesAutoresizingMaskIntoConstraints = false
-        petName.translatesAutoresizingMaskIntoConstraints = false
-        petSize.translatesAutoresizingMaskIntoConstraints = false
-        petRace.translatesAutoresizingMaskIntoConstraints = false
-        switchBtn.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             icon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
@@ -90,10 +87,10 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
 
 //MARK: - Public
 extension ExpandableHeaderView {
-    public func configure(iconPackage: String, namePet: String, sizePet: String, racePet: String){
-        icon.image = UIImage(named: iconPackage)
-        petName.text = namePet
-        petSize.text = sizePet
-        petRace.text = racePet
+    public func configure(_ pets: PetsSelection){
+        icon.image = UIImage(named: pets.petData!)
+        petName.text = "\(pets.petName ?? "")"
+        petSize.text = "\(pets.petType ?? "") \(pets.petSize ?? "")"
+        petRace.text = " - \(pets.petBreed ?? "")"
     }
 }

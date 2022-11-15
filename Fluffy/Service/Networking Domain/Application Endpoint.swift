@@ -26,6 +26,8 @@ extension ApplicationEndpoint: Endpoint {
             return "/public/api/reservation/pet_hotel/detail"
         case .getListMonitoring:
             return "/public/api/monitoring/get-monitoring-data"
+        case .getPetHotelPackage:
+            return "/public/api/reservation/pet_hotel/package"
         case .getSearchListPetHotel:
             return "/public/api/explore/search-pet-hotel"
         }
@@ -44,6 +46,8 @@ extension ApplicationEndpoint: Endpoint {
         case .getPetHotelDetail:
             return .post
         case .getListMonitoring:
+            return .post
+        case .getPetHotelPackage:
             return .post
         case .getSearchListPetHotel:
             return .post
@@ -81,6 +85,11 @@ extension ApplicationEndpoint: Endpoint {
                 "user_id"   : monitoringBody.userID,
                 "date"      : monitoringBody.date,
                 "pets"      : pets
+            ]
+        case .getPetHotelPackage(let petHotelID, let supportedPetName):
+            return [
+                "pet_hotel_id"       : petHotelID,
+                "supported_pet_name" : supportedPetName
             ]
         case .getSearchListPetHotel(let exploreSearchBody):
             let pets = exploreSearchBody.pets.map { obj -> [String: Any] in
