@@ -133,7 +133,6 @@ class BookingConfirmationViewController: UIViewController {
         return label
     }()
     
-    
     private lazy var petHotelImage: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
         imageView.layer.cornerRadius = 12
@@ -162,7 +161,6 @@ class BookingConfirmationViewController: UIViewController {
     private lazy var editHewanPeliharaanDanPaket: ReusableButton = {
         let barBtnLewati = ReusableButton(titleBtn: "Edit", styleBtn: .light)
         barBtnLewati.configuration?.baseForegroundColor = UIColor(named: "primaryMain")
-//        barBtnLewati.addTarget(self, action: #selector(skipModal), for: .touchUpInside)
         return barBtnLewati
     }()
     
@@ -272,7 +270,6 @@ extension BookingConfirmationViewController{
         totalHargaDetail.text = "Rp 70.000"
     }
 }
-
 
 @available(iOS 16.0, *)
 extension BookingConfirmationViewController: UITableViewDelegate, UITableViewDataSource{

@@ -41,7 +41,6 @@ extension paketTableViewCell{
         detailPaket.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         detailPaket.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
         detailPaket.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        
     }
 }
 

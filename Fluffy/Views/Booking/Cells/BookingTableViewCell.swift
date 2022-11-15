@@ -64,7 +64,6 @@ class BookingTableViewCell: UITableViewCell {
     lazy var leftButton:ReusableButton = {
         let btn = ReusableButton(titleBtn: "Cancel Order", styleBtn:.normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
-        //        btn.addTarget(self, action: #selector(selectDate), for: .touchUpInside)
         btn.configuration?.attributedTitle = AttributedString("Cancel Order", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 12)!]))
         return btn
     }()
@@ -165,7 +164,7 @@ class BookingTableViewCell: UITableViewCell {
         
         setupUI()
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Bind Order Detail Array to Detail Paket Table View
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:

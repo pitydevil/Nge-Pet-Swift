@@ -62,7 +62,6 @@ class DateSelectionViewController: UIViewController {
         calendarView.layer.cornerRadius = 12
         calendarView.selectionBehavior = UICalendarSelectionSingleDate(delegate: self)
 
-        
         calendarView.layer.borderColor = UIColor.lightGray.cgColor
         calendarView.layer.shadowOpacity = 0.1
         calendarView.layer.shadowOffset = CGSize.zero

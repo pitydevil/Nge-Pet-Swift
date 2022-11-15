@@ -416,14 +416,9 @@ class BookingDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //MARK: - Observer for Pet Type Value
-        /// - Parameters:
-        ///     - allowedCharacter: character subset that's allowed to use on the textfield
-        ///     - text: set of character/string that would like  to be checked.
         setupUI()
         
-        //MARK: - Observer for Pet Type Value
-        /// Returns boolean true or false
+        //MARK: - Observer for Order Modal Array
         /// from the given components.
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
@@ -447,7 +442,7 @@ class BookingDetailViewController: UIViewController {
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Observer for Generic Handling Error
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -474,7 +469,7 @@ class BookingDetailViewController: UIViewController {
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Subscribe for Booking Model Observer
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -504,8 +499,7 @@ class BookingDetailViewController: UIViewController {
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
-        /// Returns boolean true or false
+        //MARK: - Bind Package Model Array to Detail Harga Table View
         /// from the given components.
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
@@ -515,7 +509,7 @@ class BookingDetailViewController: UIViewController {
             cell.configureCell(model)
         }.disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Order Detail Model Arrayy to Detail Harga Table View
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:

@@ -108,15 +108,9 @@ class BookingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //MARK: - Observer for Pet Type Value
-        /// Returns boolean true or false
-        /// from the given components.
-        /// - Parameters:
-        ///     - allowedCharacter: character subset that's allowed to use on the textfield
-        ///     - text: set of character/string that would like  to be checked.
         setupUI()
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Observer for Generic Handling Error
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -135,7 +129,7 @@ class BookingViewController: UIViewController {
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Subscribe Selected Segmented Index
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -153,7 +147,7 @@ class BookingViewController: UIViewController {
             }
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Observer for Booking Pesanan
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -172,7 +166,7 @@ class BookingViewController: UIViewController {
             }
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Observer for Order Model Array
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
@@ -187,7 +181,7 @@ class BookingViewController: UIViewController {
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
         
-        //MARK: - Observer for Pet Type Value
+        //MARK: - Bind Order Object List to Table View
         /// Returns boolean true or false
         /// from the given components.
         /// - Parameters:
