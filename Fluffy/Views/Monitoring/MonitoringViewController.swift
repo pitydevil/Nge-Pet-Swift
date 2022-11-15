@@ -13,11 +13,11 @@ import RxCocoa
 class MonitoringViewController: UIViewController {
     
     //MARK: OBJECT DECLARATION
-    private var dateModelObject      = BehaviorRelay<DateComponents>(value: DateComponents())
+    private var dateModelObject           = BehaviorRelay<DateComponents>(value: DateComponents())
     private var monitoringModelArray      = BehaviorRelay<[Monitoring]>(value: [])
     private var petsSelectionModelArray   = BehaviorRelay<[PetsSelection]>(value: [])
     private var petsBodyModelArray        = BehaviorRelay<[PetBody]>(value: [])
-    private var petSelectedModelArray            = BehaviorRelay<[PetsSelection]>(value: [])
+    private var petSelectedModelArray     = BehaviorRelay<[PetsSelection]>(value: [])
     private let monitoringViewModel       = MonitoringViewModel()
     private let modalSelectPetViewController = ModalSelectPetViewController()
     var tanggalEndpointModelObject        = BehaviorRelay<String>(value: changeDateIntoYYYYMMDD(Date()))
@@ -33,6 +33,11 @@ class MonitoringViewController: UIViewController {
     }
     
     //MARK: Subviews
+    private var refreshControl : UIRefreshControl  =  {
+        let refresh = UIRefreshControl()
+        return refresh
+    }()
+    
     private lazy var dateButton:ReusableButton = {
         let btn = ReusableButton(titleBtn: "Hari Ini", styleBtn:.normal, icon: UIImage(systemName: "calendar"))
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -50,11 +55,13 @@ class MonitoringViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = UIColor(named: "grey3")
+        tableView.backgroundColor = .clear
         tableView.register(MonitoringTableViewCell.self, forCellReuseIdentifier: MonitoringTableViewCell.cellId)
         tableView.separatorColor = .clear
         tableView.allowsSelection = false
+        tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        
         return tableView
     }()
     
@@ -99,20 +106,54 @@ class MonitoringViewController: UIViewController {
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         tableView.rightAnchor.constraint(equalTo: dateButton.rightAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        tableView.reloadData()
-    }
-    
-    //MARK: -VIEWWILLAPPEAR
-    override func viewWillAppear(_ animated: Bool) {
-        Task {
-            monitoringViewModel.getAllPet()
-        }
+        
+        //MARK: - REFRESH CONTROL
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        tableView.addSubview(refreshControl)
     }
     
     //MARK: -ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        Task {
+            monitoringViewModel.getAllPet()
+        }
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         setupUI()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        monitoringViewModel.genericHandlingErrorObserver.skip(1).subscribe(onNext: { [self] (value) in
+            switch value {
+            case .objectNotFound:
+                self.present(genericAlert(titleAlert: "Monitoring Tidak Ada!", messageAlert: "Monitoring tidak ada, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
+            case .success:
+                print("Sukses Console 200")
+            default:
+                self.present(genericAlert(titleAlert: "Terjadi Gangguan server!", messageAlert: "Terjadi kesalahan dalam melakukan pencarian booking, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
         /// from the given components.
@@ -157,7 +198,7 @@ class MonitoringViewController: UIViewController {
         ///     - text: set of character/string that would like  to be checked.
         monitoringViewModel.titleDateModelObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
             DispatchQueue.main.async { [self] in
-                dateButton.setAttributedTitle(NSAttributedString(string: value, attributes: [NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 16)!]), for: .normal)
+                dateButton.setAttributeTitleText(value, 16)
             }
         },onError: { error in
             self.present(errorAlert(), animated: true)
@@ -186,6 +227,9 @@ class MonitoringViewController: UIViewController {
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
         monitoringViewModel.monitoringModelArrayObserver.skip(1).subscribe(onNext: { [self] (value) in
+            DispatchQueue.main.async { [self] in
+                refreshControl.endRefreshing()
+            }
             monitoringModelArray.accept(value)
         },onError: { error in
             self.present(errorAlert(), animated: true)
@@ -269,7 +313,7 @@ class MonitoringViewController: UIViewController {
         ///     - text: set of character/string that would like  to be checked.
         monitoringViewModel.jumlahHewanObjectObserver.skip(1).subscribe(onNext: { (value) in
             DispatchQueue.main.async { [self] in
-                selectPetButton.setAttributedTitle(NSAttributedString(string: value, attributes: [NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 16)!]), for: .normal)
+                selectPetButton.setAttributeTitleText(value, 16)
             }
         },onError: { error in
             self.present(errorAlert(), animated: true)
@@ -289,6 +333,19 @@ class MonitoringViewController: UIViewController {
             modalSelectPetViewController.isModalInPresentation  = true
             present(modalSelectPetViewController, animated: true)
         }.disposed(by: bags)
+    }
+    
+    //MARK: - Bind Journal List with Table View
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
+    @objc func handleRefreshControl() {
+        Task {
+            monitoringViewModel.monitoringBodyModelObject.accept(MonitoringBody(userID: userID, date: tanggalEndpointModelObject.value, pets: petsBodyModelArray.value))
+            await monitoringViewModel.fetchMonitoring()
+        }
     }
 }
 

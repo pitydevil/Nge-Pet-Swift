@@ -13,11 +13,17 @@ class BookingViewModel {
     //MARK: - OBJECT DECLARATION
     private let networkService    : NetworkServicing
     private let orderModelArray   = BehaviorRelay<[Order]>(value: [])
+    private var genericHandlingErrorObject = BehaviorRelay<genericHandlingError>(value: .success)
     var orderStatusObject = BehaviorRelay<String>(value: String())
+    //MARK: - OBJECT OBSERVER DECLARATION
     var orderModelArrayObserver   : Observable<[Order]> {
         return orderModelArray.asObservable()
     }
+    var genericHandlingErrorObserver   : Observable<genericHandlingError> {
+        return genericHandlingErrorObject.asObservable()
+    }
 
+    //MARK: - INIT OBJECT DECLARATION
     init(networkService: NetworkServicing = NetworkService()) {
         self.networkService = networkService
     }
@@ -33,11 +39,12 @@ class BookingViewModel {
         let result = await networkService.request(to: endpoint, decodeTo: Response<[Order]>.self)
         switch result {
         case .success(let response):
+            genericHandlingErrorObject.accept(genericHandlingError(rawValue: response.status!)!)
             if let order = response.data {
                 self.orderModelArray.accept(order)
             }
-        case .failure(let error):
-            print(error)
+        case .failure(_):
+            genericHandlingErrorObject.accept(genericHandlingError(rawValue: 500)!)
         }
     }
 }

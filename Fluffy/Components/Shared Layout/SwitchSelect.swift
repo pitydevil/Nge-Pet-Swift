@@ -32,7 +32,6 @@ class SwitchSelect: UIView {
             labelSelect.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             labelSelect.topAnchor.constraint(equalTo: switchControl.bottomAnchor, constant: 8)
         ])
-        
     }
     
     required init?(coder: NSCoder) {

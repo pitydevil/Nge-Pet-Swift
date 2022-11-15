@@ -12,6 +12,7 @@ struct Monitoring: Decodable {
     let monitoringActivity: String
     let customSops: [CustomSOP]
     let orderDetailID, timeUpload, petHotelName, petName: String
+    let notification: Bool
     let monitoringImage: [MonitoringImage]
 }
 
@@ -24,6 +25,7 @@ extension Monitoring {
         case timeUpload = "time_upload"
         case petHotelName = "pet_hotel_name"
         case petName = "pet_name"
+        case notification
         case monitoringImage = "monitoring_image"
     }
     
@@ -36,6 +38,7 @@ extension Monitoring {
         timeUpload        = try container.decode(String.self, forKey: .timeUpload)
         petHotelName      = try container.decode(String.self, forKey: .petHotelName)
         petName           = try container.decode(String.self, forKey: .petName)
+        notification = try container.decode(Bool.self, forKey: .notification)
         monitoringImage   = try container.decode([MonitoringImage].self, forKey: .monitoringImage)
     }
 }

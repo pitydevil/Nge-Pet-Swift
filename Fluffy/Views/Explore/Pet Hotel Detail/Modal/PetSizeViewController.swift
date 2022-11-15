@@ -12,7 +12,6 @@ class PetSizeViewController: UIViewController {
     //MARK: Subviews
     private lazy var customBar: ReusableTabBar = {
         let customBar = ReusableTabBar(btnText: "Tutup", showText: .notShow)
-//        customBar.barBtn.addTarget(self, action: #selector(checkinSelected), for: .touchUpInside)
         customBar.barBtn.isEnabled = true
         customBar.barBtn.configuration?.baseBackgroundColor = UIColor(named: "grey2")
         customBar.barBtn.configuration?.baseForegroundColor = UIColor(named: "white")
@@ -69,10 +68,9 @@ class PetSizeViewController: UIViewController {
         petSizeTableView.bottomAnchor.constraint(equalTo: customBar.topAnchor).isActive = true
         petSizeTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
         petSizeTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
-        
     }
-    
 }
+
 //MARK: UITableViewDelegate, UITableViewDataSource
 extension PetSizeViewController:UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -89,5 +87,4 @@ extension PetSizeViewController:UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 128
     }
-    
 }

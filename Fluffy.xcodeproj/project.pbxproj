@@ -58,13 +58,11 @@
 		1DE771CD2911FCD800A23A66 /* HotelPackageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE771CC2911FCD800A23A66 /* HotelPackageViewController.swift */; };
 		1DE771D22911FF8300A23A66 /* HotelPackageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE771D12911FF8300A23A66 /* HotelPackageTableViewCell.swift */; };
 		228971C6B79C4700E7DA9C4E /* Pods_FluffyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC985139B43D09D659850CB /* Pods_FluffyTests.framework */; };
-		4B2A82EF2917E8C600830AE8 /* Class Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2A82EE2917E8C600830AE8 /* Class Model.swift */; };
 		4B2A82F12917ED9C00830AE8 /* EditPetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2A82F02917ED9C00830AE8 /* EditPetViewModel.swift */; };
 		4B2A82F5291979DB00830AE8 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2A82F4291979DB00830AE8 /* Order.swift */; };
 		4B2A82F729197BA000830AE8 /* OrderDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2A82F629197BA000830AE8 /* OrderDetail.swift */; };
 		4B2A82F929197D9D00830AE8 /* BookingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2A82F829197D9D00830AE8 /* BookingViewModel.swift */; };
 		4B3D82BE29051A2F00F6A82F /* ModalSelectPetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82BD29051A2F00F6A82F /* ModalSelectPetViewController.swift */; };
-		4B3D82C029051A3900F6A82F /* ModalMonitoringViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82BF29051A3900F6A82F /* ModalMonitoringViewController.swift */; };
 		4B3D82C229051A4500F6A82F /* ModalMonitoringTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82C129051A4500F6A82F /* ModalMonitoringTableViewCell.swift */; };
 		4B3D82C429051A5000F6A82F /* ModalCheckInOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82C329051A5000F6A82F /* ModalCheckInOutViewController.swift */; };
 		4B3D82CB29051D8E00F6A82F /* NetworkLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B3D82C729051D8D00F6A82F /* NetworkLogger.swift */; };
@@ -81,7 +79,6 @@
 		4B6A64782917C73100597555 /* AddPetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6A64772917C73100597555 /* AddPetViewModel.swift */; };
 		4B78DB1C28EAD8A200744386 /* Style Guide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB1B28EAD8A200744386 /* Style Guide.swift */; };
 		4B78DB1F28EAD8AE00744386 /* Base Providers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB1E28EAD8AE00744386 /* Base Providers.swift */; };
-		4B78DB2E28EAD8F200744386 /* specific layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B78DB2D28EAD8F200744386 /* specific layout.swift */; };
 		4BC609D728E572DE007A6DB0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC609D628E572DE007A6DB0 /* AppDelegate.swift */; };
 		4BC609D928E572DE007A6DB0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BC609D828E572DE007A6DB0 /* SceneDelegate.swift */; };
 		4BC609E028E572DF007A6DB0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4BC609DF28E572DF007A6DB0 /* Assets.xcassets */; };
@@ -119,6 +116,7 @@
 		4BD8C2DD291F6DCB00F7DB18 /* MonitoringBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2DC291F6DCB00F7DB18 /* MonitoringBody.swift */; };
 		4BD8C2E1291F6E3100F7DB18 /* PetBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2E0291F6E3100F7DB18 /* PetBody.swift */; };
 		4BD8C2E3291F8BBE00F7DB18 /* ModalMonitoringViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2E2291F8BBE00F7DB18 /* ModalMonitoringViewModel.swift */; };
+		4BD8C2E5292206FB00F7DB18 /* ExploreSearchBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD8C2E4292206FB00F7DB18 /* ExploreSearchBody.swift */; };
 		4E1371D9291B90AF00300AA6 /* PetHotels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1371D8291B90AF00300AA6 /* PetHotels.swift */; };
 		4E1371DB291B90C100300AA6 /* PetHotelSupportedPet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1371DA291B90C100300AA6 /* PetHotelSupportedPet.swift */; };
 		4E1371DD291B90CE00300AA6 /* SupportedPetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1371DC291B90CE00300AA6 /* SupportedPetType.swift */; };
@@ -213,7 +211,6 @@
 		1D8576FC28EBFF9B00CF2D5E /* Poppins-Italic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Italic.ttf"; sourceTree = "<group>"; };
 		1D8576FD28EBFF9B00CF2D5E /* Poppins-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-MediumItalic.ttf"; sourceTree = "<group>"; };
 		1D85772128EC086600CF2D5E /* ReuseableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseableLabel.swift; sourceTree = "<group>"; };
-		1DA5543228ED604C0040E4F7 /* CheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckViewController.swift; sourceTree = "<group>"; };
 		1DA5543628EEA1570040E4F7 /* ReusableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableButton.swift; sourceTree = "<group>"; };
 		1DBF11CC28F00CAC00C53D1E /* ReusableTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableTabBar.swift; sourceTree = "<group>"; };
 		1DC60F64292122210094DA39 /* PetHotelPackage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotelPackage.swift; sourceTree = "<group>"; };
@@ -234,14 +231,12 @@
 		2A279AC421335ED40E76880D /* Pods_Fluffy_FluffyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fluffy_FluffyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		391FB2353E3E4D1516AADE30 /* Pods-Fluffy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy.debug.xcconfig"; path = "Target Support Files/Pods-Fluffy/Pods-Fluffy.debug.xcconfig"; sourceTree = "<group>"; };
 		3FC985139B43D09D659850CB /* Pods_FluffyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluffyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4B2A82EE2917E8C600830AE8 /* Class Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Class Model.swift"; sourceTree = "<group>"; };
 		4B2A82F02917ED9C00830AE8 /* EditPetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPetViewModel.swift; sourceTree = "<group>"; };
 		4B2A82F4291979DB00830AE8 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		4B2A82F629197BA000830AE8 /* OrderDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetail.swift; sourceTree = "<group>"; };
 		4B2A82F829197D9D00830AE8 /* BookingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingViewModel.swift; sourceTree = "<group>"; };
 		4B2A82FA2919895800830AE8 /* FluffyDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FluffyDebug.entitlements; sourceTree = "<group>"; };
 		4B3D82BD29051A2F00F6A82F /* ModalSelectPetViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalSelectPetViewController.swift; path = Fluffy/Views/Explore/Modal/ModalSelectPetViewController.swift; sourceTree = SOURCE_ROOT; };
-		4B3D82BF29051A3900F6A82F /* ModalMonitoringViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalMonitoringViewController.swift; path = Fluffy/Views/Monitoring/Modal/ModalMonitoringViewController.swift; sourceTree = SOURCE_ROOT; };
 		4B3D82C129051A4500F6A82F /* ModalMonitoringTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalMonitoringTableViewCell.swift; path = Fluffy/Views/Monitoring/Cells/ModalMonitoringTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		4B3D82C329051A5000F6A82F /* ModalCheckInOutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModalCheckInOutViewController.swift; path = Fluffy/Views/Explore/Modal/ModalCheckInOutViewController.swift; sourceTree = SOURCE_ROOT; };
 		4B3D82C729051D8D00F6A82F /* NetworkLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkLogger.swift; sourceTree = "<group>"; };
@@ -258,7 +253,6 @@
 		4B6A64772917C73100597555 /* AddPetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPetViewModel.swift; sourceTree = "<group>"; };
 		4B78DB1B28EAD8A200744386 /* Style Guide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Style Guide.swift"; sourceTree = "<group>"; };
 		4B78DB1E28EAD8AE00744386 /* Base Providers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Base Providers.swift"; sourceTree = "<group>"; };
-		4B78DB2D28EAD8F200744386 /* specific layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "specific layout.swift"; sourceTree = "<group>"; };
 		4BC609D328E572DE007A6DB0 /* Fluffy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fluffy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BC609D628E572DE007A6DB0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4BC609D828E572DE007A6DB0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -300,6 +294,7 @@
 		4BD8C2DC291F6DCB00F7DB18 /* MonitoringBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitoringBody.swift; sourceTree = "<group>"; };
 		4BD8C2E0291F6E3100F7DB18 /* PetBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetBody.swift; sourceTree = "<group>"; };
 		4BD8C2E2291F8BBE00F7DB18 /* ModalMonitoringViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalMonitoringViewModel.swift; sourceTree = "<group>"; };
+		4BD8C2E4292206FB00F7DB18 /* ExploreSearchBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreSearchBody.swift; sourceTree = "<group>"; };
 		4E1371D8291B90AF00300AA6 /* PetHotels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotels.swift; sourceTree = "<group>"; };
 		4E1371DA291B90C100300AA6 /* PetHotelSupportedPet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PetHotelSupportedPet.swift; sourceTree = "<group>"; };
 		4E1371DC291B90CE00300AA6 /* SupportedPetType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportedPetType.swift; sourceTree = "<group>"; };
@@ -461,14 +456,6 @@
 			path = Modal;
 			sourceTree = "<group>";
 		};
-		1DF86BA128F566650070EA4A /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				1DA5543228ED604C0040E4F7 /* CheckViewController.swift */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
 		32A35FA660F74A23C722733B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -485,12 +472,7 @@
 		4B2A82F22919757300830AE8 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				4B2A82F4291979DB00830AE8 /* Order.swift */,
-				4B2A82F629197BA000830AE8 /* OrderDetail.swift */,
-				4BD8C297291A1BA800F7DB18 /* DetailedOrder.swift */,
-				4BD8C299291A1C0900F7DB18 /* PetHotel.swift */,
-				4BD8C29F291A206300F7DB18 /* CustomOrderDetail.swift */,
-				4BD8C2A3291A86BC00F7DB18 /* PetHotelImage.swift */,
+				4BD8C2EA2922756200F7DB18 /* Response */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -593,7 +575,6 @@
 		4B78DB2728EAD8CC00744386 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				4B78DB2B28EAD8E100744386 /* Specific Layout */,
 				4B78DB2828EAD8D500744386 /* Shared Layout */,
 			);
 			path = Components;
@@ -615,19 +596,10 @@
 			path = "Shared Layout";
 			sourceTree = "<group>";
 		};
-		4B78DB2B28EAD8E100744386 /* Specific Layout */ = {
-			isa = PBXGroup;
-			children = (
-				4B78DB2D28EAD8F200744386 /* specific layout.swift */,
-			);
-			path = "Specific Layout";
-			sourceTree = "<group>";
-		};
 		4B78DB3228EAD90E00744386 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				4BD8C2D6291E35DE00F7DB18 /* Shared Static Instances */,
-				4B78DB3628EAD91F00744386 /* Class Model */,
 				4B78DB3328EAD91100744386 /* API Model */,
 			);
 			path = Models;
@@ -636,19 +608,10 @@
 		4B78DB3328EAD91100744386 /* API Model */ = {
 			isa = PBXGroup;
 			children = (
-				4BD8C29B291A1C7A00F7DB18 /* CancelSop.swift */,
-				4BD8C29D291A1C8E00F7DB18 /* Package.swift */,
-				4BD8C2A1291A20B600F7DB18 /* CustomSOP.swift */,
+				4BD8C2E92922077400F7DB18 /* Body */,
+				4BD8C2E82922076D00F7DB18 /* Response */,
 			);
 			path = "API Model";
-			sourceTree = "<group>";
-		};
-		4B78DB3628EAD91F00744386 /* Class Model */ = {
-			isa = PBXGroup;
-			children = (
-				4B2A82EE2917E8C600830AE8 /* Class Model.swift */,
-			);
-			path = "Class Model";
 			sourceTree = "<group>";
 		};
 		4BC609CA28E572DE007A6DB0 = {
@@ -660,7 +623,6 @@
 				4BC609D428E572DE007A6DB0 /* Products */,
 				32A35FA660F74A23C722733B /* Pods */,
 				702D24B61AB42153E49B2163 /* Frameworks */,
-				1DF86BA128F566650070EA4A /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -678,16 +640,14 @@
 			isa = PBXGroup;
 			children = (
 				4B2A82FA2919895800830AE8 /* FluffyDebug.entitlements */,
+				4BC60A0728E573B8007A6DB0 /* Base */,
 				4BD8C2AC291BE5E100F7DB18 /* Service */,
-				4B3D82CF29051D9100F6A82F /* Networking Domain */,
-				4B3D82C629051D6700F6A82F /* Networking */,
+				4B78DB1D28EAD8A500744386 /* Provider */,
 				4B78DB3228EAD90E00744386 /* Models */,
 				4B78DB2728EAD8CC00744386 /* Components */,
 				4B78DB2428EAD8C000744386 /* Views */,
 				4B78DB2028EAD8B100744386 /* View Model */,
-				4B78DB1D28EAD8A500744386 /* Provider */,
 				4B78DB1A28EAD89200744386 /* Miscellaneous */,
-				4BC60A0728E573B8007A6DB0 /* Base */,
 				4BC60A0A28E573EF007A6DB0 /* Utils */,
 				4BC609DF28E572DF007A6DB0 /* Assets.xcassets */,
 				4BC609E428E572DF007A6DB0 /* Info.plist */,
@@ -737,6 +697,8 @@
 		4BD8C2AC291BE5E100F7DB18 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				4B3D82CF29051D9100F6A82F /* Networking Domain */,
+				4B3D82C629051D6700F6A82F /* Networking */,
 				4B3D82CA29051D8D00F6A82F /* NetworkService.swift */,
 				4BD8C2AA291BE07A00F7DB18 /* LocationManager.swift */,
 			);
@@ -746,12 +708,7 @@
 		4BD8C2B5291D4D5200F7DB18 /* Domain */ = {
 			isa = PBXGroup;
 			children = (
-				4BD8C2B6291D4D6700F7DB18 /* PetHotelsDetail.swift */,
-				4BD8C2B8291D4D8700F7DB18 /* AsuransiDetail.swift */,
-				4BD8C2BA291D4DB400F7DB18 /* SOPGeneral.swift */,
-				4BD8C2BC291D4E4D00F7DB18 /* SupportedPet.swift */,
-				4BD8C2BE291D4E8300F7DB18 /* SupportedPetTypeDetail.swift */,
-				4BD8C2C0291D4EA800F7DB18 /* Fasilitas.swift */,
+				4BD8C2EB2922758400F7DB18 /* Response */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -782,14 +739,6 @@
 				4EC56E4F28F84387008ADD7F /* MonitoringTableViewCell.swift */,
 			);
 			path = Cells;
-			sourceTree = "<group>";
-		};
-		4BD8C2CD291E2F7600F7DB18 /* Modal */ = {
-			isa = PBXGroup;
-			children = (
-				4B3D82BF29051A3900F6A82F /* ModalMonitoringViewController.swift */,
-			);
-			path = Modal;
 			sourceTree = "<group>";
 		};
 		4BD8C2CE291E2F8F00F7DB18 /* Modal */ = {
@@ -831,7 +780,6 @@
 			isa = PBXGroup;
 			children = (
 				4BD8C2DC291F6DCB00F7DB18 /* MonitoringBody.swift */,
-				4BD8C2E0291F6E3100F7DB18 /* PetBody.swift */,
 			);
 			path = Body;
 			sourceTree = "<group>";
@@ -846,15 +794,76 @@
 			path = Response;
 			sourceTree = "<group>";
 		};
-		4E1371D7291B90A300300AA6 /* Domain */ = {
+		4BD8C2E62922070000F7DB18 /* Response */ = {
 			isa = PBXGroup;
 			children = (
 				4E1371D8291B90AF00300AA6 /* PetHotels.swift */,
 				4E1371DA291B90C100300AA6 /* PetHotelSupportedPet.swift */,
 				4E1371DC291B90CE00300AA6 /* SupportedPetType.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		4BD8C2E72922070D00F7DB18 /* Body */ = {
+			isa = PBXGroup;
+			children = (
+				4BD8C2E4292206FB00F7DB18 /* ExploreSearchBody.swift */,
+				4BD8C2B1291D0EFD00F7DB18 /* CheckIn.swift */,
 				4BD8C2A5291BD4EF00F7DB18 /* Location.swift */,
 				4BD8C2AF291D068700F7DB18 /* LocationDetail.swift */,
-				4BD8C2B1291D0EFD00F7DB18 /* CheckIn.swift */,
+			);
+			path = Body;
+			sourceTree = "<group>";
+		};
+		4BD8C2E82922076D00F7DB18 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				4BD8C29B291A1C7A00F7DB18 /* CancelSop.swift */,
+				4BD8C29D291A1C8E00F7DB18 /* Package.swift */,
+				4BD8C2A1291A20B600F7DB18 /* CustomSOP.swift */,
+				4BD8C2A3291A86BC00F7DB18 /* PetHotelImage.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		4BD8C2E92922077400F7DB18 /* Body */ = {
+			isa = PBXGroup;
+			children = (
+				4BD8C2E0291F6E3100F7DB18 /* PetBody.swift */,
+			);
+			path = Body;
+			sourceTree = "<group>";
+		};
+		4BD8C2EA2922756200F7DB18 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				4B2A82F4291979DB00830AE8 /* Order.swift */,
+				4B2A82F629197BA000830AE8 /* OrderDetail.swift */,
+				4BD8C297291A1BA800F7DB18 /* DetailedOrder.swift */,
+				4BD8C299291A1C0900F7DB18 /* PetHotel.swift */,
+				4BD8C29F291A206300F7DB18 /* CustomOrderDetail.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		4BD8C2EB2922758400F7DB18 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				4BD8C2B6291D4D6700F7DB18 /* PetHotelsDetail.swift */,
+				4BD8C2B8291D4D8700F7DB18 /* AsuransiDetail.swift */,
+				4BD8C2BA291D4DB400F7DB18 /* SOPGeneral.swift */,
+				4BD8C2BC291D4E4D00F7DB18 /* SupportedPet.swift */,
+				4BD8C2BE291D4E8300F7DB18 /* SupportedPetTypeDetail.swift */,
+				4BD8C2C0291D4EA800F7DB18 /* Fasilitas.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		4E1371D7291B90A300300AA6 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				4BD8C2E72922070D00F7DB18 /* Body */,
+				4BD8C2E62922070000F7DB18 /* Response */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -886,7 +895,6 @@
 		4E5068B029001BF90005ADBF /* Monitoring */ = {
 			isa = PBXGroup;
 			children = (
-				4BD8C2CD291E2F7600F7DB18 /* Modal */,
 				4BD8C2CC291E2F6B00F7DB18 /* Cells */,
 				4BD8C2C7291E2D1500F7DB18 /* Domain */,
 				4EC56E4D28F826BB008ADD7F /* MonitoringViewController.swift */,
@@ -949,10 +957,10 @@
 			isa = PBXGroup;
 			children = (
 				4BD8C2B5291D4D5200F7DB18 /* Domain */,
-				4EAF1ED429068CDD007248AA /* PetHotelViewController.swift */,
 				4EAF1EE02907FDB7007248AA /* Modal */,
 				4EAF1EE729080C55007248AA /* Cells */,
 				1DE771CE2911FEE400A23A66 /* Booking Detail */,
+				4EAF1ED429068CDD007248AA /* PetHotelViewController.swift */,
 			);
 			path = "Pet Hotel Detail";
 			sourceTree = "<group>";
@@ -1297,7 +1305,6 @@
 				4B3D82CD29051D8E00F6A82F /* NetworkError.swift in Sources */,
 				4BD8C2C9291E2D2000F7DB18 /* Monitoring.swift in Sources */,
 				4BD8C2D2291E316200F7DB18 /* MonitoringViewModel.swift in Sources */,
-				4B78DB2E28EAD8F200744386 /* specific layout.swift in Sources */,
 				1DE5D73F2906463A00CD4820 /* ModalSearchLocationViewController.swift in Sources */,
 				1D661464290780D8007B43DA /* PetTableViewCell.swift in Sources */,
 				4B6A64762915043000597555 /* PetViewModel.swift in Sources */,
@@ -1313,17 +1320,16 @@
 				4E1371D9291B90AF00300AA6 /* PetHotels.swift in Sources */,
 				1DE771CB2911235700A23A66 /* CatatanKhususTableViewCell.swift in Sources */,
 				4E9DEFBB291D5BD20001930D /* AddCustomSOP.swift in Sources */,
+				4BD8C2E5292206FB00F7DB18 /* ExploreSearchBody.swift in Sources */,
 				1DE771C52910D0AB00A23A66 /* SelectBookingDetailsViewController.swift in Sources */,
 				4B3D82D329051DAD00F6A82F /* Application Endpoint.swift in Sources */,
 				4BD8C2D8291E35E900F7DB18 /* Shared Static Instances.swift in Sources */,
-				4B2A82EF2917E8C600830AE8 /* Class Model.swift in Sources */,
 				4BD8C2C1291D4EA800F7DB18 /* Fasilitas.swift in Sources */,
 				4E5068B429001C4C0005ADBF /* ExploreTableViewCell.swift in Sources */,
 				4BC609D728E572DE007A6DB0 /* AppDelegate.swift in Sources */,
 				4BC609D928E572DE007A6DB0 /* SceneDelegate.swift in Sources */,
 				4BD8C2A6291BD4EF00F7DB18 /* Location.swift in Sources */,
 				4EAF1EEB29084550007248AA /* PetSizeExplainationTableViewCell.swift in Sources */,
-				4B3D82C029051A3900F6A82F /* ModalMonitoringViewController.swift in Sources */,
 				1DA5543728EEA1570040E4F7 /* ReusableButton.swift in Sources */,
 				1D661468290A12CF007B43DA /* PetIconCollectionViewCell.swift in Sources */,
 				4BD8C2B9291D4D8700F7DB18 /* AsuransiDetail.swift in Sources */,

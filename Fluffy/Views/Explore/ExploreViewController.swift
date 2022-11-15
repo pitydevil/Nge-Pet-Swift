@@ -12,13 +12,28 @@ import RxCocoa
 class ExploreViewController: UIViewController {
     
     //MARK: - OBJECT DECLARATION
-    private let exploreViewModel = ExploreViewModel(locationManager: LocationManager())
+    private var tableViewHeightConstraint : NSLayoutConstraint?
+    private let modalSelectPetViewController = ModalSelectPetViewController()
+    private let exploreViewModel          = ExploreViewModel(locationManager: LocationManager())
+    private var petsSelectionModelArray   = BehaviorRelay<[PetsSelection]>(value: [])
+    private var petsBodyModelArray        = BehaviorRelay<[PetBody]>(value: [])
+    private var petSelectedModelArray     = BehaviorRelay<[PetsSelection]>(value: [])
     private let petHotelList = BehaviorRelay<[PetHotels]>(value: [])
     private var modalSearchLocationObject = BehaviorRelay<LocationDetail>(value: LocationDetail(longitude: 0.0, latitude: 0.0, locationName: ""))
     private var checkFinalObject = BehaviorRelay<CheckIn>(value:CheckIn(checkInDate: "", checkOutDate: ""))
-    private var numCard    = 0
+    
+    //MARK: OBJECT OBSERVER DECLARATION
+    var petsSelectionModelArrayObserver : Observable<[PetsSelection]> {
+        return petsSelectionModelArray.asObservable()
+    }
     
     //MARK: Subviews
+    private var refreshControl : UIRefreshControl  =  {
+        let refresh = UIRefreshControl()
+        refresh.tintColor = .white
+        return refresh
+    }()
+    
     private let scrollView:UIScrollView = {
         let scroll = UIScrollView()
         scroll.translatesAutoresizingMaskIntoConstraints = false
@@ -122,14 +137,12 @@ class ExploreViewController: UIViewController {
     private lazy var searchButton:ReusableButton = {
         let btn = ReusableButton(titleBtn: "Cari Hotel", styleBtn:.longOutline)
         btn.translatesAutoresizingMaskIntoConstraints = false
-                btn.addTarget(self, action: #selector(search), for: .touchUpInside)
         return btn
     }()
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate   = self
-//        tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.register(ExploreTableViewCell.self, forCellReuseIdentifier: ExploreTableViewCell.cellId)
@@ -142,136 +155,11 @@ class ExploreViewController: UIViewController {
         return tableView
     }()
     
-    private var tableViewHeightConstraint : NSLayoutConstraint?
-    
-    override func viewWillAppear(_ animated: Bool) {
-        Task {
-            await exploreViewModel.fetchExploreList()
-        }
-    }
-    
-    //MARK: -ViewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupUI()
-        
-        //MARK: - Observer for Pet Type Value
-        /// Returns boolean true or false
-        /// from the given components.
-        /// - Parameters:
-        ///     - allowedCharacter: character subset that's allowed to use on the textfield
-        ///     - text: set of character/string that would like  to be checked.
-        exploreViewModel.petHotelModelArrayObserver.subscribe(onNext: { (value) in
-            self.petHotelList.accept(value)
-            
-            self.numCard = self.petHotelList.value.count
-            
-            DispatchQueue.main.async { [self] in
-                tableViewHeightConstraint!.constant = CGFloat(numCard*216)
-                view.layoutIfNeeded()
-            }
-        },onError: { error in
-            self.present(errorAlert(), animated: true)
-        }).disposed(by: bags)
-        
-        //MARK: - Bind Journal List with Table View
-        /// Returns boolean true or false
-        /// from the given components.
-        /// - Parameters:
-        ///     - allowedCharacter: character subset that's allowed to use on the textfield
-        ///     - text: set of character/string that would like  to be checked.
-        petHotelList.bind(to: tableView.rx.items(cellIdentifier: ExploreTableViewCell.cellId, cellType: ExploreTableViewCell.self)) { row, model, cell in
-            let backgroundView = UIView()
-            backgroundView.backgroundColor = .clear
-            cell.backgroundColor = .white
-            cell.layer.cornerRadius = 12
-            cell.selectedBackgroundView = backgroundView
-            cell.petHotelSupportedObject.accept(model.petHotelSupportedPet)
-            cell.setup(model)
-        }.disposed(by: bags)
-        
-        //MARK: - Bind Journal List with Table View
-        /// Returns boolean true or false
-        /// from the given components.
-        /// - Parameters:
-        ///     - allowedCharacter: character subset that's allowed to use on the textfield
-        ///     - text: set of character/string that would like  to be checked.
-        tableView.rx.itemSelected.subscribe(onNext: { [self] (indexPath) in
-            self.tableView.deselectRow(at: indexPath, animated: true)
-            let petHotelViewController = PetHotelViewController()
-            petHotelViewController.modalPresentationStyle = .fullScreen
-            petHotelViewController.hidesBottomBarWhenPushed = true
-            petHotelViewController.petHotelDetailID.accept(petHotelList.value[indexPath.row].petHotelID)
-            self.navigationController?.pushViewController(petHotelViewController, animated: true)
-        }).disposed(by: bags)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        self.navigationController?.isNavigationBarHidden = true
-        super.viewDidAppear(animated)
-    }
-    
-    @objc func toSearchModal() {
-        let vc = ModalSearchLocationViewController()
-        vc.modalPresentationStyle = .pageSheet
-        //MARK: - Bind Journal List with Table View
-        /// Returns boolean true or false
-        /// from the given components.
-        /// - Parameters:
-        ///     - allowedCharacter: character subset that's allowed to use on the textfield
-        ///     - text: set of character/string that would like  to be checked.
-        vc.modalSearchObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
-            modalSearchLocationObject.accept(value)
-            DispatchQueue.main.async { [self] in
-                searchLocation.attributedPlaceholder = attributedTextForSearchTextfield(value.locationName)
-            }
-        },onError: { error in
-            self.present(errorAlert(), animated: true)
-        }).disposed(by: bags)
-        self.present(vc, animated: true)
-    }
-    
-    @objc func search() {
-        let vc = SearchExploreViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    @available(iOS 16.0, *)
-    @objc func toDateModal() {
-        let vc = ModalCheckInOutViewController()
-        vc.modalPresentationStyle = .pageSheet
-        //MARK: - Bind Journal List with Table View
-        /// Returns boolean true or false
-        /// from the given components.
-        /// - Parameters:
-        ///     - allowedCharacter: character subset that's allowed to use on the textfield
-        ///     - text: set of character/string that would like  to be checked.
-        vc.checkFinalObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
-            checkFinalObject.accept(value)
-            DispatchQueue.main.async { [self] in
-                searchDate.attributedPlaceholder = attributedTextForSearchTextfield("\(value.checkInDate) - \(value.checkOutDate)")
-            }
-        },onError: { error in
-            self.present(errorAlert(), animated: true)
-        }).disposed(by: bags)
-        self.present(vc, animated: true)
-    }
-    
-    @objc func toSelectPetModal() {
-        let vc = ModalSelectPetViewController()
-        vc.modalPresentationStyle = .pageSheet
-        self.present(vc, animated: true)
-    }
-}
-
-//MARK: Setup Layout
-@available(iOS 16.0, *)
-extension ExploreViewController{
-    func setupUI(){
-        self.navigationController?.isNavigationBarHidden = true
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
+    private func setupUI(){
+        navigationController?.isNavigationBarHidden = true
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
         view.backgroundColor = UIColor(named: "grey3")
-        self.navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
+        navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
         
         view.addSubview(scrollView)
 
@@ -288,18 +176,16 @@ extension ExploreViewController{
         contentView.addSubview(searchPetView)
         contentView.addSubview(roundedCorner)
         contentView.addSubview(tableView)
-        setupConstraints()
-    }
-    
-    func setupConstraints(){
-
+        
         //MARK: Scroll View Constraints
         scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        scrollView.refreshControl = refreshControl
+        scrollView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
         
-        //MARK: COntent view constraint
+        //MARK: Content view constraint
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
@@ -372,13 +258,300 @@ extension ExploreViewController{
         tableViewHeightConstraint = tableView.heightAnchor.constraint(greaterThanOrEqualToConstant: 216)
         tableViewHeightConstraint!.isActive = true
     }
+    
+    //MARK: -ViewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        Task {
+            await exploreViewModel.fetchExploreList()
+        }
+    }
+    
+    //MARK: -ViewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+       
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        setupUI()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        Task {
+            exploreViewModel.getAllPet()
+            await exploreViewModel.fetchExploreList()
+        }
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        exploreViewModel.genericHandlingErrorObserver.skip(1).subscribe(onNext: { [self] (value) in
+            switch value {
+            case .objectNotFound:
+                self.present(genericAlert(titleAlert: "Pet Hotel Tidak Ada!", messageAlert: "Pet Hotel tidak ada, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
+            case .success:
+                print("Sukses Console 200")
+            default:
+                self.present(genericAlert(titleAlert: "Terjadi Gangguan server!", messageAlert: "Terjadi kesalahan dalam melakukan pencarian booking, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        exploreViewModel.petHotelModelArrayObserver.subscribe(onNext: { [self] (value) in
+            petHotelList.accept(value)
+            DispatchQueue.main.async { [self] in
+                refreshControl.endRefreshing()
+                tableViewHeightConstraint!.constant = CGFloat(petHotelList.value.count*216)
+                view.layoutIfNeeded()
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        exploreViewModel.petModelArrayObserver.subscribe(onNext: { [self] (value) in
+            petsSelectionModelArray.accept(value)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petsSelectionModelArrayObserver.skip(1).subscribe(onNext: { [self] (value) in
+            let pets = petsSelectionModelArray.value.map { obj -> PetBody in
+                return PetBody(petName: obj.petName!, petType: obj.petType!, petSize: obj.petSize!)
+            }
+            petsBodyModelArray.accept(pets)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        modalSelectPetViewController.petsBodhyModelArrayObserver.skip(1).subscribe(onNext: { [self] (value) in
+            exploreViewModel.petBody.accept(value)
+            exploreViewModel.petSelection.accept(petsSelectionModelArray.value)
+            exploreViewModel.configureHewanCounterLabel()
+            petsBodyModelArray.accept(value)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        exploreViewModel.jumlahHewanObjectObserver.skip(1).subscribe(onNext: { (value) in
+            DispatchQueue.main.async { [self] in
+                searchPet.attributedPlaceholder = attributedTextForSearchTextfield(value)
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        modalSelectPetViewController.petsSelectionModelArrayObserver.subscribe(onNext: { [self] (value) in
+            petsSelectionModelArray.accept(value)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        modalSelectPetViewController.petsSelectedModelArrayObserver.subscribe(onNext: { [self] (value) in
+            petSelectedModelArray.accept([])
+            petSelectedModelArray.accept(value)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Bind Journal List with Table View
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petHotelList.bind(to: tableView.rx.items(cellIdentifier: ExploreTableViewCell.cellId, cellType: ExploreTableViewCell.self)) { row, model, cell in
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = .clear
+            cell.backgroundColor = .white
+            cell.layer.cornerRadius = 12
+            cell.selectedBackgroundView = backgroundView
+            cell.petHotelSupportedObject.accept(model.petHotelSupportedPet)
+            cell.setup(model)
+        }.disposed(by: bags)
+        
+        //MARK: - Bind Journal List with Table View
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        tableView.rx.itemSelected.subscribe(onNext: { [self] (indexPath) in
+            self.tableView.deselectRow(at: indexPath, animated: true)
+            let petHotelViewController = PetHotelViewController()
+            petHotelViewController.modalPresentationStyle = .fullScreen
+            petHotelViewController.hidesBottomBarWhenPushed = true
+            petHotelViewController.petHotelDetailID.accept(petHotelList.value[indexPath.row].petHotelID)
+            self.navigationController?.pushViewController(petHotelViewController, animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        exploreViewModel.searchPetHotelModelArrayObserver.skip(1).subscribe(onNext: { (value) in
+            DispatchQueue.main.async { [self] in
+                let vc = SearchExploreViewController()
+                vc.petHotelList.accept(value)
+                vc.modalSearchLocationObject.accept(ExploreSearchBody(longitude: modalSearchLocationObject.value.longitude, latitude: modalSearchLocationObject.value.latitude, checkInDate: checkFinalObject.value.checkInDate, checkOutDate: checkFinalObject.value.checkOutDate, pets: petsBodyModelArray.value))
+                vc.locationNameObject.accept(modalSearchLocationObject.value.locationName)
+                navigationController?.pushViewController(vc, animated: true)
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Bind Journal List with Table View
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        searchButton.rx.tap.bind { [self] in
+            Task {
+                exploreViewModel.exploreSearchBodyObject.accept(ExploreSearchBody(longitude: modalSearchLocationObject.value.longitude, latitude: modalSearchLocationObject.value.latitude, checkInDate: checkFinalObject.value.checkInDate, checkOutDate: checkFinalObject.value.checkOutDate, pets: petsBodyModelArray.value))
+                await exploreViewModel.fetchSearchExploreList()
+            }
+        }.disposed(by: bags)
+    }
+    
+    //MARK: - Bind Journal List with Table View
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
+    @objc func handleRefreshControl() {
+        Task {
+            await exploreViewModel.fetchExploreList()
+        }
+    }
+    
+    //MARK: - Bind Journal List with Table View
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
+    @objc func toSearchModal() {
+        let vc = ModalSearchLocationViewController()
+        vc.modalPresentationStyle = .pageSheet
+        //MARK: - Bind Journal List with Table View
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        vc.modalSearchObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
+            modalSearchLocationObject.accept(value)
+            DispatchQueue.main.async { [self] in
+                searchLocation.attributedPlaceholder = attributedTextForSearchTextfield(value.locationName)
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        self.present(vc, animated: true)
+    }
+
+    //MARK: - Bind Journal List with Table View
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
+    @available(iOS 16.0, *)
+    @objc func toDateModal() {
+        let vc = ModalCheckInOutViewController()
+        vc.modalPresentationStyle = .pageSheet
+        //MARK: - Bind Journal List with Table View
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        vc.checkFinalObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
+            checkFinalObject.accept(value)
+            DispatchQueue.main.async { [self] in
+                searchDate.attributedPlaceholder = attributedTextForSearchTextfield("\(value.checkInDate) - \(value.checkOutDate)")
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        self.present(vc, animated: true)
+    }
+    
+    //MARK: - Bind Journal List with Table View
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
+    @objc func toSelectPetModal() {
+        modalSelectPetViewController.petSelectionModelArray.accept(petsSelectionModelArray.value)
+        modalSelectPetViewController.petSelectedModelArray.accept(petSelectedModelArray.value)
+        modalSelectPetViewController.petBodyModelArray.accept([])
+        modalSelectPetViewController.modalPresentationStyle = .pageSheet
+        modalSelectPetViewController.isModalInPresentation  = true
+        present(modalSelectPetViewController, animated: true)
+    }
 }
 
 //MARK: UITableViewDataSource, UITableViewDelegate
-//
 @available(iOS 16.0, *)
 extension ExploreViewController : UITableViewDelegate{
-    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 216
     }
@@ -394,18 +567,5 @@ extension ExploreViewController : UITableViewDelegate{
             return 32
         }
         return 0
-    }
-}
-
-//MARK: add left image
-extension UITextField {
-    func setLeftView(image: UIImage, color:UIColor) {
-        let iconView = UIImageView(frame: CGRect(x: 21, y: 10, width: 16, height: 16)) // set your Own size
-        iconView.image = image
-        let iconContainerView: UIView = UIView(frame: CGRect(x: 0, y: 0, width: 45, height: 32))
-        iconContainerView.addSubview(iconView)
-        leftView = iconContainerView
-        leftViewMode = .always
-        self.tintColor = color
     }
 }

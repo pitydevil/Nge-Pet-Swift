@@ -26,10 +26,10 @@ extension ApplicationEndpoint: Endpoint {
             return "/public/api/reservation/pet_hotel/detail"
         case .getListMonitoring:
             return "/public/api/monitoring/get-monitoring-data"
-        case .getMonitoringByDate:
-            return "/public/api/monitoring/get-monitoring-data-by-date"
         case .getPetHotelPackage:
             return "/public/api/reservation/pet_hotel/package"
+        case .getSearchListPetHotel:
+            return "/public/api/explore/search-pet-hotel"
         }
     }
 
@@ -49,7 +49,7 @@ extension ApplicationEndpoint: Endpoint {
             return .post
         case .getPetHotelPackage:
             return .post
-        case .getMonitoringByDate:
+        case .getSearchListPetHotel:
             return .post
         }
     }
@@ -91,50 +91,21 @@ extension ApplicationEndpoint: Endpoint {
                 "pet_hotel_id"       : petHotelID,
                 "supported_pet_name" : supportedPetName
             ]
-//        case .postConsultation(let etalaseID, let companyName, let url1, let url2, let shortDescription, let problemDescription, let marketingBudget, let userID):
-//            return [
-//                "etalaseID" : etalaseID,
-//                "companyName" : companyName,
-//                "url1" : url1,
-//                "url2" : url2,
-//                "shortDescription" : shortDescription,
-//                "problemDescription" : problemDescription,
-//                "marketingBudget" : marketingBudget,
-//                "userID": userID
-//            ]
-//        case .getConsultation(let userID):
-//            return [
-//                "userID" : userID
-//            ]
-//        case .rejectUserConsultation(let consultationID):
-//            return [
-//                "consultationID" : consultationID
-//            ]
-//        case .getConsultationAgency(let etalaseID):
-//            return [
-//                "etalaseID" : etalaseID
-//            ]
-//        case .rejectEtalaseConsultation(let consultationID, let feedback):
-//            return [
-//                "consultationID" : consultationID,
-//                "feedback" : feedback
-//            ]
-//        case .acceptEtalaseConsultation(let consultationID):
-//            return [
-//                "consultationID" : consultationID
-//            ]
-//        case .getOfferByEtalaseId(let etalaseID):
-//            return [
-//                "etalaseID" : etalaseID
-//            ]
-//        case .getTaskByOfferID(let offerID):
-//            return [
-//                "offerID" : offerID
-//            ]
-//        case .getOfferByUserId(let userID):
-//            return [
-//                "userID" : userID
-//            ]
+        case .getSearchListPetHotel(let exploreSearchBody):
+            let pets = exploreSearchBody.pets.map { obj -> [String: Any] in
+                return [
+                    "pet_name" : obj.petName,
+                    "pet_type" : obj.petType,
+                    "pet_size" : obj.petSize
+                ]
+            }
+            return [
+                "latitude"       : exploreSearchBody.latitude,
+                "longitude"      : exploreSearchBody.longitude,
+                "check_in_date"  : exploreSearchBody.checkInDate,
+                "check_out_date" : exploreSearchBody.checkOutDate,
+                "pets" : pets
+            ]
         default:
             return nil
         }

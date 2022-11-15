@@ -362,8 +362,6 @@ class PetHotelViewController: UIViewController {
         btn.configuration?.baseForegroundColor = UIColor(named: "grey1")
         btn.configuration?.baseBackgroundColor = UIColor(named: "grey3")
         btn.configuration?.attributedTitle = AttributedString("Pembatalan", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 12)!]))
-      //  btn.addTarget(self, action: #selector(scrollToCancel), for: .touchUpInside)
-        
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.widthAnchor.constraint(equalToConstant: 109).isActive = true
         btn.heightAnchor.constraint(equalToConstant: 40).isActive = true
@@ -372,7 +370,7 @@ class PetHotelViewController: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = UIColor(named: "white")
-        self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationItem.titleView = setTitle(title: "Pet Hotel Name", subtitle: "location")
         self.navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -448,7 +446,41 @@ class PetHotelViewController: UIViewController {
     //MARK: Initializers
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         setupUI()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petHotelViewModel.genericHandlingErrorObserver.skip(1).subscribe(onNext: { [self] (value) in
+            switch value {
+            case .objectNotFound:
+                self.present(genericAlert(titleAlert: "Pet Hotel Tidak Ada!", messageAlert: "Booking Order tidak ada, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true) {
+                    self.view.window!.rootViewController?.dismiss(animated: true, completion: {
+                        self.navigationController?.popViewController(animated: true)
+                    })
+                }
+            case .success:
+                print("Sukses Console 200")
+            default:
+                self.present(genericAlert(titleAlert: "Terjadi Gangguan server!", messageAlert: "Terjadi kesalahan dalam melakukan pencarian booking, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true) {
+                    self.view.window!.rootViewController?.dismiss(animated: true, completion: {
+                        self.navigationController?.popViewController(animated: true)
+                    })
+                }
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
         
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
@@ -597,12 +629,6 @@ class PetHotelViewController: UIViewController {
             let vc = SelectBookingDetailsViewController()
             self.navigationController?.pushViewController(vc, animated: true)
         }.disposed(by: bags)
-    }
-}
-
-extension UIApplication {
-    var statusView: UIView? {
-        return value(forKey: "statusBar") as? UIView
     }
 }
 

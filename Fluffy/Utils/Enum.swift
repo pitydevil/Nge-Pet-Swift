@@ -20,18 +20,17 @@ enum ApplicationEndpoint {
     case getNearest(longitude : Double, latitude : Double)
     case postOrder(order: [AddOrder])
     case getPetHotelDetail(petHotelID : Int)
-    case getListMonitoring(MonitoringBody : MonitoringBody)
-    case getMonitoringByDate(userID : Int, date : String)
+    case getListMonitoring(MonitoringBody : MonitoringBody) 
     case getPetHotelPackage(petHotelID: Int, supportedPetName: String)
-//    case postConsultation(etalaseID: String, companyName : String, url1 : String, url2: String, shortDescription: String, problemDescription : String, marketingBudget : Double, userID : String)
-//    case getConsultation(userID : String)
-//    case getConsultationAgency(etalaseID : String)
-//    case rejectEtalaseConsultation(consultationID : String, feedback : String )
-//    case acceptEtalaseConsultation(consultationID : String)
-//    case rejectUserConsultation(consultationID : String)
-//    case getOfferByEtalaseId(etalaseID : String)
-//    case getTaskByOfferID(offerID : String)
-//    case getOfferByUserId(userID: String)
+    case getSearchListPetHotel(exploreSearchBody : ExploreSearchBody)
+}
+
+enum genericHandlingError : Int {
+    case objectNotFound  = 404
+    case methodNotFound  = 405
+    case tooManyRequest  = 429
+    case success         = 200
+    case unexpectedError = 500
 }
 
 //MARK: - PET ENUMERATION DECLARATION
@@ -74,8 +73,10 @@ enum addPetErrorCase  {
     case petAddGagal(errorTitle : String = "Gagal Menambah Data!", errorMessage : String   = "Telah terjadi kesalahan dalam menginput hewan peliharaan kamu, silahkan coba lagi nanti")
     case sukses(errorTitle : String = "Sukses!", errorMessage : String =  "Data Hewan Perliharaan Kamu Berhasil Ditambahkan!")
 }
-enum summaryGenerate : Error {
-    case dataTidakAda(errorMessage: String), success(errorMessage: String)
+
+enum removePetErrorCase  {
+    case gagalBuangPet(errorTitle   : String = "Gagal Menghapus Pet!", errorMessage : String = "Terjadi kegagalan dalam menghapus hewan peliharaan kamu, silahkan coba lagi nanti")
+    case sukses(errorTitle : String = "Sukses!", errorMessage : String =  "Data Hewan Perliharaan Kamu Berhasil Dibuang!")
 }
 
 //MARK: - BOOKING ENUMERATION DECLARATION

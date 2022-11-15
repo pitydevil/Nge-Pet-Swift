@@ -46,7 +46,6 @@ class ReuseableLabel: UILabel {
     public private(set) var labelColor: colorStyle
     
     init(labelText: String, labelType: labelTypeEnum, labelColor: colorStyle) {
-        /// Safety check 1 “A designated initializer must ensure that all of the “properties introduced by its class are initialized before it delegates up to a superclass initializer.”
         self.labelText = labelText
         self.labelType = labelType
         self.labelColor = labelColor
@@ -55,15 +54,11 @@ class ReuseableLabel: UILabel {
         self.configureLabel()
     }
     
-    // This is required to initialize
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // This is the setup default standard properties
     private func configureLabel() {
-        
-//        self.text = labelText
         self.configureLabelStyle()
         self.configureLabelColor()
     }
@@ -110,7 +105,6 @@ class ReuseableLabel: UILabel {
     }
     
     private func configureLabelStyle() {
-        
         switch labelType {
         case .titleH1:
             self.font = UIFont(name: "Poppins-Bold", size: 24)
@@ -124,8 +118,6 @@ class ReuseableLabel: UILabel {
             self.font = UIFont(name: "Inter-Medium", size: 12)
             
         }
-        
-        // Will be executed all the time
         self.translatesAutoresizingMaskIntoConstraints = false
         self.numberOfLines = 0
         self.textAlignment = .left
@@ -135,5 +127,4 @@ class ReuseableLabel: UILabel {
         attributedString.addAttribute(NSAttributedString.Key.paragraphStyle, value:paragraphStyle, range:NSMakeRange(0, attributedString.length))
         self.attributedText = attributedString
     }
-    
 }

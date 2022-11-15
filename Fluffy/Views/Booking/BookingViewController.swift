@@ -26,6 +26,11 @@ class BookingViewController: UIViewController {
     }
     
     //MARK: Subviews
+    private var refreshControl : UIRefreshControl  =  {
+        let refresh = UIRefreshControl()
+        return refresh
+    }()
+    
     private lazy var segmentedControl:UISegmentedControl = {
        let view = UISegmentedControl(items: ["Aktif", "Riwayat"])
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -86,6 +91,11 @@ class BookingViewController: UIViewController {
         tableView.leftAnchor.constraint(equalTo: segmentedControl.leftAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: segmentedControl.rightAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        
+        //MARK: - REFRESH CONTROL
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
+        tableView.addSubview(refreshControl)
     }
         
     override func viewWillAppear(_ animated: Bool) {
@@ -97,7 +107,33 @@ class BookingViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         setupUI()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        bookingViewModel.genericHandlingErrorObserver.skip(1).subscribe(onNext: { [self] (value) in
+            switch value {
+            case .objectNotFound:
+                self.present(genericAlert(titleAlert: "Booking Order Tidak Ada!", messageAlert: "Booking Order tidak ada, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
+            case .success:
+                print("Sukses Console 200")
+            default:
+                self.present(genericAlert(titleAlert: "Terjadi Gangguan server!", messageAlert: "Terjadi kesalahan dalam melakukan pencarian booking, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
         
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
@@ -116,7 +152,6 @@ class BookingViewController: UIViewController {
                     print("test")
             }
         }).disposed(by: bags)
-        
         
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
@@ -143,8 +178,11 @@ class BookingViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
-        bookingViewModel.orderModelArrayObserver.subscribe(onNext: { (value) in
-            self.orderObjectList.accept(value)
+        bookingViewModel.orderModelArrayObserver.subscribe(onNext: { [self] (value) in
+            DispatchQueue.main.async { [self] in
+                refreshControl.endRefreshing()
+            }
+            orderObjectList.accept(value)
         },onError: { error in
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
@@ -178,5 +216,24 @@ class BookingViewController: UIViewController {
             }.disposed(by: bags)
             
         }.disposed(by: bags)
+    }
+    
+    //MARK: - Bind Journal List with Table View
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
+    @objc func handleRefreshControl() {
+        Task {
+            switch bookingPesananObject.value {
+            case .aktif:
+                bookingViewModel.orderStatusObject.accept(bookingPesananObject.value.rawValue)
+                await bookingViewModel.fetchOrderList()
+            case .riwayat:
+                bookingViewModel.orderStatusObject.accept(bookingPesananObject.value.rawValue)
+                await bookingViewModel.fetchOrderList()
+            }
+        }
     }
 }
