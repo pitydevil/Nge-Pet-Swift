@@ -47,12 +47,12 @@ class SelectBookingDetailsViewController: UIViewController {
         tableView.backgroundColor = UIColor(named: "grey3")
         tableView.register(SelectPackageTableViewCell.self, forCellReuseIdentifier: SelectPackageTableViewCell.cellId)
         tableView.register(CatatanKhususTableViewCell.self, forCellReuseIdentifier: CatatanKhususTableViewCell.cellId)
-        tableView.register(ExpandableHeaderView.self, forHeaderFooterViewReuseIdentifier: ExpandableHeaderView.identifier)
+        tableView.register(SelectBookingDetailsTableViewCell.self, forCellReuseIdentifier: SelectBookingDetailsTableViewCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.allowsMultipleSelection = true
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
-        tableView.sectionHeaderTopPadding = 20
+        tableView.sectionHeaderTopPadding = 0
         tableView.isScrollEnabled = true
         return tableView
     }()
@@ -251,70 +251,13 @@ extension SelectBookingDetailsViewController: UISearchBarDelegate {
 }
 
 @available(iOS 16.0, *)
-extension SelectBookingDetailsViewController : ChangeSwitchResponse {
-    func changeSwitchResponse(section : Int) {
-        print(section)
-        var indexPaths = [IndexPath]()
-
-        var tempFilteredPetArrayObject = filteredPetArrayObject.value
-        tempFilteredPetArrayObject[section].isExpanded = !tempFilteredPetArrayObject[section].isExpanded
-        filteredPetArrayObject.accept(tempFilteredPetArrayObject)
-        selectedIndexCell.accept(section)
-        for row in 0...1 {
-            let indexPath = IndexPath(row: row, section: section)
-            indexPaths.append(indexPath)
-        }
-        let cell = packageTableView.headerView(forSection: section)
-        if filteredPetArrayObject.value[section].isExpanded {
-            packageTableView.insertRows(at: indexPaths, with: .fade)
-            cell?.contentView.layer.shadowColor = UIColor(named: "white")?.cgColor
-            cell?.contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-            cell?.contentView.addSubview(separator)
-            NSLayoutConstraint.activate([
-                separator.bottomAnchor.constraint(equalTo: (cell?.contentView.bottomAnchor)!),
-                separator.heightAnchor.constraint(equalToConstant: 1),
-                separator.widthAnchor.constraint(equalToConstant: 300),
-                separator.centerXAnchor.constraint(equalTo: (cell?.contentView.centerXAnchor)!),
-            ])
-        } else if !filteredPetArrayObject.value[section].isExpanded {
-            packageTableView.deleteRows(at: indexPaths, with: .fade)
-            cell?.contentView.layer.shadowColor = UIColor(named: "grey1")?.cgColor
-            cell?.contentView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMaxXMaxYCorner, .layerMinXMaxYCorner, .layerMinXMinYCorner]
-            separator.removeFromSuperview()
-        }
-    }
-}
-
-@available(iOS 16.0, *)
 extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return filteredPetArrayObject.value.count
     }
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: ExpandableHeaderView.identifier) as! ExpandableHeaderView
-        
-        //MARK: - Add Pet Data Here
-        headerView.configure(filteredPetArrayObject.value[section])
-        headerView.section = section
-        headerView.delegate = self
-        
-        return headerView
-    }
-    
-    @objc func didChangeSwitch(button: UISwitch) {
-      
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 88
-    }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if !filteredPetArrayObject.value[section].isExpanded {
-            return 0
-        }
-        return 2
+        return 3
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -323,19 +266,24 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 1 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: SelectPackageTableViewCell.cellId, for: indexPath) as! SelectPackageTableViewCell
+            cell.contentView.backgroundColor = UIColor(named: "white")
+            cell.configure(textDetails: "Pilih paket hotel")
+            return cell
+        } else if indexPath.row == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: CatatanKhususTableViewCell.cellId, for: indexPath) as! CatatanKhususTableViewCell
             cell.contentView.backgroundColor = UIColor(named: "white")
             cell.configure(textDetails: "Tambah catatan khusus")
             return cell
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: SelectPackageTableViewCell.cellId, for: indexPath) as! SelectPackageTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: SelectBookingDetailsTableViewCell.identifier, for: indexPath) as! SelectBookingDetailsTableViewCell
         cell.contentView.backgroundColor = UIColor(named: "white")
-        cell.configure(textDetails: "Pilih paket hotel")
+        cell.configure(filteredPetArrayObject.value[indexPath.section])
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.row == 0 {
+        if indexPath.row == 1 {
             let vc = HotelPackageViewController()
             vc.hotelPackageBodyObject.accept(HotelPackageBody(petHotelID: petHotelIDObject.value, supportedPetName: filteredPetArrayObject.value[selectedIndexCell.value].petType))
             vc.petHotelModelObject.accept(filteredPetArrayObject.value[selectedIndexCell.value])
@@ -349,7 +297,7 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
             }).disposed(by: bags)
             vc.modalPresentationStyle = .pageSheet
             present(vc, animated: true)
-        } else if indexPath.row == 1 {
+        } else if indexPath.row == 2 {
             let vc = CatatanViewController()
             vc.modalPresentationStyle = .pageSheet
             self.present(vc, animated: true)

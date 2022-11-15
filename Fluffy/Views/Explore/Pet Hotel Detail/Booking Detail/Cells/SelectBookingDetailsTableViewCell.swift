@@ -1,24 +1,20 @@
 //
-//  ExpandableHeaderView.swift
+//  SelectBookingDetailsTableViewCell.swift
 //  Fluffy
 //
-//  Created by Zacky Ilahi Azmi on 01/11/22.
+//  Created by Zacky Ilahi Azmi on 15/11/22.
 //
 
 import UIKit
 
-protocol ChangeSwitchResponse {
-    func changeSwitchResponse(section : Int)
-}
-
-
-class ExpandableHeaderView: UITableViewHeaderFooterView {
+class SelectBookingDetailsTableViewCell: UITableViewCell {
     
-    // MARK: - Identifier
-    static let identifier = "ExpandableHeaderView"
+    static let identifier = "SelectBookingDetailsTableViewCell"
     
-    var section  : Int?
-    var delegate : ChangeSwitchResponse?
+    private lazy var firstView: UIView = {
+        let view = UIView()
+        return view
+    }()
     
     private lazy var icon: UIImageView = {
         let icon = UIImageView()
@@ -43,29 +39,42 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
         switchBtn.layer.masksToBounds = true
         switchBtn.clipsToBounds = true
         switchBtn.translatesAutoresizingMaskIntoConstraints = false
-        switchBtn.addTarget(self, action: #selector(responseSwitch), for: .valueChanged)
+//        switchBtn.addTarget(self, action: #selector(responseSwitch), for: .valueChanged)
         return switchBtn
     }()
+    
+    private lazy var separator: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "grey2")
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
-    override init(reuseIdentifier: String?){
-        super.init(reuseIdentifier: reuseIdentifier)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?){
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        self.backgroundColor = UIColor(named: "grey3")
+        self.selectionStyle = .none
         
         //MARK: - Setup Content View
         contentView.layer.cornerRadius = 12
         contentView.backgroundColor = UIColor(named: "white")
+        contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         
         contentView.layer.masksToBounds = false
         contentView.layer.shadowRadius = 4.0
         contentView.layer.shadowOpacity = 0.1
         contentView.layer.shadowColor = UIColor(named: "grey1")?.cgColor
-        contentView.layer.shadowOffset = CGSize(width: 4, height: 4)
         
         //MARK: - Add Subview
+//        contentView.addSubview(firstView)
+        
         contentView.addSubview(icon)
         contentView.addSubview(petName)
         contentView.addSubview(petSize)
         contentView.addSubview(petRace)
         contentView.addSubview(switchBtn)
+        contentView.addSubview(separator)
         
         NSLayoutConstraint.activate([
             icon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
@@ -84,15 +93,22 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
             
             switchBtn.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             switchBtn.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            
+            separator.bottomAnchor.constraint(equalTo: (contentView.bottomAnchor)),
+            separator.heightAnchor.constraint(equalToConstant: 1),
+            separator.widthAnchor.constraint(equalToConstant: 300),
+            separator.centerXAnchor.constraint(equalTo: (contentView.centerXAnchor)),
         ])
-    }
-    
-    @objc private func responseSwitch(button: UISwitch) {
-        delegate?.changeSwitchResponse(section: self.section ?? 0)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        // Configure the view for the selected state
     }
     
     func configure(_ pets: OrderDetailBody){
@@ -101,4 +117,5 @@ class ExpandableHeaderView: UITableViewHeaderFooterView {
         petSize.text = "\(pets.petSize )"
         petRace.text = " - \(pets.petType )"
     }
+
 }
