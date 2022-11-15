@@ -34,6 +34,12 @@ class CatatanKhususTableViewCell: UITableViewCell {
         contentView.layer.cornerRadius = 8
         contentView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
         
+        contentView.layer.masksToBounds = false
+        contentView.layer.shadowRadius = 4.0
+        contentView.layer.shadowOpacity = 0.1
+        contentView.layer.shadowColor = UIColor(named: "grey1")?.cgColor
+        contentView.layer.shadowOffset = CGSize(width: 4, height: 4)
+        
         contentView.addSubview(titleLbl)
         contentView.addSubview(details)
         contentView.addSubview(chevronRight)
