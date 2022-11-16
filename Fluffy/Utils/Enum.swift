@@ -15,7 +15,7 @@ enum HTTPMethod: String {
 }
 
 enum ApplicationEndpoint {
-    case getOrderList(orderStatus : String)
+    case getOrderList(orderStatus : String, userID : Int)
     case getDetailOrderID(orderID : Int)
     case getNearest(longitude : Double, latitude : Double)
     case postOrder(order: [AddOrder])
@@ -23,6 +23,7 @@ enum ApplicationEndpoint {
     case getListMonitoring(MonitoringBody : MonitoringBody) 
     case getPetHotelPackage(hotelPackageBody : HotelPackageBody)
     case getSearchListPetHotel(exploreSearchBody : ExploreSearchBody)
+    case getOrderAdd(order : OrderAdd)
 }
 
 enum genericHandlingError : Int {

@@ -129,7 +129,6 @@ class BookingDetailViewController: UIViewController {
     
     private lazy var detailInstruction:ReuseableLabel = ReuseableLabel(labelText: "Pesanan kamu tidak akan dikonfirmasi sampai pihak Pet Hotel menerima permintaan kamu dalam 24 jam.", labelType: .bodyP2, labelColor: .grey1)
     
-    
     private lazy var total:ReuseableLabel = ReuseableLabel(labelText: "Total", labelType: .titleH3, labelColor: .black)
     
     private lazy var totalHargaDetail:ReuseableLabel = {

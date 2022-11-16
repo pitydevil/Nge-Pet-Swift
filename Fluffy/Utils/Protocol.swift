@@ -27,3 +27,7 @@ protocol DatabaseRequestProtocol {
      func callDatabase<T: Codable>() -> Observable<T>
 }
 
+//MARK: - SELECT BOOKING DETAILS PROTOCOL
+protocol SelectPetProtocol {
+    func selectPetProtocol(cell : SelectBookingDetailsTableViewCell)
+}

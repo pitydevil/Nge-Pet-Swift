@@ -15,14 +15,14 @@ class PetHotelViewController: UIViewController {
     //MARK: - OBJECT DECLARATION
     var petHotelDetailID          = BehaviorRelay<Int>(value: 0)
     private let petHotelViewModel = PetHotelViewModel()
-    private var petHotelModel   = BehaviorRelay<PetHotelsDetail>(value: PetHotelsDetail(petHotelID: 0, petHotelName: "", petHotelDescription: "", petHotelLongitude: "", petHotelLatitude: "", petHotelAddress: "", petHotelKelurahan: "", petHotelKecamatan: "", petHotelKota: "", petHotelProvinsi: "", petHotelPos: "", petHotelStartPrice: "", supportedPet: [SupportedPet](), petHotelImage: [PetHotelImage](), fasilitas: [Fasilitas](), sopGeneral: [SopGeneral](), asuransi: [AsuransiDetail](), cancelSOP: [CancelSOP]()))
+    private var petHotelModel     = BehaviorRelay<PetHotelsDetail>(value: PetHotelsDetail(petHotelID: 0, petHotelName: "", petHotelDescription: "", petHotelLongitude: "", petHotelLatitude: "", petHotelAddress: "", petHotelKelurahan: "", petHotelKecamatan: "", petHotelKota: "", petHotelProvinsi: "", petHotelPos: "", petHotelStartPrice: "", supportedPet: [SupportedPet](), petHotelImage: [PetHotelImage](), fasilitas: [Fasilitas](), sopGeneral: [SopGeneral](), asuransi: [AsuransiDetail](), cancelSOP: [CancelSOP]()))
     
     private var supportedPetModelArray   = BehaviorRelay<[SupportedPet]>(value: [])
-    private var petHotelImageModelArray   = BehaviorRelay<[PetHotelImage]>(value: [])
-    private var fasilitasModelArray   = BehaviorRelay<[Fasilitas]>(value: [])
-    private var sopGeneralModelArray   = BehaviorRelay<[SopGeneral]>(value: [])
-    private var asuransiModelArray   = BehaviorRelay<[AsuransiDetail]>(value: [])
-    private var cancelSOPModelArray   = BehaviorRelay<[CancelSOP]>(value: [])
+    private var petHotelImageModelArray  = BehaviorRelay<[PetHotelImage]>(value: [])
+    private var fasilitasModelArray      = BehaviorRelay<[Fasilitas]>(value: [])
+    private var sopGeneralModelArray     = BehaviorRelay<[SopGeneral]>(value: [])
+    private var asuransiModelArray       = BehaviorRelay<[AsuransiDetail]>(value: [])
+    private var cancelSOPModelArray      = BehaviorRelay<[CancelSOP]>(value: [])
     
     //MARK: - OBSERVER OBJECT DECLARATION
     private var petHotelDetailIDObservable : Observable<Int> {
@@ -628,6 +628,7 @@ class PetHotelViewController: UIViewController {
         btmBar.barBtn.rx.tap.bind { [self] in
             let vc = SelectBookingDetailsViewController()
             vc.petHotelIDObject.accept(petHotelDetailID.value)
+            vc.petHotelModel.accept(petHotelModel.value)
             self.navigationController?.pushViewController(vc, animated: true)
         }.disposed(by: bags)
     }

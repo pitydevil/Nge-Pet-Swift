@@ -6,10 +6,38 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 @available(iOS 16.0, *)
 class DateSelectionViewController: UIViewController {
     
+    //MARK: - OBJECT DECLARATION
+    var orderAddObject = BehaviorRelay<OrderAdd>(value: OrderAdd(orderDateCheckIn: "", orderDateCheckOu: "", orderTotalPrice: 0, userID: userID, petHotelId: 0, orderDetails: [OrderDetailBodyFinal]()))
+    
+    var orderDetailObject = BehaviorRelay<[OrderDetailBody]>(value: [])
+    
+    var petHotelModel   = BehaviorRelay<PetHotelsDetail>(value: PetHotelsDetail(petHotelID: 0, petHotelName: "", petHotelDescription: "", petHotelLongitude: "", petHotelLatitude: "", petHotelAddress: "", petHotelKelurahan: "", petHotelKecamatan: "", petHotelKota: "", petHotelProvinsi: "", petHotelPos: "", petHotelStartPrice: "", supportedPet: [SupportedPet](), petHotelImage: [PetHotelImage](), fasilitas: [Fasilitas](), sopGeneral: [SopGeneral](), asuransi: [AsuransiDetail](), cancelSOP: [CancelSOP]()))
+   
+    var dateTrigger  = BehaviorRelay<Bool>(value: false)
+    var checkInObject  = BehaviorRelay<String>(value: String())
+    var checkOutObject = BehaviorRelay<String>(value: String())
+    
+    //MARK: OBJECT OBSERVER DECLARATION
+    var checkInObjectObserver : Observable<String> {
+        return checkInObject.asObservable()
+    }
+    var checkOutObjectObserver : Observable<String> {
+        return checkOutObject.asObservable()
+    }
+    var orderAddObjectObserver : Observable<OrderAdd> {
+        return orderAddObject.asObservable()
+    }
+    var petHotelModelObservable : Observable<PetHotelsDetail> {
+        return petHotelModel.asObservable()
+    }
+    
+    //MARK: SUBVIEWS
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
         scroll.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +56,6 @@ class DateSelectionViewController: UIViewController {
     //MARK: Subviews
     private lazy var btmBar: ReusableTabBar = {
         let customBar = ReusableTabBar(btnText: "Lanjut", showText: .notShow)
-        customBar.barBtn.addTarget(self, action: #selector(doneEdit), for: .touchUpInside)
         customBar.translatesAutoresizingMaskIntoConstraints = false
         customBar.backgroundColor = UIColor(named: "primaryMain")
         customBar.barBtn.configuration?.baseBackgroundColor = UIColor(named: "white")
@@ -105,22 +132,12 @@ class DateSelectionViewController: UIViewController {
         return datePicker
     }()
     
-    //MARK: Properties
-    private lazy var checkInDate:String = "Check In Date"
-    private lazy var checkOutDate:String = "Check Out Date"
-    
-    @objc func doneEdit() {
-        let vc = BookingConfirmationViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    //MARK: ViewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    private func setupUI() {
         view.backgroundColor = UIColor(named: "white")
-        self.navigationItem.titleView = setTitle(title: "Pet Hotel Name", subtitle: "location")
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        setupUI()
+        navigationItem.titleView = setTitle(title: "Pet Hotel Name", subtitle: "location")
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        
+        perDay.text = "/hari"
         
         view.addSubview(btmBar)
         btmBar.addSubview(startFrom)
@@ -135,25 +152,6 @@ class DateSelectionViewController: UIViewController {
         scrollContainer.addSubview(bgDatePicker)
         bgDatePicker.addSubview(calendarViewSecond)
         
-        setupConstraint()
-    }
-
-}
-
-@available(iOS 16.0, *)
-extension DateSelectionViewController{
-    func setupUI(){
-        if checkInDate == "Check In Date" {
-            startFrom.text = "1 Hewan Dipilih"
-        }
-        else {
-            startFrom.text = checkInDate + " - " + checkOutDate
-        }
-        price.text = "Rp70.000"
-        perDay.text = "/hari"
-    }
-    
-    func setupConstraint(){
         let scrollContentGuide = scrollView.contentLayoutGuide
         let scrollFrameGuide = scrollView.frameLayoutGuide
         
@@ -216,6 +214,107 @@ extension DateSelectionViewController{
             calendarViewSecond.heightAnchor.constraint(equalToConstant: 380),
         ])
     }
+    
+    //MARK: ViewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        setupUI()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petHotelModelObservable.subscribe(onNext: { [self] (value) in
+            DispatchQueue.main.async { [self] in
+                navigationItem.titleView = setTitle(title: value.petHotelName, subtitle: "\(value.petHotelAddress),\(value.petHotelProvinsi)")
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        orderAddObjectObserver.subscribe(onNext: { [self] (value) in
+            DispatchQueue.main.async { [self] in
+                price.text = "Rp.\(value.orderTotalPrice)"
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        checkInObjectObserver.subscribe(onNext: { [self] (value) in
+            startFrom.text = (value + " - " + checkOutObject.value)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        checkOutObjectObserver.subscribe(onNext: { [self] (value) in
+            startFrom.text = (checkInObject.value + " - " + value)
+            btmBar.barBtn.isEnabled = value.isEmpty ? false : true
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        btmBar.barBtn.rx.tap.bind { [self] in
+            if dateTrigger.value {
+                for controller in self.navigationController!.viewControllers as Array {
+                    if controller.isKind(of: BookingConfirmationViewController.self) {
+                        let vc = controller as! BookingConfirmationViewController
+                        var orderAdd = orderAddObject.value
+                        orderAdd.orderDateCheckIn = checkInObject.value
+                        orderAdd.orderDateCheckOu = checkOutObject.value
+                        orderAddObject.accept(orderAdd)
+                        vc.orderAddObject.accept(orderAdd)
+                        vc.petHotelModel.accept(petHotelModel.value)
+                        vc.orderDetailObject.accept(orderDetailObject.value)
+                        self.navigationController!.popToViewController(vc, animated: true)
+                        break
+                    }
+                }
+            }else {
+                let vc = BookingConfirmationViewController()
+                var orderAdd = orderAddObject.value
+                orderAdd.orderDateCheckIn = checkInObject.value
+                orderAdd.orderDateCheckOu = checkOutObject.value
+                orderAddObject.accept(orderAdd)
+                vc.orderAddObject.accept(orderAdd)
+                vc.petHotelModel.accept(petHotelModel.value)
+                vc.orderDetailObject.accept(orderDetailObject.value)
+                navigationController?.pushViewController(vc, animated: true)
+            }
+        }.disposed(by: bags)
+    }
 }
 
 @available(iOS 16.0, *)
@@ -252,7 +351,6 @@ extension DateSelectionViewController{
 
         return titleView
     }
-    
 }
 
 @available(iOS 16.0, *)
@@ -261,14 +359,13 @@ extension DateSelectionViewController: UICalendarViewDelegate, UICalendarSelecti
     func dateSelection(_ selection: UICalendarSelectionSingleDate, didSelectDate dateComponents: DateComponents?) {
         let df = DateFormatter()
         df.dateFormat = "dd MMM yy"
-        checkInDate = df.string(from: (dateComponents?.date)!)
+        checkInObject.accept(changeDateIntoYYYYMMDD(dateComponents?.date ?? Date()))
+        
         var newDates = dateComponents
         newDates?.day! += 1
         calendarViewSecond.minimumDate = newDates?.date
         calendarViewSecond.isUserInteractionEnabled = true
-        checkOutDate = df.string(from: calendarViewSecond.date)
-        startFrom.text = (checkInDate + " - " + checkOutDate)
-        print(checkInDate + " - " + checkOutDate)
+        checkOutObject.accept(changeDateIntoYYYYMMDD(calendarViewSecond.date))
     }
     
     func dateSelection(_ selection: UICalendarSelectionSingleDate, canSelectDate dateComponents: DateComponents?) -> Bool {
@@ -280,10 +377,6 @@ extension DateSelectionViewController: UICalendarViewDelegate, UICalendarSelecti
     }
     
     @objc func valueChanged(_ sender: UIDatePicker) {
-        let df = DateFormatter()
-        df.dateFormat = "dd MMM yy"
-        checkOutDate = df.string(from: (sender.date))
-        startFrom.text = (checkInDate + " - " + checkOutDate)
-        print(checkInDate + " - " + checkOutDate)
+        checkOutObject.accept(changeDateIntoYYYYMMDD(sender.date))
     }
 }

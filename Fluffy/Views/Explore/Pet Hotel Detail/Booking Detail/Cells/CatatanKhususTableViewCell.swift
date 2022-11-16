@@ -70,16 +70,20 @@ class CatatanKhususTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
-
-}
-
-//MARK: - Public
-extension CatatanKhususTableViewCell {
-    public func configure(textDetails: String?){
-        details.text = textDetails
+    
+    func configure(_ orderDetailBody : OrderDetailBody){
+        if orderDetailBody.isExpanded {
+            if orderDetailBody.customSOP.isEmpty {
+                details.text =  "Tambah catatan khusus"
+            }else {
+                for order in orderDetailBody.customSOP {
+                    details.text = "Catatan Khusus Anda: \(order.customSopName)..."
+                    break
+                }
+            }
+        }else {
+            details.text = "Pilih hewan terlebih dahulu"
+        }
     }
 }
-

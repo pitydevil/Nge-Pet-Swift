@@ -9,8 +9,12 @@ import UIKit
 
 class SelectBookingDetailsTableViewCell: UITableViewCell {
     
+    var delegate : SelectPetProtocol?
+    
+    //MARK: - IDENTIFIER
     static let identifier = "SelectBookingDetailsTableViewCell"
     
+    //MARK: - SUBVIEWS
     private lazy var firstView: UIView = {
         let view = UIView()
         return view
@@ -39,7 +43,7 @@ class SelectBookingDetailsTableViewCell: UITableViewCell {
         switchBtn.layer.masksToBounds = true
         switchBtn.clipsToBounds = true
         switchBtn.translatesAutoresizingMaskIntoConstraints = false
-//        switchBtn.addTarget(self, action: #selector(responseSwitch), for: .valueChanged)
+        switchBtn.addTarget(self, action: #selector(responseSwitch), for: .valueChanged)
         return switchBtn
     }()
     
@@ -107,8 +111,6 @@ class SelectBookingDetailsTableViewCell: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     func configure(_ pets: OrderDetailBody){
@@ -117,5 +119,8 @@ class SelectBookingDetailsTableViewCell: UITableViewCell {
         petSize.text = "\(pets.petSize )"
         petRace.text = " - \(pets.petType )"
     }
-
+    
+    @objc func responseSwitch(sender : UISwitch) {
+        delegate?.selectPetProtocol(cell: self)
+    }
 }

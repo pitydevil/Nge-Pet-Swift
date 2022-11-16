@@ -60,4 +60,8 @@ extension HargaTableViewCell {
         self.detailHarga.text = "Rp. \(package.packagePrice) per hari"
         self.subtotal.text    = "Rp. \(package.packagePrice)"
     }
+    
+    func configureHarga(_ order : OrderDetailBody) {
+        self.detailHarga.text = "Rp. \(order.orderDetailPrice)"
+    }
 }

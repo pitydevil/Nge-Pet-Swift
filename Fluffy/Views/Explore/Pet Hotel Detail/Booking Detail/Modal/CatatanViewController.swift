@@ -6,8 +6,28 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class CatatanViewController: UIViewController {
+    
+    //MARK: - OBJECT DECLARATION
+    var petHotelModelObject                     = BehaviorRelay<OrderDetailBody>(value: OrderDetailBody(petName: "", petType: "", petSize: "", packageID: 0, orderDetailPrice: 0, isExpanded: false, customSOP: [CustomSopBody]()))
+    var customSOPModelArrayObject               = BehaviorRelay<[String]>(value: [])
+    var sopModelArrayObject               = BehaviorRelay<[CustomSopBody]>(value: [])
+        
+    //MARK: - OBJECT OBSERVER DECLARATION
+    var petHotelModelObserver : Observable<OrderDetailBody> {
+        return petHotelModelObject.asObservable()
+    }
+    
+    var customSOPModelArrayObserver : Observable<[String]> {
+        return customSOPModelArrayObject.asObservable()
+    }
+    
+    var sopModelArrayObserver : Observable<[CustomSopBody]> {
+        return sopModelArrayObject.asObservable()
+    }
     
     var cellContent = 1
     
@@ -40,17 +60,14 @@ class CatatanViewController: UIViewController {
         return modalTableView
     }()
     
-    let btnCatatan = ReusableButton(titleBtn: "Tambah", styleBtn: .longOutline)
+    private let btnCatatan = ReusableButton(titleBtn: "Tambah", styleBtn: .longOutline)
     
     private lazy var customBar: ReusableTabBar = {
         let customBar = ReusableTabBar(btnText: "Simpan", showText: .notShow)
-        customBar.barBtn.addTarget(self, action: #selector(catatanKhusus), for: .touchUpInside)
         return customBar
     }()
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+    
+    private func setupUI() {
         view.backgroundColor = UIColor(named: "white")
         
         //MARK: - Add Subview
@@ -78,14 +95,81 @@ class CatatanViewController: UIViewController {
             customBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
     }
-    
-    @objc func catatanKhusus() {
-        dismiss(animated: true)
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        hideKeyboardWhenTappedAround()
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        setupUI()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        customSOPModelArrayObserver.subscribe(onNext: { (value) in
+            DispatchQueue.main.async { [self] in
+                customBar.barBtn.isEnabled = value.isEmpty ? false : true
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        sopModelArrayObserver.subscribe(onNext: { [self] (value) in
+            let customSOP = value.map { obj -> String in
+                return obj.customSopName
+            }
+            cellContent = value.count + 1
+            customSOPModelArrayObject.accept(customSOP)
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        customBar.barBtn.rx.tap.bind { [self] in
+            let customSopBody = customSOPModelArrayObject.value.map { obj -> CustomSopBody in
+                return CustomSopBody(customSopName: obj)
+            }
+            var tempOrderDetailBody = petHotelModelObject.value
+            tempOrderDetailBody.customSOP = customSopBody
+            petHotelModelObject.accept(tempOrderDetailBody)
+            dismiss(animated: true)
+        }.disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        btnCatatan.rx.tap.bind { [self] in
+            let indexPath = IndexPath(row: cellContent, section: 0)
+            cellContent += 1
+            modalTableView.insertRows(at: [indexPath], with: .bottom)
+            btnCatatan.isEnabled = false
+        }.disposed(by: bags)
     }
 }
 
 extension CatatanViewController: UITableViewDelegate, UITableViewDataSource {
-    
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -111,16 +195,8 @@ extension CatatanViewController: UITableViewDelegate, UITableViewDataSource {
         btnCatatan.centerXAnchor.constraint(equalTo: footerView.centerXAnchor).isActive = true
         btnCatatan.leadingAnchor.constraint(equalTo: footerView.leadingAnchor).isActive = true
         btnCatatan.trailingAnchor.constraint(equalTo: footerView.trailingAnchor).isActive = true
-        btnCatatan.addTarget(self, action: #selector(tambahCatatan), for: .touchUpInside)
         btnCatatan.isEnabled = false
         return footerView
-    }
-    
-    @objc func tambahCatatan(_ sender: UIButton) {
-        let indexPath = IndexPath(row: cellContent, section: 0)
-        cellContent += 1
-        modalTableView.insertRows(at: [indexPath], with: .bottom)
-        btnCatatan.isEnabled = false
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -134,29 +210,68 @@ extension CatatanViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: CatatanTableViewCell.identifier, for: indexPath) as! CatatanTableViewCell
         cell.contentView.backgroundColor = UIColor(named: "white")
-        cell.catatanKhusus.addTarget(self, action: #selector(btnEnable), for: .editingDidEnd)
-        
+        if indexPath.row < cellContent - 1 {
+            cell.catatanKhusus.text = customSOPModelArrayObject.value[indexPath.row]
+        }
+        cell.catatanKhusus.delegate = self
+        cell.catatanKhusus.tag = indexPath.row
         return cell
     }
     
-    @objc func btnEnable() {
-        for path in 0..<cellContent - 1 {
-            let index = IndexPath(row: path, section: 0)
-            let cell = modalTableView.cellForRow(at: index) as! CatatanTableViewCell
-            
-            if cell.catatanKhusus.text == "" {
-                cellContent -= 1
-                modalTableView.deleteRows(at: [index], with: .automatic)
-                break
-            }
+    func tableView(_ tableView: UITableView, canFocusRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+////        if indexPath.row < cellContent - 1 {
+////            let delete = UIContextualAction(style: .normal, title: "Delete") { (action, view, nil) in
+////                let refreshAlert = UIAlertController(title: "Hapus Catatan Khusus", message: "Apakah anda yakin ingin menghapus catatan khusus ini?", preferredStyle: .alert)
+////
+////                refreshAlert.addAction(UIAlertAction(title: "Hapus", style: .destructive, handler: { [self] (action: UIAlertAction!) in
+////                    var tempSopModel = customSOPModelArrayObject.value
+////                    tempSopModel.remove(at: indexPath.row)
+////                    customSOPModelArrayObject.accept(tempSopModel)
+////                    tableView.reloadData()
+////                }))
+////                refreshAlert.addAction(UIAlertAction(title: "Batal", style: .default, handler: { (action: UIAlertAction!) in
+////                    refreshAlert .dismiss(animated: true, completion: nil)
+////                }))
+////                self.present(refreshAlert, animated: true, completion: nil)
+////            }
+////            delete.backgroundColor = UIColor.systemRed
+////            delete.image = UIImage(systemName: "trash.circle.fill")
+////            let config = UISwipeActionsConfiguration(actions: [delete])
+////            config.performsFirstActionWithFullSwipe = false
+////            return config
+////        }else {
+////            return nil
+////        }
+//    }
+}
 
+extension CatatanViewController : UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        let index = IndexPath(row: textField.tag, section: 0)
+        if let cell = modalTableView.cellForRow(at: index as IndexPath)as? CatatanTableViewCell {
+           var tempSopModel = customSOPModelArrayObject.value
+           if cell.catatanKhusus.text != "" {
+               if customSOPModelArrayObject.value.isEmpty {
+                   tempSopModel.append(cell.catatanKhusus.text ?? "")
+               }else {
+                   if index.row < cellContent - 1 {
+                       tempSopModel[index.row] = cell.catatanKhusus.text ?? ""
+                   }else {
+                       tempSopModel.append(cell.catatanKhusus.text ?? "")
+                   }
+               }
+               customSOPModelArrayObject.accept(tempSopModel)
+               btnCatatan.isEnabled = true
+           }
         }
-        let index = IndexPath(row: cellContent - 1, section: 0)
-        let cell = modalTableView.cellForRow(at: index) as! CatatanTableViewCell
-        if cell.catatanKhusus.text != "" {
-            btnCatatan.isEnabled = true
-        } else {
-            btnCatatan.isEnabled = false
-        }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

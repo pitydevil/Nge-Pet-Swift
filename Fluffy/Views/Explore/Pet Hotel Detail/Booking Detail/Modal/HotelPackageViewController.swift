@@ -11,12 +11,14 @@ import RxCocoa
 
 class HotelPackageViewController: UIViewController {
     
+    //MARK: - OBJECT DECLARATION
     private let petHotelPackageViewModel       = PetHotelPackageViewModel()
     private var petHotelPackageModelArray      = BehaviorRelay<[PetHotelPackage]>(value: [])
     private var petHotelPackageSelectedModel   = BehaviorRelay<PetHotelPackage>(value: PetHotelPackage(packageID: 0, packageName: "", packagePrice: "", petHotelID: "", supportedPetID: "", packageDetail: [PackageDetail]()))
     var hotelPackageBodyObject                  = BehaviorRelay<HotelPackageBody>(value: HotelPackageBody(petHotelID: 0, supportedPetName: ""))
     
-    var petHotelModelObject                     = BehaviorRelay<OrderDetailBody>(value: OrderDetailBody(petName: "", petType: "", petSize: "", packageID: 0, isExpanded: false, customSOP: [CustomSopBody]()))
+    var petHotelModelObject                     = BehaviorRelay<OrderDetailBody>(value: OrderDetailBody(petName: "", petType: "", petSize: "", packageID: 0, orderDetailPrice: 0, isExpanded: false, customSOP: [CustomSopBody]()))
+    
     
     //MARK: OBJECT OBSERVER DECLARATION
     private var hotelPackageBodyObjectObserver : Observable<HotelPackageBody> {
@@ -122,6 +124,31 @@ class HotelPackageViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
+        petHotelPackageViewModel.genericHandlingErrorObserver.skip(1).subscribe(onNext: { [self] (value) in
+            DispatchQueue.main.async {
+                switch value {
+                case .objectNotFound:
+                    self.present(genericAlert(titleAlert: "Add Order Tidak Ada!", messageAlert: "Add Order tidak ada, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
+                case .success:
+                    self.present(genericAlert(titleAlert: "Order Berhasil!", messageAlert: "Add Order Berhasil, silahkan cek booking kamu di menu booking.", buttonText: "Ok"), animated: true) {
+                        self.dismiss(animated: true) {
+                            self.navigationController?.popToRootViewController(animated: true)
+                        }
+                    }
+                default:
+                    self.present(genericAlert(titleAlert: "Terjadi Gangguan server!", messageAlert: "Terjadi kesalahan dalam melakukan pencarian booking, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
+                }
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         petHotelPackageViewModel.petHotelPackageModelArrayObserver.subscribe(onNext: { [self] (value) in
             petHotelPackageModelArray.accept(value)
         },onError: { error in
@@ -142,6 +169,7 @@ class HotelPackageViewController: UIViewController {
         modalTableView.rx.itemSelected.subscribe(onNext: { [self] (indexPath) in
             var petHotelArray = petHotelModelObject.value
             petHotelArray.packageID = petHotelPackageModelArray.value[indexPath.row].packageID
+            petHotelArray.orderDetailPrice = Int(petHotelPackageModelArray.value[indexPath.row].packagePrice) ?? 0
             petHotelModelObject.accept(petHotelArray)
             dismiss(animated: true)
         }).disposed(by: bags)

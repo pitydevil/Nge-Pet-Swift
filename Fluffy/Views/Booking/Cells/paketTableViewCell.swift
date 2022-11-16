@@ -22,7 +22,10 @@ class paketTableViewCell: UITableViewCell {
         
         contentView.addSubview(detailPaket)
 
-        setupConstraint()
+        detailPaket.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
+        detailPaket.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
+        detailPaket.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
+        detailPaket.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -34,17 +37,6 @@ class paketTableViewCell: UITableViewCell {
     }
 }
 
-//MARK: Setups
-extension paketTableViewCell{
-    func setupConstraint(){
-        detailPaket.leftAnchor.constraint(equalTo: contentView.leftAnchor).isActive = true
-        detailPaket.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-        detailPaket.rightAnchor.constraint(equalTo: contentView.rightAnchor).isActive = true
-        detailPaket.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-        
-    }
-}
-
 // MARK: - Public
 extension paketTableViewCell {
     func configureView(_ customOrderDetail : CustomOrderDetail) {
@@ -53,5 +45,9 @@ extension paketTableViewCell {
     
     func configureOrderDetail(_ customOrderDetail : OrderDetail) {
         detailPaket.text = "\(customOrderDetail.petName) - Plus (\(customOrderDetail.customSopCount))"
+    }
+    
+    func configureOrderDetail(_ customOrderDetail : OrderDetailBodyFinal) {
+        detailPaket.text = "\(customOrderDetail.petName) - \(customOrderDetail.petType)"
     }
 }

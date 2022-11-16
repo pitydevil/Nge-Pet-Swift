@@ -30,6 +30,8 @@ extension ApplicationEndpoint: Endpoint {
             return "/public/api/reservation/pet_hotel/package"
         case .getSearchListPetHotel:
             return "/public/api/explore/search-pet-hotel"
+        case .getOrderAdd:
+            return "/public/api/reservation/order/add"
         }
     }
 
@@ -51,14 +53,17 @@ extension ApplicationEndpoint: Endpoint {
             return .post
         case .getSearchListPetHotel:
             return .post
+        case .getOrderAdd:
+            return .post
         }
     }
 
     var body: [String : Any]? {
         switch self {
-        case .getOrderList(let orderStatus):
+        case .getOrderList(let orderStatus, let userID):
             return [
-                "order_status" : orderStatus
+                "order_status" : orderStatus,
+                "user_id"      : userID
             ]
         case .getDetailOrderID(let orderID):
             return [
@@ -105,6 +110,29 @@ extension ApplicationEndpoint: Endpoint {
                 "check_in_date"  : exploreSearchBody.checkInDate,
                 "check_out_date" : exploreSearchBody.checkOutDate,
                 "pets" : pets
+            ]
+        case .getOrderAdd(let order):
+            let orderDetail = order.orderDetails.map { obj -> [String : Any] in
+                let customSOP = obj.customSOP.map { customSop -> [String : Any] in
+                    return [
+                        "custom_sop_name" : customSop.customSopName
+                    ]
+                }
+                return [
+                    "pet_name": obj.petName,
+                    "pet_type": obj.petType,
+                    "pet_size": obj.petSize,
+                    "package_id": obj.packageID,
+                    "custom_sops": customSOP
+                ]
+            }
+            return [
+                "order_date_checkin": order.orderDateCheckIn,
+                "order_date_checkout": order.orderDateCheckOu,
+                "order_total_price": order.orderTotalPrice,
+                "user_id": order.userID,
+                "pet_hotel_id": order.petHotelId,
+                "order_details" : orderDetail
             ]
         default:
             return nil

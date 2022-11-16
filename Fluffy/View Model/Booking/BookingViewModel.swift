@@ -35,7 +35,7 @@ class BookingViewModel {
     ///     - allowedCharacter: character subset that's allowed to use on the textfield
     ///     - text: set of character/string that would like  to be checked.
     func fetchOrderList() async {
-        let endpoint = ApplicationEndpoint.getOrderList(orderStatus: orderStatusObject.value)
+        let endpoint = ApplicationEndpoint.getOrderList(orderStatus: orderStatusObject.value, userID: userID)
         let result = await networkService.request(to: endpoint, decodeTo: Response<[Order]>.self)
         switch result {
         case .success(let response):
