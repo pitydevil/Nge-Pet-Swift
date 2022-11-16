@@ -31,29 +31,6 @@ class SupportedPetCollectionViewCell: UICollectionViewCell {
 
 // MARK: - Setups
 private extension SupportedPetCollectionViewCell {
-    func imageViewConstraints() {
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        imageView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        imageView.widthAnchor.constraint(equalToConstant: 28).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 28).isActive = true
-        imageView.contentMode = .scaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 12
-    }
-    
-    func labelConstraints() {
-        petType.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        petType.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4).isActive = true
-        petType.widthAnchor.constraint(equalToConstant: 72).isActive = true
-        petType.numberOfLines = 1
-        
-        petSize.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        petSize.topAnchor.constraint(equalTo: petType.bottomAnchor).isActive = true
-        petSize.widthAnchor.constraint(equalToConstant: 72).isActive = true
-        petSize.numberOfLines = 1
-    }
-    
     func setupUI() {
         backgroundColor = .clear
         
@@ -64,8 +41,26 @@ private extension SupportedPetCollectionViewCell {
         self.heightAnchor.constraint(equalToConstant: 68).isActive = true
         self.widthAnchor.constraint(equalToConstant: 72).isActive = true
         
-        imageViewConstraints()
-        labelConstraints()
+        //MARK: Image View Constraints
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        imageView.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 28).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 28).isActive = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 12
+        
+        //MARK: Label Constraints
+        petType.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        petType.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4).isActive = true
+        petType.widthAnchor.constraint(equalToConstant: 72).isActive = true
+        petType.numberOfLines = 1
+        
+        petSize.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        petSize.topAnchor.constraint(equalTo: petType.bottomAnchor).isActive = true
+        petSize.widthAnchor.constraint(equalToConstant: 72).isActive = true
+        petSize.numberOfLines = 1
     }
 }
 

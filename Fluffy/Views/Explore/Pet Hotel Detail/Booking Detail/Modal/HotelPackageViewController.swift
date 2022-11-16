@@ -71,7 +71,6 @@ class HotelPackageViewController: UIViewController {
         view.addSubview(indicator)
         view.addSubview(headline)
         view.addSubview(modalTableView)
-      //  view.addSubview(customBar)
         
         //MARK: - Setup Const
         NSLayoutConstraint.activate([

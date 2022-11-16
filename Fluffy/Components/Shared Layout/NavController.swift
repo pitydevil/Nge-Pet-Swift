@@ -27,6 +27,4 @@ class NavController: UINavigationController {
         self.navigationController?.navigationBar.barStyle = .black
         self.navigationController?.navigationItem.leftBarButtonItem?.tintColor = UIColor.blue
     }
-
-
 }

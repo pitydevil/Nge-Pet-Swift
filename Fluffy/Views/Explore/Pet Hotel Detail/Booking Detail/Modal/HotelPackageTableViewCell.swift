@@ -115,12 +115,6 @@ extension HotelPackageTableViewCell {
         packageTitle.text = package.packageName
         details.text = string
         pricePackage.text = "Rp\(package.packagePrice)"
-        
-//        if select == true {
-//            selectedCell()
-//        } else {
-//            normalState()
-//        }
     }
     
     func selectedCell() {
