@@ -1,29 +1,27 @@
 //
-//  BookingViewModel.swift
+//  BookingConfirmationViewModel.swift
 //  Fluffy
 //
-//  Created by Mikhael Adiputra on 08/11/22.
+//  Created by Mikhael Adiputra on 16/11/22.
 //
+
 import Foundation
 import RxSwift
 import RxCocoa
 
-class BookingViewModel {
-    
+class BookingConfirmationViewModel {
     //MARK: - OBJECT DECLARATION
     private let networkService    : NetworkServicing
-    private let orderModelArray   = BehaviorRelay<[Order]>(value: [])
-    private var genericHandlingErrorObject = BehaviorRelay<genericHandlingError>(value: .success)
-    var orderStatusObject = BehaviorRelay<String>(value: String())
+    let orderAddModel   = BehaviorRelay<OrderAdd>(value:OrderAdd(orderDateCheckIn: "", orderDateCheckOu: "", orderTotalPrice: 0, userID: userID, petHotelId: 0, orderDetails: [OrderDetailBodyFinal]()))
+    
     //MARK: - OBJECT OBSERVER DECLARATION
-    var orderModelArrayObserver   : Observable<[Order]> {
-        return orderModelArray.asObservable()
-    }
+    private var genericHandlingErrorObject = BehaviorRelay<genericHandlingError>(value: .success)
+    
     var genericHandlingErrorObserver   : Observable<genericHandlingError> {
         return genericHandlingErrorObject.asObservable()
     }
-
-    //MARK: - INIT OBJECT DECLARATION
+    
+    //MARK: - INIT OBJECT
     init(networkService: NetworkServicing = NetworkService()) {
         self.networkService = networkService
     }
@@ -34,17 +32,14 @@ class BookingViewModel {
     /// - Parameters:
     ///     - allowedCharacter: character subset that's allowed to use on the textfield
     ///     - text: set of character/string that would like  to be checked.
-    func fetchOrderList() async {
-        let endpoint = ApplicationEndpoint.getOrderList(orderStatus: orderStatusObject.value, userID: userID)
-        let result = await networkService.request(to: endpoint, decodeTo: Response<[Order]>.self)
+    func postOrderAdd() async {
+        let endpoint = ApplicationEndpoint.getOrderAdd(order: orderAddModel.value)
+        let result = await networkService.request(to: endpoint, decodeTo: Response<EmptyData>.self)
         switch result {
         case .success(let response):
             genericHandlingErrorObject.accept(genericHandlingError(rawValue: response.status!)!)
-            if let order = response.data {
-                self.orderModelArray.accept(order)
-            }
         case .failure(_):
-            genericHandlingErrorObject.accept(genericHandlingError(rawValue: 500)!)
+            genericHandlingErrorObject.accept((genericHandlingError(rawValue: 500)!))
         }
     }
 }

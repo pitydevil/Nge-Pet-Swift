@@ -6,11 +6,37 @@
 //
 
 import UIKit
+import RxCocoa
+import RxSwift
+import SDWebImage
 
 @available(iOS 16.0, *)
 class BookingConfirmationViewController: UIViewController {
 
+    //MARK: - OBJECT DECLARATION
+    private var numPackage  = 0
+    private var numHarga    = 0
+    
+    private let bookingConfirmationViewModel = BookingConfirmationViewModel()
+    var orderAddObject = BehaviorRelay<OrderAdd>(value: OrderAdd(orderDateCheckIn: "", orderDateCheckOu: "", orderTotalPrice: 0, userID: userID, petHotelId: 0, orderDetails: [OrderDetailBodyFinal]()))
+    var orderDetailBodyFinal = BehaviorRelay<[OrderDetailBodyFinal]>(value: [])
+    var orderDetailObject    = BehaviorRelay<[OrderDetailBody]>(value: [])
+    
+    var petHotelModel   = BehaviorRelay<PetHotelsDetail>(value: PetHotelsDetail(petHotelID: 0, petHotelName: "", petHotelDescription: "", petHotelLongitude: "", petHotelLatitude: "", petHotelAddress: "", petHotelKelurahan: "", petHotelKecamatan: "", petHotelKota: "", petHotelProvinsi: "", petHotelPos: "", petHotelStartPrice: "", supportedPet: [SupportedPet](), petHotelImage: [PetHotelImage](), fasilitas: [Fasilitas](), sopGeneral: [SopGeneral](), asuransi: [AsuransiDetail](), cancelSOP: [CancelSOP]()))
+    
+    //MARK: OBJECT OBSERVER DECLARATION
+    var orderAddObjectObserver : Observable<OrderAdd> {
+        return orderAddObject.asObservable()
+    }
+    var petHotelModelObservable : Observable<PetHotelsDetail> {
+        return petHotelModel.asObservable()
+    }
+    
     //MARK: Subviews
+    
+    private var paketTableHeightConstant : NSLayoutConstraint?
+    private var hargaTableHeightConstant : NSLayoutConstraint?
+    
     private let scrollView:UIScrollView = {
         let scroll = UIScrollView()
         scroll.translatesAutoresizingMaskIntoConstraints = false
@@ -108,7 +134,6 @@ class BookingConfirmationViewController: UIViewController {
     
     private lazy var hewanPeliharaanDanPaket:ReuseableLabel = ReuseableLabel(labelText: "Hewan Peliharaan dan Paket", labelType: .titleH2, labelColor: .black)
     
-    
     private lazy var lokasi:ReuseableLabel = ReuseableLabel(labelText: "Bekasi, Jawa Barat", labelType: .bodyP2, labelColor: .grey1)
     
     private lazy var detailTanggal:ReuseableLabel = ReuseableLabel(labelText: "Sep 25 - 26", labelType: .bodyP2, labelColor: .grey1)
@@ -133,7 +158,6 @@ class BookingConfirmationViewController: UIViewController {
         return label
     }()
     
-    
     private lazy var petHotelImage: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
         imageView.layer.cornerRadius = 12
@@ -155,27 +179,17 @@ class BookingConfirmationViewController: UIViewController {
     private lazy var editPesanan: ReusableButton = {
         let barBtnLewati = ReusableButton(titleBtn: "Edit", styleBtn: .light)
         barBtnLewati.configuration?.baseForegroundColor = UIColor(named: "primaryMain")
-        barBtnLewati.addTarget(self, action: #selector(editTanggal), for: .touchUpInside)
-        return barBtnLewati
-    }()
-    
-    private lazy var editHewanPeliharaanDanPaket: ReusableButton = {
-        let barBtnLewati = ReusableButton(titleBtn: "Edit", styleBtn: .light)
-        barBtnLewati.configuration?.baseForegroundColor = UIColor(named: "primaryMain")
-//        barBtnLewati.addTarget(self, action: #selector(skipModal), for: .touchUpInside)
         return barBtnLewati
     }()
     
     private lazy var detailHargaTableView: UITableView = {
         let tableView = UITableView()
-        tableView.delegate = self
-        tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.register(HargaTableViewCell.self, forCellReuseIdentifier: HargaTableViewCell.cellId)
         tableView.separatorColor = .clear
         tableView.allowsSelection = false
-        tableView.isScrollEnabled = true
+        tableView.isScrollEnabled = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = UIColor(named: "white")
         tableView.invalidateIntrinsicContentSize()
@@ -185,7 +199,6 @@ class BookingConfirmationViewController: UIViewController {
     private lazy var detailPaketTableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate = self
-        tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.register(paketTableViewCell.self, forCellReuseIdentifier: paketTableViewCell.cellId)
@@ -197,24 +210,12 @@ class BookingConfirmationViewController: UIViewController {
         tableView.invalidateIntrinsicContentSize()
         return tableView
     }()
-    //MARK: Navigation
-    @available(iOS 16.0, *)
-    @objc func editTanggal() {
-        let vc = DateSelectionViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    //MARK: properties
-    private var numPackage = 1
-    
-    //MARK: viewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
+   
+    private func setupUI() {
+        
         view.backgroundColor = UIColor(named: "white")
-        self.navigationItem.titleView = navTitle
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
-        //MARK: Call To Setup Label, image, table, etc
-        setupUI()
+        navigationItem.titleView = navTitle
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
         
         //MARK: add subviews
         view.addSubview(scrollView)
@@ -230,7 +231,6 @@ class BookingConfirmationViewController: UIViewController {
         detailPesananView.addSubview(tanggalPemesanan)
         detailPesananView.addSubview(detailTanggal)
         detailPesananView.addSubview(editPesanan)
-        detailPesananView.addSubview(editHewanPeliharaanDanPaket)
         detailPesananView.addSubview(hewanPeliharaanDanPaket)
         detailPesananView.addSubview(detailPaketTableView)
         stackView.addArrangedSubview(detailPesananView)
@@ -260,50 +260,6 @@ class BookingConfirmationViewController: UIViewController {
         btmBar.addSubview(totalHarga)
         btmBar.addSubview(price)
         
-        setupConstraint()
-    }
-}
-
-@available(iOS 16.0, *)
-extension BookingConfirmationViewController{
-    func setupUI(){
-        numPackage = 2
-        petHotelImage.image = UIImage(named: "slide1")
-        totalHargaDetail.text = "Rp 70.000"
-    }
-}
-
-
-@available(iOS 16.0, *)
-extension BookingConfirmationViewController: UITableViewDelegate, UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return numPackage
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if tableView == detailHargaTableView{
-            let cell = tableView.dequeueReusableCell(withIdentifier: HargaTableViewCell.cellId) as! HargaTableViewCell
-            cell.backgroundColor = .clear
-           // cell.configureView(detailHargaString: "Rp 70.000 x 1 hari", description: "Rp 70.000")
-            return cell
-        }
-        if tableView == detailPaketTableView{
-            let cell = tableView.dequeueReusableCell(withIdentifier: paketTableViewCell.cellId) as! paketTableViewCell
-            cell.backgroundColor = .clear
-        //    cell.configureView(detailPaketString: "Chiron - Plus (2 catatan khusus)")
-            return cell
-        }
-        return UITableViewCell()
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 18
-    }
-
-}
-
-@available(iOS 16.0, *)
-extension BookingConfirmationViewController{
-    func setupConstraint(){
         //MARK: Scroll View Constraints
         scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
@@ -456,11 +412,6 @@ extension BookingConfirmationViewController{
         editPesanan.topAnchor.constraint(equalTo: detailPesananView.topAnchor).isActive = true
         editPesanan.heightAnchor.constraint(equalToConstant: 15).isActive = true
         
-        //MARK: edit paket constraint
-        editHewanPeliharaanDanPaket.rightAnchor.constraint(equalTo: detailPesananView.rightAnchor).isActive = true
-        editHewanPeliharaanDanPaket.topAnchor.constraint(equalTo: hewanPeliharaanDanPaket.topAnchor).isActive = true
-        editHewanPeliharaanDanPaket.heightAnchor.constraint(equalToConstant: 15).isActive = true
-        
         //MARK: detail harga constraint
         detailHarga.leftAnchor.constraint(equalTo: detailHargaView.leftAnchor).isActive = true
         detailHarga.topAnchor.constraint(equalTo: detailHargaView.topAnchor).isActive = true
@@ -470,7 +421,6 @@ extension BookingConfirmationViewController{
         detailHargaTableView.topAnchor.constraint(equalTo: detailHarga.bottomAnchor, constant: 8).isActive = true
         detailHargaTableView.leftAnchor.constraint(equalTo: detailHargaView.leftAnchor).isActive = true
         detailHargaTableView.rightAnchor.constraint(equalTo: detailHargaView.rightAnchor).isActive = true
-        detailHargaTableView.heightAnchor.constraint(greaterThanOrEqualToConstant: CGFloat(numPackage*18)).isActive = true
         
         //MARK: total constraint
         total.topAnchor.constraint(equalTo: detailHargaTableView.bottomAnchor).isActive = true
@@ -484,11 +434,162 @@ extension BookingConfirmationViewController{
         totalHargaDetail.rightAnchor.constraint(equalTo: detailHargaView.rightAnchor).isActive = true
         totalHargaDetail.bottomAnchor.constraint(equalTo: detailHargaView.bottomAnchor).isActive = true
         
+        hargaTableHeightConstant = detailHargaTableView.heightAnchor.constraint(greaterThanOrEqualToConstant: CGFloat(numHarga*18))
+        hargaTableHeightConstant!.isActive = true
+        
         //MARK: detail paket table view constraint
         detailPaketTableView.topAnchor.constraint(equalTo: hewanPeliharaanDanPaket.bottomAnchor, constant: 8).isActive = true
         detailPaketTableView.bottomAnchor.constraint(equalTo: detailPesananView.bottomAnchor).isActive = true
         detailPaketTableView.leftAnchor.constraint(equalTo: detailPesananView.leftAnchor).isActive = true
         detailPaketTableView.rightAnchor.constraint(equalTo: detailPesananView.rightAnchor).isActive = true
-        detailPaketTableView.heightAnchor.constraint(equalToConstant: CGFloat(numPackage*18)).isActive = true
+
+        
+        paketTableHeightConstant =  detailPaketTableView.heightAnchor.constraint(equalToConstant: CGFloat(numPackage*18))
+        paketTableHeightConstant!.isActive = true
+    }
+    
+    //MARK: viewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        setupUI()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        bookingConfirmationViewModel.genericHandlingErrorObserver.skip(1).subscribe(onNext: { [self] (value) in
+            DispatchQueue.main.async {
+                switch value {
+                case .objectNotFound:
+                    self.present(genericAlert(titleAlert: "Add Order Tidak Ada!", messageAlert: "Add Order tidak ada, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
+                case .success:
+                    self.present(genericAlert(titleAlert: "Order Berhasil!", messageAlert: "Add Order Berhasil, silahkan cek booking kamu di menu booking.", buttonText: "Ok"), animated: true) {
+                        self.dismiss(animated: true) {
+                            self.navigationController?.popToRootViewController(animated: true)
+                        }
+                    }
+                default:
+                    self.present(genericAlert(titleAlert: "Terjadi Gangguan server!", messageAlert: "Terjadi kesalahan dalam melakukan pencarian booking, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
+                }
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petHotelModelObservable.subscribe(onNext: { [self] (value) in
+            var cancelSop = String()
+            DispatchQueue.main.async { [self] in
+                petHotelName.text = value.petHotelName
+                lokasi.text       = "\(value.petHotelAddress),\(value.petHotelProvinsi)"
+                
+                for image in value.petHotelImage {
+                    petHotelImage.sd_setImage(with: URL(string: image.petHotelImageURL))
+                    break
+                }
+                for sop in value.cancelSOP {
+                    cancelSop += "\(sop.cancelSopsDescription)\n\n"
+                    detailCancellation.text = cancelSop
+                }
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        orderAddObjectObserver.subscribe(onNext: { [self] (value) in
+            orderDetailBodyFinal.accept(value.orderDetails)
+            numHarga   = orderDetailBodyFinal.value.count
+            numPackage = orderDetailObject.value.count
+            
+            DispatchQueue.main.async { [self] in
+                detailTanggal.text = "\(value.orderDateCheckIn) - \(value.orderDateCheckOu)"
+                totalHargaDetail.text = "Rp.\(value.orderTotalPrice)"
+                price.text            = "Rp.\(value.orderTotalPrice)"
+                hargaTableHeightConstant!.constant = CGFloat(numHarga*36)
+                paketTableHeightConstant!.constant = CGFloat(numPackage*18)
+                view.layoutIfNeeded()
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        orderDetailObject.bind(to: detailHargaTableView.rx.items(cellIdentifier: HargaTableViewCell.cellId, cellType: HargaTableViewCell.self)) { row, model, cell in
+            cell.backgroundColor = .clear
+            cell.configureHarga(model)
+        }.disposed(by: bags)
+
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        orderDetailBodyFinal.bind(to: detailPaketTableView.rx.items(cellIdentifier: paketTableViewCell.cellId, cellType: paketTableViewCell.self)) { row, model, cell in
+            cell.backgroundColor = .clear
+            cell.configureOrderDetail(model)
+        }.disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        btmBar.barBtn.rx.tap.bind { [self] in
+            Task {
+                bookingConfirmationViewModel.orderAddModel.accept(orderAddObject.value)
+                await bookingConfirmationViewModel.postOrderAdd()
+            }
+        }.disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        editPesanan.rx.tap.bind { [self] in
+            let vc = DateSelectionViewController()
+            vc.orderDetailObject.accept(orderDetailObject.value)
+            vc.petHotelModel.accept(petHotelModel.value)
+            vc.orderAddObject.accept(orderAddObject.value)
+            vc.checkInObject.accept(orderAddObject.value.orderDateCheckIn)
+            vc.checkOutObject.accept(orderAddObject.value.orderDateCheckOu)
+            vc.dateTrigger.accept(true)
+            navigationController?.pushViewController(vc, animated: true)
+        }.disposed(by: bags)
+    }
+}
+
+@available(iOS 16.0, *)
+extension BookingConfirmationViewController: UITableViewDelegate{
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 18
     }
 }

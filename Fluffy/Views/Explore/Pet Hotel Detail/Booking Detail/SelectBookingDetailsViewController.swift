@@ -12,10 +12,12 @@ import RxCocoa
 @available(iOS 16.0, *)
 class SelectBookingDetailsViewController: UIViewController {
     
-    //MARK: - VIEW CONTROLLER OBJECT
+    //MARK: - OBJECT DECLARATION
     private let selectBookingViewModel = SelectBookingViewModel()
     private let petArrayObject = BehaviorRelay<[OrderDetailBody]>(value: [])
-    private let filteredPetArrayObject = BehaviorRelay<[OrderDetailBody]>(value: [])
+    var filteredPetArrayObject = BehaviorRelay<[OrderDetailBody]>(value: [])
+    var petHotelModel   = BehaviorRelay<PetHotelsDetail>(value: PetHotelsDetail(petHotelID: 0, petHotelName: "", petHotelDescription: "", petHotelLongitude: "", petHotelLatitude: "", petHotelAddress: "", petHotelKelurahan: "", petHotelKecamatan: "", petHotelKota: "", petHotelProvinsi: "", petHotelPos: "", petHotelStartPrice: "", supportedPet: [SupportedPet](), petHotelImage: [PetHotelImage](), fasilitas: [Fasilitas](), sopGeneral: [SopGeneral](), asuransi: [AsuransiDetail](), cancelSOP: [CancelSOP]()))
+    var orderAddObject = BehaviorRelay<OrderAdd>(value: OrderAdd(orderDateCheckIn: "", orderDateCheckOu: "", orderTotalPrice: 0, userID: userID, petHotelId: 0, orderDetails: [OrderDetailBodyFinal]()))
     var petHotelIDObject = BehaviorRelay<Int>(value: 0)
     var selectedIndexCell = BehaviorRelay<Int>(value: 0)
     
@@ -23,22 +25,10 @@ class SelectBookingDetailsViewController: UIViewController {
     var filteredPetModelArrayObserver : Observable<[OrderDetailBody]> {
         return filteredPetArrayObject.asObservable()
     }
-
-    private lazy var searchBar: UISearchBar = {
-        let searchBar = UISearchBar()
-        searchBar.delegate = self
-        searchBar.searchBarStyle = .prominent
-        searchBar.searchTextField.font = UIFont(name: "Inter-Medium", size: 12)
-        searchBar.searchTextField.backgroundColor = UIColor(named: "white")
-        searchBar.searchTextField.layer.cornerRadius = 8
-        searchBar.tintColor = UIColor(named: "grey1")
-        searchBar.barTintColor = UIColor(named: "grey3")
-        searchBar.layer.borderWidth = 1
-        searchBar.layer.borderColor = searchBar.barTintColor?.cgColor
-        searchBar.placeholder = "Cari Hewan"
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        return searchBar
-    }()
+        
+    var petHotelModelObservable : Observable<PetHotelsDetail> {
+        return petHotelModel.asObservable()
+    }
     
     private lazy var packageTableView: UITableView = {
         let tableView = UITableView(frame: CGRect(), style: .grouped)
@@ -83,8 +73,7 @@ class SelectBookingDetailsViewController: UIViewController {
         view.backgroundColor = UIColor(named: "grey3")
         navigationItem.titleView = setTitle(title: "Katze Nesia Cat Hotel", subtitle: "Bekasi, Jawa Barat")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-        
-        view.addSubview(searchBar)
+
         view.addSubview(packageTableView)
         view.addSubview(btmBar)
         btmBar.addSubview(selectedPet)
@@ -94,13 +83,8 @@ class SelectBookingDetailsViewController: UIViewController {
         //MARK: - Setup Constraint
         NSLayoutConstraint.activate([
             
-            //MARK: - searchbar const
-            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            searchBar.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -680),
-            
             //MARK: - tableview const
-            packageTableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            packageTableView.topAnchor.constraint(equalTo: view.topAnchor),
             packageTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             packageTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
             packageTableView.bottomAnchor.constraint(equalTo: btmBar.topAnchor, constant: -20),
@@ -125,16 +109,6 @@ class SelectBookingDetailsViewController: UIViewController {
             perDay.bottomAnchor.constraint(equalTo: price.bottomAnchor),
         ])
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        //MARK: - Observer for Pet Type Value
-        /// Returns boolean true or false
-        /// from the given components.
-        /// - Parameters:
-        ///     - allowedCharacter: character subset that's allowed to use on the textfield
-        ///     - text: set of character/string that would like  to be checked.
-        selectBookingViewModel.getAllPet()
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,6 +120,14 @@ class SelectBookingDetailsViewController: UIViewController {
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
         setupUI()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        selectBookingViewModel.getAllPet()
         
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
@@ -169,9 +151,9 @@ class SelectBookingDetailsViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
-        filteredPetModelArrayObserver.subscribe(onNext: { [self] (value) in
+        petHotelModelObservable.subscribe(onNext: { [self] (value) in
             DispatchQueue.main.async { [self] in
-                packageTableView.reloadData()
+                navigationItem.titleView = setTitle(title: value.petHotelName, subtitle: "\(value.petHotelAddress),\(value.petHotelProvinsi)")
             }
         },onError: { error in
             self.present(errorAlert(), animated: true)
@@ -183,8 +165,45 @@ class SelectBookingDetailsViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
+        filteredPetModelArrayObserver.subscribe(onNext: { [self] (value) in
+            var orderDetailPrice      = 0
+            var counterHewan          = 0
+            for obj in value {
+                if obj.isExpanded && obj.orderDetailPrice != 0 && obj.packageID != 0 {
+                    counterHewan     += 1
+                    orderDetailPrice += obj.orderDetailPrice
+                }
+            }
+            DispatchQueue.main.async { [self] in
+                selectedPet.text = "\(counterHewan) Hewan Dipilih"
+                price.text       = "Rp.\(orderDetailPrice)"
+                btmBar.barBtn.isEnabled = counterHewan == 0 ? false : true
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+                
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         btmBar.barBtn.rx.tap.bind { [self] in
             let vc = DateSelectionViewController()
+            var orderTotalPrice = 0
+            var orderDetailBodyFinal = [OrderDetailBodyFinal]()
+            var orderDetailBody = [OrderDetailBody]()
+            for obj in filteredPetArrayObject.value {
+                if obj.isExpanded {
+                    orderTotalPrice += obj.orderDetailPrice
+                    orderDetailBodyFinal.append(OrderDetailBodyFinal(petName: obj.petName, petType: obj.petType, petSize: obj.petSize, packageID: obj.packageID, customSOP: obj.customSOP))
+                    orderDetailBody.append(obj)
+                }
+            }
+            vc.orderDetailObject.accept(orderDetailBody)
+            vc.petHotelModel.accept(petHotelModel.value)
+            vc.orderAddObject.accept(OrderAdd(orderDateCheckIn: "", orderDateCheckOu: "", orderTotalPrice: orderTotalPrice, userID: userID, petHotelId: petHotelIDObject.value, orderDetails: orderDetailBodyFinal))
             navigationController?.pushViewController(vc, animated: true)
         }.disposed(by: bags)
     }
@@ -236,20 +255,6 @@ extension SelectBookingDetailsViewController {
     }
 }
 
-//MARK: - SearchBar Delegate
-@available(iOS 16.0, *)
-extension SelectBookingDetailsViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        filteredPetArrayObject.accept(searchProcess(text: searchText))
-    }
-    
-    func searchProcess(text: String) -> [OrderDetailBody] {
-        text.isEmpty ? petArrayObject.value : petArrayObject.value.filter({ pets in
-            return pets.petName.range(of: text, options: .caseInsensitive) != nil
-        })
-    }
-}
-
 @available(iOS 16.0, *)
 extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -268,39 +273,69 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
         if indexPath.row == 1 {
             let cell = tableView.dequeueReusableCell(withIdentifier: SelectPackageTableViewCell.cellId, for: indexPath) as! SelectPackageTableViewCell
             cell.contentView.backgroundColor = UIColor(named: "white")
-            cell.configure(textDetails: "Pilih paket hotel")
+            cell.configure(filteredPetArrayObject.value[indexPath.section])
             return cell
         } else if indexPath.row == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: CatatanKhususTableViewCell.cellId, for: indexPath) as! CatatanKhususTableViewCell
             cell.contentView.backgroundColor = UIColor(named: "white")
-            cell.configure(textDetails: "Tambah catatan khusus")
+            cell.configure(filteredPetArrayObject.value[indexPath.section])
+            return cell
+        }else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: SelectBookingDetailsTableViewCell.identifier, for: indexPath) as! SelectBookingDetailsTableViewCell
+            cell.contentView.backgroundColor = UIColor(named: "white")
+            cell.configure(filteredPetArrayObject.value[indexPath.section])
+            cell.delegate = self
             return cell
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: SelectBookingDetailsTableViewCell.identifier, for: indexPath) as! SelectBookingDetailsTableViewCell
-        cell.contentView.backgroundColor = UIColor(named: "white")
-        cell.configure(filteredPetArrayObject.value[indexPath.section])
-        return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 1 {
             let vc = HotelPackageViewController()
-            vc.hotelPackageBodyObject.accept(HotelPackageBody(petHotelID: petHotelIDObject.value, supportedPetName: filteredPetArrayObject.value[selectedIndexCell.value].petType))
-            vc.petHotelModelObject.accept(filteredPetArrayObject.value[selectedIndexCell.value])
+            vc.hotelPackageBodyObject.accept(HotelPackageBody(petHotelID: petHotelIDObject.value, supportedPetName: filteredPetArrayObject.value[indexPath.section].petType))
+            vc.petHotelModelObject.accept(filteredPetArrayObject.value[indexPath.section])
             vc.petHotelModelObserver.subscribe(onNext: { [self] (value) in
-                var tempFilteredPetArrayObject =  filteredPetArrayObject.value
-                tempFilteredPetArrayObject[selectedIndexCell.value] = value
+                var tempFilteredPetArrayObject = filteredPetArrayObject.value
+                tempFilteredPetArrayObject[indexPath.section] = value
                 filteredPetArrayObject.accept(tempFilteredPetArrayObject)
-                print("testing12 \(value)")
+                packageTableView.reloadRows(at: [IndexPath(row: 1, section: indexPath.section), IndexPath(row: 2, section: indexPath.section)], with: .automatic)
             },onError: { error in
                 self.present(errorAlert(), animated: true)
             }).disposed(by: bags)
             vc.modalPresentationStyle = .pageSheet
-            present(vc, animated: true)
+            
+            if filteredPetArrayObject.value[indexPath.section].isExpanded {
+                present(vc, animated: true)
+            }
         } else if indexPath.row == 2 {
             let vc = CatatanViewController()
+            vc.sopModelArrayObject.accept(filteredPetArrayObject.value[indexPath.section].customSOP)
+            vc.petHotelModelObject.accept(filteredPetArrayObject.value[indexPath.section])
+            vc.petHotelModelObserver.subscribe(onNext: { [self] (value) in
+                var tempFilteredPetArrayObject = filteredPetArrayObject.value
+                tempFilteredPetArrayObject[indexPath.section] = value
+                filteredPetArrayObject.accept(tempFilteredPetArrayObject)
+                packageTableView.reloadRows(at: [IndexPath(row: 1, section: indexPath.section), IndexPath(row: 2, section: indexPath.section)], with: .automatic)
+            },onError: { error in
+                self.present(errorAlert(), animated: true)
+            }).disposed(by: bags)
             vc.modalPresentationStyle = .pageSheet
-            self.present(vc, animated: true)
+            if filteredPetArrayObject.value[indexPath.section].isExpanded {
+                present(vc, animated: true)
+            }
         }
+    }
+}
+
+@available(iOS 16.0, *)
+extension SelectBookingDetailsViewController : SelectPetProtocol {
+    func selectPetProtocol(cell: SelectBookingDetailsTableViewCell) {
+        let indexPath   = packageTableView.indexPath(for: cell)
+        let index       = indexPath?.section ?? 0
+        var tempFilteredPetArrayObject = filteredPetArrayObject.value
+        tempFilteredPetArrayObject[index].isExpanded = tempFilteredPetArrayObject[index].isExpanded ? false : true
+        selectedIndexCell.accept(index)
+        filteredPetArrayObject.accept(tempFilteredPetArrayObject)
+        packageTableView.reloadRows(at: [IndexPath(row: 1, section: index), IndexPath(row: 2, section: index)], with: .automatic)
     }
 }

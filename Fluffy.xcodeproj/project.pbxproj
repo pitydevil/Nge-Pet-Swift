@@ -58,6 +58,8 @@
 		1DE771CD2911FCD800A23A66 /* HotelPackageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE771CC2911FCD800A23A66 /* HotelPackageViewController.swift */; };
 		1DE771D22911FF8300A23A66 /* HotelPackageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE771D12911FF8300A23A66 /* HotelPackageTableViewCell.swift */; };
 		228971C6B79C4700E7DA9C4E /* Pods_FluffyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FC985139B43D09D659850CB /* Pods_FluffyTests.framework */; };
+		4B0E62072924C78400F5C2FA /* OrderAdd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0E62062924C78400F5C2FA /* OrderAdd.swift */; };
+		4B0E62092924E35B00F5C2FA /* BookingConfirmationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B0E62082924E35B00F5C2FA /* BookingConfirmationViewModel.swift */; };
 		4B2A82F12917ED9C00830AE8 /* EditPetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2A82F02917ED9C00830AE8 /* EditPetViewModel.swift */; };
 		4B2A82F5291979DB00830AE8 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2A82F4291979DB00830AE8 /* Order.swift */; };
 		4B2A82F729197BA000830AE8 /* OrderDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B2A82F629197BA000830AE8 /* OrderDetail.swift */; };
@@ -233,6 +235,8 @@
 		2A279AC421335ED40E76880D /* Pods_Fluffy_FluffyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Fluffy_FluffyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		391FB2353E3E4D1516AADE30 /* Pods-Fluffy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fluffy.debug.xcconfig"; path = "Target Support Files/Pods-Fluffy/Pods-Fluffy.debug.xcconfig"; sourceTree = "<group>"; };
 		3FC985139B43D09D659850CB /* Pods_FluffyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FluffyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B0E62062924C78400F5C2FA /* OrderAdd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderAdd.swift; sourceTree = "<group>"; };
+		4B0E62082924E35B00F5C2FA /* BookingConfirmationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookingConfirmationViewModel.swift; sourceTree = "<group>"; };
 		4B2A82F02917ED9C00830AE8 /* EditPetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPetViewModel.swift; sourceTree = "<group>"; };
 		4B2A82F4291979DB00830AE8 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		4B2A82F629197BA000830AE8 /* OrderDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderDetail.swift; sourceTree = "<group>"; };
@@ -486,6 +490,7 @@
 			children = (
 				4B2A82F829197D9D00830AE8 /* BookingViewModel.swift */,
 				4BD8C295291A1B3800F7DB18 /* BookingDetailViewModel.swift */,
+				4B0E62082924E35B00F5C2FA /* BookingConfirmationViewModel.swift */,
 			);
 			path = Booking;
 			sourceTree = "<group>";
@@ -875,6 +880,7 @@
 				4BD8C2F429239AA300F7DB18 /* OrderDetailBody.swift */,
 				4BD8C2EC292381C900F7DB18 /* HotelPackageBody.swift */,
 				4BD8C2F2292385B800F7DB18 /* CustomSopBody.swift */,
+				4B0E62062924C78400F5C2FA /* OrderAdd.swift */,
 			);
 			path = Body;
 			sourceTree = "<group>";
@@ -1346,6 +1352,7 @@
 				1DE771C52910D0AB00A23A66 /* SelectBookingDetailsViewController.swift in Sources */,
 				4B3D82D329051DAD00F6A82F /* Application Endpoint.swift in Sources */,
 				4BD8C2F529239AA300F7DB18 /* OrderDetailBody.swift in Sources */,
+				4B0E62072924C78400F5C2FA /* OrderAdd.swift in Sources */,
 				4BD8C2D8291E35E900F7DB18 /* Shared Static Instances.swift in Sources */,
 				4BD8C2C1291D4EA800F7DB18 /* Fasilitas.swift in Sources */,
 				4E5068B429001C4C0005ADBF /* ExploreTableViewCell.swift in Sources */,
@@ -1416,6 +1423,7 @@
 				4E5068AE28FD54ED0005ADBF /* BookingViewController.swift in Sources */,
 				4BD8C2C6291D525F00F7DB18 /* PetHotelViewModel.swift in Sources */,
 				1D89A56A29239E8B005A2409 /* SelectBookingDetailsTableViewCell.swift in Sources */,
+				4B0E62092924E35B00F5C2FA /* BookingConfirmationViewModel.swift in Sources */,
 				4BD8C2AE291D063800F7DB18 /* ModalSearchLocationViewModel.swift in Sources */,
 				4EC56E4E28F826BB008ADD7F /* MonitoringViewController.swift in Sources */,
 				4B3D82D229051DAD00F6A82F /* Response.swift in Sources */,

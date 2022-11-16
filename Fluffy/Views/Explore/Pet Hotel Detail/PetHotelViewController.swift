@@ -628,6 +628,7 @@ class PetHotelViewController: UIViewController {
         btmBar.barBtn.rx.tap.bind { [self] in
             let vc = SelectBookingDetailsViewController()
             vc.petHotelIDObject.accept(petHotelDetailID.value)
+            vc.petHotelModel.accept(petHotelModel.value)
             self.navigationController?.pushViewController(vc, animated: true)
         }.disposed(by: bags)
     }

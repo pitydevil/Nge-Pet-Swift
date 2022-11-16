@@ -16,7 +16,7 @@ class HotelPackageViewController: UIViewController {
     private var petHotelPackageSelectedModel   = BehaviorRelay<PetHotelPackage>(value: PetHotelPackage(packageID: 0, packageName: "", packagePrice: "", petHotelID: "", supportedPetID: "", packageDetail: [PackageDetail]()))
     var hotelPackageBodyObject                  = BehaviorRelay<HotelPackageBody>(value: HotelPackageBody(petHotelID: 0, supportedPetName: ""))
     
-    var petHotelModelObject                     = BehaviorRelay<OrderDetailBody>(value: OrderDetailBody(petName: "", petType: "", petSize: "", packageID: 0, isExpanded: false, customSOP: [CustomSopBody]()))
+    var petHotelModelObject                     = BehaviorRelay<OrderDetailBody>(value: OrderDetailBody(petName: "", petType: "", petSize: "", packageID: 0, orderDetailPrice: 0, isExpanded: false, customSOP: [CustomSopBody]()))
     
     //MARK: OBJECT OBSERVER DECLARATION
     private var hotelPackageBodyObjectObserver : Observable<HotelPackageBody> {
@@ -142,6 +142,7 @@ class HotelPackageViewController: UIViewController {
         modalTableView.rx.itemSelected.subscribe(onNext: { [self] (indexPath) in
             var petHotelArray = petHotelModelObject.value
             petHotelArray.packageID = petHotelPackageModelArray.value[indexPath.row].packageID
+            petHotelArray.orderDetailPrice = Int(petHotelPackageModelArray.value[indexPath.row].packagePrice) ?? 0
             petHotelModelObject.accept(petHotelArray)
             dismiss(animated: true)
         }).disposed(by: bags)

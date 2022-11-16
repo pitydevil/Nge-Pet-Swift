@@ -76,16 +76,21 @@ class SelectPackageTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
-
 }
 
 //MARK: - Public
 extension SelectPackageTableViewCell {
-    public func configure(textDetails: String?){
-        details.text = textDetails
+    public func configure(_ orderDetailBody : OrderDetailBody){
+        if orderDetailBody.isExpanded {
+            if orderDetailBody.packageID != -1 {
+                details.text = "Paket anda adalah: \(orderDetailBody.packageID)"
+            }else {
+                details.text = "Pilih paket hotel"
+            }
+        }else {
+            details.text = "Pilih hewan terlebih dahulu"
+        }
     }
 }
 

@@ -21,10 +21,12 @@ class PetViewController: UIViewController {
         modalTableView.register(PetTableViewCell.self, forCellReuseIdentifier: PetTableViewCell.cellId)
         modalTableView.translatesAutoresizingMaskIntoConstraints = false
         modalTableView.allowsMultipleSelection = true
-        modalTableView.separatorStyle = .none
+        modalTableView.isScrollEnabled         = true
+        modalTableView.delegate                = self
+        modalTableView.separatorStyle          = .none
         modalTableView.showsVerticalScrollIndicator = false
         modalTableView.sectionHeaderTopPadding = 20
-        modalTableView.isScrollEnabled = true
+
         return modalTableView
     }()
     
@@ -90,9 +92,6 @@ class PetViewController: UIViewController {
         },onError: { error in
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
-        
-        //MARK: - RESPONSE TABLE VIEW DIDSELECT DELEGATE FUNCTION
-        modalTableView.rx.setDelegate(self)
         
         //MARK: - RESPONSE TABLE VIEW DIDSELECT DELEGATE FUNCTION
         /// - Parameters:
