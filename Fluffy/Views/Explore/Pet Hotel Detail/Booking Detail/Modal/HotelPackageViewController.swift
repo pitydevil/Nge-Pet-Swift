@@ -130,11 +130,7 @@ class HotelPackageViewController: UIViewController {
                 case .objectNotFound:
                     self.present(genericAlert(titleAlert: "Add Order Tidak Ada!", messageAlert: "Add Order tidak ada, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
                 case .success:
-                    self.present(genericAlert(titleAlert: "Order Berhasil!", messageAlert: "Add Order Berhasil, silahkan cek booking kamu di menu booking.", buttonText: "Ok"), animated: true) {
-                        self.dismiss(animated: true) {
-                            self.navigationController?.popToRootViewController(animated: true)
-                        }
-                    }
+                    print("200")
                 default:
                     self.present(genericAlert(titleAlert: "Terjadi Gangguan server!", messageAlert: "Terjadi kesalahan dalam melakukan pencarian booking, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
                 }
