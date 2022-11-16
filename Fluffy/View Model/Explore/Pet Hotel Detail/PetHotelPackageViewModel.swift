@@ -14,11 +14,16 @@ struct PetHotelPackageViewModel {
     //MARK: - OBJECT DECLARATION
     private let networkService       : NetworkServicing
     private var petHotelPackageModel = BehaviorRelay<[PetHotelPackage]>(value: [])
+    private var genericHandlingErrorObject = BehaviorRelay<genericHandlingError>(value: .success)
     var hotelPackageBodyObject       = BehaviorRelay<HotelPackageBody>(value: HotelPackageBody(petHotelID: 0, supportedPetName: ""))
 
     //MARK: - OBSERVABLE OBJECT DECLARATION
     var petHotelPackageModelArrayObserver : Observable<[PetHotelPackage]> {
         return petHotelPackageModel.asObservable()
+    }
+    
+    var genericHandlingErrorObserver   : Observable<genericHandlingError> {
+        return genericHandlingErrorObject.asObservable()
     }
     
     //MARK: - INIT OBJECT
@@ -37,11 +42,12 @@ struct PetHotelPackageViewModel {
         let result = await networkService.request(to: endpoint, decodeTo: Response<[PetHotelPackage]>.self)
         switch result {
         case .success(let response):
+            genericHandlingErrorObject.accept(genericHandlingError(rawValue: response.status!)!)
             if let petHotelPackage = response.data {
                 self.petHotelPackageModel.accept(petHotelPackage)
             }
-        case .failure(let error):
-            print(error)
+        case .failure(_):
+            genericHandlingErrorObject.accept((genericHandlingError(rawValue: 500)!))
         }
     }
 }

@@ -33,7 +33,6 @@ class BookingConfirmationViewController: UIViewController {
     }
     
     //MARK: Subviews
-    
     private var paketTableHeightConstant : NSLayoutConstraint?
     private var hargaTableHeightConstant : NSLayoutConstraint?
     
