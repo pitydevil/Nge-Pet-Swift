@@ -351,7 +351,7 @@ class AddPetViewController: UIViewController {
         NSLayoutConstraint.activate([
             
             //MARK: - ScrollView Constraints
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height / 15),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: customBar.topAnchor),
