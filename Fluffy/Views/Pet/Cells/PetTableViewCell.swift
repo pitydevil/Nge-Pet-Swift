@@ -64,11 +64,14 @@ class PetTableViewCell: UITableViewCell {
         
         //MARK: - Setup Constraint
         NSLayoutConstraint.activate([
-            petIcon.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            
+            // petIcon.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            // petIcon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
+            // petIcon.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -222),
             petIcon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
             petIcon.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            petIcon.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12),
-            petIcon.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -222),
+            petIcon.heightAnchor.constraint(equalToConstant: 104),
+            petIcon.widthAnchor.constraint(equalToConstant: 104),
             
             petRace.leadingAnchor.constraint(equalTo: petIcon.trailingAnchor, constant: 12),
             petRace.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
@@ -116,7 +119,7 @@ class PetTableViewCell: UITableViewCell {
         petRace.text  = pets.petBreed!
         petName.text  = pets.petName!
         petSex.image  = UIImage(named: pets.petGender!)
-        petType.text  = pets.petType!
+        petType.text  = "\(pets.petType!) \(pets.petSize!)"
         petAge.text   = "\(String(Int(pets.petAge!))) Tahun"
     }
 }
