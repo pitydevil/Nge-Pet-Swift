@@ -116,7 +116,7 @@ class PetTableViewCell: UITableViewCell {
         petRace.text  = pets.petBreed!
         petName.text  = pets.petName!
         petSex.image  = UIImage(named: pets.petGender!)
-        petType.text  = pets.petType
-        petAge.text   = String(Int(pets.petAge!))
+        petType.text  = pets.petType!
+        petAge.text   = "\(String(Int(pets.petAge!))) Tahun"
     }
 }
