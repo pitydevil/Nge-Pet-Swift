@@ -400,7 +400,7 @@ class EditPetViewController: UIViewController {
             ukuranHewan.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
             ukuranHewan.topAnchor.constraint(equalTo: titleUkuranHewan.bottomAnchor, constant: 12),
             ukuranHewan.heightAnchor.constraint(equalToConstant: 40),
-            namaHewan.widthAnchor.constraint(equalToConstant: view.frame.width - 48),
+            ukuranHewan.widthAnchor.constraint(equalToConstant: view.frame.width - 48),
             
             //MARK: - Input Kelamin Hewan Constraint
             titleJenisKelamin.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
@@ -432,7 +432,7 @@ class EditPetViewController: UIViewController {
             rasHewan.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
             rasHewan.topAnchor.constraint(equalTo: titleRasHewan.bottomAnchor, constant: 12),
             rasHewan.heightAnchor.constraint(equalToConstant: 40),
-            namaHewan.widthAnchor.constraint(equalToConstant: view.frame.width - 48),
+            rasHewan.widthAnchor.constraint(equalToConstant: view.frame.width - 48),
             
             //MARK: - Input Icon Hewan Constraint
             titleIconHewan.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
