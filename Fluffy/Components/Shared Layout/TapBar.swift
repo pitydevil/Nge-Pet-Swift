@@ -50,7 +50,7 @@ class TapBar: UITabBarController {
         if #available(iOS 16.0, *) {
             viewControllers = [
                 createNavController(for: ExploreViewController(), title: NSLocalizedString("Jelajahi", comment: ""), image: UIImage(systemName: "magnifyingglass")!),
-                createNavController(for: MonitoringViewController(), title: NSLocalizedString("Monitoring", comment: ""), image: UIImage(systemName: "display")!),
+                createNavController(for: MonitoringViewController(), title: NSLocalizedString("Feeds", comment: ""), image: UIImage(systemName: "rectangle.on.rectangle.angled")!),
                 createNavController(for: PetViewController(), title: NSLocalizedString("Peliharaan", comment: ""), image: UIImage(systemName: "pawprint.fill")!),
                 createNavController(for: BookingViewController(), title: NSLocalizedString("Pesanan", comment: ""), image: UIImage(systemName: "doc.text.fill")!)
             ]

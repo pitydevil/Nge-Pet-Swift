@@ -17,7 +17,7 @@ class AddPetViewController: UIViewController {
     private var petTypeObject      = BehaviorRelay<petTypeCase>(value: .kucing)
     private var petIconObject      = BehaviorRelay<petIconCase>(value: .dog1)
     private var petSizeObject      = BehaviorRelay<petSizeCase>(value: .kecil)
-    private let petIconDataObject  = BehaviorRelay<[String]>(value: ["dog1","dog2","dog3","dog4","dog5","dog6","dog7","dog8","dog9"])
+    private let petIconDataObject  = BehaviorRelay<[String]>(value: ["dog1","dog2","dog3","dog4","dog5","dog6","dog7","dog8","dog9", "cat1", "cat2", "cat3","cat4","cat5","cat6","cat7","cat8","cat9"])
     private let petSizeArrayObject = BehaviorRelay<[String]>(value: ["Kecil", "Sedang", "Besar"])
     
     //MARK: - Observable Variable Declaration
@@ -92,7 +92,7 @@ class AddPetViewController: UIViewController {
         view.addGestureRecognizer(gesture)
         
         NSLayoutConstraint.activate([
-            view.widthAnchor.constraint(equalToConstant: 167),
+            view.widthAnchor.constraint(equalToConstant: ((self.view.frame.width - 48) / 2) - 4),
             view.heightAnchor.constraint(equalToConstant: 82),
             
             imageView.widthAnchor.constraint(equalToConstant: 28),
@@ -127,7 +127,7 @@ class AddPetViewController: UIViewController {
         view.addGestureRecognizer(gesture)
         
         NSLayoutConstraint.activate([
-            view.widthAnchor.constraint(equalToConstant: 167),
+            view.widthAnchor.constraint(equalToConstant: ((self.view.frame.width - 48) / 2) - 4),
             view.heightAnchor.constraint(equalToConstant: 82),
             
             imageView.widthAnchor.constraint(equalToConstant: 28),
@@ -189,7 +189,7 @@ class AddPetViewController: UIViewController {
         view.addGestureRecognizer(gesture)
         
         NSLayoutConstraint.activate([
-            view.widthAnchor.constraint(equalToConstant: 167),
+            view.widthAnchor.constraint(equalToConstant: ((self.view.frame.width - 48) / 2) - 4),
             view.heightAnchor.constraint(equalToConstant: 82),
             
             imageView.widthAnchor.constraint(equalToConstant: 28),
@@ -224,7 +224,7 @@ class AddPetViewController: UIViewController {
         view.addGestureRecognizer(gesture)
         
         NSLayoutConstraint.activate([
-            view.widthAnchor.constraint(equalToConstant: 167),
+            view.widthAnchor.constraint(equalToConstant: ((self.view.frame.width - 48) / 2) - 4),
             view.heightAnchor.constraint(equalToConstant: 82),
             
             imageView.widthAnchor.constraint(equalToConstant: 28),
@@ -351,7 +351,7 @@ class AddPetViewController: UIViewController {
         NSLayoutConstraint.activate([
             
             //MARK: - ScrollView Constraints
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height / 15),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: customBar.topAnchor),
@@ -376,7 +376,7 @@ class AddPetViewController: UIViewController {
             namaHewan.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
             namaHewan.topAnchor.constraint(equalTo: titleNamaHewan.bottomAnchor, constant: 12),
             namaHewan.heightAnchor.constraint(equalToConstant: 40),
-            namaHewan.widthAnchor.constraint(equalToConstant: 342),
+            namaHewan.widthAnchor.constraint(equalToConstant: view.frame.width - 48),
             
             //MARK: - Input Tipe Hewan Constraint
             titleTipeHewan.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
@@ -384,7 +384,7 @@ class AddPetViewController: UIViewController {
             
             hewanAnjing.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
             hewanAnjing.topAnchor.constraint(equalTo: titleTipeHewan.bottomAnchor, constant: 12),
-            
+
             hewanKucing.leadingAnchor.constraint(equalTo: hewanAnjing.trailingAnchor, constant: 8),
             hewanKucing.topAnchor.constraint(equalTo: titleTipeHewan.bottomAnchor, constant: 12),
             
@@ -395,7 +395,7 @@ class AddPetViewController: UIViewController {
             ukuranHewan.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
             ukuranHewan.topAnchor.constraint(equalTo: titleUkuranHewan.bottomAnchor, constant: 12),
             ukuranHewan.heightAnchor.constraint(equalToConstant: 40),
-            ukuranHewan.widthAnchor.constraint(equalToConstant: 342),
+            ukuranHewan.widthAnchor.constraint(equalToConstant: view.frame.width - 48),
             
             //MARK: - Input Kelamin Hewan Constraint
             titleJenisKelamin.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
@@ -427,7 +427,7 @@ class AddPetViewController: UIViewController {
             rasHewan.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),
             rasHewan.topAnchor.constraint(equalTo: titleRasHewan.bottomAnchor, constant: 12),
             rasHewan.heightAnchor.constraint(equalToConstant: 40),
-            rasHewan.widthAnchor.constraint(equalToConstant: 342),
+            rasHewan.widthAnchor.constraint(equalToConstant: view.frame.width - 48),
             
             //MARK: - Input Icon Hewan Constraint
             titleIconHewan.leadingAnchor.constraint(equalTo: scrollContainer.leadingAnchor, constant: 24),

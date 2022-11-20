@@ -197,7 +197,7 @@ class SelectBookingDetailsViewController: UIViewController {
             for obj in filteredPetArrayObject.value {
                 if obj.isExpanded {
                     orderTotalPrice += obj.orderDetailPrice
-                    orderDetailBodyFinal.append(OrderDetailBodyFinal(petName: obj.petName, petType: obj.petType, petSize: obj.petSize, packageID: obj.packageID, customSOP: obj.customSOP))
+                    orderDetailBodyFinal.append(OrderDetailBodyFinal(petName: obj.petName, petType: obj.petType, petSize: obj.petSize, petData: obj.petData ,packageID: obj.packageID, customSOP: obj.customSOP))
                     orderDetailBody.append(obj)
                 }
             }
