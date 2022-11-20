@@ -13,6 +13,8 @@ class ExploreViewController: UIViewController {
     
     //MARK: - OBJECT DECLARATION
     private var tableViewHeightConstraint : NSLayoutConstraint?
+    private var scrollViewHeightConstraint : NSLayoutConstraint?
+    private var contentViewHeightConstraint : NSLayoutConstraint?
     private let modalSelectPetViewController = ModalSelectPetViewController()
     private let exploreViewModel          = ExploreViewModel(locationManager: LocationManager())
     private var petsSelectionModelArray   = BehaviorRelay<[PetsSelection]>(value: [])
@@ -30,19 +32,23 @@ class ExploreViewController: UIViewController {
     //MARK: Subviews
     private var refreshControl : UIRefreshControl  =  {
         let refresh = UIRefreshControl()
-        refresh.tintColor = .white
+        refresh.tintColor = .gray
         return refresh
     }()
     
     private let scrollView:UIScrollView = {
         let scroll = UIScrollView()
         scroll.translatesAutoresizingMaskIntoConstraints = false
-        scroll.backgroundColor = UIColor(named: "primaryMain")
+        scroll.backgroundColor = UIColor(named: "grey3")
         scroll.showsVerticalScrollIndicator = false
         return scroll
     }()
     
-    private let contentView = UIView()
+    private let contentView: UIView =  {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "grey3")
+        return view
+    }()
     
     private lazy var exploreRect:UIView = {
         let view = UIView()
@@ -142,7 +148,6 @@ class ExploreViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
-        tableView.delegate   = self
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.register(ExploreTableViewCell.self, forCellReuseIdentifier: ExploreTableViewCell.cellId)
@@ -164,6 +169,7 @@ class ExploreViewController: UIViewController {
         view.addSubview(scrollView)
 
         scrollView.addSubview(contentView)
+        
         contentView.backgroundColor = UIColor(named: "grey3")
         contentView.addSubview(exploreRect)
         contentView.addSubview(exploreLabel)
@@ -182,6 +188,11 @@ class ExploreViewController: UIViewController {
         scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
         scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height / 15).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        scrollView.contentInsetAdjustmentBehavior = .never
+        
+        scrollViewHeightConstraint = scrollView.heightAnchor.constraint(greaterThanOrEqualToConstant: 216)
+        scrollViewHeightConstraint!.isActive = true
+        
         scrollView.refreshControl = refreshControl
         scrollView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
         
@@ -192,13 +203,15 @@ class ExploreViewController: UIViewController {
         contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         contentView.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor, constant: 1000).isActive = true
         contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        contentViewHeightConstraint = contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 216)
+        contentViewHeightConstraint!.isActive = true
         
         //MARK: Red Rectangle Constraints
         exploreRect.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
         exploreRect.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         exploreRect.heightAnchor.constraint(equalToConstant: 450).isActive = true
         exploreRect.widthAnchor.constraint(equalToConstant: view.frame.size.width).isActive = true
-        
+
         //MARK: Explore Label Constraints
         exploreLabel.topAnchor.constraint(equalTo: exploreRect.topAnchor, constant: 68).isActive = true
         exploreLabel.leftAnchor.constraint(equalTo: exploreRect.leftAnchor, constant: 16).isActive = true
@@ -329,8 +342,12 @@ class ExploreViewController: UIViewController {
             petHotelList.accept(value)
             DispatchQueue.main.async { [self] in
                 refreshControl.endRefreshing()
-                tableViewHeightConstraint!.constant = CGFloat(petHotelList.value.count*216)
-                view.layoutIfNeeded()
+                tableViewHeightConstraint!.constant = CGFloat(petHotelList.value.count * 450)
+                scrollViewHeightConstraint!.constant = CGFloat(petHotelList.value.count * 450)
+                contentViewHeightConstraint!.constant =  CGFloat(petHotelList.value.count * 450)
+                tableView.layoutIfNeeded()
+                contentView.layoutIfNeeded()
+                scrollView.layoutIfNeeded()
             }
         },onError: { error in
             self.present(errorAlert(), animated: true)
@@ -437,8 +454,15 @@ class ExploreViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
+        tableView.rx.setDelegate(self).disposed(by: bags)
+        
+        //MARK: - Bind Journal List with Table View
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         tableView.rx.itemSelected.subscribe(onNext: { [self] (indexPath) in
-            self.tableView.deselectRow(at: indexPath, animated: true)
             let petHotelViewController = PetHotelViewController()
             petHotelViewController.modalPresentationStyle = .fullScreen
             petHotelViewController.hidesBottomBarWhenPushed = true
@@ -578,17 +602,14 @@ extension ExploreViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 216
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let verticalPadding: CGFloat = 14
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.backgroundColor = .clear
-        return headerView
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat{
-        if section>=1{
-            return 32
-        }
-        return 0
+        let maskLayer = CALayer()
+        maskLayer.cornerRadius = 10
+        maskLayer.backgroundColor = UIColor.black.cgColor
+        maskLayer.frame = CGRect(x: cell.bounds.origin.x, y: cell.bounds.origin.y, width: cell.bounds.width, height: cell.bounds.height).insetBy(dx: 0, dy: verticalPadding/2)
+        cell.layer.mask = maskLayer
     }
 }

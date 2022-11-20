@@ -62,6 +62,7 @@ class ExploreViewModel{
         ///     - text: set of character/string that would like  to be checked.
         locationManager.locationObjectObserver.subscribe(onNext: { [self] (value) in
             locationObject.accept(value)
+            print("object\(value.longitude) \(value.latitude)")
         },onError: { error in
           print(error)
         }).disposed(by: bags)
