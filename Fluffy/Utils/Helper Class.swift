@@ -7,6 +7,15 @@
 
 import UIKit
 
+
+//MARK: -GENERIC FUNCTION CLASS
+/// - Parameter strInt: price int value
+/// - Returns: price formatted rp in string value
+public func changeNumericToCurrency(strInt : Int) -> String {
+    let finaleString = "\(strInt)00".currencyInputFormatting()
+    return finaleString
+}
+
 //MARK: -GENERIC FUNCTION CLASS
 /// Returns UIAlertController
 /// from reactive library errorr

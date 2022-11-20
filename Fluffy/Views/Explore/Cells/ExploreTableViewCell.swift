@@ -85,7 +85,7 @@ extension ExploreTableViewCell{
         distanceLabel.text = petHotels.petHotelDistance
         distanceLabel.numberOfLines = 1
         exploreImage.sd_setImage(with: URL(string: petHotels.petHotelImage))
-        priceLabel.text = petHotels.petHotelStartPrice
+        priceLabel.text = "Rp \(petHotels.petHotelStartPrice)"
 //        let formatter = NumberFormatter()
 //        formatter.locale = Locale(identifier: "id_ID")
 //        formatter.groupingSeparator = "."

@@ -8,8 +8,8 @@
 import UIKit
 
 class PetSizeExplainationTableViewCell: UITableViewCell {
-    //MARK: SubViews
     
+    //MARK: SubViews
     private lazy var petType:ReuseableLabel = {
         let label = ReuseableLabel(labelText: "", labelType: .titleH2, labelColor: .black)
         return label
@@ -60,9 +60,8 @@ extension PetSizeExplainationTableViewCell{
 
 // MARK: - Public
 extension PetSizeExplainationTableViewCell {
-    func configureView(petTypeString:String, description:String) {
-        petType.text = petTypeString
-        
-        descriptionLabel.text = description
+    func configureView(_ supportedPetType : SupportedPetTypeDetail) {
+        petType.text          = "Kucing \(supportedPetType.supportedPetTypeSize) (\(supportedPetType.supportedPetTypeShortSize)) "
+        descriptionLabel.text = "Kucing \(supportedPetType.supportedPetTypeSize) merupakan kucing dengan ukuran panjang kurang dari xx cm. Ras kucing yang biasanya termasuk kucing \(supportedPetType.supportedPetTypeSize) adalah xxx, xxx, dan xxx."
     }
 }

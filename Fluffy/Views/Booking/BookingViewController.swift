@@ -199,12 +199,29 @@ class BookingViewController: UIViewController {
             cell.backgroundColor = .clear
             cell.orderDetailArray.accept(model.orderDetail)
             
+            //MARK: - Observer for Pet Type Value
+            /// Returns boolean true or false
+            /// from the given components.
+            /// - Parameters:
+            ///     - allowedCharacter: character subset that's allowed to use on the textfield
+            ///     - text: set of character/string that would like  to be checked.
             cell.leftButton.rx.tap.bind { [self] in
-                if let tabBarController = self.navigationController?.tabBarController  {
-                    tabBarController.selectedIndex = 1
+                switch bookingPesananObject.value {
+                    case .aktif:
+                        if let tabBarController = self.navigationController?.tabBarController  {
+                            tabBarController.selectedIndex = 1
+                        }
+                    default:
+                        print("nothing")
                 }
             }.disposed(by: bags)
             
+            //MARK: - Observer for Pet Type Value
+            /// Returns boolean true or false
+            /// from the given components.
+            /// - Parameters:
+            ///     - allowedCharacter: character subset that's allowed to use on the textfield
+            ///     - text: set of character/string that would like  to be checked.
             cell.rightButton.rx.tap.bind { [self] in
                 if bookingOnceableObject.value {
                     bookingOnceableObject.accept(false)

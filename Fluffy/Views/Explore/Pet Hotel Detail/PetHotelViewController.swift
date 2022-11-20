@@ -495,7 +495,7 @@ class PetHotelViewController: UIViewController {
                 descriptionLabel.text = value.petHotelDescription
                 detailedLocation.text = "\(value.petHotelAddress), \(value.petHotelKelurahan), \(value.petHotelKecamatan), \(value.petHotelKota), \(value.petHotelProvinsi) \(value.petHotelPos)"
                 locationLabel.text    = "\(value.petHotelKota), \(value.petHotelProvinsi)"
-                price.text            = "Rp.\(value.petHotelStartPrice)"
+                price.text            = "Rp \(value.petHotelStartPrice)"
                 var cancelSop = String()
                 for sop in value.cancelSOP {
                     cancelSop += "\(sop.cancelSopsDescription)\n\n"
@@ -522,6 +522,7 @@ class PetHotelViewController: UIViewController {
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
         supportedPetModelArray.bind(to: petTypeCollectionView.rx.items(cellIdentifier:  PetTypeCollectionViewCell.cellId, cellType: PetTypeCollectionViewCell.self)) { row, model, cell in
+            cell.delegate = self
             cell.configure(model, model.supportedPetTypes)
         }.disposed(by: bags)
         
@@ -631,6 +632,16 @@ class PetHotelViewController: UIViewController {
             vc.petHotelModel.accept(petHotelModel.value)
             self.navigationController?.pushViewController(vc, animated: true)
         }.disposed(by: bags)
+    }
+}
+
+@available(iOS 16.0, *)
+extension PetHotelViewController : SelectPetTypeProtocol {
+    func selectPetTypeProtocol(cell: PetTypeCollectionViewCell) {
+        let index = petTypeCollectionView.indexPath(for: cell)?.row
+        let petViewController = PetSizeViewController()
+        petViewController.supportedPetModelArray.accept(supportedPetModelArray.value[index!].supportedPetTypes)
+        present(petViewController, animated: true)
     }
 }
 
