@@ -51,7 +51,7 @@ class CatatanKhususTableViewCell: UITableViewCell {
             
             details.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             details.topAnchor.constraint(equalTo: titleLbl.bottomAnchor, constant: 4),
-            
+            details.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -40),
             chevronRight.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             chevronRight.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
         ])
@@ -73,6 +73,7 @@ class CatatanKhususTableViewCell: UITableViewCell {
     }
     
     func configure(_ orderDetailBody : OrderDetailBody){
+        details.numberOfLines = 1
         if orderDetailBody.isExpanded {
             if orderDetailBody.customSOP.isEmpty {
                 details.text =  "Tambah catatan khusus"

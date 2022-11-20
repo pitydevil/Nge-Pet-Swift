@@ -71,8 +71,6 @@ class ExploreTableViewCell: UITableViewCell {
     //MARK: - layoutSubviews
     override func layoutSubviews() {
         super.layoutSubviews()
-
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 32, right: 0))
     }
 }
 
@@ -86,13 +84,6 @@ extension ExploreTableViewCell{
         distanceLabel.numberOfLines = 1
         exploreImage.sd_setImage(with: URL(string: petHotels.petHotelImage))
         priceLabel.text = "Rp \(petHotels.petHotelStartPrice)"
-//        let formatter = NumberFormatter()
-//        formatter.locale = Locale(identifier: "id_ID")
-//        formatter.groupingSeparator = "."
-//        formatter.numberStyle = .decimal
-//        if let formattedTipAmount = formatter.string(from: lowestPrice as NSNumber){
-//            priceLabel.text = "Rp" + formattedTipAmount
-//        }
     }
     
     private func imageConstraints() {
@@ -127,11 +118,9 @@ extension ExploreTableViewCell{
         redRectangle.layer.cornerRadius = 12
         redRectangle.layer.maskedCorners = [.layerMaxXMaxYCorner, .layerMinXMaxYCorner]
         
-        
         priceLabel.centerYAnchor.constraint(equalTo: redRectangle.centerYAnchor).isActive = true
         priceLabel.rightAnchor.constraint(equalTo: self.rightAnchor,constant: -20).isActive = true
         priceLabel.textAlignment = .right
-        
         
         BeforePriceLabel.rightAnchor.constraint(equalTo: priceLabel.leftAnchor, constant: -8).isActive = true
         BeforePriceLabel.centerYAnchor.constraint(equalTo: redRectangle.centerYAnchor).isActive = true

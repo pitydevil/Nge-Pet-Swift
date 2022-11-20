@@ -50,7 +50,7 @@ class HotelPackageViewController: UIViewController {
     private lazy var modalTableView: UITableView = {
         let modalTableView = UITableView(frame: CGRect(), style: .plain)
         modalTableView.backgroundColor = UIColor(named: "grey3")
-        modalTableView.delegate = self
+      
         modalTableView.register(HotelPackageTableViewCell.self, forCellReuseIdentifier: HotelPackageTableViewCell.identifier)
         modalTableView.translatesAutoresizingMaskIntoConstraints = false
         modalTableView.allowsMultipleSelection = false
@@ -176,6 +176,14 @@ class HotelPackageViewController: UIViewController {
             petHotelModelObject.accept(petHotelArray)
             dismiss(animated: true)
         }).disposed(by: bags)
+        
+        //MARK: - Bind Journal List with Table View
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        modalTableView.rx.setDelegate(self).disposed(by: bags)
     }
 }
 
