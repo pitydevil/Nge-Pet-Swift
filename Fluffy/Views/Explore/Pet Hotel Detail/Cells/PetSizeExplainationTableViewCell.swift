@@ -62,6 +62,6 @@ extension PetSizeExplainationTableViewCell{
 extension PetSizeExplainationTableViewCell {
     func configureView(_ supportedPetType : SupportedPetTypeDetail) {
         petType.text          = "Kucing \(supportedPetType.supportedPetTypeSize) (\(supportedPetType.supportedPetTypeShortSize)) "
-        descriptionLabel.text = "Kucing \(supportedPetType.supportedPetTypeSize) merupakan kucing dengan ukuran panjang kurang dari xx cm. Ras kucing yang biasanya termasuk kucing \(supportedPetType.supportedPetTypeSize) adalah xxx, xxx, dan xxx."
+        descriptionLabel.text = supportedPetType.supportedPetTypeDescription
     }
 }
