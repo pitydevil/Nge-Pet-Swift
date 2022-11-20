@@ -55,7 +55,6 @@ class CatatanKhususTableViewCell: UITableViewCell {
             chevronRight.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
             chevronRight.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
         ])
-        
     }
     
     required init?(coder: NSCoder) {

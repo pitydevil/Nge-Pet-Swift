@@ -39,7 +39,7 @@ class ExploreViewController: UIViewController {
     private let scrollView:UIScrollView = {
         let scroll = UIScrollView()
         scroll.translatesAutoresizingMaskIntoConstraints = false
-        scroll.backgroundColor = UIColor(named: "grey3")
+        scroll.backgroundColor = UIColor(named: "primaryMain")
         scroll.showsVerticalScrollIndicator = false
         return scroll
     }()
@@ -201,7 +201,7 @@ class ExploreViewController: UIViewController {
         contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        contentView.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor, constant: 1000).isActive = true
+        contentView.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor, constant: 216).isActive = true
         contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
         contentViewHeightConstraint = contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 216)
         contentViewHeightConstraint!.isActive = true
@@ -342,9 +342,9 @@ class ExploreViewController: UIViewController {
             petHotelList.accept(value)
             DispatchQueue.main.async { [self] in
                 refreshControl.endRefreshing()
-                tableViewHeightConstraint!.constant = CGFloat(petHotelList.value.count * 450)
-                scrollViewHeightConstraint!.constant = CGFloat(petHotelList.value.count * 450)
-                contentViewHeightConstraint!.constant =  CGFloat(petHotelList.value.count * 450)
+                tableViewHeightConstraint!.constant = CGFloat(petHotelList.value.count * 216)
+                scrollViewHeightConstraint!.constant = CGFloat(petHotelList.value.count * 216)
+                contentViewHeightConstraint!.constant =  CGFloat(petHotelList.value.count * 216)
                 tableView.layoutIfNeeded()
                 contentView.layoutIfNeeded()
                 scrollView.layoutIfNeeded()
