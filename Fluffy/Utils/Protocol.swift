@@ -22,7 +22,6 @@ protocol Endpoint {
 }
 
 //MARK: - PET CORE DATA PROTOCOL
-
 protocol DatabaseRequestProtocol {
      func callDatabase<T: Codable>() -> Observable<T>
 }
@@ -30,4 +29,8 @@ protocol DatabaseRequestProtocol {
 //MARK: - SELECT BOOKING DETAILS PROTOCOL
 protocol SelectPetProtocol {
     func selectPetProtocol(cell : SelectBookingDetailsTableViewCell)
+}
+
+protocol SelectPetTypeProtocol {
+    func selectPetTypeProtocol(cell : PetTypeCollectionViewCell)
 }

@@ -57,11 +57,11 @@ extension HargaTableViewCell{
 // MARK: - Public
 extension HargaTableViewCell {
     func configureCell(_ package : Package) {
-        self.detailHarga.text = "Rp. \(package.packagePrice) per hari"
-        self.subtotal.text    = "Rp. \(package.packagePrice)"
+        self.detailHarga.text = changeNumericToCurrency(strInt:  Int(package.packagePrice) ?? 0)
+        self.subtotal.text    = changeNumericToCurrency(strInt: Int(package.packagePrice) ?? 0)
     }
     
     func configureHarga(_ order : OrderDetailBody) {
-        self.detailHarga.text = "Rp. \(order.orderDetailPrice)"
+        self.detailHarga.text = changeNumericToCurrency(strInt: Int(order.orderDetailPrice) )
     }
 }

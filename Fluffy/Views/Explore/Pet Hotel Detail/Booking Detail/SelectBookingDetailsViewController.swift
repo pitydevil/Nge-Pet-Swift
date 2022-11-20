@@ -176,7 +176,7 @@ class SelectBookingDetailsViewController: UIViewController {
             }
             DispatchQueue.main.async { [self] in
                 selectedPet.text = "\(counterHewan) Hewan Dipilih"
-                price.text       = "Rp.\(orderDetailPrice)"
+                price.text       =  changeNumericToCurrency(strInt: orderDetailPrice)
                 btmBar.barBtn.isEnabled = counterHewan == 0 ? false : true
             }
         },onError: { error in
@@ -294,6 +294,13 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
             let vc = HotelPackageViewController()
             vc.hotelPackageBodyObject.accept(HotelPackageBody(petHotelID: petHotelIDObject.value, supportedPetName: filteredPetArrayObject.value[indexPath.section].petType))
             vc.petHotelModelObject.accept(filteredPetArrayObject.value[indexPath.section])
+            
+            //MARK: - INIT OBJECT
+            /// Retujrn NULL
+            /// from the given components.
+            /// - Parameters:
+            ///     - allowedCharacter: character subset that's allowed to use on the textfield
+            ///     - text: set of character/string that would like  to be checked.
             vc.petHotelModelObserver.subscribe(onNext: { [self] (value) in
                 var tempFilteredPetArrayObject = filteredPetArrayObject.value
                 tempFilteredPetArrayObject[indexPath.section] = value
@@ -302,6 +309,7 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
             },onError: { error in
                 self.present(errorAlert(), animated: true)
             }).disposed(by: bags)
+            
             vc.modalPresentationStyle = .pageSheet
             
             if filteredPetArrayObject.value[indexPath.section].isExpanded {
@@ -311,6 +319,13 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
             let vc = CatatanViewController()
             vc.sopModelArrayObject.accept(filteredPetArrayObject.value[indexPath.section].customSOP)
             vc.petHotelModelObject.accept(filteredPetArrayObject.value[indexPath.section])
+            
+            //MARK: - INIT OBJECT
+            /// Retujrn NULL
+            /// from the given components.
+            /// - Parameters:
+            ///     - allowedCharacter: character subset that's allowed to use on the textfield
+            ///     - text: set of character/string that would like  to be checked.
             vc.petHotelModelObserver.subscribe(onNext: { [self] (value) in
                 var tempFilteredPetArrayObject = filteredPetArrayObject.value
                 tempFilteredPetArrayObject[indexPath.section] = value

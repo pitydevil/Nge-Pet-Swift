@@ -249,7 +249,7 @@ class DateSelectionViewController: UIViewController {
         ///     - text: set of character/string that would like  to be checked.
         orderAddObjectObserver.subscribe(onNext: { [self] (value) in
             DispatchQueue.main.async { [self] in
-                price.text = "Rp.\(value.orderTotalPrice)"
+                price.text =  changeNumericToCurrency(strInt: value.orderTotalPrice)
             }
         },onError: { error in
             self.present(errorAlert(), animated: true)

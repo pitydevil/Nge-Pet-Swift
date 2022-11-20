@@ -6,16 +6,25 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class PetSizeViewController: UIViewController {
 
+    //MARK: - OBSERVER OBJECT DECLARATION
+    var supportedPetModelArray   = BehaviorRelay<[SupportedPetTypeDetail]>(value: [])
+    
+    //MARK: - OBSERVER OBJECT DECLARATION
+    private var supportedPetModelArrayObservable : Observable<[SupportedPetTypeDetail]> {
+        return supportedPetModelArray.asObservable()
+    }
+    
     //MARK: Subviews
     private lazy var customBar: ReusableTabBar = {
         let customBar = ReusableTabBar(btnText: "Tutup", showText: .notShow)
         customBar.barBtn.isEnabled = true
-        customBar.barBtn.configuration?.baseBackgroundColor = UIColor(named: "grey2")
+        customBar.barBtn.configuration?.baseBackgroundColor = UIColor(named: "primaryMain")
         customBar.barBtn.configuration?.baseForegroundColor = UIColor(named: "white")
-        customBar.barBtn.addTarget(self, action: #selector(dismissModal), for: .touchUpInside)
         return customBar
     }()
     
@@ -29,7 +38,6 @@ class PetSizeViewController: UIViewController {
     private lazy var petSizeTableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate = self
-        tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = .clear
         tableView.register(PetSizeExplainationTableViewCell.self, forCellReuseIdentifier: PetSizeExplainationTableViewCell.cellId)
@@ -43,13 +51,7 @@ class PetSizeViewController: UIViewController {
         return tableView
     }()
     
-    @objc func dismissModal() {
-        dismiss(animated: true)
-    }
-    
-    //MARK: viewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    private func setupUI() {
         view.backgroundColor = UIColor(named: "white")
         view.addSubview(headline)
         view.addSubview(petSizeTableView)
@@ -69,21 +71,44 @@ class PetSizeViewController: UIViewController {
         petSizeTableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
         petSizeTableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
     }
+    
+    //MARK: viewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        setupUI()
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        customBar.barBtn.rx.tap.bind { [self] in
+            dismiss(animated: true)
+        }.disposed(by: bags)
+                
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        supportedPetModelArray.bind(to: petSizeTableView.rx.items(cellIdentifier:  PetSizeExplainationTableViewCell.cellId, cellType: PetSizeExplainationTableViewCell.self)) { row, model, cell in
+            cell.configureView(model)
+            cell.backgroundColor = .clear
+        }.disposed(by: bags)
+    }
 }
 
 //MARK: UITableViewDelegate, UITableViewDataSource
-extension PetSizeViewController:UITableViewDelegate, UITableViewDataSource{
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: PetSizeExplainationTableViewCell.cellId) as! PetSizeExplainationTableViewCell
-        cell.configureView(petTypeString: "Kucing Kecil (S)", description: "Kucing kecil merupakan kucing dengan ukuran panjang kurang dari xx cm. Ras kucing yang biasanya termasuk kucing kecil adalah xxx, xxx, dan xxx.")
-        cell.backgroundColor = .clear
-        return cell
-    }
-    
+extension PetSizeViewController : UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 128
     }

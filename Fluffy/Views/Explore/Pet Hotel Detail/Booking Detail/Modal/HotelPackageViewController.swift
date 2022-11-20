@@ -17,7 +17,7 @@ class HotelPackageViewController: UIViewController {
     private var petHotelPackageSelectedModel   = BehaviorRelay<PetHotelPackage>(value: PetHotelPackage(packageID: 0, packageName: "", packagePrice: "", petHotelID: "", supportedPetID: "", packageDetail: [PackageDetail]()))
     var hotelPackageBodyObject                  = BehaviorRelay<HotelPackageBody>(value: HotelPackageBody(petHotelID: 0, supportedPetName: ""))
     
-    var petHotelModelObject                     = BehaviorRelay<OrderDetailBody>(value: OrderDetailBody(petName: "", petType: "", petSize: "", petData: "", packageID: 0, orderDetailPrice: 0, isExpanded: false, customSOP: [CustomSopBody]()))
+    var petHotelModelObject                     = BehaviorRelay<OrderDetailBody>(value: OrderDetailBody(petName: "", petType: "", petSize: "", packagename: "", petData: "", packageID: 0, orderDetailPrice: 0, isExpanded: false, customSOP: [CustomSopBody]()))
     
     
     //MARK: OBJECT OBSERVER DECLARATION
@@ -162,10 +162,17 @@ class HotelPackageViewController: UIViewController {
             cell.configure(model)
         }.disposed(by: bags)
         
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         modalTableView.rx.itemSelected.subscribe(onNext: { [self] (indexPath) in
             var petHotelArray = petHotelModelObject.value
             petHotelArray.packageID = petHotelPackageModelArray.value[indexPath.row].packageID
             petHotelArray.orderDetailPrice = Int(petHotelPackageModelArray.value[indexPath.row].packagePrice) ?? 0
+            petHotelArray.packagename = petHotelPackageModelArray.value[indexPath.row].packageName
             petHotelModelObject.accept(petHotelArray)
             dismiss(animated: true)
         }).disposed(by: bags)

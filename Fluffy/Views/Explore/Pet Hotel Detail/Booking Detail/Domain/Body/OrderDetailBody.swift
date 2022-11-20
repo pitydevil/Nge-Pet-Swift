@@ -8,7 +8,7 @@
 import Foundation
 
 struct OrderDetailBody : Decodable {
-    var petName, petType, petSize, petData : String
+    var petName, petType, petSize, petData, packagename : String
     var packageID, orderDetailPrice : Int
     var isExpanded : Bool
     var customSOP : [CustomSopBody]
