@@ -12,7 +12,7 @@ import RxCocoa
 class CatatanViewController: UIViewController {
     
     //MARK: - OBJECT DECLARATION
-    var petHotelModelObject                     = BehaviorRelay<OrderDetailBody>(value: OrderDetailBody(petName: "", petType: "", petSize: "", packagename: "", packageID: 0, orderDetailPrice: 0, isExpanded: false, customSOP: [CustomSopBody]()))
+    var petHotelModelObject                     = BehaviorRelay<OrderDetailBody>(value: OrderDetailBody(petName: "", petType: "", petSize: "", petData: "", packagename: "", packageID: 0, orderDetailPrice: 0, isExpanded: false, customSOP: [CustomSopBody]()))
     var customSOPModelArrayObject               = BehaviorRelay<[String]>(value: [])
     var sopModelArrayObject               = BehaviorRelay<[CustomSopBody]>(value: [])
         

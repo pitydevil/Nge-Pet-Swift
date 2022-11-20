@@ -33,8 +33,8 @@ class PetIconCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             petImageView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             petImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            petImageView.widthAnchor.constraint(equalToConstant: 52),
-            petImageView.heightAnchor.constraint(equalToConstant: 52),
+            petImageView.widthAnchor.constraint(equalToConstant: 92),
+            petImageView.heightAnchor.constraint(equalToConstant: 92),
         ])
     }
     

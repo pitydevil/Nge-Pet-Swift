@@ -8,14 +8,14 @@
 import Foundation
 
 struct OrderDetailBody : Decodable {
-    var petName, petType, petSize, packagename : String
+    var petName, petType, petSize, petData, packagename : String
     var packageID, orderDetailPrice : Int
     var isExpanded : Bool
     var customSOP : [CustomSopBody]
 }
 
 struct OrderDetailBodyFinal : Decodable {
-    var petName, petType, petSize : String
+    var petName, petType, petSize, petData : String
     var packageID : Int
     var customSOP : [CustomSopBody]
 }

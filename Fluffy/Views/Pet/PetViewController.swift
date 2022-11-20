@@ -54,7 +54,7 @@ class PetViewController: UIViewController {
         view.addSubview(modalTableView)
         NSLayoutConstraint.activate([
             modalTableView.topAnchor.constraint(equalTo: view.topAnchor),
-            modalTableView.widthAnchor.constraint(equalToConstant: 342),
+            modalTableView.widthAnchor.constraint(equalToConstant: view.frame.width - 48),
             modalTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             modalTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
         ])
