@@ -84,7 +84,7 @@ extension SelectPackageTableViewCell {
     public func configure(_ orderDetailBody : OrderDetailBody){
         if orderDetailBody.isExpanded {
             if orderDetailBody.packageID != -1 {
-                details.text = "Paket anda adalah: \(orderDetailBody.packageID)"
+                details.text = "Paket anda adalah: \(orderDetailBody.packagename)"
             }else {
                 details.text = "Pilih paket hotel"
             }

@@ -61,3 +61,32 @@ extension UIApplication {
         return value(forKey: "statusBar") as? UIView
     }
 }
+
+//MARK: - STRING EXTENSION
+extension String {
+    func currencyInputFormatting() -> String {
+
+        var number: NSNumber!
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currencyAccounting
+        formatter.currencySymbol = "Rp"
+        formatter.maximumFractionDigits = 2
+        formatter.minimumFractionDigits = 0
+
+        var amountWithPrefix = self
+
+        // remove from String: "$", ".", ","
+        let regex = try! NSRegularExpression(pattern: "[^0-9]", options: .caseInsensitive)
+        amountWithPrefix = regex.stringByReplacingMatches(in: amountWithPrefix, options: NSRegularExpression.MatchingOptions(rawValue: 0), range: NSMakeRange(0, self.count), withTemplate: "")
+
+        let double = (amountWithPrefix as NSString).doubleValue
+        number = NSNumber(value: (double / 100))
+
+        return formatter.string(from: number)!
+    }
+}
+
+//MARK: - NOTIFICATION EXTENSION
+extension Notification.Name {
+     static let orderName = Notification.Name("orderName")
+}

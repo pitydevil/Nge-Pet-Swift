@@ -65,8 +65,6 @@ class ExploreViewModel{
         },onError: { error in
           print(error)
         }).disposed(by: bags)
-        
-        defaults.setValue(1, forKey: "userID")
     }
     
     //MARK: - OBJECT DECLARATION
@@ -80,6 +78,18 @@ class ExploreViewModel{
             jumlahHewanObject.accept("Semua Hewan")
         }else {
             jumlahHewanObject.accept("\(petBody.value.count) hewan dipilih")
+        }
+    }
+    
+    //MARK: - OBJECT DECLARATION
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
+    func checkUUIDUser() {
+        if defaults.value(forKey: "userID") == nil {
+            defaults.setValue(Int.random(in: 1...100000000), forKey: "userID")
         }
     }
     

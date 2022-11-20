@@ -271,6 +271,15 @@ class ExploreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        NotificationCenter.default.addObserver(self, selector: #selector(changeToTabBar(notification:)), name: .orderName, object: nil)
+        
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
         /// from the given components.
@@ -287,6 +296,7 @@ class ExploreViewController: UIViewController {
         ///     - text: set of character/string that would like  to be checked.
         Task {
             exploreViewModel.getAllPet()
+            exploreViewModel.checkUUIDUser()
             await exploreViewModel.fetchExploreList()
         }
         
@@ -546,6 +556,19 @@ class ExploreViewController: UIViewController {
         modalSelectPetViewController.modalPresentationStyle = .pageSheet
         modalSelectPetViewController.isModalInPresentation  = true
         present(modalSelectPetViewController, animated: true)
+    }
+    
+    
+    //MARK: - Bind Journal List with Table View
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
+    @objc func changeToTabBar(notification: NSNotification) {
+        if let tabBarController = self.navigationController?.tabBarController  {
+            tabBarController.selectedIndex = 3
+        }
     }
 }
 

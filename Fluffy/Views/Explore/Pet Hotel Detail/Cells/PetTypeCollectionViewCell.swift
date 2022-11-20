@@ -9,6 +9,9 @@ import UIKit
 
 class PetTypeCollectionViewCell: UICollectionViewCell {
     
+    //MARK: - OBJECT DECLARATION
+    var delegate : SelectPetTypeProtocol?
+    
     // MARK: - SubViews
     private lazy var icon:UIImageView = {
        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 28, height: 28))
@@ -21,6 +24,9 @@ class PetTypeCollectionViewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(systemName: "info.circle")
         imageView.tintColor = UIColor(named: "secondaryMain")
+        imageView.isUserInteractionEnabled = true
+        let tapped = UITapGestureRecognizer(target: self, action: #selector(tapImage))
+        imageView.addGestureRecognizer(tapped)
         return imageView
     }()
 
@@ -48,6 +54,16 @@ class PetTypeCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupUI()
+    }
+    
+    //MARK: - Observer for Pet Type Value
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
+    @objc private func tapImage() {
+        delegate?.selectPetTypeProtocol(cell: self)
     }
 }
 
@@ -99,6 +115,3 @@ extension PetTypeCollectionViewCell {
         }
     }
 }
-
-
-

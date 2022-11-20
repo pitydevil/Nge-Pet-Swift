@@ -466,18 +466,22 @@ class BookingConfirmationViewController: UIViewController {
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
         bookingConfirmationViewModel.genericHandlingErrorObserver.skip(1).subscribe(onNext: { [self] (value) in
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { [self] in
                 switch value {
                 case .objectNotFound:
-                    self.present(genericAlert(titleAlert: "Add Order Tidak Ada!", messageAlert: "Add Order tidak ada, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
+                    present(genericAlert(titleAlert: "Add Order Tidak Ada!", messageAlert: "Add Order tidak ada, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
                 case .success:
-                    self.present(genericAlert(titleAlert: "Order Berhasil!", messageAlert: "Add Order Berhasil, silahkan cek booking kamu di menu booking.", buttonText: "Ok"), animated: true) {
-                        self.dismiss(animated: true) {
-                            self.navigationController?.popToRootViewController(animated: true)
+                    let alert = UIAlertController(title: "Order Berhasil!", message: "Add Order Berhasil, silahkan cek booking kamu di menu booking." , preferredStyle: .alert)
+                    let okay  = UIAlertAction(title: "Ok", style: .default) { [self] uialertaction in
+                        navigationController?.popToRootViewController(animated: true)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                            NotificationCenter.default.post(name: .orderName, object: nil)
                         }
                     }
+                    alert.addAction(okay)
+                    present(alert, animated: true)
                 default:
-                    self.present(genericAlert(titleAlert: "Terjadi Gangguan server!", messageAlert: "Terjadi kesalahan dalam melakukan pencarian booking, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
+                    present(genericAlert(titleAlert: "Terjadi Gangguan server!", messageAlert: "Terjadi kesalahan dalam melakukan pencarian booking, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
                 }
             }
         },onError: { error in
@@ -522,8 +526,8 @@ class BookingConfirmationViewController: UIViewController {
             
             DispatchQueue.main.async { [self] in
                 detailTanggal.text = "\(value.orderDateCheckIn) - \(value.orderDateCheckOu)"
-                totalHargaDetail.text = "Rp.\(value.orderTotalPrice)"
-                price.text            = "Rp.\(value.orderTotalPrice)"
+                totalHargaDetail.text = changeNumericToCurrency(strInt: value.orderTotalPrice)
+                price.text            = changeNumericToCurrency(strInt: value.orderTotalPrice)
                 hargaTableHeightConstant!.constant = CGFloat(numHarga*36)
                 paketTableHeightConstant!.constant = CGFloat(numPackage*18)
                 view.layoutIfNeeded()

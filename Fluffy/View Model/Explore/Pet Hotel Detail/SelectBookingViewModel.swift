@@ -39,7 +39,7 @@ class SelectBookingViewModel {
         petArray?.subscribe(onNext: { (value) in
             var petModel = [OrderDetailBody]()
             for pet in value {
-                petModel.append(OrderDetailBody(petName: pet.petName!, petType: pet.petType!, petSize: pet.petSize!, packageID: -1, orderDetailPrice: 0, isExpanded: false, customSOP: [CustomSopBody]()))
+                petModel.append(OrderDetailBody(petName: pet.petName!, petType: pet.petType!, petSize: pet.petSize!, packagename: "", packageID: -1, orderDetailPrice: 0, isExpanded: false, customSOP: [CustomSopBody]()))
             }
             self.petModelObjectArray.accept(petModel)
         }, onError: { (error) in
