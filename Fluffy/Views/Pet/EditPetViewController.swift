@@ -32,7 +32,7 @@ class EditPetViewController: UIViewController {
         return petSizeObject.asObservable()
     }
     
-    private let petIconDataObject  = BehaviorRelay<[String]>(value: ["dog1","dog2","dog3","dog4","dog5","dog6","dog7","dog8","dog9"])
+    private let petIconDataObject  = BehaviorRelay<[String]>(value: ["dog1","dog2","dog3","dog4","dog5","dog6","dog7","dog8","dog9","cat1", "cat2", "cat3","cat4","cat5","cat6","cat7","cat8","cat9"])
     private let petSizeArrayObject = BehaviorRelay<[String]>(value: ["Kecil", "Sedang", "Besar"])
     
 

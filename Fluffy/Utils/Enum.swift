@@ -61,6 +61,15 @@ enum petIconCase : String {
     case dog7 = "dog7"
     case dog8 = "dog8"
     case dog9 = "dog9"
+    case cat1 = "cat1"
+    case cat2 = "cat2"
+    case cat3 = "cat3"
+    case cat4 = "cat4"
+    case cat5 = "cat5"
+    case cat6 = "cat6"
+    case cat7 = "cat7"
+    case cat8 = "cat8"
+    case cat9 = "cat9"
 }
 
 enum addPetErrorCase  {

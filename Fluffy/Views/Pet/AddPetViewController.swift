@@ -17,7 +17,7 @@ class AddPetViewController: UIViewController {
     private var petTypeObject      = BehaviorRelay<petTypeCase>(value: .kucing)
     private var petIconObject      = BehaviorRelay<petIconCase>(value: .dog1)
     private var petSizeObject      = BehaviorRelay<petSizeCase>(value: .kecil)
-    private let petIconDataObject  = BehaviorRelay<[String]>(value: ["dog1","dog2","dog3","dog4","dog5","dog6","dog7","dog8","dog9"])
+    private let petIconDataObject  = BehaviorRelay<[String]>(value: ["dog1","dog2","dog3","dog4","dog5","dog6","dog7","dog8","dog9", "cat1", "cat2", "cat3","cat4","cat5","cat6","cat7","cat8","cat9"])
     private let petSizeArrayObject = BehaviorRelay<[String]>(value: ["Kecil", "Sedang", "Besar"])
     
     //MARK: - Observable Variable Declaration
