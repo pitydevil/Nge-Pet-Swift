@@ -114,7 +114,7 @@ class SelectBookingDetailsTableViewCell: UITableViewCell {
     }
     
     func configure(_ pets: OrderDetailBody){
-        icon.image = UIImage(named: "dog1")
+        icon.image = UIImage(named: pets.petData)
         petName.text = "\(pets.petName )"
         petSize.text = "\(pets.petSize )"
         petRace.text = " - \(pets.petType )"

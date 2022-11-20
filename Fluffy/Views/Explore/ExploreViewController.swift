@@ -158,7 +158,7 @@ class ExploreViewController: UIViewController {
     private func setupUI(){
         navigationController?.isNavigationBarHidden = true
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .done, target: nil, action: nil)
-        view.backgroundColor = UIColor(named: "grey3")
+        view.backgroundColor = UIColor(named: "primaryMain")
         navigationController?.navigationBar.tintColor = UIColor(named: "primaryMain")
         
         view.addSubview(scrollView)
@@ -176,11 +176,11 @@ class ExploreViewController: UIViewController {
         contentView.addSubview(searchPetView)
         contentView.addSubview(roundedCorner)
         contentView.addSubview(tableView)
-        
+
         //MARK: Scroll View Constraints
         scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         scrollView.widthAnchor.constraint(equalTo: view.widthAnchor).isActive = true
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height / 15).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         scrollView.refreshControl = refreshControl
         scrollView.refreshControl?.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
@@ -190,7 +190,7 @@ class ExploreViewController: UIViewController {
         contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        contentView.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor).isActive = true
+        contentView.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor, constant: 1000).isActive = true
         contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
         
         //MARK: Red Rectangle Constraints
