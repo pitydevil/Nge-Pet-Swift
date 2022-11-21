@@ -21,7 +21,12 @@ class EditPetViewController: UIViewController {
     private var petTypeObject    = BehaviorRelay<petTypeCase>(value: .kucing)
     private var petIconObject    = BehaviorRelay<petIconCase>(value: .dog1)
     private var petSizeObject    = BehaviorRelay<petSizeCase>(value: .kecil)
-
+    private let petIconDataObject  = BehaviorRelay<[String]>(value: ["dog1","dog2","dog3","dog4","dog5","dog6","dog7","dog8","dog9", "cat1", "cat2", "cat3","cat4","cat5","cat6","cat7","cat8","cat9"])
+    private let dogDataObject  = BehaviorRelay<[String]>(value: ["dog1","dog2","dog3","dog4","dog5","dog6","dog7","dog8","dog9"])
+    private let catDataObject  = BehaviorRelay<[String]>(value: ["cat1","cat2","cat3","cat4","cat5","cat6","cat7","cat8","cat9"])
+    private let petSizeArrayObject = BehaviorRelay<[String]>(value: ["Kecil", "Sedang", "Besar"])
+    
+    //MARK: - Observable Variable Declaration
     private var petTypeObserver : Observable<petTypeCase> {
         return petTypeObject.asObservable()
     }
@@ -32,10 +37,6 @@ class EditPetViewController: UIViewController {
         return petSizeObject.asObservable()
     }
     
-    private let petIconDataObject  = BehaviorRelay<[String]>(value: ["dog1","dog2","dog3","dog4","dog5","dog6","dog7","dog8","dog9","cat1", "cat2", "cat3","cat4","cat5","cat6","cat7","cat8","cat9"])
-    private let petSizeArrayObject = BehaviorRelay<[String]>(value: ["Kecil", "Sedang", "Besar"])
-    
-
     //MARK: Subviews
     private lazy var scrollView: UIScrollView = {
         let scroll = UIScrollView()
@@ -525,9 +526,11 @@ class EditPetViewController: UIViewController {
                 case .kucing:
                     hewanAnjing.layer.borderColor = UIColor(named: "secondary5")?.cgColor
                     hewanKucing.layer.borderColor = UIColor(named: "primaryMain")?.cgColor
+                    petIconDataObject.accept(catDataObject.value)
                 case .anjing:
                     hewanAnjing.layer.borderColor = UIColor(named: "secondaryMain")?.cgColor
                     hewanKucing.layer.borderColor = UIColor(named: "primary5")?.cgColor
+                    petIconDataObject.accept(dogDataObject.value)
             }
         }).disposed(by: bags)
 
