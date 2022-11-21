@@ -73,6 +73,20 @@ class BookingViewController: UIViewController {
         return tableView
     }()
     
+    private lazy var emptyHeadline: ReuseableLabel = {
+        let emptyHeadline = ReuseableLabel(labelText: "Daftar Pesanan Kosong!", labelType: .titleH1, labelColor: .black)
+        emptyHeadline.textAlignment = .center
+        return emptyHeadline
+    }()
+    
+    private lazy var emptyImage: UIImageView = {
+        let emptyImage = UIImageView()
+        emptyImage.image = UIImage(named: "emptyPet")
+        emptyImage.contentMode = .scaleAspectFit
+        emptyImage.translatesAutoresizingMaskIntoConstraints = false
+        return emptyImage
+    }()
+    
     private func setupUI() {
         view.backgroundColor = UIColor(named: "grey3")
         self.navigationItem.titleView = navTitle
@@ -80,12 +94,43 @@ class BookingViewController: UIViewController {
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         view.addSubview(segmentedControl)
         haptic.prepare()
-        view.addSubview(tableView)
-        tableView.estimatedRowHeight = 302
-        
+       
         segmentedControl.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
         segmentedControl.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 24).isActive = true
         segmentedControl.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -24).isActive = true
+
+    }
+    
+    //MARK: - Setup Layout
+    private func emptyOrder(){
+        tableView.removeFromSuperview()
+        
+        //MARK: - Add Subview Empty Order
+        view.addSubview(emptyHeadline)
+        view.addSubview(emptyImage)
+        
+        //MARK: - Setup Layout Empty Order
+        NSLayoutConstraint.activate([
+            
+            emptyHeadline.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyHeadline.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height / 3),
+            emptyHeadline.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            emptyHeadline.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            
+            emptyImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyImage.topAnchor.constraint(equalTo: emptyHeadline.bottomAnchor, constant: 8),
+            emptyImage.heightAnchor.constraint(equalToConstant: 270),
+            emptyImage.widthAnchor.constraint(equalToConstant: 270),
+
+        ])
+    }
+    
+    private func orderExist(){
+        emptyHeadline.removeFromSuperview()
+        emptyImage.removeFromSuperview()
+        //MARK: - Setup View
+        view.addSubview(tableView)
+        tableView.estimatedRowHeight = 302
         
         tableView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 40).isActive = true
         tableView.leftAnchor.constraint(equalTo: segmentedControl.leftAnchor).isActive = true
@@ -97,6 +142,7 @@ class BookingViewController: UIViewController {
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
         tableView.addSubview(refreshControl)
     }
+
         
     override func viewWillAppear(_ animated: Bool) {
         Task {
@@ -142,11 +188,14 @@ class BookingViewController: UIViewController {
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
         bookingViewModel.monitoringEnumCaseObserver.skip(1).subscribe(onNext: { [self] (value) in
-            switch value {
-            case .terisi:
-                print("terisi")
-            case .empty:
-                print("empty")
+            DispatchQueue.main.async {
+                // UIView usage
+                switch value {
+                case .empty:
+                    self.emptyOrder()
+                case .terisi:
+                    self.orderExist()
+                }
             }
         },onError: { error in
             self.present(errorAlert(), animated: true)

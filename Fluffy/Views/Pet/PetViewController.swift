@@ -31,7 +31,6 @@ class PetViewController: UIViewController {
     }()
     
     //MARK: - SUBVIEWS
-    
     private lazy var emptyHeadline: ReuseableLabel = {
         let emptyHeadline = ReuseableLabel(labelText: "Yah, Daftar Hewannmu Kosong!", labelType: .titleH1, labelColor: .black)
         emptyHeadline.textAlignment = .center
@@ -73,14 +72,6 @@ class PetViewController: UIViewController {
         
         navigationItem.backButtonDisplayMode = .minimal
         
-//        //MARK: - Setup View
-//        view.addSubview(modalTableView)
-//        NSLayoutConstraint.activate([
-//            modalTableView.topAnchor.constraint(equalTo: view.topAnchor),
-//            modalTableView.widthAnchor.constraint(equalToConstant: view.frame.width - 48),
-//            modalTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-//            modalTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-//        ])
     }
     
     //MARK: - Setup Layout
@@ -167,10 +158,8 @@ class PetViewController: UIViewController {
                 // UIView usage
                 switch value {
                 case .empty:
-                    print("empty")
                     self.emptyPet()
                 case .terisi:
-                    print("terisi")
                     self.petExist()
                 }
             }
