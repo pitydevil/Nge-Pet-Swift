@@ -297,8 +297,8 @@ extension BookingTableViewCell {
         }
         
         detailPaketArray     = packageArray
-        detailCheckIn.text   = order.orderDateCheckIn
-        detailCheckOut.text  = order.orderDateCheckOut
+        detailCheckIn.text   = concatenateServerDate(order.orderDateCheckIn)
+        detailCheckOut.text  = concatenateServerDate(order.orderDateCheckOut)
         status.text          = order.orderStatus
         
         if order.orderStatus == "waiting-for-confirmation"{

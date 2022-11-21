@@ -495,7 +495,8 @@ class BookingDetailViewController: UIViewController {
                     cancelSop += "\(sop.cancelSopsDescription)\n\n"
                     detailCancellation.text = cancelSop
                 }
-                detailTanggal.text      =  "\(value.orderDateCheckin) - \(value.orderDateCheckout)"
+             
+                detailTanggal.text      =  "\(concatenateServerDate(value.orderDateCheckin)) - \(concatenateServerDate(value.orderDateCheckout))"
                 detailInstruction.text  = value.petHotel.petHotelDescription
                 totalHargaDetail.text   = "Rp \(value.orderTotalPrice)"
             }

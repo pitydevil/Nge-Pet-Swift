@@ -62,6 +62,12 @@ public func changeDateIntoYYYYMMDD(_ dateObject : Date) -> String {
     return dateF.string(from: dateObject)
 }
 
+/// - Parameter dateString: date string from server that's gonna be concatenated
+/// - Returns: formatted string according to yyyy-mm-dd
+public func concatenateServerDate(_ dateString : String) -> String {
+    return dateString.components(separatedBy: " ")[0]
+}
+
 //MARK: -TEXTFIELD FUNCTION CLASS
 /// Returns boolean true or false
 /// from the given components.
