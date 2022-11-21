@@ -31,6 +31,34 @@ class SelectBookingDetailsViewController: UIViewController {
         return petHotelModel.asObservable()
     }
     
+    //MARK: - SUBVIEWS
+    private lazy var emptyHeadline: ReuseableLabel = {
+        let emptyHeadline = ReuseableLabel(labelText: "Yah, Daftar Hewannmu Kosong!", labelType: .titleH1, labelColor: .black)
+        emptyHeadline.textAlignment = .center
+        return emptyHeadline
+    }()
+    
+    private lazy var emptyImage: UIImageView = {
+        let emptyImage = UIImageView()
+        emptyImage.image = UIImage(named: "emptyPet")
+        emptyImage.contentMode = .scaleAspectFit
+        emptyImage.translatesAutoresizingMaskIntoConstraints = false
+        return emptyImage
+    }()
+    
+    private lazy var emptyCaption: ReuseableLabel = {
+        let emptyCaption = ReuseableLabel(labelText: "Yuk, Tambah Hewan dan Permudah Pencarian Hotelmu!", labelType: .bodyP1, labelColor: .grey1)
+        emptyCaption.textAlignment = .center
+        emptyCaption.spacing = 5
+        return emptyCaption
+    }()
+    
+    private lazy var addPetBtn: ReusableButton = {
+        let config = UIImage.SymbolConfiguration(weight: .bold)
+        let addPetBtn = ReusableButton(titleBtn: "Tambah Hewan", styleBtn: .normal, icon: UIImage(systemName: "plus", withConfiguration: config))
+        return addPetBtn
+    }()
+    
     private lazy var packageTableView: UITableView = {
         let tableView = UITableView(frame: CGRect(), style: .grouped)
         tableView.delegate = self
@@ -70,11 +98,45 @@ class SelectBookingDetailsViewController: UIViewController {
         return view
     }()
     
+    //MARK: - Setup Layout
     private func setupUI() {
         view.backgroundColor = UIColor(named: "grey3")
         navigationItem.titleView = setTitle(title: "Katze Nesia Cat Hotel", subtitle: "Bekasi, Jawa Barat")
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
-
+    }
+    
+    private func emptyPet(){
+        //MARK: - Add Subview Empty Pet
+        view.addSubview(emptyHeadline)
+        view.addSubview(emptyImage)
+        view.addSubview(emptyCaption)
+        view.addSubview(addPetBtn)
+        
+        //MARK: - Setup Layout Empty Pet
+        NSLayoutConstraint.activate([
+            
+            emptyHeadline.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyHeadline.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height / 4),
+            emptyHeadline.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            emptyHeadline.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            
+            emptyImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyImage.topAnchor.constraint(equalTo: emptyHeadline.bottomAnchor, constant: 8),
+            emptyImage.heightAnchor.constraint(equalToConstant: 270),
+            emptyImage.widthAnchor.constraint(equalToConstant: 270),
+            
+            emptyCaption.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyCaption.topAnchor.constraint(equalTo: emptyImage.bottomAnchor, constant: 8),
+            emptyCaption.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            emptyCaption.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            
+            addPetBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            addPetBtn.topAnchor.constraint(equalTo: emptyCaption.bottomAnchor, constant: 20),
+        ])
+    }
+    
+    private func petExist(){
+        //MARK: - Setup View
         view.addSubview(packageTableView)
         view.addSubview(btmBar)
         btmBar.addSubview(selectedPet)
@@ -157,11 +219,14 @@ class SelectBookingDetailsViewController: UIViewController {
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
         selectBookingViewModel.monitoringEnumCaseObserver.skip(1).subscribe(onNext: { (value) in
-            switch value {
-            case .terisi:
-                print("terisi")
-            case .empty:
-                print("empty")
+            DispatchQueue.main.async {
+                // UIView usage
+                switch value {
+                case .empty:
+                    self.emptyPet()
+                case .terisi:
+                    self.petExist()
+                }
             }
         },onError: { error in
             self.present(errorAlert(), animated: true)
@@ -227,6 +292,18 @@ class SelectBookingDetailsViewController: UIViewController {
             vc.petHotelModel.accept(petHotelModel.value)
             vc.orderAddObject.accept(OrderAdd(orderDateCheckIn: "", orderDateCheckOu: "", orderTotalPrice: orderTotalPrice, userID: userID, petHotelId: petHotelIDObject.value, orderDetails: orderDetailBodyFinal))
             navigationController?.pushViewController(vc, animated: true)
+        }.disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        addPetBtn.rx.tap.bind { [self] in
+            let vc = AddPetViewController()
+            vc.modalPresentationStyle = .fullScreen
+            present(vc, animated: true)
         }.disposed(by: bags)
     }
 }
