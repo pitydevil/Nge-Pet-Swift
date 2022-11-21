@@ -18,7 +18,7 @@ class FasilitasViewController: UIViewController {
     private lazy var customBar: ReusableTabBar = {
         let customBar = ReusableTabBar(btnText: "Tutup", showText: .notShow)
         customBar.barBtn.isEnabled = true
-        customBar.barBtn.configuration?.baseBackgroundColor = UIColor(named: "grey2")
+        customBar.barBtn.configuration?.baseBackgroundColor = UIColor(named: "primaryMain")
         customBar.barBtn.configuration?.baseForegroundColor = UIColor(named: "white")
         return customBar
     }()
