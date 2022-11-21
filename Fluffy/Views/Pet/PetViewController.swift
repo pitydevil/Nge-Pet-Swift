@@ -30,6 +30,28 @@ class PetViewController: UIViewController {
         return modalTableView
     }()
     
+    //MARK: - SUBVIEWS
+    private lazy var emptyHeadline: ReuseableLabel = {
+        let emptyHeadline = ReuseableLabel(labelText: "Yah, Daftar Hewannmu Kosong!", labelType: .titleH1, labelColor: .black)
+        emptyHeadline.textAlignment = .center
+        return emptyHeadline
+    }()
+    
+    private lazy var emptyImage: UIImageView = {
+        let emptyImage = UIImageView()
+        emptyImage.image = UIImage(named: "emptyPet")
+        emptyImage.contentMode = .scaleAspectFit
+        emptyImage.translatesAutoresizingMaskIntoConstraints = false
+        return emptyImage
+    }()
+    
+    private lazy var emptyCaption: ReuseableLabel = {
+        let emptyCaption = ReuseableLabel(labelText: "Yuk, Tambah Hewan dan Permudah Pencarian Hotelmu!", labelType: .bodyP1, labelColor: .grey1)
+        emptyCaption.textAlignment = .center
+        emptyCaption.spacing = 5
+        return emptyCaption
+    }()
+    
     private func setupUI() {
         view.backgroundColor = UIColor(named: "grey3")
         
@@ -50,6 +72,37 @@ class PetViewController: UIViewController {
         
         navigationItem.backButtonDisplayMode = .minimal
         
+    }
+    
+    //MARK: - Setup Layout
+    private func emptyPet(){
+        //MARK: - Add Subview Empty Pet
+        view.addSubview(emptyHeadline)
+        view.addSubview(emptyImage)
+        view.addSubview(emptyCaption)
+        
+        //MARK: - Setup Layout Empty Pet
+        NSLayoutConstraint.activate([
+            
+            emptyHeadline.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyHeadline.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height / 3),
+            emptyHeadline.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            emptyHeadline.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            
+            emptyImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyImage.topAnchor.constraint(equalTo: emptyHeadline.bottomAnchor, constant: 8),
+            emptyImage.heightAnchor.constraint(equalToConstant: 270),
+            emptyImage.widthAnchor.constraint(equalToConstant: 270),
+            
+            emptyCaption.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyCaption.topAnchor.constraint(equalTo: emptyImage.bottomAnchor, constant: 8),
+            emptyCaption.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            emptyCaption.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+
+        ])
+    }
+    
+    private func petExist(){
         //MARK: - Setup View
         view.addSubview(modalTableView)
         NSLayoutConstraint.activate([
@@ -101,11 +154,14 @@ class PetViewController: UIViewController {
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
         petViewModel.monitoringEnumCaseObserver.subscribe(onNext: { [self] (value) in
-            switch value {
-            case .empty:
-                print("empty")
-            case .terisi:
-                print("terisi")
+            DispatchQueue.main.async {
+                // UIView usage
+                switch value {
+                case .empty:
+                    self.emptyPet()
+                case .terisi:
+                    self.petExist()
+                }
             }
         },onError: { error in
             self.present(errorAlert(), animated: true)

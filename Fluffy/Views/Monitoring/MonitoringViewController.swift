@@ -57,7 +57,7 @@ class MonitoringViewController: UIViewController {
     }()
     
     private lazy var emptyHeadline: ReuseableLabel = {
-        let emptyHeadline = ReuseableLabel(labelText: "Yah, Daftar Hewannmu Kosong!", labelType: .titleH1, labelColor: .black)
+        let emptyHeadline = ReuseableLabel(labelText: "Daftar Monitoring Masih Kosong!", labelType: .titleH1, labelColor: .black)
         emptyHeadline.textAlignment = .center
         return emptyHeadline
     }()
@@ -68,13 +68,6 @@ class MonitoringViewController: UIViewController {
         emptyImage.contentMode = .scaleAspectFit
         emptyImage.translatesAutoresizingMaskIntoConstraints = false
         return emptyImage
-    }()
-    
-    private lazy var emptyCaption: ReuseableLabel = {
-        let emptyCaption = ReuseableLabel(labelText: "Yuk, Tambah Hewan dan Permudah Pencarian Hotelmu!", labelType: .bodyP1, labelColor: .grey1)
-        emptyCaption.textAlignment = .center
-        emptyCaption.spacing = 5
-        return emptyCaption
     }()
     
     private lazy var tableView: UITableView = {
@@ -109,12 +102,16 @@ class MonitoringViewController: UIViewController {
         return calendarView
     }()
     
-    private func petExist() {
+    private func setupUI(isMonitoringListExist: Bool) {
+        tableView.removeFromSuperview()
+        emptyHeadline.removeFromSuperview()
+        emptyImage.removeFromSuperview()
+        
         navigationController?.isNavigationBarHidden = true
         view.backgroundColor = UIColor(named: "grey3")
         view.addSubview(dateButton)
         view.addSubview(selectPetButton)
-        view.addSubview(tableView)
+        
         //MARK: Date Button Constraint
         dateButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 12).isActive = true
         dateButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
@@ -125,43 +122,39 @@ class MonitoringViewController: UIViewController {
         selectPetButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         selectPetButton.centerYAnchor.constraint(equalTo: dateButton.centerYAnchor).isActive = true
         
-        //MARK: Table View Constraints
-        tableView.topAnchor.constraint(equalTo: selectPetButton.bottomAnchor, constant: 40).isActive = true
-        tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
-        tableView.rightAnchor.constraint(equalTo: dateButton.rightAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        if(isMonitoringListExist == true) {
+            view.addSubview(tableView)
+            
+            //MARK: Table View Constraints
+            tableView.topAnchor.constraint(equalTo: selectPetButton.bottomAnchor, constant: 40).isActive = true
+            tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+            tableView.rightAnchor.constraint(equalTo: dateButton.rightAnchor).isActive = true
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        } else {
+            //MARK: - Add Subview Empty Pet
+            view.addSubview(emptyHeadline)
+            view.addSubview(emptyImage)
+            
+            //MARK: - Setup Layout Empty Pet
+            NSLayoutConstraint.activate([
+                emptyHeadline.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                emptyHeadline.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height / 3),
+                emptyHeadline.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+                emptyHeadline.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+                
+                emptyImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                emptyImage.topAnchor.constraint(equalTo: emptyHeadline.bottomAnchor, constant: 8),
+                emptyImage.heightAnchor.constraint(equalToConstant: 270),
+                emptyImage.widthAnchor.constraint(equalToConstant: 270),
+                
+            ])
+        }
+    
         
         //MARK: - REFRESH CONTROL
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
         tableView.addSubview(refreshControl)
-    }
-    
-    //MARK: - Setup Layout
-    private func emptyPet(){
-        //MARK: - Add Subview Empty Pet
-        view.addSubview(emptyHeadline)
-        view.addSubview(emptyImage)
-        view.addSubview(emptyCaption)
-
-        
-        //MARK: - Setup Layout Empty Pet
-        NSLayoutConstraint.activate([
-            emptyHeadline.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emptyHeadline.topAnchor.constraint(equalTo: view.topAnchor, constant: 123),
-            emptyHeadline.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            emptyHeadline.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-            
-            emptyImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emptyImage.topAnchor.constraint(equalTo: emptyHeadline.bottomAnchor, constant: 8),
-            emptyImage.heightAnchor.constraint(equalToConstant: 270),
-            emptyImage.widthAnchor.constraint(equalToConstant: 270),
-            
-            emptyCaption.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emptyCaption.topAnchor.constraint(equalTo: emptyImage.bottomAnchor, constant: 8),
-            emptyCaption.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
-            emptyCaption.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-        ])
     }
     
     //MARK: -ViewDidLoad
@@ -177,7 +170,7 @@ class MonitoringViewController: UIViewController {
         Task {
             monitoringViewModel.getAllPet()
         }
-        
+        setupUI(isMonitoringListExist: false)
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
         /// from the given components.
@@ -243,9 +236,9 @@ class MonitoringViewController: UIViewController {
             DispatchQueue.main.async { [self] in
                 switch value {
                     case .terisi:
-                        petExist()
+                        setupUI(isMonitoringListExist: true)
                     case .empty:
-                        emptyPet()
+                        setupUI(isMonitoringListExist: false)
                 }
             }
         }).disposed(by: bags)
