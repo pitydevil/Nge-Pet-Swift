@@ -154,7 +154,7 @@ class ModalSelectPetViewController: UIViewController {
             customBar.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             modalTableView.topAnchor.constraint(equalTo: headline.bottomAnchor, constant: 20),
-            modalTableView.widthAnchor.constraint(equalToConstant: 342),
+            modalTableView.widthAnchor.constraint(equalToConstant: view.frame.width - 48),
             modalTableView.bottomAnchor.constraint(equalTo: customBar.topAnchor, constant: -20),
             modalTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
         ])

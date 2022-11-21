@@ -576,10 +576,9 @@ class ExploreViewController: UIViewController {
         modalSelectPetViewController.petSelectedModelArray.accept(petSelectedModelArray.value)
         modalSelectPetViewController.petBodyModelArray.accept([])
         modalSelectPetViewController.modalPresentationStyle = .pageSheet
-        modalSelectPetViewController.isModalInPresentation  = true
+        modalSelectPetViewController.isModalInPresentation  = petsSelectionModelArray.value.isEmpty ? false : true
         present(modalSelectPetViewController, animated: true)
     }
-    
     
     //MARK: - Bind Journal List with Table View
     /// Returns boolean true or false

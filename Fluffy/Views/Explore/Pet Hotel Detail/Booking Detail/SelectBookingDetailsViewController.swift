@@ -16,6 +16,7 @@ class SelectBookingDetailsViewController: UIViewController {
     private let selectBookingViewModel = SelectBookingViewModel()
     private let petArrayObject = BehaviorRelay<[OrderDetailBody]>(value: [])
     var filteredPetArrayObject = BehaviorRelay<[OrderDetailBody]>(value: [])
+    
     var petHotelModel   = BehaviorRelay<PetHotelsDetail>(value: PetHotelsDetail(petHotelID: 0, petHotelName: "", petHotelDescription: "", petHotelLongitude: "", petHotelLatitude: "", petHotelAddress: "", petHotelKelurahan: "", petHotelKecamatan: "", petHotelKota: "", petHotelProvinsi: "", petHotelPos: "", petHotelStartPrice: "", supportedPet: [SupportedPet](), petHotelImage: [PetHotelImage](), fasilitas: [Fasilitas](), sopGeneral: [SopGeneral](), asuransi: [AsuransiDetail](), cancelSOP: [CancelSOP]()))
     var orderAddObject = BehaviorRelay<OrderAdd>(value: OrderAdd(orderDateCheckIn: "", orderDateCheckOu: "", orderTotalPrice: 0, userID: userID, petHotelId: 0, orderDetails: [OrderDetailBodyFinal]()))
     var petHotelIDObject = BehaviorRelay<Int>(value: 0)
@@ -138,8 +139,26 @@ class SelectBookingDetailsViewController: UIViewController {
         selectBookingViewModel.petModelObjectArrayObserver.subscribe(onNext: { [self] (value) in
             petArrayObject.accept(value)
             filteredPetArrayObject.accept(value)
+            selectBookingViewModel.checkPetsController(value)
             DispatchQueue.main.async { [self] in
                 packageTableView.reloadData()
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        selectBookingViewModel.monitoringEnumCaseObserver.skip(1).subscribe(onNext: { [self] (value) in
+            switch value {
+            case .terisi:
+                print("terisi")
+            case .empty:
+                print("empty")
             }
         },onError: { error in
             self.present(errorAlert(), animated: true)
