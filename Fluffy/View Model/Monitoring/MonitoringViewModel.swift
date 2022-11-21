@@ -17,6 +17,7 @@ class MonitoringViewModel {
     private var monitoringModelArray = BehaviorRelay<[Monitoring]>(value: [])
     private var petArray: Observable<[Pets]>?
     private var genericHandlingErrorObject = BehaviorRelay<genericHandlingError>(value: .success)
+    private var monitoringEnumCaseModel    = BehaviorRelay<monitoringCase>(value: .empty)
     private let petModelArray = BehaviorRelay<[PetsSelection]>(value: [])
     var petSelection          = BehaviorRelay<[PetsSelection]>(value: [])
     var petBody               = BehaviorRelay<[PetBody]>(value: [])
@@ -50,6 +51,9 @@ class MonitoringViewModel {
     var genericHandlingErrorObserver   : Observable<genericHandlingError> {
         return genericHandlingErrorObject.asObservable()
     }
+    var monitoringEnumCaseObserver : Observable<monitoringCase> {
+        return monitoringEnumCaseModel.asObservable()
+    }
     
     //MARK: - INIT OBJECT
     init(networkService: NetworkServicing = NetworkService()) {
@@ -75,6 +79,15 @@ class MonitoringViewModel {
                 Observable.empty()
             }
         }).disposed(by: bags)
+    }
+    
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
+    func checkPetStateController(_ monitoringArray : [Monitoring]) {
+        monitoringArray.isEmpty ? monitoringEnumCaseModel.accept(.empty) : monitoringEnumCaseModel.accept(.terisi)
     }
     
     /// Returns boolean true or false

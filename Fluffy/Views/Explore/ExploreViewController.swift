@@ -149,14 +149,13 @@ class ExploreViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = .clear
         tableView.register(ExploreTableViewCell.self, forCellReuseIdentifier: ExploreTableViewCell.cellId)
         tableView.separatorColor = .clear
         tableView.allowsSelection = true
         tableView.isScrollEnabled = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.sectionHeaderTopPadding = 0
-        tableView.backgroundColor = UIColor(named: "grey3")
+        tableView.backgroundColor = UIColor.clear
         return tableView
     }()
     
@@ -201,7 +200,6 @@ class ExploreViewController: UIViewController {
         contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        contentView.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor, constant: view.frame.height * 216).isActive = true
         contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
         contentViewHeightConstraint = contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: view.frame.height * 216)
         contentViewHeightConstraint!.isActive = true
@@ -342,9 +340,9 @@ class ExploreViewController: UIViewController {
             petHotelList.accept(value)
             DispatchQueue.main.async { [self] in
                 refreshControl.endRefreshing()
-                tableViewHeightConstraint!.constant = CGFloat(petHotelList.value.count * 216)
-                scrollViewHeightConstraint!.constant = CGFloat(petHotelList.value.count * 216)
-                contentViewHeightConstraint!.constant =  CGFloat(petHotelList.value.count * 216)
+                tableViewHeightConstraint!.constant = CGFloat(petHotelList.value.count * 250)
+                scrollViewHeightConstraint!.constant = CGFloat(petHotelList.value.count * 310)
+                contentViewHeightConstraint!.constant =  CGFloat(petHotelList.value.count * 310)
                 tableView.layoutIfNeeded()
                 contentView.layoutIfNeeded()
                 scrollView.layoutIfNeeded()
@@ -480,7 +478,7 @@ class ExploreViewController: UIViewController {
             DispatchQueue.main.async { [self] in
                 let vc = SearchExploreViewController()
                 vc.petHotelList.accept(value)
-                vc.modalSearchLocationObject.accept(ExploreSearchBody(longitude: modalSearchLocationObject.value.longitude, latitude: modalSearchLocationObject.value.latitude, checkInDate: checkFinalObject.value.checkInDate, checkOutDate: checkFinalObject.value.checkOutDate, pets: petsBodyModelArray.value))
+                vc.modalSearchLocationObject.accept(ExploreSearchBody(longitude: modalSearchLocationObject.value.latitude, latitude: modalSearchLocationObject.value.longitude, checkInDate: checkFinalObject.value.checkInDate, checkOutDate: checkFinalObject.value.checkOutDate, pets: petsBodyModelArray.value))
                 vc.locationNameObject.accept(modalSearchLocationObject.value.locationName)
                 navigationController?.pushViewController(vc, animated: true)
             }

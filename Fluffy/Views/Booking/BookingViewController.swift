@@ -208,11 +208,14 @@ class BookingViewController: UIViewController {
             cell.leftButton.rx.tap.bind { [self] in
                 switch bookingPesananObject.value {
                     case .aktif:
-                        if let tabBarController = self.navigationController?.tabBarController  {
-                            tabBarController.selectedIndex = 1
+                        DispatchQueue.main.async { [self] in
+                            if let tabBarController = self.navigationController?.tabBarController  {
+                                tabBarController.selectedIndex = 1
+                            }
+                            cell.leftButton.isEnabled = true
                         }
-                    default:
-                        print("nothing")
+                    case .riwayat:
+                        cell.leftButton.isEnabled = false
                 }
             }.disposed(by: bags)
             
