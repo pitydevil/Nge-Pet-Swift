@@ -57,7 +57,7 @@ class MonitoringViewController: UIViewController {
     }()
     
     private lazy var emptyHeadline: ReuseableLabel = {
-        let emptyHeadline = ReuseableLabel(labelText: "Yah, Daftar Hewannmu Kosong!", labelType: .titleH1, labelColor: .black)
+        let emptyHeadline = ReuseableLabel(labelText: "Daftar Monitoringmu Masih Kosong!", labelType: .titleH1, labelColor: .black)
         emptyHeadline.textAlignment = .center
         return emptyHeadline
     }()
@@ -71,7 +71,7 @@ class MonitoringViewController: UIViewController {
     }()
     
     private lazy var emptyCaption: ReuseableLabel = {
-        let emptyCaption = ReuseableLabel(labelText: "Yuk, Tambah Hewan dan Permudah Pencarian Hotelmu!", labelType: .bodyP1, labelColor: .grey1)
+        let emptyCaption = ReuseableLabel(labelText: "Yuk, Titipkan hewan peliharaanmu di pet hotel terpercaya!", labelType: .bodyP1, labelColor: .grey1)
         emptyCaption.textAlignment = .center
         emptyCaption.spacing = 5
         return emptyCaption
@@ -139,16 +139,31 @@ class MonitoringViewController: UIViewController {
     
     //MARK: - Setup Layout
     private func emptyPet(){
+        navigationController?.isNavigationBarHidden = true
+        view.backgroundColor = UIColor(named: "grey3")
+        view.addSubview(dateButton)
+        view.addSubview(selectPetButton)
+        view.addSubview(tableView)
+        
         //MARK: - Add Subview Empty Pet
         view.addSubview(emptyHeadline)
         view.addSubview(emptyImage)
         view.addSubview(emptyCaption)
 
+        //MARK: Date Button Constraint
+        dateButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 12).isActive = true
+        dateButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+        dateButton.leftAnchor.constraint(greaterThanOrEqualTo: selectPetButton.rightAnchor, constant: 20).isActive = true
+        dateButton.widthAnchor.constraint(equalToConstant: 132).isActive = true
+        
+        //MARK: Select Pet Button Constraints
+        selectPetButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        selectPetButton.centerYAnchor.constraint(equalTo: dateButton.centerYAnchor).isActive = true
         
         //MARK: - Setup Layout Empty Pet
         NSLayoutConstraint.activate([
             emptyHeadline.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            emptyHeadline.topAnchor.constraint(equalTo: view.topAnchor, constant: 123),
+            emptyHeadline.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height / 3),
             emptyHeadline.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             emptyHeadline.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
             
@@ -161,6 +176,7 @@ class MonitoringViewController: UIViewController {
             emptyCaption.topAnchor.constraint(equalTo: emptyImage.bottomAnchor, constant: 8),
             emptyCaption.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
             emptyCaption.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            
         ])
     }
     

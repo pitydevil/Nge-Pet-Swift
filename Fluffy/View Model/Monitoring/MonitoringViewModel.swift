@@ -55,13 +55,6 @@ class MonitoringViewModel {
         return monitoringEnumCaseModel.asObservable()
     }
     
-    var monitoringEnumCaseObserver : Observable<monitoringCase> {
-        return monitoringEnumCaseModel.asObservable()
-    }
-    
-    var monitoringEnumCaseObserver : Observable<monitoringCase> {
-        return monitoringEnumCaseModel.asObservable()
-    }
     
     //MARK: - INIT OBJECT
     init(networkService: NetworkServicing = NetworkService()) {
