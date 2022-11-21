@@ -111,6 +111,11 @@ class MonitoringViewController: UIViewController {
         view.backgroundColor = UIColor(named: "grey3")
         view.addSubview(dateButton)
         view.addSubview(selectPetButton)
+        tableView.addSubview(refreshControl)
+        
+        //MARK: - REFRESH CONTROL
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
         
         //MARK: Date Button Constraint
         dateButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 12).isActive = true
@@ -149,12 +154,6 @@ class MonitoringViewController: UIViewController {
                 
             ])
         }
-    
-        
-        //MARK: - REFRESH CONTROL
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
-        tableView.addSubview(refreshControl)
     }
     
     //MARK: - Setup Layout
@@ -177,10 +176,8 @@ class MonitoringViewController: UIViewController {
         ])
     }
     
-    //MARK: -ViewDidLoad
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
+    //MARK: -ViewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
         /// from the given components.
@@ -188,9 +185,18 @@ class MonitoringViewController: UIViewController {
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
         Task {
+            modalSelectPetViewController.petSelectionModelArray.accept([])
+            modalSelectPetViewController.petSelectedModelArray.accept([])
+            modalSelectPetViewController.petBodyModelArray.accept([])
             monitoringViewModel.getAllPet()
         }
-
+    }
+    
+    
+    //MARK: -ViewDidLoad
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
         /// from the given components.
@@ -310,8 +316,8 @@ class MonitoringViewController: UIViewController {
         monitoringViewModel.monitoringModelArrayObserver.skip(1).subscribe(onNext: { [self] (value) in
             DispatchQueue.main.async { [self] in
                 refreshControl.endRefreshing()
-                monitoringViewModel.checkPetStateController(value)
             }
+            monitoringViewModel.checkPetStateController(value)
             monitoringModelArray.accept(value)
         },onError: { error in
             self.present(errorAlert(), animated: true)

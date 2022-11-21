@@ -74,6 +74,7 @@ class CatatanKhususTableViewCell: UITableViewCell {
     func configure(_ orderDetailBody : OrderDetailBody){
         details.numberOfLines = 1
         if orderDetailBody.isExpanded {
+            chevronRight.isHidden = false
             if orderDetailBody.customSOP.isEmpty {
                 details.text =  "Tambah catatan khusus"
             }else {
@@ -83,6 +84,7 @@ class CatatanKhususTableViewCell: UITableViewCell {
                 }
             }
         }else {
+            chevronRight.isHidden = true
             details.text = "Pilih hewan terlebih dahulu"
         }
     }
