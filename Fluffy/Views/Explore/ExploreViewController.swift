@@ -480,7 +480,7 @@ class ExploreViewController: UIViewController {
             DispatchQueue.main.async { [self] in
                 let vc = SearchExploreViewController()
                 vc.petHotelList.accept(value)
-                vc.modalSearchLocationObject.accept(ExploreSearchBody(longitude: modalSearchLocationObject.value.longitude, latitude: modalSearchLocationObject.value.latitude, checkInDate: checkFinalObject.value.checkInDate, checkOutDate: checkFinalObject.value.checkOutDate, pets: petsBodyModelArray.value))
+                vc.modalSearchLocationObject.accept(ExploreSearchBody(longitude: modalSearchLocationObject.value.latitude, latitude: modalSearchLocationObject.value.longitude, checkInDate: checkFinalObject.value.checkInDate, checkOutDate: checkFinalObject.value.checkOutDate, pets: petsBodyModelArray.value))
                 vc.locationNameObject.accept(modalSearchLocationObject.value.locationName)
                 navigationController?.pushViewController(vc, animated: true)
             }
