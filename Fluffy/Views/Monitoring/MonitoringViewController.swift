@@ -391,7 +391,7 @@ class MonitoringViewController: UIViewController {
             modalSelectPetViewController.petSelectedModelArray.accept(petSelectedModelArray.value)
             modalSelectPetViewController.petBodyModelArray.accept([])
             modalSelectPetViewController.modalPresentationStyle = .pageSheet
-            modalSelectPetViewController.isModalInPresentation  = true
+            modalSelectPetViewController.isModalInPresentation  = petsSelectionModelArray.value.isEmpty ? false : true
             present(modalSelectPetViewController, animated: true)
         }.disposed(by: bags)
     }
