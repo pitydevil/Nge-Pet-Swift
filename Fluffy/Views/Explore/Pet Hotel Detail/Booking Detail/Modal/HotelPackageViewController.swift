@@ -13,6 +13,7 @@ class HotelPackageViewController: UIViewController {
     
     //MARK: - OBJECT DECLARATION
     private let petHotelPackageViewModel       = PetHotelPackageViewModel()
+    private var monitoringEnumCaseModel        = BehaviorRelay<monitoringCase>(value: .empty)
     private var petHotelPackageModelArray      = BehaviorRelay<[PetHotelPackage]>(value: [])
     private var petHotelPackageSelectedModel   = BehaviorRelay<PetHotelPackage>(value: PetHotelPackage(packageID: 0, packageName: "", packagePrice: "", petHotelID: "", supportedPetID: "", packageDetail: [PackageDetail]()))
     var hotelPackageBodyObject                  = BehaviorRelay<HotelPackageBody>(value: HotelPackageBody(petHotelID: 0, supportedPetName: ""))
@@ -21,6 +22,10 @@ class HotelPackageViewController: UIViewController {
     
     
     //MARK: OBJECT OBSERVER DECLARATION
+    private var monitoringEnumCaseObserver : Observable<monitoringCase> {
+        return monitoringEnumCaseModel.asObservable()
+    }
+    
     private var hotelPackageBodyObjectObserver : Observable<HotelPackageBody> {
         return hotelPackageBodyObject.asObservable()
     }
@@ -33,6 +38,7 @@ class HotelPackageViewController: UIViewController {
         return petHotelModelObject.asObservable()
     }
 
+    //MARK: - SUBVIEWS
     private lazy var indicator: UIImageView = {
         let indicator = UIImageView()
         let config = UIImage.SymbolConfiguration(pointSize: 40, weight: .regular)
@@ -40,6 +46,27 @@ class HotelPackageViewController: UIViewController {
         indicator.tintColor = UIColor(named: "grey2")
         indicator.translatesAutoresizingMaskIntoConstraints = false
         return indicator
+    }()
+    
+    private lazy var emptyHeadline: ReuseableLabel = {
+        let emptyHeadline = ReuseableLabel(labelText: "Paket Hotel Tidak Tersedia!", labelType: .titleH1, labelColor: .black)
+        emptyHeadline.textAlignment = .center
+        return emptyHeadline
+    }()
+    
+    private lazy var emptyImage: UIImageView = {
+        let emptyImage = UIImageView()
+        emptyImage.image = UIImage(named: "emptyPet")
+        emptyImage.contentMode = .scaleAspectFit
+        emptyImage.translatesAutoresizingMaskIntoConstraints = false
+        return emptyImage
+    }()
+    
+    private lazy var emptyCaption: ReuseableLabel = {
+        let emptyCaption = ReuseableLabel(labelText: "Yuk, Pilih Paket Hotel Untuk Hewan Kamu Yang Lain", labelType: .bodyP1, labelColor: .grey1)
+        emptyCaption.textAlignment = .center
+        emptyCaption.spacing = 5
+        return emptyCaption
     }()
     
     private lazy var headline: ReuseableLabel = {
@@ -66,9 +93,8 @@ class HotelPackageViewController: UIViewController {
         return customBar
     }()
     
-    private func setupUI() {
-        view.backgroundColor = UIColor(named: "grey3")
-        
+    //MARK: - Setup Layout
+    private func packageHotelExist() {
         //MARK: - Add Subview
         view.addSubview(indicator)
         view.addSubview(headline)
@@ -92,8 +118,39 @@ class HotelPackageViewController: UIViewController {
         ])
     }
     
+    private func emptyPackageHotel(){
+        //MARK: - Add Subview Empty Package Hotel
+        view.addSubview(indicator)
+        view.addSubview(emptyHeadline)
+        view.addSubview(emptyImage)
+        view.addSubview(emptyCaption)
+        
+        //MARK: - Setup Layout Empty Package Hotel
+        NSLayoutConstraint.activate([
+            indicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            indicator.topAnchor.constraint(equalTo: view.topAnchor, constant: 4),
+            
+            emptyHeadline.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyHeadline.topAnchor.constraint(equalTo: view.topAnchor, constant: 123),
+            emptyHeadline.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            emptyHeadline.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            
+            emptyImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyImage.topAnchor.constraint(equalTo: emptyHeadline.bottomAnchor, constant: 8),
+            emptyImage.heightAnchor.constraint(equalToConstant: 270),
+            emptyImage.widthAnchor.constraint(equalToConstant: 270),
+            
+            emptyCaption.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyCaption.topAnchor.constraint(equalTo: emptyImage.bottomAnchor, constant: 8),
+            emptyCaption.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            emptyCaption.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            
+        ])
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = UIColor(named: "grey3")
 
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
@@ -101,7 +158,22 @@ class HotelPackageViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
-        setupUI()
+        petHotelPackageViewModel.monitoringEnumCaseObserver.subscribe(onNext: { [self] (value) in
+            DispatchQueue.main.async {
+                // UIView usage
+                switch value {
+                case .terisi:
+                    print("terisi")
+                    self.packageHotelExist()
+                case .empty:
+                    print("kosong")
+                    self.emptyPackageHotel()
+                }
+            }
+  
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
         
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
@@ -146,6 +218,7 @@ class HotelPackageViewController: UIViewController {
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
         petHotelPackageViewModel.petHotelPackageModelArrayObserver.subscribe(onNext: { [self] (value) in
+            petHotelPackageViewModel.checkHotelPackageStateController(value)
             petHotelPackageModelArray.accept(value)
         },onError: { error in
             self.present(errorAlert(), animated: true)

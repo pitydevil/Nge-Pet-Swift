@@ -15,9 +15,14 @@ struct PetHotelPackageViewModel {
     private let networkService       : NetworkServicing
     private var petHotelPackageModel = BehaviorRelay<[PetHotelPackage]>(value: [])
     private var genericHandlingErrorObject = BehaviorRelay<genericHandlingError>(value: .success)
+    private var monitoringEnumCaseModel    = BehaviorRelay<monitoringCase>(value: .empty)
     var hotelPackageBodyObject       = BehaviorRelay<HotelPackageBody>(value: HotelPackageBody(petHotelID: 0, supportedPetName: ""))
 
     //MARK: - OBSERVABLE OBJECT DECLARATION
+    var monitoringEnumCaseObserver : Observable<monitoringCase> {
+        return monitoringEnumCaseModel.asObservable()
+    }
+    
     var petHotelPackageModelArrayObserver : Observable<[PetHotelPackage]> {
         return petHotelPackageModel.asObservable()
     }
@@ -29,6 +34,16 @@ struct PetHotelPackageViewModel {
     //MARK: - INIT OBJECT
     init(networkService: NetworkServicing = NetworkService()) {
         self.networkService = networkService
+    }
+    
+    //MARK: - Init Object Declaration
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
+    func checkHotelPackageStateController(_ petHotelPackages : [PetHotelPackage]) {
+        petHotelPackages.isEmpty ? monitoringEnumCaseModel.accept(.empty) : monitoringEnumCaseModel.accept(.terisi)
     }
     
     //MARK: - OBJECT DECLARATION
