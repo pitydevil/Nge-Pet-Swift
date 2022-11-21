@@ -201,9 +201,9 @@ class ExploreViewController: UIViewController {
         contentView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
         contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor).isActive = true
         contentView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        contentView.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor, constant: 216).isActive = true
+        contentView.heightAnchor.constraint(greaterThanOrEqualTo: scrollView.heightAnchor, constant: view.frame.height * 216).isActive = true
         contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        contentViewHeightConstraint = contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 216)
+        contentViewHeightConstraint = contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: view.frame.height * 216)
         contentViewHeightConstraint!.isActive = true
         
         //MARK: Red Rectangle Constraints
