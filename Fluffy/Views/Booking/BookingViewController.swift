@@ -14,13 +14,13 @@ class BookingViewController: UIViewController {
     //MARK: Properties
     private let haptic = UISelectionFeedbackGenerator()
     
-    //MARK: -VARIABLE DECLARATION
+    //MARK: OBJECT DECLARATION
     private let bookingViewModel      = BookingViewModel()
     private var bookingPesananObject  = BehaviorRelay<bookingPesananCase>(value: .aktif)
     private var bookingOnceableObject = BehaviorRelay<Bool>(value: false)
     private var orderObjectList       = BehaviorRelay<[Order]>(value: [])
-    
-    //MARK: -OBSERVABLE VARIABLE DECLARATION
+   
+    //MARK: OBSERVABLE VARIABLE DECLARATION
     private var bookingPesananObserver : Observable<bookingPesananCase> {
         return bookingPesananObject.asObservable()
     }
@@ -141,6 +141,23 @@ class BookingViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
+        bookingViewModel.monitoringEnumCaseObserver.skip(1).subscribe(onNext: { [self] (value) in
+            switch value {
+            case .terisi:
+                print("terisi")
+            case .empty:
+                print("empty")
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         segmentedControl.rx.selectedSegmentIndex.subscribe(onNext: { [self] value in
             self.orderObjectList.accept([])
             switch value {
@@ -182,6 +199,7 @@ class BookingViewController: UIViewController {
             DispatchQueue.main.async { [self] in
                 refreshControl.endRefreshing()
             }
+            bookingViewModel.checkOrderController(value)
             orderObjectList.accept(value)
         },onError: { error in
             self.present(errorAlert(), animated: true)

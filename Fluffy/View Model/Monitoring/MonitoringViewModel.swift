@@ -51,6 +51,7 @@ class MonitoringViewModel {
     var genericHandlingErrorObserver   : Observable<genericHandlingError> {
         return genericHandlingErrorObject.asObservable()
     }
+    
     var monitoringEnumCaseObserver : Observable<monitoringCase> {
         return monitoringEnumCaseModel.asObservable()
     }
