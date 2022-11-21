@@ -63,23 +63,4 @@ class SelectBookingViewModel {
             }
         }).disposed(by: bags)
     }
-    
-    //MARK: - OBJECT DECLARATION
-    /// Returns boolean true or false
-    /// from the given components.
-    /// - Parameters:
-    ///     - allowedCharacter: character subset that's allowed to use on the textfield
-    ///     - text: set of character/string that would like  to be checked.
-//    func fetchMonitoring() async {
-//        let endpoint = ApplicationEndpoint.getListMonitoring(MonitoringBody: monitoringBodyModelObject.value)
-//        let result = await networkService.request(to: endpoint, decodeTo: Response<[Monitoring]>.self)
-//        switch result {
-//        case .success(let response):
-//            if let monitoring = response.data {
-//                self.monitoringModelArray.accept(monitoring)
-//            }
-//        case .failure(let error):
-//            print(error)
-//        }
-//    }
 }

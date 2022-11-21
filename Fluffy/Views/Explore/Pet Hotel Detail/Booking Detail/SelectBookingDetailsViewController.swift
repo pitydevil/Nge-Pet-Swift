@@ -110,6 +110,17 @@ class SelectBookingDetailsViewController: UIViewController {
             perDay.bottomAnchor.constraint(equalTo: price.bottomAnchor),
         ])
     }
+    
+    //MARK: -ViewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        selectBookingViewModel.getAllPet()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,14 +132,6 @@ class SelectBookingDetailsViewController: UIViewController {
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
         setupUI()
-        
-        //MARK: - Observer for Pet Type Value
-        /// Returns boolean true or false
-        /// from the given components.
-        /// - Parameters:
-        ///     - allowedCharacter: character subset that's allowed to use on the textfield
-        ///     - text: set of character/string that would like  to be checked.
-        selectBookingViewModel.getAllPet()
         
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
@@ -153,7 +156,7 @@ class SelectBookingDetailsViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
-        selectBookingViewModel.monitoringEnumCaseObserver.skip(1).subscribe(onNext: { [self] (value) in
+        selectBookingViewModel.monitoringEnumCaseObserver.skip(1).subscribe(onNext: { (value) in
             switch value {
             case .terisi:
                 print("terisi")
@@ -324,7 +327,7 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
                 var tempFilteredPetArrayObject = filteredPetArrayObject.value
                 tempFilteredPetArrayObject[indexPath.section] = value
                 filteredPetArrayObject.accept(tempFilteredPetArrayObject)
-                packageTableView.reloadRows(at: [IndexPath(row: 1, section: indexPath.section), IndexPath(row: 2, section: indexPath.section)], with: .automatic)
+                packageTableView.reloadRows(at: [IndexPath(row: 1, section: indexPath.section), IndexPath(row: 2, section: indexPath.section)], with: .none)
             },onError: { error in
                 self.present(errorAlert(), animated: true)
             }).disposed(by: bags)
@@ -349,7 +352,7 @@ extension SelectBookingDetailsViewController: UITableViewDelegate, UITableViewDa
                 var tempFilteredPetArrayObject = filteredPetArrayObject.value
                 tempFilteredPetArrayObject[indexPath.section] = value
                 filteredPetArrayObject.accept(tempFilteredPetArrayObject)
-                packageTableView.reloadRows(at: [IndexPath(row: 1, section: indexPath.section), IndexPath(row: 2, section: indexPath.section)], with: .automatic)
+                packageTableView.reloadRows(at: [IndexPath(row: 1, section: indexPath.section), IndexPath(row: 2, section: indexPath.section)], with: .none)
             },onError: { error in
                 self.present(errorAlert(), animated: true)
             }).disposed(by: bags)
@@ -370,6 +373,6 @@ extension SelectBookingDetailsViewController : SelectPetProtocol {
         tempFilteredPetArrayObject[index].isExpanded = tempFilteredPetArrayObject[index].isExpanded ? false : true
         selectedIndexCell.accept(index)
         filteredPetArrayObject.accept(tempFilteredPetArrayObject)
-        packageTableView.reloadRows(at: [IndexPath(row: 1, section: index), IndexPath(row: 2, section: index)], with: .automatic)
+        packageTableView.reloadRows(at: [IndexPath(row: 1, section: index), IndexPath(row: 2, section: index)], with: .none)
     }
 }

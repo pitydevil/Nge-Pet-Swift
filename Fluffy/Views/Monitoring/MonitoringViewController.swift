@@ -69,7 +69,7 @@ class MonitoringViewController: UIViewController {
         emptyImage.translatesAutoresizingMaskIntoConstraints = false
         return emptyImage
     }()
-    
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.showsVerticalScrollIndicator = false
@@ -111,6 +111,11 @@ class MonitoringViewController: UIViewController {
         view.backgroundColor = UIColor(named: "grey3")
         view.addSubview(dateButton)
         view.addSubview(selectPetButton)
+        tableView.addSubview(refreshControl)
+        
+        //MARK: - REFRESH CONTROL
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
         
         //MARK: Date Button Constraint
         dateButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 12).isActive = true
@@ -149,13 +154,44 @@ class MonitoringViewController: UIViewController {
                 
             ])
         }
-    
-        
-        //MARK: - REFRESH CONTROL
-        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self, action: #selector(handleRefreshControl), for: .valueChanged)
-        tableView.addSubview(refreshControl)
     }
+    
+    //MARK: - Setup Layout
+    private func emptyPet(){
+        //MARK: - Add Subview Empty Pet
+        view.addSubview(emptyHeadline)
+        view.addSubview(emptyImage)
+
+        //MARK: - Setup Layout Empty Pet
+        NSLayoutConstraint.activate([
+            emptyHeadline.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyHeadline.topAnchor.constraint(equalTo: view.topAnchor, constant: 123),
+            emptyHeadline.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            emptyHeadline.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            
+            emptyImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyImage.topAnchor.constraint(equalTo: emptyHeadline.bottomAnchor, constant: 8),
+            emptyImage.heightAnchor.constraint(equalToConstant: 270),
+            emptyImage.widthAnchor.constraint(equalToConstant: 270)
+        ])
+    }
+    
+    //MARK: -ViewWillAppear
+    override func viewWillAppear(_ animated: Bool) {
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        Task {
+            modalSelectPetViewController.petSelectionModelArray.accept([])
+            modalSelectPetViewController.petSelectedModelArray.accept([])
+            modalSelectPetViewController.petBodyModelArray.accept([])
+            monitoringViewModel.getAllPet()
+        }
+    }
+    
     
     //MARK: -ViewDidLoad
     override func viewDidLoad() {
@@ -167,10 +203,8 @@ class MonitoringViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
-        Task {
-            monitoringViewModel.getAllPet()
-        }
         setupUI(isMonitoringListExist: false)
+
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
         /// from the given components.
@@ -282,8 +316,8 @@ class MonitoringViewController: UIViewController {
         monitoringViewModel.monitoringModelArrayObserver.skip(1).subscribe(onNext: { [self] (value) in
             DispatchQueue.main.async { [self] in
                 refreshControl.endRefreshing()
-                monitoringViewModel.checkPetStateController(value)
             }
+            monitoringViewModel.checkPetStateController(value)
             monitoringModelArray.accept(value)
         },onError: { error in
             self.present(errorAlert(), animated: true)

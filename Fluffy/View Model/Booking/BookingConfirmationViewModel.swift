@@ -37,7 +37,7 @@ class BookingConfirmationViewModel {
         let result = await networkService.request(to: endpoint, decodeTo: Response<EmptyData>.self)
         switch result {
         case .success(let response):
-            genericHandlingErrorObject.accept(genericHandlingError(rawValue: response.status!)!)
+            genericHandlingErrorObject.accept(genericHandlingError(rawValue: response.status ?? 500) ?? .unexpectedError)
         case .failure(_):
             genericHandlingErrorObject.accept((genericHandlingError(rawValue: 500)!))
         }

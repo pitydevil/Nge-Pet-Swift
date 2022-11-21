@@ -55,7 +55,6 @@ class MonitoringViewModel {
         return monitoringEnumCaseModel.asObservable()
     }
     
-    
     //MARK: - INIT OBJECT
     init(networkService: NetworkServicing = NetworkService()) {
         self.networkService = networkService
@@ -144,7 +143,7 @@ class MonitoringViewModel {
         let result = await networkService.request(to: endpoint, decodeTo: Response<[Monitoring]>.self)
         switch result {
         case .success(let response):
-            genericHandlingErrorObject.accept(genericHandlingError(rawValue: response.status!)!)
+            genericHandlingErrorObject.accept(genericHandlingError(rawValue: response.status ?? 500) ?? .unexpectedError)
             if let monitoring = response.data {
                 self.monitoringModelArray.accept(monitoring)
             }

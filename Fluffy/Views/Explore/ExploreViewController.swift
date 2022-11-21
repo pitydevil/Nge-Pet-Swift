@@ -272,8 +272,13 @@ class ExploreViewController: UIViewController {
     
     //MARK: -ViewWillAppear
     override func viewWillAppear(_ animated: Bool) {
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
+        navigationController?.setNavigationBarHidden(true, animated: true)
         Task {
+            modalSelectPetViewController.petSelectionModelArray.accept([])
+            modalSelectPetViewController.petSelectedModelArray.accept([])
+            modalSelectPetViewController.petBodyModelArray.accept([])
+            exploreViewModel.getAllPet()
+            exploreViewModel.checkUUIDUser()
             await exploreViewModel.fetchExploreList()
         }
     }
@@ -282,7 +287,6 @@ class ExploreViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
         /// from the given components.
@@ -306,8 +310,6 @@ class ExploreViewController: UIViewController {
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
         Task {
-            exploreViewModel.getAllPet()
-            exploreViewModel.checkUUIDUser()
             await exploreViewModel.fetchExploreList()
         }
         

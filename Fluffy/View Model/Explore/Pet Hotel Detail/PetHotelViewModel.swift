@@ -75,7 +75,7 @@ struct PetHotelViewModel {
         let result = await networkService.request(to: endpoint, decodeTo: Response<PetHotelsDetail>.self)
         switch result {
         case .success(let response):
-            genericHandlingErrorObject.accept(genericHandlingError(rawValue: response.status!)!)
+            genericHandlingErrorObject.accept(genericHandlingError(rawValue: response.status ?? 500) ?? .unexpectedError)
             if let petHotel = response.data {
                 self.petHotelModel.accept(petHotel)
             }
