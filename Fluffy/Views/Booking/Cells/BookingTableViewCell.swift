@@ -64,7 +64,6 @@ class BookingTableViewCell: UITableViewCell {
     lazy var leftButton:ReusableButton = {
         let btn = ReusableButton(titleBtn: "Cancel Order", styleBtn:.normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
-        //        btn.addTarget(self, action: #selector(selectDate), for: .touchUpInside)
         btn.configuration?.attributedTitle = AttributedString("Cancel Order", attributes: AttributeContainer([NSAttributedString.Key.font : UIFont(name: "Poppins-Bold", size: 12)!]))
         return btn
     }()
