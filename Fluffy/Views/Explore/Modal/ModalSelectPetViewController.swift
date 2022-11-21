@@ -20,16 +20,16 @@ class ModalSelectPetViewController: UIViewController {
     var monitoringStateSelectionEnumModel  = BehaviorRelay<stateSelectectionCase>(value: .kosong)
     
     //MARK: OBJECT OBSERVER DECLARATION
+    private var monitoringEnumCaseObserver : Observable<monitoringCase> {
+        return monitoringEnumCaseModel.asObservable()
+    }
+    
     var petsSelectedModelArrayObserver : Observable<[PetsSelection]> {
         return petSelectedModelArray.asObservable()
     }
     
     var petsSelectionModelArrayObserver : Observable<[PetsSelection]> {
         return petSelectionModelArray.asObservable()
-    }
-    
-    private var monitoringEnumCaseObserver : Observable<monitoringCase> {
-        return monitoringEnumCaseModel.asObservable()
     }
     
     var petsBodhyModelArrayObserver : Observable<[PetBody]> {

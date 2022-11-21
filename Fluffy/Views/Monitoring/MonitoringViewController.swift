@@ -14,6 +14,7 @@ class MonitoringViewController: UIViewController {
     
     //MARK: OBJECT DECLARATION
     private var dateModelObject           = BehaviorRelay<DateComponents>(value: DateComponents())
+    private var monitoringEnumCaseModel  = BehaviorRelay<monitoringCase>(value: .empty)
     private var monitoringModelArray      = BehaviorRelay<[Monitoring]>(value: [])
     private var petsSelectionModelArray   = BehaviorRelay<[PetsSelection]>(value: [])
     private var petsBodyModelArray        = BehaviorRelay<[PetBody]>(value: [])
@@ -23,6 +24,9 @@ class MonitoringViewController: UIViewController {
     var tanggalEndpointModelObject        = BehaviorRelay<String>(value: changeDateIntoYYYYMMDD(Date()))
   
     //MARK: OBJECT OBSERVER DECLARATION
+    private var monitoringEnumCaseObserver : Observable<monitoringCase> {
+        return monitoringEnumCaseModel.asObservable()
+    }
     var petsSelectionModelArrayObserver : Observable<[PetsSelection]> {
         return petsSelectionModelArray.asObservable()
     }
@@ -50,6 +54,27 @@ class MonitoringViewController: UIViewController {
         var btn = ReusableButton(titleBtn: "Semua Hewan", styleBtn: .frameless, icon: UIImage(systemName: "chevron.down", withConfiguration: config))
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
+    }()
+    
+    private lazy var emptyHeadline: ReuseableLabel = {
+        let emptyHeadline = ReuseableLabel(labelText: "Yah, Daftar Hewannmu Kosong!", labelType: .titleH1, labelColor: .black)
+        emptyHeadline.textAlignment = .center
+        return emptyHeadline
+    }()
+    
+    private lazy var emptyImage: UIImageView = {
+        let emptyImage = UIImageView()
+        emptyImage.image = UIImage(named: "emptyPet")
+        emptyImage.contentMode = .scaleAspectFit
+        emptyImage.translatesAutoresizingMaskIntoConstraints = false
+        return emptyImage
+    }()
+    
+    private lazy var emptyCaption: ReuseableLabel = {
+        let emptyCaption = ReuseableLabel(labelText: "Yuk, Tambah Hewan dan Permudah Pencarian Hotelmu!", labelType: .bodyP1, labelColor: .grey1)
+        emptyCaption.textAlignment = .center
+        emptyCaption.spacing = 5
+        return emptyCaption
     }()
     
     private lazy var tableView: UITableView = {
@@ -84,7 +109,7 @@ class MonitoringViewController: UIViewController {
         return calendarView
     }()
     
-    private func setupUI() {
+    private func petExist() {
         navigationController?.isNavigationBarHidden = true
         view.backgroundColor = UIColor(named: "grey3")
         view.addSubview(dateButton)
@@ -112,6 +137,33 @@ class MonitoringViewController: UIViewController {
         tableView.addSubview(refreshControl)
     }
     
+    //MARK: - Setup Layout
+    private func emptyPet(){
+        //MARK: - Add Subview Empty Pet
+        view.addSubview(emptyHeadline)
+        view.addSubview(emptyImage)
+        view.addSubview(emptyCaption)
+
+        
+        //MARK: - Setup Layout Empty Pet
+        NSLayoutConstraint.activate([
+            emptyHeadline.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyHeadline.topAnchor.constraint(equalTo: view.topAnchor, constant: 123),
+            emptyHeadline.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            emptyHeadline.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            
+            emptyImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyImage.topAnchor.constraint(equalTo: emptyHeadline.bottomAnchor, constant: 8),
+            emptyImage.heightAnchor.constraint(equalToConstant: 270),
+            emptyImage.widthAnchor.constraint(equalToConstant: 270),
+            
+            emptyCaption.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            emptyCaption.topAnchor.constraint(equalTo: emptyImage.bottomAnchor, constant: 8),
+            emptyCaption.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            emptyCaption.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+        ])
+    }
+    
     //MARK: -ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -125,14 +177,6 @@ class MonitoringViewController: UIViewController {
         Task {
             monitoringViewModel.getAllPet()
         }
-        
-        //MARK: - Observer for Pet Type Value
-        /// Returns boolean true or false
-        /// from the given components.
-        /// - Parameters:
-        ///     - allowedCharacter: character subset that's allowed to use on the textfield
-        ///     - text: set of character/string that would like  to be checked.
-        setupUI()
         
         //MARK: - Observer for Pet Type Value
         /// Returns boolean true or false
@@ -195,6 +239,23 @@ class MonitoringViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
+        monitoringViewModel.monitoringEnumCaseObserver.skip(1).subscribe(onNext: { (value) in
+            DispatchQueue.main.async { [self] in
+                switch value {
+                    case .terisi:
+                        petExist()
+                    case .empty:
+                        emptyPet()
+                }
+            }
+        }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         monitoringViewModel.titleDateModelObjectObserver.skip(1).subscribe(onNext: { [self] (value) in
             DispatchQueue.main.async { [self] in
                 dateButton.setAttributeTitleText(value, 16)
@@ -228,6 +289,7 @@ class MonitoringViewController: UIViewController {
         monitoringViewModel.monitoringModelArrayObserver.skip(1).subscribe(onNext: { [self] (value) in
             DispatchQueue.main.async { [self] in
                 refreshControl.endRefreshing()
+                monitoringViewModel.checkPetStateController(value)
             }
             monitoringModelArray.accept(value)
         },onError: { error in
