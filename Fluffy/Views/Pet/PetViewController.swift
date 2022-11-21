@@ -11,10 +11,10 @@ import RxCocoa
 
 class PetViewController: UIViewController {
     
-    //MARK: - VIEW CONTROLLER OBJECT
+    //MARK: OBJECT DECLARATION
     private let petViewModel = PetViewModel()
     private let petList = BehaviorRelay<[Pets]>(value: [])
-    
+   
     private lazy var modalTableView: UITableView = {
         let modalTableView = UITableView(frame: CGRect(), style: .plain)
         modalTableView.backgroundColor = UIColor(named: "grey3")
@@ -88,10 +88,29 @@ class PetViewController: UIViewController {
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
         petViewModel.petModelArrayObserver.subscribe(onNext: { [self] (value) in
+            petViewModel.checkPetStateController(value)
             petList.accept(value)
         },onError: { error in
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
+        
+        //MARK: - Observer for Pet Type Value
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        petViewModel.monitoringEnumCaseObserver.subscribe(onNext: { [self] (value) in
+            switch value {
+            case .empty:
+                print("empty")
+            case .terisi:
+                print("terisi")
+            }
+        },onError: { error in
+            self.present(errorAlert(), animated: true)
+        }).disposed(by: bags)
+        
         
         //MARK: - RESPONSE TABLE VIEW DIDSELECT DELEGATE FUNCTION
         /// - Parameters:

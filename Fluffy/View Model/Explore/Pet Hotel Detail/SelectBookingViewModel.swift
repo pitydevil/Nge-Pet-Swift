@@ -16,16 +16,31 @@ class SelectBookingViewModel {
     private let networkService       : NetworkServicing
     private var petArray             : Observable<[Pets]>?
     private let petModelObjectArray  = BehaviorRelay<[OrderDetailBody]>(value: [])
+    private var monitoringEnumCaseModel    = BehaviorRelay<monitoringCase>(value: .empty)
 
     //MARK: OBJECT OBSERVER DECLARATION
     var petModelObjectArrayObserver: Observable<[OrderDetailBody]> {
         return petModelObjectArray.asObservable()
     }
     
+    var monitoringEnumCaseObserver : Observable<monitoringCase> {
+        return monitoringEnumCaseModel.asObservable()
+    }
+    
     //MARK: - INIT OBJECT
     init(networkService: NetworkServicing = NetworkService()) {
         self.networkService = networkService
         self.provider =  BaseProviders()
+    }
+    
+    //MARK: - Init Object Declaration
+    /// Returns boolean true or false
+    /// from the given components.
+    /// - Parameters:
+    ///     - allowedCharacter: character subset that's allowed to use on the textfield
+    ///     - text: set of character/string that would like  to be checked.
+    func checkPetsController(_ pet : [OrderDetailBody]) {
+        pet.isEmpty ? monitoringEnumCaseModel.accept(.empty) : monitoringEnumCaseModel.accept(.terisi)
     }
     
     //MARK: - INIT OBJECT
