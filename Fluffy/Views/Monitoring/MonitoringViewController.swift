@@ -106,6 +106,7 @@ class MonitoringViewController: UIViewController {
         tableView.removeFromSuperview()
         emptyHeadline.removeFromSuperview()
         emptyImage.removeFromSuperview()
+        calendarView.removeFromSuperview()
         
         navigationController?.isNavigationBarHidden = true
         view.backgroundColor = UIColor(named: "grey3")
