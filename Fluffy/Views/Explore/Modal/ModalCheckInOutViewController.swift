@@ -10,7 +10,7 @@ import RxCocoa
 import RxSwift
 
 @available(iOS 16.0, *)
-class ModalCheckInOutViewController: UIViewController, UICalendarViewDelegate {
+class ModalCheckInOutViewController: UIViewController {
     
     //MARK: OBJECT DECLARATION
     private var checkInDateObject  = BehaviorRelay<String>(value:String())
