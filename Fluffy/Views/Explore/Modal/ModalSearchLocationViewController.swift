@@ -150,7 +150,6 @@ extension ModalSearchLocationViewController :  MKLocalSearchCompleterDelegate  {
         searchResultsObject.accept(completer.results)
     }
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
-        // Error
     }
 }
 

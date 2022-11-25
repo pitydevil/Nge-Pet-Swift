@@ -109,7 +109,7 @@ extension ApplicationEndpoint: Endpoint {
                 "longitude"      : exploreSearchBody.longitude,
                 "check_in_date"  : exploreSearchBody.checkInDate,
                 "check_out_date" : exploreSearchBody.checkOutDate,
-                "pets" : pets
+                "pets"           : pets
             ]
         case .getOrderAdd(let order):
             let orderDetail = order.orderDetails.map { obj -> [String : Any] in

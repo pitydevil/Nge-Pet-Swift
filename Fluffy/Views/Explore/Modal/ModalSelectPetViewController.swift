@@ -313,35 +313,6 @@ class ModalSelectPetViewController: UIViewController {
             present(vc, animated: true)
         }.disposed(by: bags)
     }
-    
-//    isChecked = !isChecked
-//    for index in 0...totalCell {
-//        let indexPath = IndexPath(row: index, section: 0)
-//        if isChecked {
-//            customBar.boxBtn.setImage(checkedImage, for: .normal)
-//            if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
-//               // cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: true)
-//                modalTableView.selectRow(at: indexPath, animated: true, scrollPosition: .none)
-//                customBar.hewanDipilih.text = "Semua hewan dipilih"
-//            }
-//        } else {
-//            customBar.boxBtn.setImage(uncheckedImage, for: .normal)
-//            if let cell = modalTableView.cellForRow(at: indexPath) as? ModalMonitoringTableViewCell {
-//             //   cell.configure(namePet: "Budiman", petImage: "pawprint.fill", imageCheckmark: false)
-//                modalTableView.deselectRow(at: indexPath, animated: true)
-//                customBar.hewanDipilih.text = "Tidak ada hewan dipilih"
-//            }
-//        }
-//    }
-//    customBar.hewanDipilih.text = "\(modalTableView.indexPathsForSelectedRows?.count ?? 0) hewan dipilih"
-//    if modalTableView.indexPathsForSelectedRows?.count == totalCell {
-//        customBar.boxBtn.setImage(checkedImage, for: .normal)
-//        isChecked = true
-//        customBar.hewanDipilih.text = "Semua hewan dipilih"
-//    }
-    @objc func addPet() {
-        dismiss(animated: true)
-    }
 }
 
 extension ModalSelectPetViewController:  UITableViewDelegate {

@@ -115,12 +115,6 @@ extension HotelPackageTableViewCell {
         packageTitle.text = package.packageName
         details.text = string
         pricePackage.text = changeNumericToCurrency(strInt: Int(package.packagePrice) ?? 0)
-        
-//        if select == true {
-//            selectedCell()
-//        } else {
-//            normalState()
-//        }
     }
     
     func selectedCell() {

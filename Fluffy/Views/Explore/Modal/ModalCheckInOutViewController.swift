@@ -121,14 +121,12 @@ class ModalCheckInOutViewController: UIViewController {
     
     private lazy var customBar: ReusableTabBar = {
         let customBar = ReusableTabBar(btnText: "Lanjut", showText: .notShow)
-        customBar.barBtn.addTarget(self, action: #selector(checkinSelected), for: .touchUpInside)
         customBar.barBtn.isEnabled = false
         return customBar
     }()
     
     private lazy var barBtnLewati: ReusableButton = {
         let barBtnLewati = ReusableButton(titleBtn: "Batal", styleBtn: .light)
-        barBtnLewati.addTarget(self, action: #selector(skipModal), for: .touchUpInside)
         return barBtnLewati
     }()
 
@@ -207,7 +205,14 @@ class ModalCheckInOutViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //MARK: - Bind Journal List with Table View
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
         setupUI()
+        
         //MARK: - Bind Journal List with Table View
         /// Returns boolean true or false
         /// from the given components.
@@ -219,16 +224,27 @@ class ModalCheckInOutViewController: UIViewController {
         },onError: { error in
             self.present(errorAlert(), animated: true)
         }).disposed(by: bags)
-    }
-    
-    //MARK: - Button Target
-    @objc func checkinSelected() {
-        checkFinalObject.accept(CheckIn(checkInDate: checkInDateObject.value, checkOutDate: checkOutDateObject.value))
-        dismiss(animated: true)
-    }
-    
-    @objc func skipModal() {
-        dismiss(animated: true)
+        
+        //MARK: - Bind Journal List with Table View
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        barBtnLewati.rx.tap.bind { [self] in
+            dismiss(animated: true)
+        }.disposed(by: bags)
+        
+        //MARK: - Bind Journal List with Table View
+        /// Returns boolean true or false
+        /// from the given components.
+        /// - Parameters:
+        ///     - allowedCharacter: character subset that's allowed to use on the textfield
+        ///     - text: set of character/string that would like  to be checked.
+        customBar.barBtn.rx.tap.bind { [self] in 
+            checkFinalObject.accept(CheckIn(checkInDate: checkInDateObject.value, checkOutDate: checkOutDateObject.value))
+            dismiss(animated: true)
+        }.disposed(by: bags)
     }
 }
 

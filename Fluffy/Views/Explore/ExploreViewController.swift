@@ -319,14 +319,16 @@ class ExploreViewController: UIViewController {
         /// - Parameters:
         ///     - allowedCharacter: character subset that's allowed to use on the textfield
         ///     - text: set of character/string that would like  to be checked.
-        exploreViewModel.genericHandlingErrorObserver.skip(1).subscribe(onNext: { [self] (value) in
-            switch value {
-            case .objectNotFound:
-                self.present(genericAlert(titleAlert: "Pet Hotel Tidak Ada!", messageAlert: "Pet Hotel tidak ada, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
-            case .success:
-                print("Sukses Console 200")
-            default:
-                self.present(genericAlert(titleAlert: "Terjadi Gangguan server!", messageAlert: "Terjadi kesalahan dalam melakukan pencarian booking, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
+        exploreViewModel.genericHandlingErrorObserver.skip(1).subscribe(onNext: { (value) in
+            DispatchQueue.main.async { [self] in
+                switch value {
+                case .objectNotFound:
+                    present(genericAlert(titleAlert: "Pet Hotel Tidak Ada!", messageAlert: "Pet Hotel tidak ada, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
+                case .success:
+                    print("Sukses Console 200")
+                default:
+                    present(genericAlert(titleAlert: "Terjadi Gangguan server!", messageAlert: "Terjadi kesalahan dalam melakukan pencarian booking, silahkan coba lagi nanti.", buttonText: "Ok"), animated: true)
+                }
             }
         },onError: { error in
             self.present(errorAlert(), animated: true)
