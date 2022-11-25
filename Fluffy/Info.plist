@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Aplikasi ini akan menggunakan lokasi terdekat untuk mendapatkan pet hotel di sekitar daerahmu.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Aplikasi ini akan menggunakan lokasi terdekat untuk mendapatkan pet hotel di sekitar daerahmu.</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>

@@ -9,6 +9,7 @@ import RxCocoa
 import CoreLocation
 
 class LocationManager: CLLocationManager, CLLocationManagerDelegate  {
+    
     //MARK: - OBJECT DECLARATION
     private let locationManager = CLLocationManager()
     var locationObject = BehaviorRelay<Location>(value: Location(longitude: 0.0, latitude: 0.0))
@@ -23,7 +24,6 @@ class LocationManager: CLLocationManager, CLLocationManagerDelegate  {
             if CLLocationManager.locationServicesEnabled() {
                 self.locationManager.delegate = self
                 self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-                self.locationManager.requestAlwaysAuthorization()
                 self.locationManager.startUpdatingLocation()
             }
         }
