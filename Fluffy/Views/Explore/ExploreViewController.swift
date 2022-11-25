@@ -344,12 +344,14 @@ class ExploreViewController: UIViewController {
             petHotelList.accept(value)
             DispatchQueue.main.async { [self] in
                 refreshControl.endRefreshing()
-                tableViewHeightConstraint!.constant = CGFloat(petHotelList.value.count * 250)
-                scrollViewHeightConstraint!.constant = CGFloat(petHotelList.value.count * 310)
-                contentViewHeightConstraint!.constant =  CGFloat(petHotelList.value.count * 310)
-                tableView.layoutIfNeeded()
-                contentView.layoutIfNeeded()
-                scrollView.layoutIfNeeded()
+                UIView.animate(withDuration: 0.5, delay: 0.0, options: [.allowAnimatedContent]) {  [self] in
+                    tableViewHeightConstraint!.constant = CGFloat(petHotelList.value.count * 250)
+                    scrollViewHeightConstraint!.constant = CGFloat(petHotelList.value.count * 310)
+                    contentViewHeightConstraint!.constant =  CGFloat(petHotelList.value.count * 310)
+                    tableView.layoutIfNeeded()
+                    contentView.layoutIfNeeded()
+                    scrollView.layoutIfNeeded()
+                }
             }
         },onError: { error in
             self.present(errorAlert(), animated: true)
