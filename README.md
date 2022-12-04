@@ -1,5 +1,5 @@
 <div align="center">
-  <h2>Fluffy</h2>
+  <h2>Fluffi</h2>
 </div>
 
 ## Features
